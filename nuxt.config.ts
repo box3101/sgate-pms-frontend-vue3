@@ -1,12 +1,11 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+// nuxt.config.js
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   modules: ['@nuxt/ui'],
-  // 정적 사이트 생성 모드를 명시적으로 설정
-  ssr: true,
-  // ssr: true,
+  ssr: false, // 클라이언트 전용 모드
+  spa: true, // SPA 모드 활성화
   nitro: {
-    preset: 'netlify'
+    preset: 'netlify-static'
   }
 })
