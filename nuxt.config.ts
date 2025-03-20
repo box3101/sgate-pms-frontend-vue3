@@ -4,8 +4,11 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   modules: ['@nuxt/ui'],
   ssr: false, // 클라이언트 전용 모드
-  spa: true, // SPA 모드 활성화
+  app: {
+    baseURL: '/ispark-sgate/', // GitHub 저장소 이름으로 변경하세요
+    buildAssetsDir: '/assets/' // GitHub Pages에 최적화된 에셋 경로
+  },
   nitro: {
-    preset: 'netlify-static'
+    preset: 'github-pages'
   }
 })
