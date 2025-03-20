@@ -3,34 +3,37 @@
     <div class="sidebar-container">
       <!-- 메뉴 아이템들 -->
       <ul class="menu-list">
-        <li class="menu-item">
-          <NuxtLink to="/" class="menu-link">
-            <div class="menu-icon">
-              <Icon name="uil:dashboard" size="24" />
-            </div>
-            <div class="menu-text">대시보드</div>
-          </NuxtLink>
-        </li>
-        <li class="menu-item">
-          <NuxtLink to="/cnt01" class="menu-link">
-            <div class="menu-icon">
-              <Icon name="uil:clipboard-notes" size="24" />
-            </div>
-            <div class="menu-text">업무</div>
-          </NuxtLink>
-        </li>
-        <li class="menu-item">
-          <NuxtLink to="/cnt02" class="menu-link">
-            <div class="menu-icon">
-              <Icon name="uil:chart-pie" size="24" />
-            </div>
-            <div class="menu-text">PMS</div>
-          </NuxtLink>
-        </li>
+        <template v-for="(item, index) in menuItems" :key="index">
+          <li class="menu-item">
+            <NuxtLink :to="item.path" class="menu-link">
+              <div class="menu-icon">
+                <Icon :name="item.icon" size="24" />
+              </div>
+              <div class="menu-text">{{ item.text }}</div>
+            </NuxtLink>
+          </li>
+        </template>
       </ul>
     </div>
   </aside>
 </template>
+
+<script setup>
+const menuItems = [
+  { text: '대시보드', path: '/', icon: 'uil:dashboard' },
+  { text: '업무', path: '/cnt01', icon: 'uil:clipboard-notes' },
+  { text: 'PMS', path: '/cnt02', icon: 'uil:chart-pie' },
+  { text: '개인성과', path: '/cnt03', icon: 'uil:chart-line' },
+  { text: '조직성과', path: '/cnt04', icon: 'uil:chart-growth' },
+  { text: '조직평가', path: '/cnt05', icon: 'uil:analytics' },
+  { text: '인사평가', path: '/cnt06', icon: 'uil:users-alt' },
+  { text: '온보딩', path: '/cnt07', icon: 'uil:user-plus' },
+  { text: '인사관리', path: '/cnt08', icon: 'uil:user-check' },
+  { text: '커뮤니티', path: '/cnt09', icon: 'uil:comments' },
+  { text: '설정관리', path: '/cnt10', icon: 'uil:setting' },
+  { text: '고객지원', path: '/cnt11', icon: 'uil:headphones' },
+];
+</script>
 
 <style scoped>
 .sidebar {
