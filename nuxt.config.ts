@@ -4,9 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@nuxt/ui'],
   // 정적 사이트 생성 모드를 명시적으로 설정
-  ssr: false,
-  target: 'static',
-  // 또는 SSR 모드를 명시적으로 설정
+  ssr: true,
   // ssr: true,
   nitro: {
     preset: 'netlify'
