@@ -31,8 +31,10 @@
   </header>
 </template>
 
-<script setup>
-// 필요한 데이터나 메서드를 여기에 추가
+<script>
+export default {
+  name: 'TheHeader'  // 이 이름으로 등록됩니다
+}
 </script>
 
 <style scoped>

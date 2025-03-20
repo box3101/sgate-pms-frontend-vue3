@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>첫 번째 컴포넌트t</h1>
+    <h1>업무 내용입니다</h1>
     <p>이곳은 CNT1 페이지입니다</p>
   </div>
 </template>
