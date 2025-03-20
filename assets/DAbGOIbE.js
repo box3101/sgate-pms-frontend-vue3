@@ -1,0 +1,1 @@
+import{c as n,a as t,o as a}from"./BA5acQ3j.js";const s={__name:"cnt02",setup(l){return(o,e)=>(a(),n("div",null,e[0]||(e[0]=[t("h1",null,"두 번째 컴포넌트",-1),t("p",null,"이곳은 CNT2 페이지입니다",-1)])))}};export{s as default};
