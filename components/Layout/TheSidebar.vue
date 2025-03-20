@@ -32,6 +32,7 @@ const menuItems = [
   { text: '커뮤니티', path: '/cnt09', icon: 'uil:comments' },
   { text: '설정관리', path: '/cnt10', icon: 'uil:setting' },
   { text: '고객지원', path: '/cnt11', icon: 'uil:headphones' },
+  { text: 'select', path: '/cmp/select', icon: 'uil:headphones' },
 ];
 </script>
 

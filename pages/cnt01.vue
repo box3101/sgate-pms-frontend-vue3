@@ -1,10 +1,7 @@
 <template>
-  <div>
-    <h1>업무 내용입니다</h1>
-    <p>이곳은 CNT1 페이지입니다</p>
-  </div>
+  <TasksBoard />
 </template>
 
 <script setup>
-// 필요한 경우 여기에 로직 추가
+import TasksBoard from '~/components/Task/TaskBoard.vue';
 </script>

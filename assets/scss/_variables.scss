@@ -1,0 +1,58 @@
+// 기본 색상 변수
+$primary-color: #2196f3;
+$secondary-color: #6c757d;
+$success-color: #4caf50;
+$danger-color: #f44336;
+$warning-color: #ff9800;
+$info-color: #2196f3;
+$light-color: #f8f9fa;
+$dark-color: #343a40;
+$error-color: #f44336;
+
+// 중립 색상
+$text-color: #333;
+$placeholder-color: #888;
+$icon-color: #666;
+$border-color: #e0e0e0;
+$border-hover-color: #d0d0d0;
+
+// 배경 색상
+$background-color: white;
+$hover-background: #f5f5f5;
+$active-background: #e0e0e0;
+$selected-background: #e3f2fd;
+
+// 그림자 효과
+$shadow-color: rgba(0, 0, 0, 0.15);
+$primary-shadow: rgba($primary-color, 0.2);
+$error-shadow: rgba($danger-color, 0.2);
+$scrollbar-color: #ccc;
+
+// 폰트
+$font-family: 'Noto Sans KR', sans-serif;
+$font-size-xs: 12px;
+$font-size-sm: 14px;
+$font-size-md: 16px;
+$font-size-lg: 18px;
+$font-size-xl: 20px;
+
+// 간격 및 크기
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 12px;
+$spacing-lg: 16px;
+$spacing-xl: 24px;
+
+// 테두리
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 16px;
+$border-radius-pill: 9999px;
+$border-width: 1px;
+$border-width-md: 2px;
+$border-width-lg: 3px;
+
+// 애니메이션
+$transition-fast: 0.15s;
+$transition-normal: 0.2s;
+$transition-slow: 0.3s;

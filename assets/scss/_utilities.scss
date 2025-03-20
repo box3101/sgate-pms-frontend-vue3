@@ -1,0 +1,317 @@
+// 통합 유틸리티 파일 (마진, 패딩, 너비, Flex)
+
+// ======== 마진 생성 (1px ~ 100px) ========
+@for $i from 1 through 100 {
+  .m-#{$i} {
+    margin: #{$i}px !important;
+  }
+
+  .mt-#{$i} {
+    margin-top: #{$i}px !important;
+  }
+
+  .mr-#{$i} {
+    margin-right: #{$i}px !important;
+  }
+
+  .mb-#{$i} {
+    margin-bottom: #{$i}px !important;
+  }
+
+  .ml-#{$i} {
+    margin-left: #{$i}px !important;
+  }
+
+  .mx-#{$i} {
+    margin-left: #{$i}px !important;
+    margin-right: #{$i}px !important;
+  }
+
+  .my-#{$i} {
+    margin-top: #{$i}px !important;
+    margin-bottom: #{$i}px !important;
+  }
+}
+
+// ======== 패딩 생성 (1px ~ 100px) ========
+@for $i from 1 through 100 {
+  .p-#{$i} {
+    padding: #{$i}px !important;
+  }
+
+  .pt-#{$i} {
+    padding-top: #{$i}px !important;
+  }
+
+  .pr-#{$i} {
+    padding-right: #{$i}px !important;
+  }
+
+  .pb-#{$i} {
+    padding-bottom: #{$i}px !important;
+  }
+
+  .pl-#{$i} {
+    padding-left: #{$i}px !important;
+  }
+
+  .px-#{$i} {
+    padding-left: #{$i}px !important;
+    padding-right: #{$i}px !important;
+  }
+
+  .py-#{$i} {
+    padding-top: #{$i}px !important;
+    padding-bottom: #{$i}px !important;
+  }
+}
+
+// ======== 너비 생성 (1px ~ 500px) ========
+@for $i from 1 through 500 {
+  .w-#{$i} {
+    width: #{$i}px !important;
+  }
+}
+
+// ======== 높이 생성 (1px ~ 500px) ========
+@for $i from 1 through 500 {
+  .h-#{$i} {
+    height: #{$i}px !important;
+  }
+}
+
+// ======== 자주 사용하는 특수 마진값 ========
+.m-auto {
+  margin: auto !important;
+}
+
+.mt-auto {
+  margin-top: auto !important;
+}
+
+.mr-auto {
+  margin-right: auto !important;
+}
+
+.mb-auto {
+  margin-bottom: auto !important;
+}
+
+.ml-auto {
+  margin-left: auto !important;
+}
+
+.mx-auto {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.my-auto {
+  margin-top: auto !important;
+  margin-bottom: auto !important;
+}
+
+// ======== 비율 기반 너비/높이 ========
+.w-full {
+  width: 100% !important;
+}
+
+.h-full {
+  height: 100% !important;
+}
+
+.w-half {
+  width: 50% !important;
+}
+
+.h-half {
+  height: 50% !important;
+}
+
+.w-quarter {
+  width: 25% !important;
+}
+
+.h-quarter {
+  height: 25% !important;
+}
+
+.w-third {
+  width: 33.333% !important;
+}
+
+.h-third {
+  height: 33.333% !important;
+}
+
+.w-two-thirds {
+  width: 66.666% !important;
+}
+
+.h-two-thirds {
+  height: 66.666% !important;
+}
+
+// ======== 특수 너비/높이값 ========
+.w-auto {
+  width: auto !important;
+}
+
+.h-auto {
+  height: auto !important;
+}
+
+.w-fit {
+  width: fit-content !important;
+}
+
+.h-fit {
+  height: fit-content !important;
+}
+
+.w-screen {
+  width: 100vw !important;
+}
+
+.h-screen {
+  height: 100vh !important;
+}
+
+// ======== Flex 레이아웃 ========
+
+// 기본 Flex 컨테이너
+.flex {
+  display: flex !important;
+}
+
+.inline-flex {
+  display: inline-flex !important;
+}
+
+// Flex 방향
+.flex-row {
+  flex-direction: row !important;
+}
+
+.flex-row-reverse {
+  flex-direction: row-reverse !important;
+}
+
+.flex-col {
+  flex-direction: column !important;
+}
+
+.flex-col-reverse {
+  flex-direction: column-reverse !important;
+}
+
+// Flex Wrap
+.flex-wrap {
+  flex-wrap: wrap !important;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap !important;
+}
+
+.flex-wrap-reverse {
+  flex-wrap: wrap-reverse !important;
+}
+
+// 수평 정렬 (justify-content)
+.justify-start {
+  justify-content: flex-start !important;
+}
+
+.justify-end {
+  justify-content: flex-end !important;
+}
+
+.justify-center {
+  justify-content: center !important;
+}
+
+.justify-between {
+  justify-content: space-between !important;
+}
+
+.justify-around {
+  justify-content: space-around !important;
+}
+
+.justify-evenly {
+  justify-content: space-evenly !important;
+}
+
+// 수직 정렬 (align-items)
+.items-start {
+  align-items: flex-start !important;
+}
+
+.items-end {
+  align-items: flex-end !important;
+}
+
+.items-center {
+  align-items: center !important;
+}
+
+.items-baseline {
+  align-items: baseline !important;
+}
+
+.items-stretch {
+  align-items: stretch !important;
+}
+
+// 자주 사용하는 Flex 조합
+.flex-center {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.flex-between-center {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.flex-col-center {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+// 간격 (Gap)
+@for $i from 1 through 20 {
+  .gap-#{$i} {
+    gap: #{$i}px !important;
+  }
+
+  .gap-x-#{$i} {
+    column-gap: #{$i}px !important;
+  }
+
+  .gap-y-#{$i} {
+    row-gap: #{$i}px !important;
+  }
+}
+
+// 자주 사용하는 flex 설정
+.flex-1 {
+  flex: 1 !important;
+}
+
+.flex-auto {
+  flex: auto !important;
+}
+
+.flex-initial {
+  flex: initial !important;
+}
+
+.flex-none {
+  flex: none !important;
+}
