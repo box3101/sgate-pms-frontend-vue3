@@ -2,11 +2,13 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ master ]  # 또는 master
+    branches: [ master ]  # main을 master로 변경했습니다
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # GitHub Pages 배포를 위한 권한 추가
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -25,5 +27,6 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: .output/public  # 또는 dist
+          folder: .output/public  # Nuxt 3의 정적 출력 폴더
           branch: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}  # 명시적 토큰 추가
