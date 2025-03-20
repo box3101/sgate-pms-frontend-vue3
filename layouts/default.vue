@@ -30,8 +30,7 @@ import TheSidebar from '~/components/Layout/TheSidebar.vue';
 }
 
 .main-content {
-  max-width: 1200px;
-  margin: 0 auto;
+  margin-left: 60px; /* 사이드바 기본 너비 */
   margin-top: 40px; /* 헤더 높이 */
   flex: 1;
   padding: 16px;

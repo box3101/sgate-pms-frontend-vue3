@@ -37,6 +37,7 @@ const menuItems = [
 
 <style scoped>
 .sidebar {
+  margin-top: 72px;
   width: 60px;
   height: 100vh;
   background-color: #ffff;
@@ -47,7 +48,7 @@ const menuItems = [
   z-index: 50;
   transition: width 0.3s;
   overflow: hidden;
-  border-right: 1px solid #fff;
+  border-right: 1px solid #aaa;
 }
 
 .sidebar:hover {
