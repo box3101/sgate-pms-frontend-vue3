@@ -10,6 +10,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@nuxt/icon": "^1.11.0",
     "@nuxt/ui": "^3.0.0",
     "nuxt": "^3.16.1",
     "vue": "^3.5.13",

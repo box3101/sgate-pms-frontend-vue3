@@ -1,31 +1,30 @@
 <template>
-  <div>
-    <header>
-      <nav>
-        <NuxtLink to="/">홈</NuxtLink> |
-        <NuxtLink to="/cnt01">CNT1</NuxtLink> |
-        <NuxtLink to="/cnt02">CNT2</NuxtLink>
-      </nav>
-    </header>
-
-    <!-- 여기에 현재 라우트에 해당하는 페이지 컴포넌트가 렌더링됩니다 -->
-    <NuxtPage />
+  <div class="app-layout">
+    <TheSidebar />
+    <TheHeader />
+    <main class="main-content">
+      <NuxtPage />
+    </main>
   </div>
 </template>
 
 <style>
-nav {
-  padding: 30px;
+.app-layout {
+  display: flex;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-  text-decoration: none;
-  margin: 0 10px;
+.main-content {
+  flex: 1;
+  padding: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 30px;
 }
 
-nav a.router-link-active {
-  color: #42b983;
+/* 전역 스타일 */
+body {
+  margin: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: #333;
 }
 </style>
