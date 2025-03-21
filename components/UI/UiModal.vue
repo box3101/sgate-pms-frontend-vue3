@@ -5,21 +5,30 @@
       class="ui-popup__content"
       :class="[
         `ui-popup--${size}`,
-        { 'ui-popup--centered': centered },
-        { 'ui-popup--right': position === 'right' },
-        { 'ui-popup--no-dim': noDim }
+        { 'ui-popup--centered': centered && !isFullscreen },
+        { 'ui-popup--right': position === 'right' && !isFullscreen },
+        { 'ui-popup--no-dim': noDim },
+        { 'ui-popup--fullscreen': isFullscreen }
       ]"
     >
-      <div v-if="position === 'right'" class="ui-popup__resize-handle"></div>
+      <div v-if="position === 'right' && !isFullscreen" class="ui-popup__resize-handle" @mousedown="handleResizeStart"></div>
       <div class="ui-popup__header">
         <h3 class="ui-popup__title">{{ title }}</h3>
-        <button
-          v-if="showCloseButton"
-          class="ui-popup__close"
-          @click="$emit('update:modelValue', false)"
-        >
-          <Icon name="heroicons:x-mark" />
-        </button>
+        <div class="ui-popup__header-actions">
+          <button
+            class="ui-popup__fullscreen"
+            @click="toggleFullscreen"
+          >
+            <Icon :name="isFullscreen ? 'heroicons:arrows-pointing-in' : 'heroicons:arrows-pointing-out'" />
+          </button>
+          <button
+            v-if="showCloseButton"
+            class="ui-popup__close"
+            @click="$emit('update:modelValue', false)"
+          >
+            <Icon name="heroicons:x-mark" />
+          </button>
+        </div>
       </div>
       <div class="ui-popup__body">
         <slot></slot>
@@ -73,6 +82,8 @@ const props = defineProps({
 
 defineEmits(["update:modelValue"]);
 
+const isFullscreen = ref(false);
+
 let isResizing = false;
 let startX = 0;
 let startWidth = 0;
@@ -88,8 +99,12 @@ onUnmounted(() => {
   document.removeEventListener('mouseup', handleMouseUp);
 });
 
+function toggleFullscreen() {
+  isFullscreen.value = !isFullscreen.value;
+}
+
 function handleResizeStart(e) {
-  if (props.position !== 'right') return;
+  if (props.position !== 'right' || isFullscreen.value) return;
 
   isResizing = true;
   startX = e.clientX;
@@ -180,6 +195,12 @@ function handleMouseUp() {
     border-bottom: 1px solid $border-color;
   }
 
+  &__header-actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
   &__title {
     margin: 0;
     font-size: $font-size-lg;
@@ -189,7 +210,7 @@ function handleMouseUp() {
     text-overflow: ellipsis;
   }
 
-  &__close {
+  &__close, &__fullscreen {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -261,6 +282,21 @@ function handleMouseUp() {
   &--no-dim {
     z-index: 1000;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+
+  &--fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    max-width: 100vw;
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+    animation: scale-in $transition-normal forwards;
   }
 }
 

@@ -208,15 +208,15 @@ defineEmits(["click"]);
   }
 
   &--danger {
-    background-color: $danger-color;
+    background-color: #aaa;
     color: white;
 
     &:hover:not(:disabled) {
-      background-color: darken($danger-color, 10%);
+      background-color: darken(#aaa, 10%);
     }
 
     &:active:not(:disabled) {
-      background-color: darken($danger-color, 20%);
+      background-color: darken(#aaa, 20%);
     }
   }
 

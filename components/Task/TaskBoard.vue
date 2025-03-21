@@ -11,9 +11,14 @@
           <div class="category-header">
             <h3 class="category-title">카테고리명이 들어가는 공간입니다.</h3>
             <div class="category-actions">
-              <UiButton variant="tertiary" size="small" icon="heroicons:plus" >
-            보드 추가</UiButton
-          >
+              <UiButton
+                variant="tertiary"
+                size="small"
+                icon="heroicons:plus"
+                @click="isModalOpen = true"
+              >
+                보드 추가</UiButton
+              >
               <button class="category-menu-btn">
                 <Icon name="mdi:dots-vertical" size="16" />
               </button>
@@ -260,12 +265,28 @@
         </div>
       </div>
     </div>
+
+    <!-- 보드 추가 모달 -->
+    <Modal
+      v-model="isModalOpen"
+      :title="modalTitle"
+      @close="closeModal"
+      position="right"
+      noDim="true"
+    >
+      <UiInput v-model="modalTitle" label="보드 이름" />
+    </Modal>
   </div>
 </template>
 
 <script setup>
 import TaskBoardHeader from "~/components/Task/TaskBoardHeader.vue";
 import UiButton from "~/components/UI/UiButton.vue";
+import UiInput from "~/components/UI/UiInput.vue";
+import Modal from "~/components/UI/UiModal.vue";
+
+const isModalOpen = ref(false);
+const modalTitle = ref("모달 제목");
 </script>
 
 <style scoped>
@@ -315,7 +336,6 @@ import UiButton from "~/components/UI/UiButton.vue";
   display: flex;
   gap: 4px;
 }
-
 
 .cards-container {
   padding: 8px;

@@ -1,0 +1,58 @@
+.ui-form {
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #141212;
+    cursor: pointer;
+  }
+
+  &__title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  &__collapse-icon {
+    transition: transform 0.3s;
+
+    &--open {
+      transform: rotate(180deg);
+    }
+  }
+  &__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.ui-form-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 44px;
+  margin-bottom: 10px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &__label {
+    width: 120px;
+    flex-shrink: 0;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  &__content {
+    flex: 1;
+    min-width: 0; /* 내용 넘침 방지 */
+  }
+
+  &__actions {
+    display: flex;
+    gap: 8px;
+    margin-left: 16px;
+  }
+}
