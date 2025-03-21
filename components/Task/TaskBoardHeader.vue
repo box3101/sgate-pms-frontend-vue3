@@ -16,13 +16,7 @@
           <UiButton variant="danger"> 카테고리 추가 </UiButton>
         </div>
         <div class="flex gap-5">
-          <UiButton
-            variant="tertiary"
-            icon="heroicons:plus"
-            @click="openImportantTaskModal"
-            >검색필터</UiButton
-          >
-          <UiFilterModal :isOpen="isFilterModalOpen" title="검색 필터 열기">
+          <UiFilterModal :isOpen="isFilterModalOpen" title="검색필터">
             <!-- 필터 내용을 여기에 추가 -->
             <UiFormLayout>
               <UiFormItem class="mb-1" label="카테고리">

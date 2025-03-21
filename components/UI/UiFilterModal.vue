@@ -1,6 +1,6 @@
 <template>
   <div class="filter-container">
-    <UiButton @click="toggleFilterModal" ref="filterButton">필터 모달 열기</UiButton>
+    <UiButton @click="toggleFilterModal" ref="filterButton" icon="heroicons:plus"> {{ title }} </UiButton>
 
     <div v-if="isFilterModalOpen" class="filter-dropdown" :style="filterPosition">
       <!-- 여기에 필터 내용 -->
