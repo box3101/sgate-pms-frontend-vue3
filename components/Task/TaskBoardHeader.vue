@@ -1,16 +1,41 @@
 <template>
-  <div class="task-board-header">
-    <div class="flex">
-      <div class="flex-1">
-        <h1>업무 보드 헤더</h1>
-      </div>
-      <div class="flex-1">
-        <h1>업무 보드 헤더</h1>
-      </div>
-    </div>
-  </div>
+  <header class="task-board-header">
+    <section class="flex justify-between">
+      <article class="flex gap-100">
+        <div class="flex gap-5">
+          <UiSearchableSelect placeholder="업무 보드명입니다" class="w-200" />
+          <UiButton variant="tertiary" icon="heroicons:plus">
+            보드 추가</UiButton
+          >
+          <UiButton variant="tertiary" iconOnly>
+            <Icon name="heroicons:minus" size="24" />
+          </UiButton>
+          <UiButton variant="white" iconOnly>
+            <Icon name="heroicons:pencil" size="24" />
+          </UiButton>
+          <UiButton variant="danger"> 카테고리 추가 </UiButton>
+        </div>
+        <div class="flex gap-5">
+          <UiButton variant="tertiary" icon="heroicons:plus">검색필터</UiButton>
+          <UiButton variant="tertiary" icon="heroicons:plus">중요업무</UiButton>
+        </div>
+      </article>
+      <article class="flex gap-5">
+        <UiButton variant="tertiary" icon="heroicons:plus">협업</UiButton>
+        <UiButton variant="tertiary" icon="heroicons:plus">공유</UiButton>
+        <UiButton variant="tertiary" icon="heroicons:plus">전달</UiButton>
+      </article>
+    </section>
+  </header>
 </template>
 
-<style scoped>
-</style>
+<script setup>
+import UiSearchableSelect from "~/components/UI/UiSearchableSelect.vue";
+</script>
 
+<style scoped>
+.task-board-header {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+</style>

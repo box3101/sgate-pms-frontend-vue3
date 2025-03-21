@@ -5,6 +5,7 @@
       class="select-header"
       @click="toggleDropdown"
       :tabindex="0"
+      :placeholder="placeholder"
       @keydown.enter="toggleDropdown"
       @keydown.space.prevent="toggleDropdown"
       role="combobox"
@@ -13,7 +14,7 @@
     >
       <div class="select-value">
         <span v-if="selectedOption" class="selected-text">{{ selectedOption.label }}</span>
-        <span v-else class="placeholder">옵션을 선택하세요</span>
+        <span v-else class="placeholder">{{ placeholder }}</span>
       </div>
       <Icon
         :name="isOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'"
@@ -60,6 +61,13 @@
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 
+const props = defineProps({
+  placeholder: {
+    type: String,
+    default: '선택하세요'
+  }
+});
+
 // 샘플 옵션 데이터
 const options = [
   { value: '1', label: '옵션 1' },
@@ -79,6 +87,7 @@ const isOpen = ref(false);
 const searchQuery = ref('');
 const selectedValue = ref('');
 const searchInput = ref(null);
+
 
 // 선택된 옵션 객체
 const selectedOption = computed(() => {
@@ -253,6 +262,7 @@ onUnmounted(() => {
     font-size: 14px;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
 
     &:focus {
       border-color: $primary-color;

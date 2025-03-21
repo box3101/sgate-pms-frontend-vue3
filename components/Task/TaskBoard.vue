@@ -11,9 +11,9 @@
           <div class="category-header">
             <h3 class="category-title">카테고리명이 들어가는 공간입니다.</h3>
             <div class="category-actions">
-              <button class="card-add-btn">
-                <Icon name="mdi:plus" size="16" />
-              </button>
+              <UiButton variant="tertiary" size="small" icon="heroicons:plus" >
+            보드 추가</UiButton
+          >
               <button class="category-menu-btn">
                 <Icon name="mdi:dots-vertical" size="16" />
               </button>
@@ -31,7 +31,9 @@
               </div>
 
               <div class="card-content">
-                <p class="card-title">업무명이 들어가는 공간입니다. 길어지면 잘려지면 어떨까요?</p>
+                <p class="card-title">
+                  업무명이 들어가는 공간입니다. 길어지면 잘려지면 어떨까요?
+                </p>
               </div>
 
               <div class="card-footer">
@@ -52,7 +54,9 @@
             <!-- 카드 2 -->
             <div class="task-card">
               <div class="card-content">
-                <p class="card-title">업무명이 들어가는 공간입니다. 길어지면 잘려지면 어떨까요?</p>
+                <p class="card-title">
+                  업무명이 들어가는 공간입니다. 길어지면 잘려지면 어떨까요?
+                </p>
               </div>
 
               <div class="card-footer">
@@ -73,7 +77,9 @@
             <!-- 카드 3 -->
             <div class="task-card">
               <div class="card-content">
-                <p class="card-title">업무명이 들어가는 공간입니다. 길어지면 잘려지면 어떨까요?</p>
+                <p class="card-title">
+                  업무명이 들어가는 공간입니다. 길어지면 잘려지면 어떨까요?
+                </p>
               </div>
 
               <div class="card-footer">
@@ -94,7 +100,9 @@
             <!-- 카드 4 -->
             <div class="task-card">
               <div class="card-content">
-                <p class="card-title">업무명이 들어가는 공간입니다. 길어지면 잘려지면 어떨까요?</p>
+                <p class="card-title">
+                  업무명이 들어가는 공간입니다. 길어지면 잘려지면 어떨까요?
+                </p>
               </div>
 
               <div class="card-footer">
@@ -158,7 +166,9 @@
             <!-- 카드 1 -->
             <div class="task-card">
               <div class="card-content">
-                <p class="card-title">업무명이 들어가는 공간입니다. 길어지면 잘려지면 어떨까요?</p>
+                <p class="card-title">
+                  업무명이 들어가는 공간입니다. 길어지면 잘려지면 어떨까요?
+                </p>
               </div>
 
               <div class="card-footer">
@@ -179,7 +189,9 @@
             <!-- 카드 2 -->
             <div class="task-card">
               <div class="card-content">
-                <p class="card-title">업무명이 들어가는 공간입니다. 길어지면 잘려지면 어떨까요?</p>
+                <p class="card-title">
+                  업무명이 들어가는 공간입니다. 길어지면 잘려지면 어떨까요?
+                </p>
               </div>
 
               <div class="card-footer">
@@ -217,7 +229,9 @@
             <!-- 카드 1 -->
             <div class="task-card">
               <div class="card-content">
-                <p class="card-title">업무명이 들어가는 공간입니다. 길어지면 잘려지면 어떨까요?</p>
+                <p class="card-title">
+                  업무명이 들어가는 공간입니다. 길어지면 잘려지면 어떨까요?
+                </p>
               </div>
 
               <div class="card-footer">
@@ -250,7 +264,8 @@
 </template>
 
 <script setup>
-import TaskBoardHeader from '~/components/Task/TaskBoardHeader.vue';
+import TaskBoardHeader from "~/components/Task/TaskBoardHeader.vue";
+import UiButton from "~/components/UI/UiButton.vue";
 </script>
 
 <style scoped>
@@ -272,8 +287,8 @@ import TaskBoardHeader from '~/components/Task/TaskBoardHeader.vue';
 }
 
 .category-column {
-  min-width: 320px;
-  width: 320px;
+  min-width: 350px;
+  width: 350px;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -301,21 +316,6 @@ import TaskBoardHeader from '~/components/Task/TaskBoardHeader.vue';
   gap: 4px;
 }
 
-.category-actions button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 4px;
-}
-
-.category-actions button:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-}
 
 .cards-container {
   padding: 8px;
@@ -371,7 +371,8 @@ import TaskBoardHeader from '~/components/Task/TaskBoardHeader.vue';
   gap: 8px;
 }
 
-.card-comments, .card-attachments {
+.card-comments,
+.card-attachments {
   display: flex;
   align-items: center;
   gap: 4px;

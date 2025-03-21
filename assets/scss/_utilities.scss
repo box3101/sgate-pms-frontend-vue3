@@ -285,7 +285,7 @@
 }
 
 // 간격 (Gap)
-@for $i from 1 through 20 {
+@for $i from 1 through 200 {
   .gap-#{$i} {
     gap: #{$i}px !important;
   }
