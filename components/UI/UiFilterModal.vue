@@ -67,7 +67,7 @@ function closeFilterModal() {
   position: absolute;
   top: 100%;
   left: 0;
-  min-width: 300px;
+  min-width: 400px;
   background: white;
   border: 1px solid #ddd;
   border-radius: 4px;

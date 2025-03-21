@@ -717,7 +717,7 @@ watch([selectedDate, startDate, endDate], () => {
 
   &__range-text {
     flex: 0 1 auto;
-    min-width: 80px;
+    min-width: 70px;
     text-align: center;
   }
 

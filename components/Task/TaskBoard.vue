@@ -324,7 +324,6 @@ const modalTitle = ref("모달 제목");
 
 .board-content {
   flex: 1;
-  overflow-x: auto;
 }
 
 .categories-container {
@@ -349,6 +348,7 @@ const modalTitle = ref("모달 제목");
   align-items: center;
   border-bottom: 1px solid #e0e0e0;
   background-color: #f1f3f4;
+  width: 100%;
 }
 
 .category-title {

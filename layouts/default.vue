@@ -22,17 +22,23 @@ import TheSidebar from '~/components/Layout/TheSidebar.vue';
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden; /* 가로 스크롤 방지 */
 }
 
 .content-wrapper {
   display: flex;
   flex: 1;
+  width: 100%;
 }
 
 .main-content {
-  margin-left: 60px; /* 사이드바 기본 너비 */
-  margin-top: 40px; /* 헤더 높이 */
+  margin-left: 78px; /* 사이드바 기본 너비 */
+  margin-right: 40px;
+  margin-top: 68px; /* 헤더 높이 */
+  box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
+  max-width: calc(100% - 60px); /* 사이드바 너비를 고려한 최대 너비 */
   flex: 1;
-  padding: 16px;
+  overflow-x: auto;
 }
 </style>
