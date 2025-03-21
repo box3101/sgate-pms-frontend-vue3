@@ -10,5 +10,8 @@ export default defineNuxtConfig({
   },
   nitro: {
     preset: 'github-pages'
-  }
+  },
+  css: [
+    '@/assets/scss/sidebar.scss'
+  ]
 })
