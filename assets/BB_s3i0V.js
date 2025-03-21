@@ -1,1 +1,0 @@
-import{c as n,a as t,o as a}from"./DiuCbZkW.js";const s={__name:"cnt02",setup(l){return(o,e)=>(a(),n("div",null,e[0]||(e[0]=[t("h1",null,"PMS 내용입니다",-1),t("p",null,"이곳은 CNT2 페이지입니다",-1)])))}};export{s as default};
