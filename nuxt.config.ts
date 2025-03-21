@@ -14,16 +14,20 @@ export default defineNuxtConfig({
     ],
   },
   // CSS 파일 전역 등록
-  css: ["~/assets/scss/_utilities.scss"],
-  // 변수만 additionalData로 제공
+  css: [
+    "~/assets/scss/_reset.scss",    // 리셋 CSS
+    "~/assets/scss/_utilities.scss", // 유틸리티 클래스
+    "~/assets/scss/_form.scss",
+  ],
+  // 변수, 믹스인 등을 모든 컴포넌트에서 사용할 수 있도록 설정
   vite: {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: `@use "~/assets/scss/_variables.scss" as *; @use "~/assets/scss/_form.scss" as *; @use "~/assets/scss/_reset.scss" as *;`,
-        },
-      },
-    },
+          additionalData: '@use "~/assets/scss/_variables.scss" as *;'
+        }
+      }
+    }
   },
   ssr: false, // 클라이언트 전용 모드
   app: {
