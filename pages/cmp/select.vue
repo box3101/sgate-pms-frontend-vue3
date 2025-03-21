@@ -1,48 +1,6 @@
 <template>
   <SearchableSelect class="w-200" />
   <UiButton @click="openModal">모달 열기</UiButton>
-  <div class="ui-form">
-    <div class="ui-form__content">
-      <ul class="ui-form__list">
-        <li class="ui-form-item">
-          <div class="ui-form-item__label">카테고리</div>
-          <div class="ui-form-item__content">
-            <UiSelect placeholder="카테고리 선택" />
-          </div>
-        </li>
-        <li class="ui-form-item">
-          <div class="ui-form-item__label">실행기간</div>
-          <div class="ui-form-item__content">
-            <UiDatePicker
-              v-model="dateRange"
-              isRange
-              label="기간 선택"
-              startPlaceholder="시작일"
-              endPlaceholder="종료일"
-            />
-          </div>
-        </li>
-        <li class="ui-form-item">
-          <div class="ui-form-item__label">업무명</div>
-          <div class="ui-form-item__content">
-            <UiInput placeholder="업무명 입력" block />
-          </div>
-        </li>
-        <li class="ui-form-item">
-          <div class="ui-form-item__label">예상 결과</div>
-          <div class="ui-form-item__content">
-            <UiInput placeholder="예상 결과 입력" block />
-          </div>
-        </li>
-        <li class="ui-form-item">
-          <div class="ui-form-item__label">내용</div>
-          <div class="ui-form-item__content">
-            <UiTextarea placeholder="내용 입력" />
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
   <Modal
     v-model="isModalOpen"
     :title="modalTitle"
@@ -52,6 +10,27 @@
   >
     3
   </Modal>
+  <UiFormLayout>
+    <UiFormItem label="카테고리">
+      <UiSelect placeholder="카테고리 선택" />
+    </UiFormItem>
+    <UiFormItem label="실행기간">
+      <UiDatePicker v-model="dateRange" isRange />
+    </UiFormItem>
+    <!-- 추가 항목 -->
+  </UiFormLayout>
+  <UiFilterModal :isOpen="isFilterModalOpen" title="검색 필터 열기">
+    <!-- 필터 내용을 여기에 추가 -->
+    <UiFormLayout>
+      <UiFormItem label="카테고리">
+        <UiSelect placeholder="카테고리 선택" />
+      </UiFormItem>
+      <UiFormItem label="실행기간">
+        <UiDatePicker v-model="dateRange" isRange />
+      </UiFormItem>
+      <!-- 추가 항목 -->
+    </UiFormLayout>
+  </UiFilterModal>
 </template>
 
 <script setup>
@@ -62,9 +41,14 @@ import UiButton from "~/components/UI/UiButton.vue";
 import UiInput from "~/components/UI/UiInput.vue";
 import UiSelect from "~/components/UI/UiSelect.vue";
 import UiTextarea from "~/components/UI/UiTextarea.vue";
+import UiFilterModal from "~/components/UI/UiFilterModal.vue";
+import UiDatePicker from "~/components/UI/UiDatePicker.vue";
 
 const isModalOpen = ref(false);
 const modalTitle = ref("모달 제목");
+const isFilterModalOpen = ref(false);
+const filterCategory = ref("");
+const filterDateRange = ref([null, null]);
 
 function openModal() {
   isModalOpen.value = true;
@@ -72,5 +56,28 @@ function openModal() {
 
 function closeModal() {
   isModalOpen.value = false;
+}
+
+function openFilterModal() {
+  isFilterModalOpen.value = true;
+}
+
+function closeFilterModal() {
+  isFilterModalOpen.value = false;
+}
+
+function applyFilters() {
+  // 필터 적용 로직
+  console.log("필터 적용:", {
+    category: filterCategory.value,
+    dateRange: filterDateRange.value,
+  });
+  closeFilterModal();
+}
+
+function resetFilters() {
+  // 필터 초기화 로직
+  filterCategory.value = "";
+  filterDateRange.value = [null, null];
 }
 </script>

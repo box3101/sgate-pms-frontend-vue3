@@ -10,6 +10,7 @@
         { 'ui-popup--no-dim': noDim },
         { 'ui-popup--fullscreen': isFullscreen }
       ]"
+      :style="modalStyle"
     >
       <div v-if="position === 'right' && !isFullscreen" class="ui-popup__resize-handle" @mousedown="handleResizeStart"></div>
       <div class="ui-popup__header">
@@ -41,7 +42,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, computed } from 'vue';
 
 const props = defineProps({
   modelValue: {
@@ -83,6 +84,14 @@ const props = defineProps({
 defineEmits(["update:modelValue"]);
 
 const isFullscreen = ref(false);
+const customWidth = ref(null);
+
+const modalStyle = computed(() => {
+  if (customWidth.value && props.position === 'right' && !isFullscreen.value) {
+    return { width: `${customWidth.value}px` };
+  }
+  return {};
+});
 
 let isResizing = false;
 let startX = 0;
@@ -101,6 +110,11 @@ onUnmounted(() => {
 
 function toggleFullscreen() {
   isFullscreen.value = !isFullscreen.value;
+
+  // Reset custom width when entering fullscreen
+  if (isFullscreen.value) {
+    customWidth.value = null;
+  }
 }
 
 function handleResizeStart(e) {
@@ -123,7 +137,7 @@ function handleMouseMove(e) {
   const minWidth = 300;
 
   if (width >= minWidth && width <= maxWidth) {
-    modalElement.style.width = `${width}px`;
+    customWidth.value = width;
   }
 }
 

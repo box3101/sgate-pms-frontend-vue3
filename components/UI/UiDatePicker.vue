@@ -5,7 +5,10 @@
       'ui-datepicker--opened': isOpen,
       'ui-datepicker--range': isRange,
       'ui-datepicker--disabled': disabled,
-      'ui-datepicker--error': error
+      'ui-datepicker--error': error,
+      'ui-datepicker--small': size === 'small',
+      'ui-datepicker--medium': size === 'medium',
+      'ui-datepicker--large': size === 'large'
     }"
   >
     <label v-if="label" class="ui-datepicker__label">
@@ -247,6 +250,11 @@ const props = defineProps({
   maxDate: {
     type: [Date, String],
     default: null
+  },
+  size: {
+    type: String,
+    default: 'medium',
+    validator: (value) => ['small', 'medium', 'large'].includes(value)
   }
 });
 
@@ -979,6 +987,42 @@ watch([selectedDate, startDate, endDate], () => {
     .ui-datepicker__input,
     .ui-datepicker__range-input {
       border-color: #f44336;
+    }
+  }
+
+  // 사이즈 스타일
+  &--small {
+    .ui-datepicker__input,
+    .ui-datepicker__range-input {
+      min-height: 32px;
+      padding: 4px 8px;
+      font-size: 12px;
+    }
+
+    .ui-datepicker__icon {
+      margin-right: 6px;
+    }
+  }
+
+  &--medium {
+    .ui-datepicker__input,
+    .ui-datepicker__range-input {
+      min-height: 40px;
+      padding: 8px 12px;
+      font-size: 14px;
+    }
+  }
+
+  &--large {
+    .ui-datepicker__input,
+    .ui-datepicker__range-input {
+      min-height: 48px;
+      padding: 10px 16px;
+      font-size: 16px;
+    }
+
+    .ui-datepicker__icon {
+      margin-right: 10px;
     }
   }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="simple-select" :class="{ 'is-open': isOpen }">
+  <div class="simple-select" :class="{ 'is-open': isOpen, 'size-small': size === 'small', 'size-medium': size === 'medium', 'size-large': size === 'large' }">
     <!-- 셀렉트 헤더 부분 (선택된 값 표시) -->
     <div
       class="select-header"
@@ -46,7 +46,10 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
+
+// 전역 이벤트 버스 생성 (다른 셀렉트 컴포넌트와 통신하기 위함)
+const SELECT_EVENT_KEY = 'select-dropdown-toggle';
 
 const props = defineProps({
   placeholder: {
@@ -70,6 +73,11 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false
+  },
+  size: {
+    type: String,
+    default: 'medium',
+    validator: (value) => ['small', 'medium', 'large'].includes(value)
   }
 });
 
@@ -78,6 +86,7 @@ const emit = defineEmits(['update:modelValue', 'change']);
 // 상태 관리
 const isOpen = ref(false);
 const selectedValue = ref(props.modelValue);
+const uniqueId = ref(`select-${Math.random().toString(36).substr(2, 9)}`);
 
 // 선택된 옵션 객체
 const selectedOption = computed(() => {
@@ -87,6 +96,14 @@ const selectedOption = computed(() => {
 // 드롭다운 토글
 const toggleDropdown = () => {
   if (props.disabled) return;
+
+  if (!isOpen.value) {
+    // 다른 셀렉트 드롭다운을 닫기 위해 이벤트 발생
+    window.dispatchEvent(new CustomEvent(SELECT_EVENT_KEY, {
+      detail: { id: uniqueId.value }
+    }));
+  }
+
   isOpen.value = !isOpen.value;
 };
 
@@ -96,6 +113,13 @@ const selectOption = (option) => {
   emit('update:modelValue', option.value);
   emit('change', option);
   isOpen.value = false;
+};
+
+// 다른 셀렉트가 열릴 때 현재 셀렉트를 닫는 이벤트 핸들러
+const handleOtherSelectOpen = (event) => {
+  if (event.detail.id !== uniqueId.value && isOpen.value) {
+    isOpen.value = false;
+  }
 };
 
 // 외부 클릭 감지
@@ -109,10 +133,17 @@ const handleClickOutside = (event) => {
 // 이벤트 리스너 등록 및 해제
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
+  window.addEventListener(SELECT_EVENT_KEY, handleOtherSelectOpen);
 });
 
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside);
+  window.removeEventListener(SELECT_EVENT_KEY, handleOtherSelectOpen);
+});
+
+// modelValue 변경 감지
+watch(() => props.modelValue, (newValue) => {
+  selectedValue.value = newValue;
 });
 </script>
 
@@ -133,6 +164,53 @@ onUnmounted(() => {
 .simple-select {
   position: relative;
   width: 100%;
+
+  // 사이즈 변형
+  &.size-small {
+    .select-header {
+      padding: 4px 8px;
+      font-size: 0.875rem;
+    }
+
+    .option-item {
+      padding: 4px 8px;
+      font-size: 0.875rem;
+    }
+
+    .select-icon {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  &.size-medium {
+    .select-header {
+      padding: 8px 12px;
+      font-size: 1rem;
+    }
+
+    .option-item {
+      padding: 8px 12px;
+      font-size: 1rem;
+    }
+  }
+
+  &.size-large {
+    .select-header {
+      padding: 12px 16px;
+      font-size: 1.125rem;
+    }
+
+    .option-item {
+      padding: 12px 16px;
+      font-size: 1.125rem;
+    }
+
+    .select-icon {
+      width: 18px;
+      height: 18px;
+    }
+  }
 
   // 헤더 스타일
   .select-header {

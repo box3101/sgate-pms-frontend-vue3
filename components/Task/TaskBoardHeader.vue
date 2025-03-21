@@ -16,7 +16,24 @@
           <UiButton variant="danger"> 카테고리 추가 </UiButton>
         </div>
         <div class="flex gap-5">
-          <UiButton variant="tertiary" icon="heroicons:plus">검색필터</UiButton>
+          <UiButton
+            variant="tertiary"
+            icon="heroicons:plus"
+            @click="openImportantTaskModal"
+            >검색필터</UiButton
+          >
+          <UiFilterModal :isOpen="isFilterModalOpen" title="검색 필터 열기">
+            <!-- 필터 내용을 여기에 추가 -->
+            <UiFormLayout>
+              <UiFormItem class="mb-1" label="카테고리">
+                <UiSelect size="small" placeholder="카테고리 선택" />
+              </UiFormItem>
+              <UiFormItem class="mb-1" label="실행기간">
+                <UiDatePicker v-model="dateRange" isRange size="small" />
+              </UiFormItem>
+              <!-- 추가 항목 -->
+            </UiFormLayout>
+          </UiFilterModal>
           <UiButton variant="tertiary" icon="heroicons:plus">중요업무</UiButton>
         </div>
       </article>
@@ -31,6 +48,15 @@
 
 <script setup>
 import UiSearchableSelect from "~/components/UI/UiSearchableSelect.vue";
+import UiFilterModal from "~/components/UI/UiFilterModal.vue";
+import UiFormLayout from "~/components/UI/UiFormLayout.vue";
+import UiFormItem from "~/components/UI/UiFormItem.vue";
+
+const isImportantTaskModalOpen = ref(false);
+
+function openImportantTaskModal() {
+  isImportantTaskModalOpen.value = true;
+}
 </script>
 
 <style scoped>
