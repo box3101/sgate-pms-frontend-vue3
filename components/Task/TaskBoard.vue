@@ -273,8 +273,49 @@
       @close="closeModal"
       position="right"
       noDim="true"
+      size="small"
     >
-      <UiInput v-model="modalTitle" label="보드 이름" />
+      <div class="ui-form">
+        <div class="ui-form__content">
+          <ul class="ui-form__list">
+            <li class="ui-form-item">
+              <div class="ui-form-item__label">카테고리</div>
+              <div class="ui-form-item__content">
+                <UiSelect placeholder="카테고리 선택" />
+              </div>
+            </li>
+            <li class="ui-form-item">
+              <div class="ui-form-item__label">실행기간</div>
+              <div class="ui-form-item__content">
+                <UiDatePicker
+                  v-model="dateRange"
+                  isRange
+                  startPlaceholder="시작일"
+                  endPlaceholder="종료일"
+                />
+              </div>
+            </li>
+            <li class="ui-form-item">
+              <div class="ui-form-item__label">업무명</div>
+              <div class="ui-form-item__content">
+                <UiInput placeholder="업무명 입력" block />
+              </div>
+            </li>
+            <li class="ui-form-item">
+              <div class="ui-form-item__label">예상 결과</div>
+              <div class="ui-form-item__content">
+                <UiInput placeholder="예상 결과 입력" block />
+              </div>
+            </li>
+            <li class="ui-form-item">
+              <div class="ui-form-item__label">내용</div>
+              <div class="ui-form-item__content">
+                <UiTextarea placeholder="내용 입력" />
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
     </Modal>
   </div>
 </template>

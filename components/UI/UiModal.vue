@@ -272,7 +272,7 @@ function handleMouseUp() {
     bottom: 0;
     margin: 0;
     border-radius: 8px 0 0 8px;
-    width: 400px;
+    width: 700px;
     max-width: 1000px;
     height: 100vh;
     max-height: 100vh;
