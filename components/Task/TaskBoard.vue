@@ -329,7 +329,6 @@ const modalTitle = ref("모달 제목");
 .categories-container {
   display: flex;
   gap: 16px;
-  min-height: calc(100vh - 160px);
 }
 
 .category-column {

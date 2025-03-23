@@ -1,7 +1,7 @@
 <template>
   <header class="task-board-header">
-    <section class="flex justify-between">
-      <article class="flex gap-100">
+    <section class="header-container">
+      <article class="left-section">
         <div class="flex gap-5">
           <UiSearchableSelect placeholder="업무 보드명입니다" class="w-200" />
           <UiButton variant="tertiary" icon="heroicons:plus">
@@ -31,7 +31,7 @@
           <UiButton variant="tertiary" icon="heroicons:plus">중요업무</UiButton>
         </div>
       </article>
-      <article class="flex gap-5">
+      <article class="right-section">
         <UiButton variant="tertiary" icon="heroicons:plus">협업</UiButton>
         <UiButton variant="tertiary" icon="heroicons:plus">공유</UiButton>
         <UiButton variant="tertiary" icon="heroicons:plus">전달</UiButton>
@@ -57,5 +57,25 @@ function openImportantTaskModal() {
 .task-board-header {
   margin-top: 20px;
   margin-bottom: 30px;
+  width: 100%;
+  position: relative;
 }
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.left-section {
+  display: flex;
+  gap: 100px;
+}
+
+.right-section {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
 </style>
