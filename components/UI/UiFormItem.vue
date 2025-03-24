@@ -22,6 +22,7 @@ defineProps({
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   min-height: 44px;
   margin-bottom: 10px;
 
@@ -37,7 +38,6 @@ defineProps({
   }
 
   &__content {
-    flex: 1;
     min-width: 0; /* 내용 넘침 방지 */
   }
 

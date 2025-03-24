@@ -1,78 +1,176 @@
 <template>
   <div class="filter-container">
-    <UiButton @click="toggleFilterModal" ref="filterButton" icon="heroicons:plus"> {{ title }} </UiButton>
-
-    <div v-if="isFilterModalOpen" class="filter-dropdown" :style="filterPosition">
+    <div
+      v-if="isFilterModalOpen"
+      class="filter-dropdown"
+      :style="filterPosition"
+      :class="{
+        'right-aligned': position === 'right',
+        'left-aligned': position === 'left',
+        'filter-dropdown--small': size === 'small',
+        'filter-dropdown--medium': size === 'medium',
+        'filter-dropdown--large': size === 'large',
+      }"
+    >
       <!-- 여기에 필터 내용 -->
       <div class="filter-header">
-        <h3> {{ title }} </h3>
+        <h3>{{ title }}</h3>
         <button class="close-button" @click="closeFilterModal">×</button>
       </div>
 
       <div class="filter-body">
         <!-- 필터 컨텐츠 -->
-         <slot />
+        <slot />
       </div>
 
-      <div class="filter-footer">
-        <UiButton variant="secondary" @click="resetFilters">초기화</UiButton>
-        <UiButton variant="primary" @click="applyFilters">적용</UiButton>
+      <div v-if="showFooter" class="filter-footer">
+        <slot name="footer" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, nextTick } from 'vue';
+import { ref, nextTick, onMounted, watch } from "vue";
 
 const isFilterModalOpen = ref(false);
-const filterButton = ref(null);
 const filterPosition = ref({});
 
-defineProps({
+const props = defineProps({
   title: {
     type: String,
-    default: '검색 필터'
-  }
+    default: "검색 필터",
+  },
+  position: {
+    type: String,
+    default: "left",
+    validator: (value) => ["left", "right"].includes(value),
+  },
+  showFooter: {
+    type: Boolean,
+    default: false,
+  },
+  targetRef: {
+    type: Object,
+    default: null,
+  },
+  modelValue: {
+    type: Boolean,
+    default: false,
+  },
+  size: {
+    type: String,
+    default: "medium",
+    validator: (value) => ["small", "medium", "large"].includes(value),
+  },
 });
 
+const emit = defineEmits(["reset", "apply", "update:modelValue"]);
+
+// v-model 지원을 위한 양방향 바인딩
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    isFilterModalOpen.value = newValue;
+    if (newValue) {
+      updatePosition();
+    }
+  }
+);
+
+watch(isFilterModalOpen, (newValue) => {
+  emit("update:modelValue", newValue);
+});
 
 function toggleFilterModal() {
   isFilterModalOpen.value = !isFilterModalOpen.value;
 
   if (isFilterModalOpen.value) {
-    // 버튼 위치 기준으로 모달 위치 계산
-    nextTick(() => {
-      const buttonRect = filterButton.value.getBoundingClientRect();
-      filterPosition.value = {
-        top: `${buttonRect.bottom + window.scrollY}px`,
-        left: `${buttonRect.left + window.scrollX}px`
-      };
-    });
+    updatePosition();
   }
+}
+
+function updatePosition() {
+  if (!props.targetRef) return;
+
+  nextTick(() => {
+    const targetRect = props.targetRef.getBoundingClientRect();
+
+    if (props.position === "right") {
+      // 오른쪽 정렬일 경우
+      filterPosition.value = {
+        top: `10px`,
+        right: `0`,
+      };
+    } else {
+      // 왼쪽 정렬일 경우 (기본값)
+      filterPosition.value = {
+        top: `10px`,
+        left: `0`,
+      };
+    }
+  });
 }
 
 function closeFilterModal() {
   isFilterModalOpen.value = false;
 }
 
+function resetFilters() {
+  emit("reset");
+  closeFilterModal();
+}
+
+function applyFilters() {
+  emit("apply");
+  closeFilterModal();
+}
+
+// 외부에서 접근 가능한 메소드 노출
+defineExpose({
+  toggleFilterModal,
+  closeFilterModal,
+});
 </script>
 
+<style>
+.filter-wrp {
+  display: inline-block;
+}
+</style>
 <style scoped>
 .filter-container {
   position: relative;
 }
-
 .filter-dropdown {
   position: absolute;
   top: 100%;
-  left: 0;
   min-width: 400px;
   background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+}
+
+.filter-dropdown--small {
+  min-width: 300px;
+}
+
+.filter-dropdown--medium {
+  min-width: 400px;
+}
+
+.filter-dropdown--large {
+  min-width: 500px;
+}
+
+.left-aligned {
+  left: 0;
+}
+
+.right-aligned {
+  right: 0;
 }
 
 .filter-header {
@@ -95,11 +193,21 @@ function closeFilterModal() {
 }
 
 /* 삼각형 화살표 추가 (선택사항) */
-.filter-dropdown::before {
-  content: '';
+.filter-dropdown.left-aligned::before {
+  content: "";
   position: absolute;
   top: -8px;
-  left: 16px; /* 버튼 위치에 맞게 조정 */
+  left: 16px; /* 왼쪽 정렬일 때 화살표 위치 */
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid white;
+}
+
+.filter-dropdown.right-aligned::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  right: 16px; /* 오른쪽 정렬일 때 화살표 위치 */
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-bottom: 8px solid white;

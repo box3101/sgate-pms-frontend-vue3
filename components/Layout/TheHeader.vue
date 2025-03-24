@@ -26,9 +26,103 @@
 
       <!-- 우측 아이콘 메뉴 -->
       <div class="icon-menu">
-        <button class="icon-button">
-          <Icon name="mdi:information-outline" size="24" />
-        </button>
+        <div>
+          <UiButton ref="filterButton" @click="openFilter" iconOnly>
+            <Icon name="heroicons:user" size="24" />
+          </UiButton>
+          <UiFilterModal
+            v-model="isFilterModalOpen"
+            :size="'small'"
+            :targetRef="filterButton"
+            position="right"
+            :title="'장호영'"
+            :showFooter="true"
+          >
+            <UiFormLayout>
+              <UiFormItem label="언어">
+                <UiSegment
+                  v-model="language"
+                  :options="[
+                    { value: 'ko', label: '한국어' },
+                    { value: 'en', label: 'English' },
+                  ]"
+                />
+              </UiFormItem>
+              <UiFormItem label="이메일 알림">
+                <UiSegment
+                  v-model="emailNotification"
+                  :options="[
+                    { value: 'on', label: 'ON' },
+                    { value: 'off', label: 'OFF' },
+                  ]"
+                />
+              </UiFormItem>
+              <UiFormItem label="푸시 알림">
+                <UiSegment
+                  v-model="pushNotification"
+                  :options="[
+                    { value: 'on', label: 'ON' },
+                    { value: 'off', label: 'OFF' },
+                  ]"
+                />
+              </UiFormItem>
+              <UiFormItem label="슬랙 알림">
+                <UiSegment
+                  v-model="slackNotification"
+                  :options="[
+                    { value: 'on', label: 'ON' },
+                    { value: 'off', label: 'OFF' },
+                  ]"
+                />
+              </UiFormItem>
+            </UiFormLayout>
+
+            <!-- 이렇게 푸터 슬롯을 타겟팅합니다 -->
+            <template #footer>
+              <div class="status-bar">
+                <div class="status-bar__time">
+                  <span class="status-bar__icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                  </span>
+                  <span class="status-bar__time-text">Time : 12:12:03</span>
+                </div>
+                <div class="status-bar__action">
+                  <span class="status-bar__icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                      <polyline points="16 17 21 12 16 7"></polyline>
+                      <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                  </span>
+                  <span class="status-bar__action-text">로그아웃</span>
+                </div>
+              </div>
+            </template>
+          </UiFilterModal>
+        </div>
         <button class="icon-button">
           <Icon name="mdi:bell-outline" size="24" />
         </button>
@@ -47,8 +141,25 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
+
+import UiInput from "../UI/UiInput.vue";
+import UiFilterModal from "../UI/UiFilterModal.vue";
+import UiFormLayout from "../UI/UiFormLayout.vue";
+import UiFormItem from "../UI/UiFormItem.vue";
+import UiSegment from "../UI/UiSegment.vue";
+
+const filterButton = ref(null);
+const isFilterModalOpen = ref(false);
+const language = ref("ko");
+const emailNotification = ref("on");
+const pushNotification = ref("on");
+const slackNotification = ref("on");
+
+function openFilter() {
+  isFilterModalOpen.value = !isFilterModalOpen.value;
+}
 
 // 현재 라우트 가져오기
 const route = useRoute();
@@ -112,7 +223,7 @@ const isActive = (path) => {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .header {
   width: 100%;
   height: 70px;
@@ -240,6 +351,54 @@ const isActive = (path) => {
 
   .icon-menu {
     min-width: auto;
+  }
+}
+.status-bar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 32px;
+  border-bottom: 1px solid $border-color;
+  font-size: $font-size-xs;
+  color: $text-color;
+  background-color: #fafafa;
+  
+  &__time {
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    height: 100%;
+    border-right: 1px solid $border-color;
+  }
+  
+  &__action {
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    height: 100%;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    
+    &:hover {
+      background-color: $hover-background;
+    }
+  }
+  
+  &__icon {
+    display: flex;
+    align-items: center;
+    margin-right: 6px;
+    color: $icon-color;
+  }
+  
+  &__time-text {
+    font-family: 'Consolas', monospace;
+    letter-spacing: 0.5px;
+  }
+  
+  &__action-text {
+    font-weight: 500;
   }
 }
 </style>

@@ -16,7 +16,7 @@
           <UiButton variant="danger"> 카테고리 추가 </UiButton>
         </div>
         <div class="flex gap-5">
-          <UiFilterModal :isOpen="isFilterModalOpen" title="검색필터">
+          <UiFilterModal :isOpen="isFilterModalOpen" title="검색필터" position="left">
             <!-- 필터 내용을 여기에 추가 -->
             <UiFormLayout>
               <UiFormItem class="mb-1" label="카테고리">
@@ -46,10 +46,10 @@ import UiFilterModal from "~/components/UI/UiFilterModal.vue";
 import UiFormLayout from "~/components/UI/UiFormLayout.vue";
 import UiFormItem from "~/components/UI/UiFormItem.vue";
 
-const isImportantTaskModalOpen = ref(false);
+const isFilterModalOpen = ref(false);
 
-function openImportantTaskModal() {
-  isImportantTaskModalOpen.value = true;
+function openFilterModal() {
+  isFilterModalOpen.value = true;
 }
 </script>
 
