@@ -306,7 +306,7 @@
 </template>
 
 <script setup>
-import TaskBoardHeader from "~/pages/task/comps/TaskBoardHeader.vue";
+import TaskBoardHeader from "./TaskBoardHeader.vue";
 import UiButton from "~/components/UI/UiButton.vue";
 import UiInput from "~/components/UI/UiInput.vue";
 import Modal from "~/components/UI/UiModal.vue";
