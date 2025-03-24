@@ -38,6 +38,7 @@ defineProps({
   }
 
   &__content {
+    flex: 1;
     min-width: 0; /* 내용 넘침 방지 */
   }
 
