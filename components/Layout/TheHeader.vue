@@ -27,15 +27,15 @@
       <!-- 우측 아이콘 메뉴 -->
       <div class="icon-menu">
         <div>
-          <UiButton ref="filterButton" @click="openFilter" iconOnly>
+          <button class="icon-button" @click="openFilter">
             <Icon name="heroicons:user" size="24" />
-          </UiButton>
+          </button>
           <UiFilterModal
             v-model="isFilterModalOpen"
             :size="'small'"
             :targetRef="filterButton"
             position="right"
-            :title="'장호영'"
+            :title="'장호영(isap136)'"
             :showFooter="true"
           >
             <UiFormLayout>
@@ -47,6 +47,11 @@
                     { value: 'en', label: 'English' },
                   ]"
                 />
+              </UiFormItem>
+              <UiFormItem label="메인페이지">
+                <UiButton variant="tertiary" icon="heroicons:arrow-right"
+                  >부진사유/대책</UiButton
+                >
               </UiFormItem>
               <UiFormItem label="이메일 알림">
                 <UiSegment
@@ -124,17 +129,19 @@
           </UiFilterModal>
         </div>
 
-        <button class="icon-button" @click="isModalOpen = true">
+        <button class="icon-button" @click="isNotificationModalOpen = true">
           <Icon name="mdi:bell-outline" size="24" />
         </button>
         <UiModal
           title="알림"
-          v-model="isModalOpen"
+          v-model="isNotificationModalOpen"
           position="right"
           :size="'small'"
         >
           <template #headerActions>
-            <div class="flex gap-5 mr-10 mr-20 modal-header-actions align-center">
+            <div
+              class="flex gap-5 mr-10 mr-20 modal-header-actions align-center"
+            >
               <UiButton variant="ghost" iconOnly title="새로 고침">
                 <Icon name="mdi:refresh" size="20" />
               </UiButton>
@@ -146,17 +153,16 @@
               </UiButton>
             </div>
           </template>
+
+          오승현
         </UiModal>
 
-        <button class="icon-button">
+        <button class="icon-button" @click="isFullMenuModalOpen = true">
           <Icon name="mdi:cog-outline" size="24" />
         </button>
-        <button class="icon-button">
-          <Icon name="mdi:account-circle-outline" size="24" />
-        </button>
-        <button class="icon-button">
-          <Icon name="mdi:earth" size="24" />
-        </button>
+
+        <UiModal title="전체 메뉴" v-model="isFullMenuModalOpen" :size="'full'">
+        </UiModal>
       </div>
     </div>
   </header>
@@ -173,13 +179,21 @@ import UiFormItem from "../UI/UiFormItem.vue";
 import UiSegment from "../UI/UiSegment.vue";
 import UiModal from "../UI/UiModal.vue";
 
+// 필터 모달 관련 상태
 const filterButton = ref(null);
 const isFilterModalOpen = ref(false);
+
+// 사용자 환경설정 관련 상태
 const language = ref("ko");
 const emailNotification = ref("on");
 const pushNotification = ref("on");
 const slackNotification = ref("on");
-const isModalOpen = ref(false);
+
+// 알림 모달 관련 상태
+const isNotificationModalOpen = ref(false);
+
+// 전체 메뉴 모달 관련 상태
+const isFullMenuModalOpen = ref(false);
 
 function openFilter() {
   isFilterModalOpen.value = !isFilterModalOpen.value;
@@ -424,5 +438,10 @@ const isActive = (path) => {
   &__action-text {
     font-weight: 500;
   }
+}
+
+:deep(.ui-form-item__content) {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

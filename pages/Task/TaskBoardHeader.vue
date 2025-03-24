@@ -16,18 +16,34 @@
           <UiButton variant="danger"> 카테고리 추가 </UiButton>
         </div>
         <div class="flex gap-5">
-          <UiFilterModal :isOpen="isFilterModalOpen" title="검색필터" position="left">
-            <!-- 필터 내용을 여기에 추가 -->
-            <UiFormLayout>
-              <UiFormItem class="mb-1" label="카테고리">
-                <UiSelect size="small" placeholder="카테고리 선택" />
-              </UiFormItem>
-              <UiFormItem class="mb-1" label="실행기간">
-                <UiDatePicker v-model="dateRange" isRange size="small" />
-              </UiFormItem>
-              <!-- 추가 항목 -->
-            </UiFormLayout>
-          </UiFilterModal>
+          <div>
+            <UiButton variant="tertiary" @click="openFilterModal"
+              >검색필터</UiButton
+            >
+            <UiFilterModal
+              v-model="isFilterModalOpen"
+              :targetRef="filterButton"
+              title="검색필터"
+              position="left"
+              :showFooter="true"
+            >
+              <!-- 필터 내용을 여기에 추가 -->
+              <UiFormLayout>
+                <UiFormItem class="mb-1" label="카테고리">
+                  <UiSelect size="small" placeholder="카테고리 선택" />
+                </UiFormItem>
+                <UiFormItem class="mb-1" label="실행기간">
+                  <UiDatePicker v-model="dateRange" isRange size="small" />
+                </UiFormItem>
+                <!-- 추가 항목 -->
+              </UiFormLayout>
+
+              <template #footer>
+                <UiButton variant="tertiary" @click="isFilterModalOpen = false">취소</UiButton>
+                <UiButton variant="primary" @click="isFilterModalOpen = false">적용</UiButton>
+              </template>
+            </UiFilterModal>
+          </div>
           <UiButton variant="tertiary" icon="heroicons:plus">중요업무</UiButton>
         </div>
       </article>
@@ -45,11 +61,18 @@ import UiSearchableSelect from "~/components/UI/UiSearchableSelect.vue";
 import UiFilterModal from "~/components/UI/UiFilterModal.vue";
 import UiFormLayout from "~/components/UI/UiFormLayout.vue";
 import UiFormItem from "~/components/UI/UiFormItem.vue";
+import { ref } from "vue";
+import UiSelect from "~/components/UI/UiSelect.vue";
+import UiDatePicker from "~/components/UI/UiDatePicker.vue";
+import UiButton from "~/components/UI/UiButton.vue";
 
+// 필터 모달 상태 관리
+const filterButton = ref(null);
 const isFilterModalOpen = ref(false);
 
+// 필터 모달 열기
 function openFilterModal() {
-  isFilterModalOpen.value = true;
+  isFilterModalOpen.value = !isFilterModalOpen.value;
 }
 </script>
 
@@ -77,5 +100,4 @@ function openFilterModal() {
   gap: 5px;
   align-items: center;
 }
-
 </style>

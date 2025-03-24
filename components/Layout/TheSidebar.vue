@@ -4,13 +4,42 @@
       <!-- 메뉴 아이템들 -->
       <ul class="menu-list">
         <template v-for="(item, index) in menuItems" :key="index">
-          <li class="menu-item">
-            <NuxtLink :to="item.path" class="menu-link">
+          <li class="menu-item" :class="{ 'has-submenu': item.children }">
+            <NuxtLink v-if="!item.children" :to="item.path" class="menu-link">
               <div class="menu-icon">
                 <Icon :name="item.icon" size="24" />
               </div>
               <div class="menu-text">{{ item.text }}</div>
             </NuxtLink>
+            <div v-else class="menu-link" @click="toggleSubmenu(index)">
+              <div class="menu-icon">
+                <Icon :name="item.icon" size="24" />
+              </div>
+              <div class="menu-text">{{ item.text }}</div>
+              <div class="menu-arrow">
+                <Icon :name="item.expanded ? 'heroicons:chevron-up' : 'heroicons:chevron-down'" size="16" />
+              </div>
+            </div>
+            <ul v-if="item.children && item.expanded" class="submenu">
+              <li v-for="(child, childIndex) in item.children" :key="childIndex" class="submenu-item">
+                <NuxtLink v-if="!child.children" :to="child.path" class="submenu-link">
+                  <div class="menu-text">{{ child.text }}</div>
+                </NuxtLink>
+                <div v-else class="submenu-link" @click="toggleNestedSubmenu(index, childIndex)">
+                  <div class="menu-text">{{ child.text }}</div>
+                  <div class="menu-arrow">
+                    <Icon :name="child.expanded ? 'heroicons:chevron-up' : 'heroicons:chevron-down'" size="16" />
+                  </div>
+                </div>
+                <ul v-if="child.children && child.expanded" class="nested-submenu">
+                  <li v-for="(grandchild, grandchildIndex) in child.children" :key="grandchildIndex" class="nested-submenu-item">
+                    <NuxtLink :to="grandchild.path" class="nested-submenu-link">
+                      <div class="menu-text">{{ grandchild.text }}</div>
+                    </NuxtLink>
+                  </li>
+                </ul>
+              </li>
+            </ul>
           </li>
         </template>
       </ul>
@@ -19,9 +48,34 @@
 </template>
 
 <script setup>
-const menuItems = [
+import { ref, reactive } from 'vue';
+
+const menuItems = reactive([
   { text: '대시보드', path: '/', icon: 'uil:dashboard' },
-  { text: '업무', path: '/cnt01', icon: 'uil:clipboard-notes' },
+  { 
+    text: '업무', 
+    icon: 'uil:clipboard-notes', 
+    expanded: false,
+    children: [
+      { 
+        text: '업무/협업', 
+        expanded: false,
+        children: [
+          { text: '나의 업무', path: '/task/my-task' },
+          { text: '팀 업무', path: '/task/team-task' }
+        ]
+      },
+      { 
+        text: '일일/주간보고', 
+        expanded: false,
+        children: [
+          { text: '일일보고', path: '/task/daily-report' },
+          { text: '주간보고', path: '/task/weekly-report' }
+        ]
+      },
+      { text: '업무인수인계', path: '/task/handover' }
+    ]
+  },
   { text: 'PMS', path: '/cnt02', icon: 'uil:chart-pie' },
   { text: '개인성과', path: '/cnt03', icon: 'uil:chart-line' },
   { text: '조직성과', path: '/cnt04', icon: 'uil:chart-growth' },
@@ -33,7 +87,15 @@ const menuItems = [
   { text: '설정관리', path: '/cnt10', icon: 'uil:setting' },
   { text: '고객지원', path: '/cnt11', icon: 'uil:headphones' },
   { text: 'select', path: '/cmp/select', icon: 'uil:headphones' },
-];
+]);
+
+const toggleSubmenu = (index) => {
+  menuItems[index].expanded = !menuItems[index].expanded;
+};
+
+const toggleNestedSubmenu = (parentIndex, childIndex) => {
+  menuItems[parentIndex].children[childIndex].expanded = !menuItems[parentIndex].children[childIndex].expanded;
+};
 </script>
 
 <style scoped>
@@ -53,7 +115,7 @@ const menuItems = [
 }
 
 .sidebar:hover {
-  width: 180px;
+  width: 240px;
 }
 
 .sidebar-container {
@@ -85,12 +147,13 @@ const menuItems = [
   white-space: nowrap;
   transition: all 0.2s;
   border-left: 2px solid #fff;
+  cursor: pointer;
 }
 
 .menu-link:hover {
- background-color: #4a5568; /* 세련된 다크 그레이 */
+  background-color: #4a5568;
   color: white;
-  span{
+  span {
     background: #fff;
   }
 }
@@ -100,7 +163,7 @@ const menuItems = [
   display: flex;
   align-items: center;
   justify-content: center;
-  span{
+  span {
     background: #333;
   }
 }
@@ -108,11 +171,58 @@ const menuItems = [
 .menu-text {
   margin-left: 12px;
   font-size: 14px;
-  border-bottom: 1px dashed #fff;
 }
+
+.menu-arrow {
+  margin-left: auto;
+}
+
 .menu-item.active .menu-link {
-  color: #38b2ac; /* 청록색 - 강조색으로 추천 */
+  color: #38b2ac;
   border-left: 3px solid #38b2ac;
+}
+
+.submenu {
+  list-style-type: none;
+  padding-left: 40px;
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.submenu-link {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  text-decoration: none;
+  color: #a0aec0;
+  white-space: nowrap;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.submenu-link:hover {
+  color: white;
+  background-color: rgba(74, 85, 104, 0.8);
+}
+
+.nested-submenu {
+  list-style-type: none;
+  padding-left: 20px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.nested-submenu-link {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: #a0aec0;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.nested-submenu-link:hover {
+  color: white;
+  background-color: rgba(74, 85, 104, 0.6);
 }
 
 /* 상단에 파란색 바 스타일 추가 */

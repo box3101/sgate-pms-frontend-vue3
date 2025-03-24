@@ -297,7 +297,7 @@
           <UiTextarea placeholder="내용 입력" />
         </UiFormItem>
       </UiFormLayout>
-      <div class="flex gap-5 justify-end mt-10">
+      <div class="flex justify-end gap-5 mt-10">
         <UiButton variant="primary">저장</UiButton>
         <UiButton variant="secondary">취소</UiButton>
       </div>
@@ -306,7 +306,7 @@
 </template>
 
 <script setup>
-import TaskBoardHeader from "~/components/Task/TaskBoardHeader.vue";
+import TaskBoardHeader from "~/pages/Task/TaskBoardHeader.vue";
 import UiButton from "~/components/UI/UiButton.vue";
 import UiInput from "~/components/UI/UiInput.vue";
 import Modal from "~/components/UI/UiModal.vue";
