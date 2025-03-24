@@ -1,38 +1,81 @@
 <template>
-  <aside class="sidebar">
+  <aside class="sidebar" @mouseleave="closeAllMenus">
     <div class="sidebar-container">
-      <!-- 메뉴 아이템들 -->
+      <!-- 사이드바 메뉴 목록 -->
       <ul class="menu-list">
         <template v-for="(item, index) in menuItems" :key="index">
           <li class="menu-item" :class="{ 'has-submenu': item.children }">
+            <!-- 자식이 없는 메뉴 아이템 - 직접 링크 -->
             <NuxtLink v-if="!item.children" :to="item.path" class="menu-link">
               <div class="menu-icon">
                 <Icon :name="item.icon" size="24" />
               </div>
               <div class="menu-text">{{ item.text }}</div>
             </NuxtLink>
+
+            <!-- 자식이 있는 메뉴 아이템 - 토글 기능 -->
             <div v-else class="menu-link" @click="toggleSubmenu(index)">
               <div class="menu-icon">
                 <Icon :name="item.icon" size="24" />
               </div>
               <div class="menu-text">{{ item.text }}</div>
               <div class="menu-arrow">
-                <Icon :name="item.expanded ? 'heroicons:chevron-up' : 'heroicons:chevron-down'" size="16" />
+                <Icon
+                  :name="
+                    item.expanded
+                      ? 'heroicons:chevron-up'
+                      : 'heroicons:chevron-down'
+                  "
+                  size="16"
+                />
               </div>
             </div>
+
+            <!-- 1단계 서브메뉴 -->
             <ul v-if="item.children && item.expanded" class="submenu">
-              <li v-for="(child, childIndex) in item.children" :key="childIndex" class="submenu-item">
-                <NuxtLink v-if="!child.children" :to="child.path" class="submenu-link">
+              <li
+                v-for="(child, childIndex) in item.children"
+                :key="childIndex"
+                class="submenu-item"
+              >
+                <!-- 손자가 없는 자식 메뉴 - 직접 링크 -->
+                <NuxtLink
+                  v-if="!child.children"
+                  :to="child.path"
+                  class="submenu-link"
+                >
                   <div class="menu-text">{{ child.text }}</div>
                 </NuxtLink>
-                <div v-else class="submenu-link" @click="toggleNestedSubmenu(index, childIndex)">
+
+                <!-- 손자가 있는 자식 메뉴 - 토글 기능 -->
+                <div
+                  v-else
+                  class="submenu-link"
+                  @click="toggleNestedSubmenu(index, childIndex)"
+                >
                   <div class="menu-text">{{ child.text }}</div>
                   <div class="menu-arrow">
-                    <Icon :name="child.expanded ? 'heroicons:chevron-up' : 'heroicons:chevron-down'" size="16" />
+                    <Icon
+                      :name="
+                        child.expanded
+                          ? 'heroicons:chevron-up'
+                          : 'heroicons:chevron-down'
+                      "
+                      size="16"
+                    />
                   </div>
                 </div>
-                <ul v-if="child.children && child.expanded" class="nested-submenu">
-                  <li v-for="(grandchild, grandchildIndex) in child.children" :key="grandchildIndex" class="nested-submenu-item">
+
+                <!-- 2단계 중첩 서브메뉴 -->
+                <ul
+                  v-if="child.children && child.expanded"
+                  class="nested-submenu"
+                >
+                  <li
+                    v-for="(grandchild, grandchildIndex) in child.children"
+                    :key="grandchildIndex"
+                    class="nested-submenu-item"
+                  >
                     <NuxtLink :to="grandchild.path" class="nested-submenu-link">
                       <div class="menu-text">{{ grandchild.text }}</div>
                     </NuxtLink>
@@ -48,45 +91,39 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive } from "vue";
 
 const menuItems = reactive([
-  { text: '대시보드', path: '/', icon: 'uil:dashboard' },
-  { 
-    text: '업무', 
-    icon: 'uil:clipboard-notes', 
+  { text: "대시보드", path: "/", icon: "uil:dashboard" },
+  {
+    text: "업무",
+    icon: "uil:clipboard-notes",
     expanded: false,
     children: [
-      { 
-        text: '업무/협업', 
+      {
+        text: "업무/협업",
         expanded: false,
-        children: [
-          { text: '나의 업무', path: '/task/my-task' },
-          { text: '팀 업무', path: '/task/team-task' }
-        ]
+        path: "/task",
       },
-      { 
-        text: '일일/주간보고', 
+      {
+        text: "일일/주간보고",
         expanded: false,
-        children: [
-          { text: '일일보고', path: '/task/daily-report' },
-          { text: '주간보고', path: '/task/weekly-report' }
-        ]
+        path: "/task/daily-report",
       },
-      { text: '업무인수인계', path: '/task/handover' }
-    ]
+      { text: "업무인수인계", path: "/task/handover" },
+    ],
   },
-  { text: 'PMS', path: '/cnt02', icon: 'uil:chart-pie' },
-  { text: '개인성과', path: '/cnt03', icon: 'uil:chart-line' },
-  { text: '조직성과', path: '/cnt04', icon: 'uil:chart-growth' },
-  { text: '조직평가', path: '/cnt05', icon: 'uil:analytics' },
-  { text: '인사평가', path: '/cnt06', icon: 'uil:users-alt' },
-  { text: '온보딩', path: '/cnt07', icon: 'uil:user-plus' },
-  { text: '인사관리', path: '/cnt08', icon: 'uil:user-check' },
-  { text: '커뮤니티', path: '/cnt09', icon: 'uil:comments' },
-  { text: '설정관리', path: '/cnt10', icon: 'uil:setting' },
-  { text: '고객지원', path: '/cnt11', icon: 'uil:headphones' },
-  { text: 'select', path: '/cmp/select', icon: 'uil:headphones' },
+  { text: "PMS", path: "/cnt02", icon: "uil:chart-pie" },
+  { text: "개인성과", path: "/cnt03", icon: "uil:chart-line" },
+  { text: "조직성과", path: "/cnt04", icon: "uil:chart-growth" },
+  { text: "조직평가", path: "/cnt05", icon: "uil:analytics" },
+  { text: "인사평가", path: "/cnt06", icon: "uil:users-alt" },
+  { text: "온보딩", path: "/cnt07", icon: "uil:user-plus" },
+  { text: "인사관리", path: "/cnt08", icon: "uil:user-check" },
+  { text: "커뮤니티", path: "/cnt09", icon: "uil:comments" },
+  { text: "설정관리", path: "/cnt10", icon: "uil:setting" },
+  { text: "고객지원", path: "/cnt11", icon: "uil:headphones" },
+  { text: "select", path: "/cmp/select", icon: "uil:headphones" },
 ]);
 
 const toggleSubmenu = (index) => {
@@ -94,7 +131,21 @@ const toggleSubmenu = (index) => {
 };
 
 const toggleNestedSubmenu = (parentIndex, childIndex) => {
-  menuItems[parentIndex].children[childIndex].expanded = !menuItems[parentIndex].children[childIndex].expanded;
+  menuItems[parentIndex].children[childIndex].expanded =
+    !menuItems[parentIndex].children[childIndex].expanded;
+};
+
+const closeAllMenus = () => {
+  menuItems.forEach((item) => {
+    if (item.children) {
+      item.expanded = false;
+      item.children.forEach((child) => {
+        if (child.children) {
+          child.expanded = false;
+        }
+      });
+    }
+  });
 };
 </script>
 

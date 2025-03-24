@@ -5,7 +5,7 @@
       <div class="logo">
         <NuxtLink to="/">
           <Icon name="mdi:information-outline" class="logo-icon" />
-          <span class="logo-text">개인성과</span>
+          <span class="logo-text">{{ logoText }}</span>
         </NuxtLink>
       </div>
 
@@ -83,7 +83,7 @@
             </UiFormLayout>
 
             <!-- 이렇게 푸터 슬롯을 타겟팅합니다 -->
-            <template #footer>
+            <template #footerActions>
               <div class="status-bar">
                 <div class="status-bar__time">
                   <span class="status-bar__icon">
@@ -161,7 +161,13 @@
           <Icon name="mdi:cog-outline" size="24" />
         </button>
 
-        <UiModal title="전체 메뉴" v-model="isFullMenuModalOpen" :size="'full'">
+        <UiModal v-model="isFullMenuModalOpen" :size="'full'">
+          <template #title>
+            전체 메뉴
+            <span class="menu-description"
+              >(메뉴를 클릭하면 해당 메뉴로 이동합니다)</span
+            >
+          </template>
         </UiModal>
       </div>
     </div>
@@ -169,7 +175,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, defineProps } from "vue";
 import { useRoute } from "vue-router";
 
 import UiInput from "../UI/UiInput.vue";
@@ -178,6 +184,14 @@ import UiFormLayout from "../UI/UiFormLayout.vue";
 import UiFormItem from "../UI/UiFormItem.vue";
 import UiSegment from "../UI/UiSegment.vue";
 import UiModal from "../UI/UiModal.vue";
+
+// props 정의
+const props = defineProps({
+  logoText: {
+    type: String,
+    default: "개인성과",
+  },
+});
 
 // 필터 모달 관련 상태
 const filterButton = ref(null);
@@ -205,19 +219,11 @@ const route = useRoute();
 // 각 섹션별 탭 메뉴 정의
 const tabMenus = {
   // 홈 섹션 탭
-  home: [
-    { name: "홈", path: "/" },
-    { name: "보드", path: "/" },
-    { name: "Timeline", path: "/" },
-    { name: "요약", path: "/" },
-  ],
-
-  // 업무 섹션 탭
   tasks: [
-    { name: "업무 목록", path: "/tasks" },
-    { name: "보드", path: "/tasks/board" },
-    { name: "Timeline", path: "/tasks/timeline" },
-    { name: "요약", path: "/tasks/summary" },
+    { name: "홈", path: "/task" },
+    { name: "보드", path: "/task/board" },
+    { name: "Timeline", path: "/task/timeline" },
+    { name: "요약", path: "/task/summary" },
   ],
 
   // 프로젝트 섹션 탭
@@ -235,12 +241,11 @@ const tabMenus = {
 const currentTabMenu = computed(() => {
   // 경로 기반으로 섹션 결정
   if (
-    route.path === "/cnt01" ||
-    route.path.startsWith("/dashboard") ||
-    route.path.startsWith("/notifications")
+    route.path === "/task" ||
+    route.path.startsWith("/task/board") ||
+    route.path.startsWith("/task/timeline") ||
+    route.path.startsWith("/task/summary")
   ) {
-    return tabMenus.home;
-  } else if (route.path.startsWith("/tasks")) {
     return tabMenus.tasks;
   } else if (route.path.startsWith("/projects")) {
     return tabMenus.projects;
@@ -253,11 +258,7 @@ const currentTabMenu = computed(() => {
 // 현재 경로 기준 활성 탭 확인 함수
 const isActive = (path) => {
   // 정확히 일치하거나 하위 경로일 경우 활성화
-  if (path === "/") {
-    return route.path === "/";
-  } else {
-    return route.path === path || (path !== "/" && route.path.startsWith(path));
-  }
+  return route.path === path;
 };
 </script>
 
@@ -443,5 +444,10 @@ const isActive = (path) => {
 :deep(.ui-form-item__content) {
   display: flex;
   justify-content: flex-end;
+}
+
+.ui-popup__title span {
+  font-size: smaller;
+  color: #666;
 }
 </style>

@@ -1,7 +1,7 @@
 <!-- layouts/default.vue -->
 <template>
   <div class="app-layout">
-    <TheHeader />
+    <TheHeader :logoText="logoText" />
     <div class="content-wrapper">
       <TheSidebar />
       <main class="main-content">
@@ -15,6 +15,13 @@
 // 명시적 임포트 사용
 import TheHeader from '~/components/Layout/TheHeader.vue';
 import TheSidebar from '~/components/Layout/TheSidebar.vue';
+import { ref, provide } from 'vue';
+
+// 로고 텍스트 상태 관리
+const logoText = ref('개인성과');
+
+// 자식 컴포넌트에서 접근할 수 있도록 provide
+provide('logoText', logoText);
 </script>
 
 <style scoped>
@@ -35,7 +42,7 @@ import TheSidebar from '~/components/Layout/TheSidebar.vue';
 .main-content {
   margin-left: 78px; /* 사이드바 기본 너비 */
   margin-right: 40px;
-  margin-top: 68px; /* 헤더 높이 */
+  margin-top: 95px; /* 헤더 높이 */
   box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
   max-width: calc(100% - 60px); /* 사이드바 너비를 고려한 최대 너비 */
   min-width: 1200px; /* 최소 너비 추가 - 화면이 작아져도 컨텐츠 영역이 유지됨 */

@@ -38,7 +38,7 @@
                 <!-- 추가 항목 -->
               </UiFormLayout>
 
-              <template #footer>
+              <template #footerActions>
                 <UiButton variant="tertiary" @click="isFilterModalOpen = false">취소</UiButton>
                 <UiButton variant="primary" @click="isFilterModalOpen = false">적용</UiButton>
               </template>
@@ -78,7 +78,6 @@ function openFilterModal() {
 
 <style scoped>
 .task-board-header {
-  margin-top: 20px;
   margin-bottom: 30px;
   width: 100%;
   position: relative;

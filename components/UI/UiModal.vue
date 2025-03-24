@@ -1,6 +1,10 @@
 <template>
   <div v-if="modelValue" class="ui-popup">
-    <div v-if="!noDim" class="ui-popup__backdrop" @click="closeOnBackdropClick && $emit('update:modelValue', false)"></div>
+    <div
+      v-if="!noDim"
+      class="ui-popup__backdrop"
+      @click="closeOnBackdropClick && $emit('update:modelValue', false)"
+    ></div>
     <div
       class="ui-popup__content"
       :class="[
@@ -8,20 +12,31 @@
         { 'ui-popup--centered': centered && !isFullscreen },
         { 'ui-popup--right': position === 'right' && !isFullscreen },
         { 'ui-popup--no-dim': noDim },
-        { 'ui-popup--fullscreen': isFullscreen }
+        { 'ui-popup--fullscreen': isFullscreen },
       ]"
       :style="modalStyle"
     >
-      <div v-if="position === 'right' && !isFullscreen" class="ui-popup__resize-handle" @mousedown="handleResizeStart"></div>
+      <div
+        v-if="position === 'right' && !isFullscreen"
+        class="ui-popup__resize-handle"
+        @mousedown="handleResizeStart"
+      ></div>
       <div class="ui-popup__header">
-        <h3 class="ui-popup__title">{{ title }}</h3>
+        <h3 class="ui-popup__title">
+          <slot name="title">
+            {{ title }}
+          </slot>
+        </h3>
         <div class="ui-popup__header-actions">
           <slot name="headerActions"></slot>
-          <button
-            class="ui-popup__fullscreen"
-            @click="toggleFullscreen"
-          >
-            <Icon :name="isFullscreen ? 'heroicons:arrows-pointing-in' : 'heroicons:arrows-pointing-out'" />
+          <button class="ui-popup__fullscreen" @click="toggleFullscreen">
+            <Icon
+              :name="
+                isFullscreen
+                  ? 'heroicons:arrows-pointing-in'
+                  : 'heroicons:arrows-pointing-out'
+              "
+            />
           </button>
           <button
             v-if="showCloseButton"
@@ -36,14 +51,14 @@
         <slot></slot>
       </div>
       <div v-if="$slots.footer" class="ui-popup__footer">
-        <slot name="footer"></slot>
+        <slot name="footerActions"></slot>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, computed } from 'vue';
+import { ref, onMounted, onUnmounted, computed } from "vue";
 
 const props = defineProps({
   modelValue: {
@@ -79,7 +94,7 @@ const props = defineProps({
   noDim: {
     type: Boolean,
     default: false,
-  }
+  },
 });
 
 defineEmits(["update:modelValue"]);
@@ -88,7 +103,7 @@ const isFullscreen = ref(false);
 const customWidth = ref(null);
 
 const modalStyle = computed(() => {
-  if (customWidth.value && props.position === 'right' && !isFullscreen.value) {
+  if (customWidth.value && props.position === "right" && !isFullscreen.value) {
     return { width: `${customWidth.value}px` };
   }
   return {};
@@ -100,13 +115,13 @@ let startWidth = 0;
 let modalElement = null;
 
 onMounted(() => {
-  document.addEventListener('mousemove', handleMouseMove);
-  document.addEventListener('mouseup', handleMouseUp);
+  document.addEventListener("mousemove", handleMouseMove);
+  document.addEventListener("mouseup", handleMouseUp);
 });
 
 onUnmounted(() => {
-  document.removeEventListener('mousemove', handleMouseMove);
-  document.removeEventListener('mouseup', handleMouseUp);
+  document.removeEventListener("mousemove", handleMouseMove);
+  document.removeEventListener("mouseup", handleMouseUp);
 });
 
 function toggleFullscreen() {
@@ -119,14 +134,14 @@ function toggleFullscreen() {
 }
 
 function handleResizeStart(e) {
-  if (props.position !== 'right' || isFullscreen.value) return;
+  if (props.position !== "right" || isFullscreen.value) return;
 
   isResizing = true;
   startX = e.clientX;
-  modalElement = e.target.closest('.ui-popup__content');
+  modalElement = e.target.closest(".ui-popup__content");
   startWidth = modalElement.offsetWidth;
 
-  document.body.style.cursor = 'ew-resize';
+  document.body.style.cursor = "ew-resize";
   e.preventDefault();
 }
 
@@ -144,7 +159,7 @@ function handleMouseMove(e) {
 
 function handleMouseUp() {
   isResizing = false;
-  document.body.style.cursor = '';
+  document.body.style.cursor = "";
 }
 </script>
 
@@ -225,7 +240,8 @@ function handleMouseUp() {
     text-overflow: ellipsis;
   }
 
-  &__close, &__fullscreen {
+  &__close,
+  &__fullscreen {
     display: flex;
     align-items: center;
     justify-content: center;

@@ -24,7 +24,7 @@
       </div>
 
       <div v-if="showFooter" class="filter-footer">
-        <slot name="footer" />
+        <slot name="footerActions" />
       </div>
     </div>
   </div>
