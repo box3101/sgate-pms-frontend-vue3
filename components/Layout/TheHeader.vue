@@ -123,9 +123,31 @@
             </template>
           </UiFilterModal>
         </div>
-        <button class="icon-button">
+
+        <button class="icon-button" @click="isModalOpen = true">
           <Icon name="mdi:bell-outline" size="24" />
         </button>
+        <UiModal
+          title="알림"
+          v-model="isModalOpen"
+          position="right"
+          :size="'small'"
+        >
+          <template #headerActions>
+            <div class="flex gap-5 mr-10 mr-20 modal-header-actions align-center">
+              <UiButton variant="ghost" iconOnly title="새로 고침">
+                <Icon name="mdi:refresh" size="20" />
+              </UiButton>
+              <UiButton variant="ghost" iconOnly title="모두 읽기">
+                <Icon name="mdi:check-all" size="20" />
+              </UiButton>
+              <UiButton variant="ghost" iconOnly title="모두 삭제">
+                <Icon name="mdi:delete-outline" size="20" />
+              </UiButton>
+            </div>
+          </template>
+        </UiModal>
+
         <button class="icon-button">
           <Icon name="mdi:cog-outline" size="24" />
         </button>
@@ -149,6 +171,7 @@ import UiFilterModal from "../UI/UiFilterModal.vue";
 import UiFormLayout from "../UI/UiFormLayout.vue";
 import UiFormItem from "../UI/UiFormItem.vue";
 import UiSegment from "../UI/UiSegment.vue";
+import UiModal from "../UI/UiModal.vue";
 
 const filterButton = ref(null);
 const isFilterModalOpen = ref(false);
@@ -156,6 +179,7 @@ const language = ref("ko");
 const emailNotification = ref("on");
 const pushNotification = ref("on");
 const slackNotification = ref("on");
+const isModalOpen = ref(false);
 
 function openFilter() {
   isFilterModalOpen.value = !isFilterModalOpen.value;
@@ -363,7 +387,7 @@ const isActive = (path) => {
   font-size: $font-size-xs;
   color: $text-color;
   background-color: #fafafa;
-  
+
   &__time {
     display: flex;
     align-items: center;
@@ -371,7 +395,7 @@ const isActive = (path) => {
     height: 100%;
     border-right: 1px solid $border-color;
   }
-  
+
   &__action {
     display: flex;
     align-items: center;
@@ -379,24 +403,24 @@ const isActive = (path) => {
     height: 100%;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    
+
     &:hover {
       background-color: $hover-background;
     }
   }
-  
+
   &__icon {
     display: flex;
     align-items: center;
     margin-right: 6px;
     color: $icon-color;
   }
-  
+
   &__time-text {
-    font-family: 'Consolas', monospace;
+    font-family: "Consolas", monospace;
     letter-spacing: 0.5px;
   }
-  
+
   &__action-text {
     font-weight: 500;
   }

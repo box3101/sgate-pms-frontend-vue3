@@ -16,6 +16,7 @@
       <div class="ui-popup__header">
         <h3 class="ui-popup__title">{{ title }}</h3>
         <div class="ui-popup__header-actions">
+          <slot name="headerActions"></slot>
           <button
             class="ui-popup__fullscreen"
             @click="toggleFullscreen"
