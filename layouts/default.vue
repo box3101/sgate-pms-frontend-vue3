@@ -44,6 +44,7 @@ provide('logoText', logoText);
   margin-top: 95px; /* 헤더 높이 */
   box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
   max-width: calc(100% - 60px); /* 사이드바 너비를 고려한 최대 너비 */
-  min-width: 1200px; /* 최소 너비 추가 - 화면이 작아져도 컨텐츠 영역이 유지됨 */
+  width: 100%;
+  min-width: 1200px;
 }
 </style>
