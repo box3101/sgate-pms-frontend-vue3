@@ -21,7 +21,7 @@
             v-model="isCategoryModalOpen"
             position="right"
             size="small"
-            title="카테고리 추가"
+            title="카테고리 메뉴"
             :hideHeader="true"
           >
             <UiAccordionMenu :menuItems="menuItems">
@@ -51,6 +51,28 @@
                 <UiButton class="mt-5" variant="tertiary" block>
                   전달
                 </UiButton>
+              </template>
+
+              <template #content-4>
+                <p class="mb-9">일괄설정 대상자 선택</p>
+                <UiFormLayout>
+                  <UiFormItem label="협업">
+                    <div class="flex gap-5">
+                      <UiInput placeholder="조회 및 선택하세요" />
+                      <UiButton variant="tertiary" icon-only class="mt-1">
+                        <Icon name="heroicons:magnifying-glass" size="20" />
+                      </UiButton>
+                    </div>
+                  </UiFormItem>
+                  <UiFormItem label="공유">
+                    <div class="flex gap-5">
+                      <UiInput placeholder="조회 및 선택하세요" />
+                      <UiButton variant="tertiary" icon-only class="mt-1">
+                        <Icon name="heroicons:magnifying-glass" size="20" />
+                      </UiButton>
+                    </div>
+                  </UiFormItem>
+                </UiFormLayout>
               </template>
             </UiAccordionMenu>
           </UiFilterModal>
@@ -86,24 +108,33 @@ const props = defineProps({
 // 이벤트 정의
 defineEmits(["add-board", "add-card", "open-menu"]);
 
-// 아코디언 메뉴
+// 카테고리 아코디언 메뉴
 const menuItems = [
   {
     title: "카테고리 이동",
     isAccordion: true,
-    icon: "icon-name",
+    initialOpen: false,
+    items: [],
     action: () => {},
   },
   {
     title: "카테고리 삭제",
     isAccordion: false,
-    icon: "icon-name",
+    icon: "heroicons:trash",
     action: () => {},
   },
   {
     title: "카테고리 이동",
     isAccordion: true,
-    icon: "icon-name",
+    initialOpen: false,
+    items: [],
+    action: () => {},
+  },
+  {
+    title: "카테고리 업무 협업/공유 일괄설정",
+    isAccordion: true,
+    initialOpen: false,
+    items: [],
     action: () => {},
   },
 ];

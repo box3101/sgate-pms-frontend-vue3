@@ -8,13 +8,13 @@
         class="menu-category-button"
         @click="menu.action"
       >
+        <span class="menu-category-text">{{ menu.title }}</span>
         <Icon
           v-if="menu.icon"
           :name="menu.icon"
           size="16"
           class="menu-category-icon"
         />
-        <span class="menu-category-text">{{ menu.title }}</span>
       </div>
 
       <!-- 아코디언 카테고리 -->
@@ -101,7 +101,8 @@ function handleAccordionToggle(index, isOpen) {
 .menu-category-button {
   display: flex;
   align-items: center;
-  padding: 12px;
+  padding: 12px 16px;
+  padding-right: 8px;
   cursor: pointer;
   border-radius: 4px;
 }

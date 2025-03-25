@@ -31,10 +31,11 @@ defineProps({
   }
 
   &__label {
-    width: 90px;
     flex-shrink: 0;
     font-size: 14px;
     font-weight: 500;
+    margin-right: 10px;
+    flex:0.2;
   }
 
   &__content {
