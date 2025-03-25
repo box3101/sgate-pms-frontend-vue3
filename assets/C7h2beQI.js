@@ -1,0 +1,1 @@
+import t from"./BF6j7TsQ.js";import{i as r,f as p,o as e}from"./LN5tcx3E.js";import"./sOYu0gp3.js";import"./DW035a1r.js";import"./BgPAhUwy.js";import"./CqrbOt1m.js";import"./Bca-2OcI.js";import"./KEIZgnk5.js";import"./B3ne2w-5.js";import"./CcnnbAfD.js";const B={__name:"board",setup(m){const o=r("logoText");return o.value="업무/협업",(a,i)=>(e(),p(t))}};export{B as default};
