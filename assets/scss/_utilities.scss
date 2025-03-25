@@ -71,6 +71,10 @@
   .w-#{$i} {
     width: #{$i}px !important;
   }
+  
+  .min-w-#{$i} {
+    min-width: #{$i}px !important;
+  }
 }
 
 // ======== 높이 생성 (1px ~ 500px) ========

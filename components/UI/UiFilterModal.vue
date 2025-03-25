@@ -15,7 +15,10 @@
     >
       <div v-if="!hideHeader" class="filter-header">
         <h3>{{ title }}</h3>
-        <button class="close-button" @click="closeFilterModal">×</button>
+        <div class="flex gap-25">
+          <slot name="headerActions" />
+          <button class="close-button" @click="closeFilterModal">×</button>
+        </div>
       </div>
 
       <div class="filter-body">

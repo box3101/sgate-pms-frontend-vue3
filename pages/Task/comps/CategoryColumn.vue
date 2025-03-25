@@ -56,17 +56,17 @@
               <template #content-4>
                 <p class="mb-9">일괄설정 대상자 선택</p>
                 <UiFormLayout>
-                  <UiFormItem label="협업">
+                  <UiFormItem label="협업" minWidth="min-w-10">
                     <div class="flex gap-5">
-                      <UiInput placeholder="조회 및 선택하세요" />
+                      <UiInput  placeholder="조회 및 선택하세요" />
                       <UiButton variant="tertiary" icon-only class="mt-1">
                         <Icon name="heroicons:magnifying-glass" size="20" />
                       </UiButton>
                     </div>
                   </UiFormItem>
-                  <UiFormItem label="공유">
+                  <UiFormItem label="공유" minWidth="min-w-10">
                     <div class="flex gap-5">
-                      <UiInput placeholder="조회 및 선택하세요" />
+                      <UiInput  placeholder="조회 및 선택하세요" />
                       <UiButton variant="tertiary" icon-only class="mt-1">
                         <Icon name="heroicons:magnifying-glass" size="20" />
                       </UiButton>

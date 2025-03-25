@@ -110,7 +110,12 @@
       </article>
       <article class="right-section">
         <div>
-          <UiButton variant="tertiary" icon="heroicons:plus" @click="openCollaborationModal">협업</UiButton>
+          <UiButton
+            variant="tertiary"
+            icon="heroicons:plus"
+            @click="openCollaborationModal"
+            >협업</UiButton
+          >
           <UiFilterModal
             v-model="isCollaborationModalOpen"
             title="협업"
@@ -118,11 +123,49 @@
             position="right"
             :showFooter="true"
           >
+            <template #headerActions>
+              <UiSwitch
+                v-model="isActive"
+                label="제외하기"
+                @update:modelValue="handleSwitchChange"
+              />
+            </template>
+            <div class="collaboration-content">
+              <div class="search-section">
+                <div class="user-list">
+                  <!-- 사용자 목록이 표시될 영역 -->
+                  <div v-for="i in 5" :key="i" class="user-item">
+                    <div class="user-info">
+                      <div class="user-avatar">
+                        <Icon name="mdi:account-circle" size="32" />
+                      </div>
+                      <div class="user-details">
+                        <div class="user-name">[이강표] Contact</div>
+                        <div class="user-role">[2022.03.04 ~ ] Contact - BYC</div>
+                      </div>
+                    </div>
+                    <div class="flex gap-10">
+                      <UiSelect placeholder="선택하세요" size="small" class="w-200" />
+                      <UiButton variant="tertiary" size="small">이동</UiButton>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <template #footerActions>
               <div class="flex gap-4 w-full justify-end">
                 <UiSelect class="w-300" placeholder="선택하세요" />
-                <UiButton variant="tertiary" @click="isCollaborationModalOpen = false">카테고리 일괄 선택</UiButton>
-                <UiButton variant="primary" @click="isCollaborationModalOpen = false">이동</UiButton>
+                <UiButton
+                  variant="tertiary"
+                  @click="isCollaborationModalOpen = false"
+                  >카테고리 일괄 선택</UiButton
+                >
+                <UiButton
+                  variant="primary"
+                  @click="isCollaborationModalOpen = false"
+                  >이동</UiButton
+                >
               </div>
             </template>
           </UiFilterModal>
@@ -149,6 +192,9 @@ import UiButton from "~/components/UI/UiButton.vue";
 const filterButton = ref(null);
 const isFilterModalOpen = ref(false);
 const dateRange = ref([null, null]);
+
+// 협업 토글
+const isActive = ref(false);
 
 // 필터 모달 열기 - 토글 방식으로 필터 모달의 열림/닫힘 상태를 변경하는 함수
 function openFilterModal() {
@@ -177,6 +223,10 @@ const isCollaborationModalOpen = ref(false);
 function openCollaborationModal() {
   isCollaborationModalOpen.value = !isCollaborationModalOpen.value;
 }
+
+function handleSwitchChange(value) {
+  console.log("Switch value:", value);
+}
 </script>
 
 <style scoped>
@@ -202,4 +252,71 @@ function openCollaborationModal() {
   gap: 5px;
   align-items: center;
 }
+.board-title {
+  font-weight: 600;
+  font-size: 18px;
+  margin-right: 16px;
+}
+
+.filter-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-button {
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background-color: #f1f3f4;
+  }
+}
+.collaboration-content {
+  .search-section {
+    padding: 16px 0;
+    
+    .user-list {
+      max-height: 400px;
+      overflow-y: auto;
+      
+      .user-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        
+        &:last-child {
+          border-bottom: none;
+        }
+        
+        .user-info {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          
+          .user-avatar {
+            color: #5f6368;
+          }
+          
+          .user-details {
+            .user-name {
+              font-weight: 500;
+              font-size: 14px;
+            }
+            
+            .user-role {
+              font-size: 12px;
+              color: #5f6368;
+              margin-top: 4px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 </style>
