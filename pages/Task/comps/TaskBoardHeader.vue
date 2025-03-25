@@ -13,7 +13,7 @@
           <UiButton variant="white" iconOnly>
             <Icon name="heroicons:pencil" size="24" />
           </UiButton>
-          <UiButton variant="danger"> 카테고리 추가 </UiButton>
+          <UiButton variant="danger" @click="$emit('add-category')"> 카테고리 추가 </UiButton>
         </div>
         <div class="flex gap-5">
           <div>

@@ -1,5 +1,6 @@
 <template>
   <div class="filter-container">
+    <div v-if="isFilterModalOpen" class="filter-overlay" @click="closeFilterModal"></div>
     <div
       v-if="isFilterModalOpen"
       class="filter-dropdown"
@@ -12,14 +13,12 @@
         'filter-dropdown--large': size === 'large',
       }"
     >
-      <!-- 여기에 필터 내용 -->
-      <div class="filter-header">
+      <div v-if="!hideHeader" class="filter-header">
         <h3>{{ title }}</h3>
         <button class="close-button" @click="closeFilterModal">×</button>
       </div>
 
       <div class="filter-body">
-        <!-- 필터 컨텐츠 -->
         <slot />
       </div>
 
@@ -47,6 +46,10 @@ const props = defineProps({
     validator: (value) => ["left", "right"].includes(value),
   },
   showFooter: {
+    type: Boolean,
+    default: false,
+  },
+  hideHeader: {
     type: Boolean,
     default: false,
   },
@@ -94,7 +97,6 @@ function updatePosition() {
   if (!props.targetRef) return;
 
   nextTick(() => {
-    const targetRect = props.targetRef.getBoundingClientRect();
 
     if (props.position === "right") {
       // 오른쪽 정렬일 경우
@@ -141,6 +143,15 @@ defineExpose({
 <style scoped>
 .filter-container {
   position: relative;
+}
+.filter-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 999;
 }
 .filter-dropdown {
   position: absolute;
@@ -197,7 +208,7 @@ defineExpose({
   content: "";
   position: absolute;
   top: -8px;
-  left: 16px; /* 왼쪽 정렬일 때 화살표 위치 */
+  left: 3px; /* 왼쪽 정렬일 때 화살표 위치 */
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-bottom: 8px solid white;
@@ -207,7 +218,7 @@ defineExpose({
   content: "";
   position: absolute;
   top: -8px;
-  right: 16px; /* 오른쪽 정렬일 때 화살표 위치 */
+  right: 3px; /* 오른쪽 정렬일 때 화살표 위치 */
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-bottom: 8px solid white;

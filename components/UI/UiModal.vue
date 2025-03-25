@@ -22,29 +22,33 @@
         @mousedown="handleResizeStart"
       ></div>
       <div class="ui-popup__header">
-        <h3 class="ui-popup__title">
-          <slot name="title">
-            {{ title }}
-          </slot>
-        </h3>
-        <div class="ui-popup__header-actions">
+        <div class="flex items-center gap-5">
+          <h3 class="ui-popup__title">
+            <slot name="title">
+              {{ title }}
+            </slot>
+          </h3>
           <slot name="headerActions"></slot>
-          <button class="ui-popup__fullscreen" @click="toggleFullscreen">
-            <Icon
-              :name="
-                isFullscreen
-                  ? 'heroicons:arrows-pointing-in'
-                  : 'heroicons:arrows-pointing-out'
-              "
-            />
-          </button>
-          <button
-            v-if="showCloseButton"
-            class="ui-popup__close"
-            @click="$emit('update:modelValue', false)"
-          >
-            <Icon name="heroicons:x-mark" />
-          </button>
+        </div>
+        <div class="ui-popup__header-actions">
+          <div class="ui-popup__actions flex gap-5">
+            <button class="ui-popup__fullscreen" @click="toggleFullscreen">
+              <Icon
+                :name="
+                  isFullscreen
+                    ? 'heroicons:arrows-pointing-in'
+                    : 'heroicons:arrows-pointing-out'
+                "
+              />
+            </button>
+            <button
+              v-if="showCloseButton"
+              class="ui-popup__close"
+              @click="$emit('update:modelValue', false)"
+            >
+              <Icon name="heroicons:x-mark" />
+            </button>
+          </div>
         </div>
       </div>
       <div class="ui-popup__body">
@@ -220,12 +224,12 @@ function handleMouseUp() {
   &__header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     padding: $spacing-lg;
     border-bottom: 1px solid $border-color;
   }
 
   &__header-actions {
+    margin-left: auto;  
     display: flex;
     align-items: center;
     gap: $spacing-sm;
