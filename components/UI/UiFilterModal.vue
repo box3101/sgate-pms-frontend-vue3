@@ -173,7 +173,7 @@ defineExpose({
 }
 
 .filter-dropdown--large {
-  min-width: 500px;
+  min-width: 700px;
 }
 
 .left-aligned {

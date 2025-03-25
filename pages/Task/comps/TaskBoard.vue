@@ -68,53 +68,50 @@
     <!-- 카드 모달 EEE -->
   </div>
 </template>
-
 <script setup>
+import { ref } from "vue";
 import TaskBoardHeader from "./TaskBoardHeader.vue";
 import CategoryColumn from "./CategoryColumn.vue";
 import CategoryCard from "./CategoryCard.vue";
 import UiModal from "@/components/UI/UiModal.vue";
 
-// 카테고리 카드
+// 카테고리 목록 데이터 - 각 카테고리에는 ID, 제목, 카드 배열이 포함됨
 const categories = ref([
   {
     id: 1,
-    title: "카테고리 엄청 길어지면~~~~~카테고리 엄청 길어지면~~~~~",
+    title: "카테고리 1",
     cards: [
       {
         id: 1,
-        title:
-          "업무명이 들어가는공간입니다. 길어지면???업무명이 들어가는공간입니다. 길어지면???",
-        tags: ["태그1", "태그2"],
-        date: "2023-01-01 ~ 2023-01-02",
-        comments: 0,
-        attachments: 0,
+        title: "카드 1",
+        tags: ["디자인", "프론트엔드", "UX"],
+        date: "2023-05-10 ~ 2023-06-15",
+        comments: 5,
+        attachments: 3,
       },
-    ],
-  },
-  {
-    id: 2,
-    title: "카테고리 2",
-    cards: [],
-  },
-  {
-    id: 3,
-    title: "카테고리 3",
-    cards: [],
-  },
+      {
+        id: 2,
+        title: "카드 2",
+        tags: ["백엔드", "API"],
+        date: "2023-05-20 ~ 2023-06-15",
+        comments: 12,
+        attachments: 2,
+      }
+    ]
+  }
 ]);
 
-// 카드 모달
+// 카드 모달 상태 관리 - 카드 추가/편집을 위한 모달 표시 여부
 const isCardModalOpen = ref(false);
 
-// 카드 모달 열기
+// 카드 모달 열기 함수 - 카드 추가 또는 편집 시 모달을 표시
 function openCardModal() {
   isCardModalOpen.value = true;
 }
 
-// 새 카테고리 추가 함수
+// 새 카테고리 추가 함수 - 카테고리 목록에 새 카테고리를 추가
 function addNewCategory() {
-  // 새 카테고리 추가 로직
+  // 새 카테고리 객체 생성 및 추가
   console.log("새 카테고리 추가");
   categories.value.push({
     id: categories.value.length + 1,

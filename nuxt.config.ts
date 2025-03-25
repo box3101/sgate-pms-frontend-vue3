@@ -33,6 +33,13 @@ export default defineNuxtConfig({
   app: {
     baseURL: "/ispark-sgate/", // GitHub 저장소 이름으로 변경하세요
     buildAssetsDir: "/assets/", // GitHub Pages에 최적화된 에셋 경로
+    head: {
+      viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
+      meta: [
+        { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' },
+        { name: 'format-detection', content: 'telephone=no' }
+      ]
+    }
   },
   nitro: {
     preset: "github-pages",

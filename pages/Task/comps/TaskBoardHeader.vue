@@ -5,9 +5,13 @@
         <div class="flex gap-5">
           <UiSearchableSelect placeholder="업무 보드명입니다" class="w-200" />
           <div>
-            <UiButton variant="tertiary" icon="heroicons:plus" @click="openBoardAddModal">
+            <UiButton
+              variant="tertiary"
+              icon="heroicons:plus"
+              @click="openBoardAddModal"
+            >
               보드 추가</UiButton
-            > 
+            >
             <UiFilterModal
               v-model="isBoardAddModalOpen"
               title="보드 추가"
@@ -20,8 +24,12 @@
               </UiFormLayout>
 
               <template #footerActions>
-                <UiButton variant="tertiary" @click="isBoardModalOpen = false">취소</UiButton>
-                <UiButton variant="primary" @click="isBoardModalOpen = false">저장</UiButton>
+                <UiButton variant="tertiary" @click="isBoardModalOpen = false"
+                  >취소</UiButton
+                >
+                <UiButton variant="primary" @click="isBoardModalOpen = false"
+                  >저장</UiButton
+                >
               </template>
             </UiFilterModal>
           </div>
@@ -44,12 +52,22 @@
               </UiFormLayout>
 
               <template #footerActions>
-                <UiButton variant="tertiary" @click="isBoardEditModalOpen = false">취소</UiButton>
-                <UiButton variant="primary" @click="isBoardEditModalOpen = false">저장</UiButton>
+                <UiButton
+                  variant="tertiary"
+                  @click="isBoardEditModalOpen = false"
+                  >취소</UiButton
+                >
+                <UiButton
+                  variant="primary"
+                  @click="isBoardEditModalOpen = false"
+                  >저장</UiButton
+                >
               </template>
             </UiFilterModal>
           </div>
-          <UiButton variant="danger" @click="$emit('add-category')"> 카테고리 추가 </UiButton>
+          <UiButton variant="danger" @click="$emit('add-category')">
+            카테고리 추가
+          </UiButton>
         </div>
         <div class="flex gap-5">
           <div>
@@ -78,8 +96,12 @@
               </UiFormLayout>
 
               <template #footerActions>
-                <UiButton variant="tertiary" @click="isFilterModalOpen = false">취소</UiButton>
-                <UiButton variant="primary" @click="isFilterModalOpen = false">적용</UiButton>
+                <UiButton variant="tertiary" @click="isFilterModalOpen = false"
+                  >취소</UiButton
+                >
+                <UiButton variant="primary" @click="isFilterModalOpen = false"
+                  >적용</UiButton
+                >
               </template>
             </UiFilterModal>
           </div>
@@ -87,7 +109,25 @@
         </div>
       </article>
       <article class="right-section">
-        <UiButton variant="tertiary" icon="heroicons:plus">협업</UiButton>
+        <div>
+          <UiButton variant="tertiary" icon="heroicons:plus" @click="openCollaborationModal">협업</UiButton>
+          <UiFilterModal
+            v-model="isCollaborationModalOpen"
+            title="협업"
+            size="large"
+            position="right"
+            :showFooter="true"
+          >
+            <template #footerActions>
+              <div class="flex gap-4 w-full justify-end">
+                <UiSelect class="w-300" placeholder="선택하세요" />
+                <UiButton variant="tertiary" @click="isCollaborationModalOpen = false">카테고리 일괄 선택</UiButton>
+                <UiButton variant="primary" @click="isCollaborationModalOpen = false">이동</UiButton>
+              </div>
+            </template>
+          </UiFilterModal>
+        </div>
+
         <UiButton variant="tertiary" icon="heroicons:plus">공유</UiButton>
         <UiButton variant="tertiary" icon="heroicons:plus">전달</UiButton>
       </article>
@@ -125,12 +165,18 @@ const isBoardEditModalOpen = ref(false);
 function openBoardAddModal() {
   isBoardAddModalOpen.value = !isBoardAddModalOpen.value;
 }
-
 // 보드 편집 모달 열기 - 토글 방식으로 보드 편집 모달의 열림/닫힘 상태를 변경하는 함수
 function openBoardEditModal() {
   isBoardEditModalOpen.value = !isBoardEditModalOpen.value;
 }
 
+// 협업 모달 상태 관리 - 협업을 위한 모달의 열림/닫힘 상태를 관리하는 변수
+const isCollaborationModalOpen = ref(false);
+
+// 협업 모달 열기 - 토글 방식으로 협업 모달의 열림/닫힘 상태를 변경하는 함수
+function openCollaborationModal() {
+  isCollaborationModalOpen.value = !isCollaborationModalOpen.value;
+}
 </script>
 
 <style scoped>
