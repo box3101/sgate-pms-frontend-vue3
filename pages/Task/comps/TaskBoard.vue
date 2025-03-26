@@ -111,8 +111,80 @@
         </div>
         
         <div class="card-detail-content">
-          <!-- 여기에 카드 상세 내용 추가 -->
-          <p>카드 상세 내용이 표시됩니다.</p>
+        
+          
+          <div class="card-comments-section">
+            <h3 class="content-section-title">활동내역</h3>
+            
+            <!-- 댓글 입력 영역 -->
+            <div class="comment-input-container">
+              <UiTextarea 
+                
+                placeholder="내용을 입력해주세요." 
+                v-model="newComment"
+                rows="3"
+                @input="autoResizeTextarea"
+                ref="commentTextarea"
+              ></UiTextarea>
+              <div class="comment-actions">
+                <button class="comment-submit-btn" @click="addComment">등록</button>
+              </div>
+            </div>
+            
+            <!-- 댓글 목록 -->
+            <div class="comments-list">
+              <div v-for="(comment, index) in selectedCard.commentsList" :key="index" class="comment-item">
+                <div class="comment-header">
+                  <div class="comment-author">
+                    <img src="https://via.placeholder.com/32" alt="User Avatar" class="comment-avatar">
+                    <span class="comment-author-name">{{ comment.author }}</span>
+                  </div>
+                  <span class="comment-date">{{ comment.date }}</span>
+                </div>
+                <div class="comment-body">
+                  {{ comment.text }}
+                </div>
+                <div class="comment-actions-row">
+                  <button class="reply-btn" @click="toggleReplyForm(comment.id)">
+                    <Icon name="mdi:reply" size="14" />
+                    답글
+                  </button>
+                </div>
+                
+                <!-- 대댓글 입력 폼 -->
+                <div v-if="activeReplyId === comment.id" class="reply-form">
+                  <UiTextarea 
+                    class="reply-textarea" 
+                    placeholder="답글을 입력해주세요..." 
+                    v-model="replyText"
+                    rows="2"
+                    @input="autoResizeReplyTextarea"
+                    ref="replyTextarea"
+                  ></UiTextarea>
+                  <div class="reply-form-actions">
+                    <button class="cancel-btn" @click="cancelReply">취소</button>
+                    <button class="submit-btn" @click="addReply(comment.id)">등록</button>
+                  </div>
+                </div>
+                
+                <!-- 대댓글 목록 -->
+                <div v-if="comment.replies && comment.replies.length > 0" class="replies-list">
+                  <div v-for="(reply, replyIndex) in comment.replies" :key="replyIndex" class="reply-item">
+                    <div class="reply-header">
+                      <div class="reply-author">
+                        <img src="https://via.placeholder.com/24" alt="User Avatar" class="reply-avatar">
+                        <span class="reply-author-name">{{ reply.author }}</span>
+                      </div>
+                      <span class="reply-date">{{ reply.date }}</span>
+                    </div>
+                    <div class="reply-body">
+                      {{ reply.text }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </UiModal>
@@ -169,8 +241,80 @@
           </div>
           
           <div class="card-detail-content">
-            <!-- 여기에 카드 상세 내용 추가 -->
-            <p>카드 상세 내용이 표시됩니다.</p>
+          
+            
+            <div class="card-comments-section">
+              <h3 class="content-section-title">활동내역</h3>
+              
+              <!-- 댓글 입력 영역 -->
+              <div class="comment-input-container">
+                <UiTextarea 
+                  class="comment-textarea" 
+                  placeholder="내용을 입력해주세요." 
+                  v-model="detachedCardComments[detachedCardItem.id]"
+                  rows="3"
+                  @input="(e) => autoResizeTextarea(e, detachedCardItem.id)"
+                  :ref="el => { if (el) detachedTextareaRefs[detachedCardItem.id] = el }"
+                ></UiTextarea>
+                <div class="comment-actions">
+                  <button class="comment-submit-btn" @click="addCommentToDetached(detachedCardItem.id)">등록</button>
+                </div>
+              </div>
+              
+              <!-- 댓글 목록 -->
+              <div class="comments-list">
+                <div v-for="(comment, index) in detachedCardItem.card.commentsList" :key="index" class="comment-item">
+                  <div class="comment-header">
+                    <div class="comment-author">
+                      <img src="https://via.placeholder.com/32" alt="User Avatar" class="comment-avatar">
+                      <span class="comment-author-name">{{ comment.author }}</span>
+                    </div>
+                    <span class="comment-date">{{ comment.date }}</span>
+                  </div>
+                  <div class="comment-body">
+                    {{ comment.text }}
+                  </div>
+                  <div class="comment-actions-row">
+                    <button class="reply-btn" @click="toggleDetachedReplyForm(detachedCardItem.id, comment.id)">
+                      <Icon name="mdi:reply" size="14" />
+                      답글
+                    </button>
+                  </div>
+                  
+                  <!-- 대댓글 입력 폼 -->
+                  <div v-if="detachedActiveReplyIds[detachedCardItem.id] === comment.id" class="reply-form">
+                    <UiTextarea 
+                      class="reply-textarea" 
+                      placeholder="답글을 입력해주세요..." 
+                      v-model="detachedReplyTexts[detachedCardItem.id]"
+                      rows="2"
+                      @input="(e) => autoResizeDetachedReplyTextarea(e, detachedCardItem.id)"
+                      :ref="el => { if (el) detachedReplyTextareaRefs[`${detachedCardItem.id}-${comment.id}`] = el }"
+                    ></UiTextarea>
+                    <div class="reply-form-actions">
+                      <button class="cancel-btn" @click="cancelDetachedReply(detachedCardItem.id)">취소</button>
+                      <button class="submit-btn" @click="addDetachedReply(detachedCardItem.id, comment.id)">등록</button>
+                    </div>
+                  </div>
+                  
+                  <!-- 대댓글 목록 -->
+                  <div v-if="comment.replies && comment.replies.length > 0" class="replies-list">
+                    <div v-for="(reply, replyIndex) in comment.replies" :key="replyIndex" class="reply-item">
+                      <div class="reply-header">
+                        <div class="reply-author">
+                          <img src="https://via.placeholder.com/24" alt="User Avatar" class="reply-avatar">
+                          <span class="reply-author-name">{{ reply.author }}</span>
+                        </div>
+                        <span class="reply-date">{{ reply.date }}</span>
+                      </div>
+                      <div class="reply-body">
+                        {{ reply.text }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -199,221 +343,186 @@ import UiTag from "@/components/UI/UiTag.vue";
 const categories = ref([
   {
     id: 1,
-    title: "기획",
+    title: "할 일",
     cards: [
       {
         id: 1,
-        title: "디자인 리뉴얼 프로젝트",
-        tags: ["디자인", "프론트엔드", "UX"],
-        date: "2023-05-10 ~ 2023-06-15",
-        comments: 5,
-        attachments: 3,
+        title: "디자인 시스템 구축",
+        tags: ["디자인", "UI/UX"],
+        date: "2023-09-15",
+        comments: 3,
+        attachments: 2,
+        commentsList: [
+          {
+            id: "comment-1",
+            author: "김윤기",
+            date: "2023-09-10 14:30",
+            text: "디자인 시스템 초안 완료했습니다. 리뷰 부탁드립니다.",
+            replies: []
+          },
+          {
+            id: "comment-2",
+            author: "이지은",
+            date: "2023-09-11 09:15",
+            text: "컬러 팔레트 부분 조금 수정이 필요할 것 같습니다. 미팅에서 논의해요.",
+            replies: [
+              {
+                id: "reply-1",
+                author: "김윤기",
+                date: "2023-09-11 10:30",
+                text: "네, 미팅에서 논의하겠습니다. 추가 의견 있으시면 미리 공유해주세요."
+              }
+            ]
+          }
+        ]
       },
       {
         id: 2,
-        title: "API 개발 및 연동",
-        tags: ["백엔드", "API"],
-        date: "2023-05-20 ~ 2023-06-15",
-        comments: 12,
-        attachments: 2,
+        title: "사용자 피드백 수집",
+        tags: ["리서치", "사용자경험"],
+        date: "2023-09-20",
+        comments: 1,
+        attachments: 0,
+        commentsList: [
+          {
+            id: "comment-4",
+            author: "최수진",
+            date: "2023-09-18 11:20",
+            text: "설문조사 양식 초안 작성했습니다. 검토 부탁드려요.",
+            replies: []
+          }
+        ]
       },
       {
-        id: 3,
-        title: "프로토타입 개발",
-        tags: ["개발", "테스트"],
-        date: "2023-04-15 ~ 2023-05-10",
-        comments: 3,
+        id: 5,
+        title: "프로토타입 제작",
+        tags: ["디자인", "프로토타입"],
+        date: "2023-09-30",
+        comments: 0,
         attachments: 1,
+        commentsList: []
       },
       {
-        id: 11,
-        title: "사용자 요구사항 정의",
-        tags: ["기획", "분석"],
-        date: "2023-04-01 ~ 2023-04-20",
-        comments: 8,
-        attachments: 5,
+        id: 6,
+        title: "사용성 테스트 계획",
+        tags: ["테스트", "QA"],
+        date: "2023-10-05",
+        comments: 0,
+        attachments: 0,
+        commentsList: []
       },
       {
-        id: 12,
-        title: "경쟁사 분석 리포트",
+        id: 7,
+        title: "경쟁사 분석 보고서",
         tags: ["리서치", "분석"],
-        date: "2023-03-15 ~ 2023-04-05",
-        comments: 4,
-        attachments: 7,
+        date: "2023-10-10",
+        comments: 0,
+        attachments: 0,
+        commentsList: []
       }
     ]
   },
   {
     id: 2,
-    title: "디자인",
+    title: "진행 중",
     cards: [
       {
-        id: 4,
-        title: "사용자 피드백 수집 및 분석",
-        tags: ["리서치", "UX"],
-        date: "2023-06-01 ~ 2023-06-30",
-        comments: 8,
-        attachments: 5,
-      },
-      {
-        id: 5,
-        title: "UI 컴포넌트 개발",
-        tags: ["프론트엔드", "디자인"],
-        date: "2023-05-15 ~ 2023-06-10",
-        comments: 6,
+        id: 3,
+        title: "랜딩 페이지 개발",
+        tags: ["프론트엔드", "개발"],
+        date: "2023-09-25",
+        comments: 2,
         attachments: 3,
+        commentsList: [
+          {
+            id: "comment-5",
+            author: "김개발",
+            date: "2023-09-22 10:30",
+            text: "헤더 부분 반응형 이슈가 있습니다. 수정 중입니다.",
+            replies: []
+          },
+          {
+            id: "comment-6",
+            author: "이디자인",
+            date: "2023-09-23 15:45",
+            text: "모바일 뷰에서 버튼 크기 조정이 필요합니다.",
+            replies: []
+          }
+        ]
       },
       {
-        id: 13,
-        title: "디자인 시스템 구축",
-        tags: ["디자인", "시스템"],
-        date: "2023-05-05 ~ 2023-06-15",
-        comments: 9,
-        attachments: 6,
+        id: 8,
+        title: "API 연동 작업",
+        tags: ["백엔드", "API"],
+        date: "2023-10-15",
+        comments: 1,
+        attachments: 0,
+        commentsList: [
+          {
+            id: "comment-7",
+            author: "박서버",
+            date: "2023-10-12 09:30",
+            text: "인증 API 문서 업데이트했습니다. 참고해주세요.",
+            replies: []
+          }
+        ]
       },
       {
-        id: 14,
-        title: "프로토타입 사용성 테스트",
-        tags: ["UX", "테스트"],
-        date: "2023-06-10 ~ 2023-06-25",
-        comments: 7,
-        attachments: 2,
+        id: 9,
+        title: "데이터 시각화 구현",
+        tags: ["데이터", "차트"],
+        date: "2023-10-20",
+        comments: 0,
+        attachments: 1,
+        commentsList: []
       }
     ]
   },
   {
     id: 3,
-    title: "개발",
-    cards: [
-      {
-        id: 6,
-        title: "요구사항 분석",
-        tags: ["기획", "분석"],
-        date: "2023-03-20 ~ 2023-04-10",
-        comments: 4,
-        attachments: 2,
-      },
-      {
-        id: 7,
-        title: "기획서 작성",
-        tags: ["기획", "문서"],
-        date: "2023-04-01 ~ 2023-04-15",
-        comments: 7,
-        attachments: 4,
-      },
-      {
-        id: 15,
-        title: "백엔드 아키텍처 설계",
-        tags: ["백엔드", "설계"],
-        date: "2023-04-20 ~ 2023-05-10",
-        comments: 10,
-        attachments: 5,
-      },
-      {
-        id: 16,
-        title: "데이터베이스 모델링",
-        tags: ["데이터", "설계"],
-        date: "2023-04-15 ~ 2023-05-05",
-        comments: 6,
-        attachments: 3,
-      },
-      {
-        id: 17,
-        title: "API 엔드포인트 구현",
-        tags: ["백엔드", "API"],
-        date: "2023-05-10 ~ 2023-06-10",
-        comments: 8,
-        attachments: 4,
-      }
-    ]
-  },
-  {
-    id: 4,
-    title: "테스트",
-    cards: [
-      {
-        id: 8,
-        title: "성능 최적화",
-        tags: ["개발", "최적화"],
-        date: "2023-06-10 ~ 2023-06-25",
-        comments: 2,
-        attachments: 1,
-      },
-      {
-        id: 18,
-        title: "단위 테스트 작성",
-        tags: ["테스트", "개발"],
-        date: "2023-06-05 ~ 2023-06-20",
-        comments: 5,
-        attachments: 2,
-      },
-      {
-        id: 19,
-        title: "통합 테스트 수행",
-        tags: ["테스트", "QA"],
-        date: "2023-06-15 ~ 2023-06-30",
-        comments: 7,
-        attachments: 3,
-      }
-    ]
-  },
-  {
-    id: 5,
-    title: "배포",
-    cards: [
-      {
-        id: 9,
-        title: "서버 환경 구성",
-        tags: ["인프라", "배포"],
-        date: "2023-06-20 ~ 2023-07-05",
-        comments: 3,
-        attachments: 2,
-      },
-      {
-        id: 20,
-        title: "CI/CD 파이프라인 구축",
-        tags: ["인프라", "자동화"],
-        date: "2023-06-15 ~ 2023-07-10",
-        comments: 6,
-        attachments: 4,
-      },
-      {
-        id: 21,
-        title: "모니터링 시스템 구축",
-        tags: ["인프라", "모니터링"],
-        date: "2023-06-25 ~ 2023-07-15",
-        comments: 4,
-        attachments: 3,
-      }
-    ]
-  },
-  {
-    id: 6,
     title: "완료",
     cards: [
       {
+        id: 4,
+        title: "로그인 기능 구현",
+        tags: ["백엔드", "보안"],
+        date: "2023-09-10",
+        comments: 0,
+        attachments: 1,
+        commentsList: []
+      },
+      {
         id: 10,
-        title: "프로젝트 회고",
-        tags: ["회고", "문서화"],
-        date: "2023-07-10 ~ 2023-07-15",
-        comments: 5,
-        attachments: 3,
+        title: "회원가입 페이지 개발",
+        tags: ["프론트엔드", "UI"],
+        date: "2023-09-05",
+        comments: 0,
+        attachments: 0,
+        commentsList: []
       },
       {
-        id: 22,
-        title: "사용자 매뉴얼 작성",
-        tags: ["문서화", "지원"],
-        date: "2023-07-05 ~ 2023-07-20",
-        comments: 3,
-        attachments: 8,
-      },
-      {
-        id: 23,
-        title: "성과 측정 및 보고서 작성",
-        tags: ["분석", "문서화"],
-        date: "2023-07-15 ~ 2023-07-25",
-        comments: 7,
-        attachments: 5,
+        id: 11,
+        title: "DB 스키마 설계",
+        tags: ["데이터베이스", "설계"],
+        date: "2023-08-28",
+        comments: 2,
+        attachments: 1,
+        commentsList: [
+          {
+            id: "comment-8",
+            author: "김데이터",
+            date: "2023-08-25 11:20",
+            text: "인덱스 최적화 작업 완료했습니다.",
+            replies: []
+          },
+          {
+            id: "comment-9",
+            author: "이백엔드",
+            date: "2023-08-26 14:30",
+            text: "쿼리 성능 테스트 결과 첨부합니다.",
+            replies: []
+          }
+        ]
       }
     ]
   }
@@ -423,6 +532,20 @@ const categories = ref([
 const isCardModalOpen = ref(false);
 const isCardDetailOpen = ref(false);
 const selectedCard = ref(null);
+
+// 댓글 관련 상태
+const newComment = ref('');
+const commentTextarea = ref(null);
+const detachedTextareaRefs = reactive({});
+const detachedCardComments = reactive({});
+
+// 대댓글 관련 상태
+const activeReplyId = ref(null);
+const replyText = ref('');
+const replyTextarea = ref(null);
+const detachedActiveReplyIds = reactive({});
+const detachedReplyTexts = reactive({});
+const detachedReplyTextareaRefs = reactive({});
 
 // 분리된 모달 상태 관리 (여러 개)
 const detachedCards = ref([]);
@@ -791,6 +914,247 @@ function addNewCategory() {
     cards: [],
   });
 }
+
+// 댓글 추가 함수
+function addComment() {
+  if (!newComment.value.trim() || !selectedCard.value) return;
+  
+  // 댓글 목록이 없으면 초기화
+  if (!selectedCard.value.commentsList) {
+    selectedCard.value.commentsList = [];
+  }
+  
+  // 새 댓글 객체 생성
+  const comment = {
+    id: `comment-${Date.now()}`,
+    author: "김윤기", // 실제로는 로그인한 사용자 정보를 사용
+    date: new Date().toLocaleString(),
+    text: newComment.value.trim(),
+    replies: []
+  };
+  
+  // 댓글 목록에 추가
+  selectedCard.value.commentsList.push(comment);
+  
+  // 댓글 수 업데이트
+  selectedCard.value.comments = selectedCard.value.commentsList.length;
+  
+  // 입력 필드 초기화
+  newComment.value = '';
+  
+  // 원본 카드 데이터도 업데이트
+  updateCardInCategories(selectedCard.value);
+}
+
+// 분리된 모달에 댓글 추가
+function addCommentToDetached(cardId) {
+  const commentText = detachedCardComments[cardId];
+  if (!commentText || !commentText.trim()) return;
+  
+  const cardIndex = detachedCards.value.findIndex(item => item.id === cardId);
+  if (cardIndex === -1) return;
+  
+  const card = detachedCards.value[cardIndex].card;
+  
+  // 댓글 목록이 없으면 초기화
+  if (!card.commentsList) {
+    card.commentsList = [];
+  }
+  
+  // 새 댓글 객체 생성
+  const comment = {
+    id: `comment-${Date.now()}`,
+    author: "김윤기", // 실제로는 로그인한 사용자 정보를 사용
+    date: new Date().toLocaleString(),
+    text: commentText.trim(),
+    replies: []
+  };
+  
+  // 댓글 목록에 추가
+  card.commentsList.push(comment);
+  
+  // 댓글 수 업데이트
+  card.comments = card.commentsList.length;
+  
+  // 입력 필드 초기화
+  detachedCardComments[cardId] = '';
+  
+  // 원본 카드 데이터도 업데이트
+  updateCardInCategories(card);
+}
+
+// 대댓글 폼 토글
+function toggleReplyForm(commentId) {
+  if (activeReplyId.value === commentId) {
+    activeReplyId.value = null;
+    replyText.value = '';
+  } else {
+    activeReplyId.value = commentId;
+    replyText.value = '';
+    // 다음 틱에 텍스트 영역에 포커스
+    nextTick(() => {
+      if (replyTextarea.value) {
+        replyTextarea.value.focus();
+      }
+    });
+  }
+}
+
+// 분리된 모달의 대댓글 폼 토글
+function toggleDetachedReplyForm(cardId, commentId) {
+  if (detachedActiveReplyIds[cardId] === commentId) {
+    detachedActiveReplyIds[cardId] = null;
+    detachedReplyTexts[cardId] = '';
+  } else {
+    detachedActiveReplyIds[cardId] = commentId;
+    detachedReplyTexts[cardId] = '';
+    // 다음 틱에 텍스트 영역에 포커스
+    nextTick(() => {
+      const textareaRef = detachedReplyTextareaRefs[`${cardId}-${commentId}`];
+      if (textareaRef) {
+        textareaRef.focus();
+      }
+    });
+  }
+}
+
+// 대댓글 취소
+function cancelReply() {
+  activeReplyId.value = null;
+  replyText.value = '';
+}
+
+// 분리된 모달의 대댓글 취소
+function cancelDetachedReply(cardId) {
+  detachedActiveReplyIds[cardId] = null;
+  detachedReplyTexts[cardId] = '';
+}
+
+// 대댓글 추가
+function addReply(commentId) {
+  if (!replyText.value.trim() || !selectedCard.value) return;
+  
+  // 해당 댓글 찾기
+  const commentIndex = selectedCard.value.commentsList.findIndex(comment => comment.id === commentId);
+  if (commentIndex === -1) return;
+  
+  // 대댓글 객체 생성
+  const reply = {
+    id: `reply-${Date.now()}`,
+    author: "김윤기", // 실제로는 로그인한 사용자 정보를 사용
+    date: new Date().toLocaleString(),
+    text: replyText.value.trim()
+  };
+  
+  // 대댓글이 없으면 초기화
+  if (!selectedCard.value.commentsList[commentIndex].replies) {
+    selectedCard.value.commentsList[commentIndex].replies = [];
+  }
+  
+  // 대댓글 추가
+  selectedCard.value.commentsList[commentIndex].replies.push(reply);
+  
+  // 입력 폼 초기화
+  activeReplyId.value = null;
+  replyText.value = '';
+  
+  // 원본 카드 데이터도 업데이트
+  updateCardInCategories(selectedCard.value);
+}
+
+// 분리된 모달에 대댓글 추가
+function addDetachedReply(cardId, commentId) {
+  const replyText = detachedReplyTexts[cardId];
+  if (!replyText || !replyText.trim()) return;
+  
+  const cardIndex = detachedCards.value.findIndex(item => item.id === cardId);
+  if (cardIndex === -1) return;
+  
+  const card = detachedCards.value[cardIndex].card;
+  
+  // 해당 댓글 찾기
+  const commentIndex = card.commentsList.findIndex(comment => comment.id === commentId);
+  if (commentIndex === -1) return;
+  
+  // 대댓글 객체 생성
+  const reply = {
+    id: `reply-${Date.now()}`,
+    author: "김윤기", // 실제로는 로그인한 사용자 정보를 사용
+    date: new Date().toLocaleString(),
+    text: replyText.trim()
+  };
+  
+  // 대댓글이 없으면 초기화
+  if (!card.commentsList[commentIndex].replies) {
+    card.commentsList[commentIndex].replies = [];
+  }
+  
+  // 대댓글 추가
+  card.commentsList[commentIndex].replies.push(reply);
+  
+  // 입력 폼 초기화
+  detachedActiveReplyIds[cardId] = null;
+  detachedReplyTexts[cardId] = '';
+  
+  // 원본 카드 데이터도 업데이트
+  updateCardInCategories(card);
+}
+
+// 텍스트 영역 자동 크기 조절
+function autoResizeTextarea(event, detachedCardId) {
+  const textarea = detachedCardId 
+    ? detachedTextareaRefs[detachedCardId] 
+    : commentTextarea.value;
+  
+  if (!textarea) return;
+  
+  // 높이 초기화
+  textarea.style.height = 'auto';
+  
+  // 스크롤 높이로 설정 (최소 높이 유지)
+  const minHeight = 80; // 최소 높이 (px)
+  textarea.style.height = `${Math.max(textarea.scrollHeight, minHeight)}px`;
+}
+
+// 대댓글 텍스트 영역 자동 크기 조절
+function autoResizeReplyTextarea() {
+  if (!replyTextarea.value) return;
+  
+  // 높이 초기화
+  replyTextarea.value.style.height = 'auto';
+  
+  // 스크롤 높이로 설정 (최소 높이 유지)
+  const minHeight = 60; // 최소 높이 (px)
+  replyTextarea.value.style.height = `${Math.max(replyTextarea.value.scrollHeight, minHeight)}px`;
+}
+
+// 분리된 모달의 대댓글 텍스트 영역 자동 크기 조절
+function autoResizeDetachedReplyTextarea(event, cardId) {
+  const commentId = detachedActiveReplyIds[cardId];
+  if (!commentId) return;
+  
+  const textarea = detachedReplyTextareaRefs[`${cardId}-${commentId}`];
+  if (!textarea) return;
+  
+  // 높이 초기화
+  textarea.style.height = 'auto';
+  
+  // 스크롤 높이로 설정 (최소 높이 유지)
+  const minHeight = 60; // 최소 높이 (px)
+  textarea.style.height = `${Math.max(textarea.scrollHeight, minHeight)}px`;
+}
+
+// 카테고리 내 카드 데이터 업데이트
+function updateCardInCategories(updatedCard) {
+  categories.value.forEach(category => {
+    const cardIndex = category.cards.findIndex(card => card.id === updatedCard.id);
+    if (cardIndex !== -1) {
+      // 댓글 수와 댓글 목록 업데이트
+      category.cards[cardIndex].comments = updatedCard.comments;
+      category.cards[cardIndex].commentsList = [...updatedCard.commentsList];
+    }
+  });
+}
 </script>
 
 <style lang="scss" scoped>
@@ -928,6 +1292,116 @@ function addNewCategory() {
   }
 }
 
+.card-detail-content {
+  margin-top: 20px;
+}
+
+.content-section-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.card-description {
+  margin-bottom: 24px;
+}
+
+.card-comments-section {
+  margin-top: 24px;
+}
+
+.comment-input-container {
+  margin-bottom: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.comment-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 12px;
+  border: none;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  
+  &:focus {
+    outline: none;
+  }
+}
+
+.comment-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 12px;
+  background-color: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+}
+
+.comment-submit-btn {
+  padding: 6px 16px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: #2563eb;
+  }
+}
+
+.comments-list {
+  margin-top: 16px;
+}
+
+.comment-item {
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  background-color: #fff;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.comment-author {
+  display: flex;
+  align-items: center;
+}
+
+.comment-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.comment-author-name {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.comment-date {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.comment-body {
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
 .detach-modal-btn,
 .detached-modal-btn {
   display: flex;
@@ -1057,5 +1531,137 @@ function addNewCategory() {
     width: 6px;
     cursor: ew-resize;
   }
+}
+
+.comment-actions-row {
+  display: flex;
+  margin-top: 8px;
+}
+
+.reply-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  
+  &:hover {
+    background-color: #f3f4f6;
+    color: #3b82f6;
+  }
+}
+
+.reply-form {
+  margin-top: 8px;
+  margin-left: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.reply-textarea {
+  width: 100%;
+  min-height: 60px;
+  padding: 8px;
+  border: none;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  
+  &:focus {
+    outline: none;
+  }
+}
+
+.reply-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 6px 8px;
+  background-color: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+  gap: 8px;
+}
+
+.cancel-btn {
+  padding: 4px 12px;
+  background-color: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: #e5e7eb;
+  }
+}
+
+.submit-btn {
+  padding: 4px 12px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: #2563eb;
+  }
+}
+
+.replies-list {
+  margin-top: 8px;
+  margin-left: 24px;
+  border-left: 2px solid #e5e7eb;
+  padding-left: 12px;
+}
+
+.reply-item {
+  padding: 8px;
+  margin-bottom: 8px;
+  background-color: #f9fafb;
+  border-radius: 8px;
+}
+
+.reply-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.reply-author {
+  display: flex;
+  align-items: center;
+}
+
+.reply-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.reply-author-name {
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.reply-date {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.reply-body {
+  font-size: 13px;
+  line-height: 1.4;
+  white-space: pre-wrap;
 }
 </style>
