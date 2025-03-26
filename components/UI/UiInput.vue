@@ -9,7 +9,9 @@
         'ui-input--block': block,
         'ui-input--with-icon': icon,
         'ui-input--with-prefix': prefix,
-        'ui-input--with-suffix': suffix
+        'ui-input--with-suffix': suffix,
+        'ui-input--with-prefix-icon': prefixIcon,
+        'ui-input--with-suffix-icon': suffixIcon
       }
     ]"
   >
@@ -20,6 +22,7 @@
 
     <div class="ui-input__wrapper">
       <div v-if="prefix" class="ui-input__prefix">{{ prefix }}</div>
+      <Icon v-if="prefixIcon" :name="prefixIcon" class="ui-input__prefix-icon" />
       <Icon v-if="icon" :name="icon" class="ui-input__icon" />
 
       <input
@@ -37,12 +40,14 @@
         :name="name"
         :autocomplete="autocomplete"
         class="ui-input__field"
+        :class="{ 'ui-input__field--with-prefix-icon': prefixIcon }"
         @input="$emit('update:modelValue', $event.target.value)"
         @focus="$emit('focus', $event)"
         @blur="$emit('blur', $event)"
         @change="$emit('change', $event)"
       />
 
+      <Icon v-if="suffixIcon" :name="suffixIcon" class="ui-input__suffix-icon" />
       <div v-if="suffix" class="ui-input__suffix">{{ suffix }}</div>
       <Icon v-if="clearable && modelValue" name="x-circle" class="ui-input__clear" @click="$emit('update:modelValue', '')" />
     </div>
@@ -81,6 +86,14 @@ defineProps({
     validator: (value) => ['small', 'medium', 'large'].includes(value),
   },
   icon: {
+    type: String,
+    default: '',
+  },
+  prefixIcon: {
+    type: String,
+    default: '',
+  },
+  suffixIcon: {
     type: String,
     default: '',
   },
@@ -167,7 +180,8 @@ defineEmits(['update:modelValue', 'focus', 'blur', 'change']);
   &__label {
     font-size: $font-size-sm;
     font-weight: 500;
-    color: $text-color;
+    color: #777;
+    margin-bottom: 4px;
   }
 
   &__required {
@@ -190,6 +204,20 @@ defineEmits(['update:modelValue', 'focus', 'blur', 'change']);
     }
   }
 
+  &__prefix-icon {
+    margin-left: 12px;
+    color: #aaa;
+    font-size: $font-size-xl;
+    margin-right: 5px;
+  }
+
+  &__suffix-icon {
+    margin-right: 12px;
+    color: #aaa;
+    font-size: $font-size-xl;
+    margin-left: 5px;
+  }
+
   &__field {
     width: 100%;
     border: none;
@@ -197,11 +225,15 @@ defineEmits(['update:modelValue', 'focus', 'blur', 'change']);
     font-size: $font-size-sm;
     color: $text-color;
     outline: none;
-    padding: 0 $spacing-sm;
+    padding: 0 12px;
     height: 100%;
 
     &::placeholder {
       color: #333;
+    }
+
+    &--with-prefix-icon {
+      padding-left: 6px;
     }
   }
 
@@ -313,21 +345,13 @@ defineEmits(['update:modelValue', 'focus', 'blur', 'change']);
   }
 
   // Modifiers
-  &--with-icon {
+  &--with-icon,
+  &--with-prefix,
+  &--with-suffix,
+  &--with-prefix-icon,
+  &--with-suffix-icon {
     .ui-input__field {
       padding-left: 0;
-    }
-  }
-
-  &--with-prefix {
-    .ui-input__field {
-      padding-left: 0;
-    }
-  }
-
-  &--with-suffix {
-    .ui-input__field {
-      padding-right: 0;
     }
   }
 }
