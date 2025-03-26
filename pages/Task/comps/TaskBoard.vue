@@ -95,20 +95,7 @@
           </div>
         </div>
         
-        <div class="card-detail-info">
-          <div class="info-item">
-            <span class="info-label">기간</span>
-            <span class="info-value">{{ selectedCard.date }}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">댓글</span>
-            <span class="info-value">{{ selectedCard.comments || 0 }}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">첨부파일</span>
-            <span class="info-value">{{ selectedCard.attachments || 0 }}</span>
-          </div>
-        </div>
+       
         
         <div class="card-detail-content">
         
