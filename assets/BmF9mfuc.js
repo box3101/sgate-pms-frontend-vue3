@@ -1,0 +1,1 @@
+import{i as l,c as n,a as t,o as a}from"./BnFVUzZU.js";const u={__name:"cnt02",setup(s){const o=l("logoText");return o.value="대시보드",(r,e)=>(a(),n("div",null,e[0]||(e[0]=[t("h1",null,"PMS 내용입니다",-1),t("p",null,"이곳은 CNT2 페이지입니다",-1)])))}};export{u as default};
