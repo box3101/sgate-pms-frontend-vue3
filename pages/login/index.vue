@@ -1,6 +1,6 @@
 <template>
   <div class="login-page">
-    <div class="login-container">
+    <div class="login-container" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
       <!-- Logo Section -->
       <div class="login-logo">
         <h1>
@@ -84,11 +84,21 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 // Layout setting - don't use default layout
 definePageMeta({
   layout: false
+});
+
+// Initialize AOS
+onMounted(() => {
+  AOS.init({
+    once: true, // 애니메이션이 한 번만 실행되도록 설정
+    duration: 800, // 기본 지속 시간
+  });
 });
 
 // Sample notices
@@ -297,4 +307,4 @@ window.addEventListener('load', () => {
     padding: 16px 20px;
   }
 }
- </style>
+</style>
