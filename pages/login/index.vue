@@ -257,6 +257,10 @@ const showNoticeModal = ref(false);
 const toggleModal = () => {
   showModal.value = !showModal.value;
 };
+
+const handleLogin = () => {
+  navigateTo('/task');
+};
 </script>
 <style scoped lang="scss">
 .login-page {

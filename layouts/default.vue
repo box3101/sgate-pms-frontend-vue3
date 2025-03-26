@@ -50,8 +50,7 @@ onMounted(() => {
 
 .main-content {
   margin-left: 78px; /* 사이드바 기본 너비 */
-  margin-right: 20px;
-  padding-right: 32px;
+  padding-right: 16px;
   margin-top: 95px; /* 헤더 높이 */
   box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
   max-width: calc(100% - 60px); /* 사이드바 너비를 고려한 최대 너비 */

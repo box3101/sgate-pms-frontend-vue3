@@ -188,4 +188,8 @@ function addNewCategory() {
   background-color: #e8f0fe;
   margin-bottom: 8px;
 }
+.board-content {
+  padding-right: 16px;
+  margin-right: 16px;
+}
 </style>

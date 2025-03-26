@@ -3,9 +3,8 @@
     <div class="header-container">
       <!-- 로고 부분 -->
       <div class="logo">
-        <NuxtLink to="/">
-          <Icon name="mdi:information-outline" class="logo-icon" />
-          <span class="logo-text">{{ logoText }}</span>
+        <NuxtLink to="/login">
+          <img src="@/assets/images/sgate_bot_icon.png" class="w-50" alt="SGate Logo" />
         </NuxtLink>
       </div>
 
@@ -28,7 +27,7 @@
       <div class="icon-menu">
         <div>
           <button class="icon-button" @click="openFilter">
-            <Icon name="heroicons:user" size="24" />
+            <Icon name="heroicons:user-circle" size="30" />
           </button>
           <UiFilterModal
             v-model="isFilterModalOpen"
@@ -158,7 +157,7 @@
         </UiModal>
 
         <button class="icon-button" @click="isFullMenuModalOpen = true">
-          <Icon name="mdi:cog-outline" size="24" />
+          <Icon name="mdi:emoticon" size="24" />
         </button>
 
         <UiModal v-model="isFullMenuModalOpen" :size="'full'">
@@ -278,16 +277,15 @@ const isActive = (path) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 9px;
   height: 100%;
-  padding: 0 16px;
-  max-width: 97%;
   margin: 0 auto;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  min-width: 120px; /* 로고 영역 최소 너비 */
+  margin-right: 5px;
 }
 
 .logo a {
@@ -328,7 +326,7 @@ const isActive = (path) => {
   color: #aaa;
   text-decoration: none;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 500;
   position: relative;
   transition: color 0.2s;
 }
@@ -338,8 +336,8 @@ const isActive = (path) => {
 }
 
 .tab.active {
-  color: #1a73e8;
-  font-weight: 500;
+  color: $primary-color;
+  font-weight: 800;
 }
 
 .tab.active::after {
@@ -348,8 +346,8 @@ const isActive = (path) => {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 2px;
-  background-color: #1a73e8;
+  height: 3px;
+  background-color: $primary-color;
 }
 
 .icon-menu {
@@ -371,9 +369,8 @@ const isActive = (path) => {
   justify-content: center;
   border-radius: 50%;
 }
-
 .icon-button:hover {
-  background-color: #f5f5f5;
+  background-color: #e8e8e8;
 }
 
 /* 반응형 디자인 */
