@@ -83,7 +83,7 @@ const categories = ref([
     cards: [
       {
         id: 1,
-        title: "카드 1",
+        title: "디자인 리뉴얼 프로젝트",
         tags: ["디자인", "프론트엔드", "UX"],
         date: "2023-05-10 ~ 2023-06-15",
         comments: 5,
@@ -91,11 +91,79 @@ const categories = ref([
       },
       {
         id: 2,
-        title: "카드 2",
+        title: "API 개발 및 연동",
         tags: ["백엔드", "API"],
         date: "2023-05-20 ~ 2023-06-15",
         comments: 12,
         attachments: 2,
+      },
+      {
+        id: 3,
+        title: "프로토타입 개발",
+        tags: ["개발", "테스트"],
+        date: "2023-04-15 ~ 2023-05-10",
+        comments: 3,
+        attachments: 1,
+      },
+      {
+        id: 4,
+        title: "기획서 작성",
+        tags: ["기획", "문서"],
+        date: "2023-04-01 ~ 2023-04-15",
+        comments: 7,
+        attachments: 4,
+      },
+      {
+        id: 5,
+        title: "기획서 작성",
+        tags: ["기획", "문서"],
+        date: "2023-04-01 ~ 2023-04-15",
+        comments: 7,
+        attachments: 4,
+      },
+      {
+        id: 6,
+        title: "기획서 작성",
+        tags: ["기획", "문서"],
+        date: "2023-04-01 ~ 2023-04-15",
+        comments: 7,
+        attachments: 4,
+      },
+    ]
+  },
+  {
+    id: 2,
+    title: "진행 중",
+    cards: [
+      {
+        id: 3,
+        title: "사용자 피드백 수집 및 분석",
+        tags: ["리서치", "UX"],
+        date: "2023-06-01 ~ 2023-06-30",
+        comments: 8,
+        attachments: 5,
+      }
+    ]
+  },
+  {
+    id: 3,
+    title: "완료",
+    cards: [
+      {
+        id: 4,
+        title: "프로토타입 개발",
+        tags: ["개발", "테스트"],
+        date: "2023-04-15 ~ 2023-05-10",
+        comments: 3,
+        attachments: 1,
+      },
+      {
+        id: 5,
+        title: "기획서 작성",
+        tags: ["기획", "문서"],
+        date: "2023-04-01 ~ 2023-04-15",
+        comments: 7,
+        attachments: 4,
       }
     ]
   }
@@ -122,6 +190,21 @@ function addNewCategory() {
 </script>
 
 <style lang="scss" scoped>
+.categories-container {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  min-height: calc(100vh - 167px);
+  overflow-x: auto;
+  padding-bottom: 50px;
+}
+
+.empty-category {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .categories-container {
   display: flex;
   gap: 16px;
@@ -187,9 +270,5 @@ function addNewCategory() {
   border-radius: 50%;
   background-color: #e8f0fe;
   margin-bottom: 8px;
-}
-.board-content {
-  padding-right: 16px;
-  margin-right: 16px;
 }
 </style>
