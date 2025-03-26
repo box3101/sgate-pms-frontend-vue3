@@ -4,7 +4,7 @@
     :class="[
       `ui-button--${variant}`,
       `ui-button--${size}`,
-      { 'ui-button--block': block, 'ui-button--icon-only': iconOnly },
+      { 'ui-button--block': block, 'ui-button--icon-only': iconOnly, 'ui-button--radius0': radius0 },
     ]"
     :disabled="disabled || loading"
     :type="type"
@@ -48,7 +48,7 @@ defineProps({
   size: {
     type: String,
     default: "medium",
-    validator: (value) => ["small", "medium", "large"].includes(value),
+    validator: (value) => ["small", "medium", "large", "xlarge"].includes(value),
   },
   icon: {
     type: String,
@@ -72,6 +72,10 @@ defineProps({
     default: false,
   },
   block: {
+    type: Boolean,
+    default: false,
+  },
+  radius0: {
     type: Boolean,
     default: false,
   },
@@ -197,13 +201,15 @@ defineEmits(["click"]);
   }
 
   &--tertiary {
-    background-color: #333;
-    color: #fff;
+    background-color: $tertiary-color;
+    color: #000;
 
     &:hover:not(:disabled) {
+      background-color: darken($tertiary-color, 10%);
     }
 
     &:active:not(:disabled) {
+      background-color: darken($tertiary-color, 20%);
     }
   }
 
@@ -267,10 +273,28 @@ defineEmits(["click"]);
     }
   }
 
+  &--xlarge {
+    height: 56px;
+    padding: 0 $spacing-xl;
+    font-size: $font-size-md;
+    font-weight: bold;
+    border: 1px solid #ccc;
+
+    &.ui-button--icon-only {
+      width: 60px;
+      padding: 0;
+    }
+  }
+
   // Block
   &--block {
     display: flex;
     width: 100%;
+  }
+
+  // Radius0
+  &--radius0 {
+    border-radius: 0;
   }
 
   // Disabled state
@@ -303,6 +327,9 @@ defineEmits(["click"]);
 
     &--large {
       height: 52px;
+    }
+    &--xlarge {
+      height: 60px;
     }
   }
 }

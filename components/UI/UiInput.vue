@@ -175,12 +175,11 @@ defineEmits(['update:modelValue', 'focus', 'blur', 'change']);
   display: flex;
   flex-direction: column;
   gap: $spacing-xs;
-  font-family: inherit;
 
   &__label {
     font-size: $font-size-sm;
     font-weight: 500;
-    color: #777;
+    color: #555;
     margin-bottom: 4px;
   }
 

@@ -54,7 +54,7 @@
       <div class="ui-popup__body">
         <slot></slot>
       </div>
-      <div v-if="$slots.footer" class="ui-popup__footer">
+      <div v-if="showFooter" class="ui-popup__footer">
         <slot name="footerActions"></slot>
       </div>
     </div>
@@ -76,7 +76,7 @@ const props = defineProps({
   size: {
     type: String,
     default: "medium",
-    validator: (value) => ["small", "medium", "large", "full"].includes(value),
+    validator: (value) => ["small", "xmedium", "medium", "large", "full"].includes(value),
   },
   centered: {
     type: Boolean,
@@ -96,6 +96,10 @@ const props = defineProps({
     validator: (value) => ["center", "right"].includes(value),
   },
   noDim: {
+    type: Boolean,
+    default: false,
+  },
+  showFooter: {
     type: Boolean,
     default: false,
   },
@@ -271,6 +275,7 @@ function handleMouseUp() {
   }
 
   &__footer {
+    margin-top: $spacing-lg;
     padding: $spacing-lg;
     border-top: 1px solid $border-color;
     display: flex;
@@ -281,6 +286,10 @@ function handleMouseUp() {
   // Sizes
   &--small {
     max-width: 400px;
+  }
+
+  &--xmedium {
+    max-width: 440px;
   }
 
   &--medium {

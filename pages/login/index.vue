@@ -1,13 +1,18 @@
 <template>
   <div class="login-page">
-    <div class="login-container" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+    <div
+      class="login-container"
+      data-aos="fade-up"
+      data-aos-duration="800"
+      data-aos-delay="100"
+    >
       <!-- 로고 섹션 -->
       <div class="login-logo">
         <h1>
           <img src="@/assets/images/s-gate_logo.svg" alt="SGate Logo" />
         </h1>
       </div>
-      
+
       <!-- 로그인 폼 섹션 -->
       <div class="login-form" :style="{ top: loginFormTop }">
         <!-- 회사아이디 입력 -->
@@ -18,7 +23,7 @@
           prefixIcon="mdi:office-building"
           block
         />
-        
+
         <!-- 아이디 입력 -->
         <UiInput
           v-model="username"
@@ -27,7 +32,7 @@
           prefixIcon="mdi:account"
           block
         />
-        
+
         <!-- 비밀번호 입력 -->
         <UiInput
           v-model="password"
@@ -37,40 +42,50 @@
           prefixIcon="mdi:lock"
           block
         />
-        
+
         <!-- 로그인 옵션 -->
         <div class="login-options">
           <div class="remember-me flex items-center justify-between w-full">
-            <UiCheckbox v-model="rememberMe" label="로그인정보 저장" size="large" />
-            <a href="#" class="forgot-password">비밀번호 찾기</a>
+            <UiCheckbox
+              v-model="rememberMe"
+              label="로그인정보 저장"
+              size="large"
+            />
+            <a href="#" class="forgot-password" @click="toggleModal"
+              >비밀번호 찾기</a
+            >
           </div>
         </div>
-        
+
         <!-- 로그인 버튼 -->
         <button class="login-button" @click="handleLogin">로그인</button>
       </div>
-      
+
       <!-- 구분선 -->
       <div class="divider"></div>
-      
+
       <!-- 공지 섹션 -->
       <div class="notice-section">
-        <h3 class="flex items-center gap-4" >
-            <Icon name="mdi:bell"  style="background-color: #777;"/>공지사항
+        <h3 class="flex items-center gap-4">
+          <Icon name="mdi:bell" style="background-color: #777" />공지사항
         </h3>
-        
+
         <ul class="notice-list">
-          <li v-for="(notice, index) in notices" :key="index" class="notice-item">
+          <li
+            v-for="(notice, index) in notices"
+            :key="index"
+            class="notice-item"
+          >
             <a href="#" class="notice-title">{{ notice.title }}</a>
             <span class="notice-date">{{ notice.date }}</span>
           </li>
         </ul>
-        
+
         <div class="system-notice">
           매주 목요일 22:00 ~ 24:00 시스템 점검이 있습니다.
         </div>
       </div>
-      
+
       <!-- 푸터 -->
       <div class="login-footer">
         <div class="footer-content">
@@ -80,54 +95,102 @@
       </div>
     </div>
   </div>
+
+  <!-- 비밀번호 찾기 모달 -->
+  <UiModal v-model="showModal" title="비밀번호 찾기" size="xmedium"  :showFooter="true">
+    <div class="modal-content">
+      <div class="login-form" :style="{ top: loginFormTop }">
+        <!-- 회사아이디 입력 -->
+        <UiInput
+          v-model="companyId"
+          label="회사아이디"
+          size="medium"
+          prefixIcon="mdi:office-building"
+          block
+        />
+
+        <!-- 아이디 입력 -->
+        <UiInput
+          v-model="username"
+          label="아이디"
+          size="medium"
+          prefixIcon="mdi:account"
+          block
+        />
+
+        <!-- 이메일 입력 -->
+        <UiInput
+          v-model="email"
+          type="email"
+          label="이메일"
+          size="medium"
+          prefixIcon="mdi:lock"
+          block
+        />
+      </div>
+
+      <div class="error-message">
+        <Icon
+          name="mdi:alert-circle"
+          class="text-error mr-5"
+          size="20"
+        />
+        등록된 이메일로 초기화된 비밀번호를 발송 합니다.
+      </div>
+    </div>
+    <template #footerActions>
+      <div class="flex gap-10 justify-center w-full">
+        <UiButton variant="tertiary" size="xlarge"  @click="toggleModal" class="flex-1">닫기</UiButton>
+        <UiButton variant="primary" size="xlarge" @click="handleFindPassword" class="flex-1">확인</UiButton>
+      </div>
+    </template>
+  </UiModal>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import { ref } from "vue";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
-// Layout setting - don't use default layout
 definePageMeta({
-  layout: false
+  layout: false,
 });
 
-// Sample notices
+// 공지사항
 const notices = ref([
-  { title: '시스템 업데이트 안내', date: '25.03.31' },
-  { title: '성과평가 일정 변경 안내', date: '25.03.28' },
-  { title: '인사평가 시스템 개선 안내', date: '25.03.25' }
+  { title: "시스템 업데이트 안내", date: "25.03.31" },
+  { title: "성과평가 일정 변경 안내", date: "25.03.28" },
+  { title: "인사평가 시스템 개선 안내", date: "25.03.25" },
 ]);
 
-const loginFormTop = ref('-100vh');
+const loginFormTop = ref("-100vh");
 
 AOS.init({
   duration: 800,
-  once: true
+  once: true,
 });
 
-// First page load, scroll up login form
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    loginFormTop.value = '0';
-  }, 100);
-});
+// 모달 상태
+const showModal = ref(false);
+
+// 모달 토글
+const toggleModal = () => {
+  showModal.value = !showModal.value;
+};
 </script>
 <style scoped lang="scss">
-
 .login-page {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   background-color: #f5f5f5;
-  font-family: 'Noto Sans KR', sans-serif;
   padding: 15px;
   overflow-y: hidden;
   h1 {
     text-align: center;
     img {
-      display: inline-block;  
+      display: inline-block;
       height: 35px;
     }
   }
@@ -147,7 +210,7 @@ window.addEventListener('load', () => {
   background-color: #f8fafc;
 }
 
-.login-logo h1{
+.login-logo h1 {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -267,7 +330,7 @@ window.addEventListener('load', () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  img{
+  img {
     height: 35px;
   }
 }
@@ -292,17 +355,41 @@ window.addEventListener('load', () => {
   .login-container {
     width: 100%;
   }
-  
+
   .login-form {
     padding: 20px;
   }
-  
+
   .notice-section {
     padding: 20px;
   }
-  
+
   .login-footer {
     padding: 16px 20px;
+  }
+}
+
+.modal-content .login-form{
+  padding: 10px;
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  color: $info-color;
+  font-size: 13px;
+  margin-top: 12px;
+  margin-right: 10px;
+  margin-left: 10px;
+  padding: 8px 12px;
+  background-color: rgba($info-color, 0.1);
+  border-radius: 4px;
+  border-left: 3px solid $info-color;
+
+  i {
+    margin-right: 8px;
+    font-size: 20px;
+    background-color: rgba($info-color, 0.1);
   }
 }
 </style>
