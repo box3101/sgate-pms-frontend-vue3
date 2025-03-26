@@ -537,7 +537,7 @@ const handleLogin = () => {
           align-items: center;
           color: $primary-color;
           text-decoration: none;
-          font-size: $font-size-md;
+          font-size: $font-size-sm;
           
           &:hover {
             text-decoration: underline;
