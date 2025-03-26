@@ -46,7 +46,7 @@
               class="ui-popup__close"
               @click="$emit('update:modelValue', false)"
             >
-              <Icon name="heroicons:x-mark" />
+              <Icon name="heroicons:x-mark" size="20" />
             </button>
           </div>
         </div>

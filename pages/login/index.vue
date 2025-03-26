@@ -533,7 +533,7 @@ const toggleModal = () => {
           align-items: center;
           color: $primary-color;
           text-decoration: none;
-          font-size: 14px;
+          font-size: $font-size-md;
           
           &:hover {
             text-decoration: underline;
