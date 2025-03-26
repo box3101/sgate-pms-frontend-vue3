@@ -1,0 +1,1 @@
+import{i as t,c as a,a as l,o as r}from"./vT0CniwV.js";const p={__name:"daily-report",setup(n){const o=t("logoText");return o.value="일일/주간보고",(s,e)=>(r(),a("div",null,e[0]||(e[0]=[l("h1",null,"일일/주간보고",-1)])))}};export{p as default};
