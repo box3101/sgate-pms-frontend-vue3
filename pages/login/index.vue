@@ -118,6 +118,7 @@ window.addEventListener('load', () => {
 });
 </script>
 <style scoped lang="scss">
+
 .login-page {
   display: flex;
   justify-content: center;
@@ -126,6 +127,7 @@ window.addEventListener('load', () => {
   background-color: #f5f5f5;
   font-family: 'Noto Sans KR', sans-serif;
   padding: 15px;
+  overflow-y: hidden;
   h1 {
     text-align: center;
     img {
