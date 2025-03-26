@@ -76,10 +76,12 @@ import CategoryCard from "./CategoryCard.vue";
 import UiModal from "@/components/UI/UiModal.vue";
 
 // 카테고리 목록 데이터 - 각 카테고리에는 ID, 제목, 카드 배열이 포함됨
+// 카테고리 목록 데이터 - 각 카테고리에는 ID, 제목, 카드 배열이 포함됨
+// 카테고리 목록 데이터 - 각 카테고리에는 ID, 제목, 카드 배열이 포함됨
 const categories = ref([
   {
     id: 1,
-    title: "카테고리 1",
+    title: "기획",
     cards: [
       {
         id: 1,
@@ -106,64 +108,194 @@ const categories = ref([
         attachments: 1,
       },
       {
-        id: 4,
-        title: "기획서 작성",
-        tags: ["기획", "문서"],
-        date: "2023-04-01 ~ 2023-04-15",
-        comments: 7,
-        attachments: 4,
+        id: 11,
+        title: "사용자 요구사항 정의",
+        tags: ["기획", "분석"],
+        date: "2023-04-01 ~ 2023-04-20",
+        comments: 8,
+        attachments: 5,
       },
       {
-        id: 5,
-        title: "기획서 작성",
-        tags: ["기획", "문서"],
-        date: "2023-04-01 ~ 2023-04-15",
-        comments: 7,
-        attachments: 4,
-      },
-      {
-        id: 6,
-        title: "기획서 작성",
-        tags: ["기획", "문서"],
-        date: "2023-04-01 ~ 2023-04-15",
-        comments: 7,
-        attachments: 4,
-      },
+        id: 12,
+        title: "경쟁사 분석 리포트",
+        tags: ["리서치", "분석"],
+        date: "2023-03-15 ~ 2023-04-05",
+        comments: 4,
+        attachments: 7,
+      }
     ]
   },
   {
     id: 2,
-    title: "진행 중",
+    title: "디자인",
     cards: [
       {
-        id: 3,
+        id: 4,
         title: "사용자 피드백 수집 및 분석",
         tags: ["리서치", "UX"],
         date: "2023-06-01 ~ 2023-06-30",
         comments: 8,
         attachments: 5,
+      },
+      {
+        id: 5,
+        title: "UI 컴포넌트 개발",
+        tags: ["프론트엔드", "디자인"],
+        date: "2023-05-15 ~ 2023-06-10",
+        comments: 6,
+        attachments: 3,
+      },
+      {
+        id: 13,
+        title: "디자인 시스템 구축",
+        tags: ["디자인", "시스템"],
+        date: "2023-05-05 ~ 2023-06-15",
+        comments: 9,
+        attachments: 6,
+      },
+      {
+        id: 14,
+        title: "프로토타입 사용성 테스트",
+        tags: ["UX", "테스트"],
+        date: "2023-06-10 ~ 2023-06-25",
+        comments: 7,
+        attachments: 2,
       }
     ]
   },
   {
     id: 3,
-    title: "완료",
+    title: "개발",
     cards: [
       {
-        id: 4,
-        title: "프로토타입 개발",
-        tags: ["개발", "테스트"],
-        date: "2023-04-15 ~ 2023-05-10",
-        comments: 3,
-        attachments: 1,
+        id: 6,
+        title: "요구사항 분석",
+        tags: ["기획", "분석"],
+        date: "2023-03-20 ~ 2023-04-10",
+        comments: 4,
+        attachments: 2,
       },
       {
-        id: 5,
+        id: 7,
         title: "기획서 작성",
         tags: ["기획", "문서"],
         date: "2023-04-01 ~ 2023-04-15",
         comments: 7,
         attachments: 4,
+      },
+      {
+        id: 15,
+        title: "백엔드 아키텍처 설계",
+        tags: ["백엔드", "설계"],
+        date: "2023-04-20 ~ 2023-05-10",
+        comments: 10,
+        attachments: 5,
+      },
+      {
+        id: 16,
+        title: "데이터베이스 모델링",
+        tags: ["데이터", "설계"],
+        date: "2023-04-15 ~ 2023-05-05",
+        comments: 6,
+        attachments: 3,
+      },
+      {
+        id: 17,
+        title: "API 엔드포인트 구현",
+        tags: ["백엔드", "API"],
+        date: "2023-05-10 ~ 2023-06-10",
+        comments: 8,
+        attachments: 4,
+      }
+    ]
+  },
+  {
+    id: 4,
+    title: "테스트",
+    cards: [
+      {
+        id: 8,
+        title: "성능 최적화",
+        tags: ["개발", "최적화"],
+        date: "2023-06-10 ~ 2023-06-25",
+        comments: 2,
+        attachments: 1,
+      },
+      {
+        id: 18,
+        title: "단위 테스트 작성",
+        tags: ["테스트", "개발"],
+        date: "2023-06-05 ~ 2023-06-20",
+        comments: 5,
+        attachments: 2,
+      },
+      {
+        id: 19,
+        title: "통합 테스트 수행",
+        tags: ["테스트", "QA"],
+        date: "2023-06-15 ~ 2023-06-30",
+        comments: 7,
+        attachments: 3,
+      }
+    ]
+  },
+  {
+    id: 5,
+    title: "배포",
+    cards: [
+      {
+        id: 9,
+        title: "서버 환경 구성",
+        tags: ["인프라", "배포"],
+        date: "2023-06-20 ~ 2023-07-05",
+        comments: 3,
+        attachments: 2,
+      },
+      {
+        id: 20,
+        title: "CI/CD 파이프라인 구축",
+        tags: ["인프라", "자동화"],
+        date: "2023-06-15 ~ 2023-07-10",
+        comments: 6,
+        attachments: 4,
+      },
+      {
+        id: 21,
+        title: "모니터링 시스템 구축",
+        tags: ["인프라", "모니터링"],
+        date: "2023-06-25 ~ 2023-07-15",
+        comments: 4,
+        attachments: 3,
+      }
+    ]
+  },
+  {
+    id: 6,
+    title: "완료",
+    cards: [
+      {
+        id: 10,
+        title: "프로젝트 회고",
+        tags: ["회고", "문서화"],
+        date: "2023-07-10 ~ 2023-07-15",
+        comments: 5,
+        attachments: 3,
+      },
+      {
+        id: 22,
+        title: "사용자 매뉴얼 작성",
+        tags: ["문서화", "지원"],
+        date: "2023-07-05 ~ 2023-07-20",
+        comments: 3,
+        attachments: 8,
+      },
+      {
+        id: 23,
+        title: "성과 측정 및 보고서 작성",
+        tags: ["분석", "문서화"],
+        date: "2023-07-15 ~ 2023-07-25",
+        comments: 7,
+        attachments: 5,
       }
     ]
   }
