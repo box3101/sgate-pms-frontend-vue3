@@ -76,7 +76,12 @@
             :key="index"
             class="notice-item"
           >
-            <a href="#" class="notice-title">{{ notice.title }}</a>
+            <a
+              href="#none"
+              @click="showNoticeModal = true"
+              class="notice-title"
+              >{{ notice.title }}</a
+            >
             <span class="notice-date">{{ notice.date }}</span>
           </li>
         </ul>
@@ -97,7 +102,12 @@
   </div>
 
   <!-- 비밀번호 찾기 모달 -->
-  <UiModal v-model="showModal" title="비밀번호 찾기" size="xmedium"  :showFooter="true">
+  <UiModal
+    v-model="showModal"
+    title="비밀번호 찾기"
+    size="xmedium"
+    :showFooter="true"
+  >
     <div class="modal-content">
       <div class="login-form" :style="{ top: loginFormTop }">
         <!-- 회사아이디 입력 -->
@@ -130,20 +140,70 @@
       </div>
 
       <div class="error-message">
-        <Icon
-          name="mdi:alert-circle"
-          class="text-error mr-5"
-          size="20"
-        />
+        <Icon name="mdi:alert-circle" class="text-error mr-5" size="20" />
         등록된 이메일로 초기화된 비밀번호를 발송 합니다.
       </div>
     </div>
     <template #footerActions>
       <div class="flex gap-10 justify-center w-full">
-        <UiButton variant="tertiary" size="xlarge"  @click="toggleModal" class="flex-1">닫기</UiButton>
-        <UiButton variant="primary" size="xlarge" @click="handleFindPassword" class="flex-1">확인</UiButton>
+        <UiButton
+          variant="tertiary"
+          size="xlarge"
+          @click="toggleModal"
+          class="flex-1"
+          >닫기</UiButton
+        >
+        <UiButton
+          variant="primary"
+          size="xlarge"
+          @click="handleFindPassword"
+          class="flex-1"
+          >확인</UiButton
+        >
       </div>
     </template>
+  </UiModal>
+
+  <!-- 공지사항 모달 -->
+  <UiModal v-model="showNoticeModal" title="공지사항" size="medium">
+    <div class="notice-modal-content">
+      <div class="notice-header flex justify-between items-center">
+        <h3 class="notice-title">{{ selectedNotice?.title }}</h3>
+        <div class="notice-date">{{ selectedNotice?.date }}</div>
+      </div>
+
+      <div class="notice-body">
+        <div class="notice-text">
+          {{ selectedNotice?.content }}
+        </div>
+
+        <div
+          v-if="selectedNotice?.attachments?.length"
+          class="notice-attachments"
+        >
+          <h4>첨부파일</h4>
+          <ul>
+            <li
+              v-for="(file, index) in selectedNotice.attachments"
+              :key="index"
+            >
+              <a href="#" @click.prevent="downloadFile(file)">
+                <Icon name="mdi:file" class="mr-2" />
+                {{ file.name }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="notice-footer">
+        <UiCheckbox
+          v-model="doNotShowAgain"
+          label="다시 보지 않기"
+          size="medium"
+        />
+      </div>
+    </div>
   </UiModal>
 </template>
 
@@ -162,8 +222,27 @@ const notices = ref([
   { title: "성과평가 일정 변경 안내", date: "25.03.28" },
   { title: "인사평가 시스템 개선 안내", date: "25.03.25" },
 ]);
+const selectedNotice = ref({
+  title: "시스템 업데이트 안내",
+  date: "25.03.31",
+  content: "길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트",
+  attachments: [
+    { name: "업데이트 상세내역.pdf", url: "#" },
+    { name: "4개까지", url: "#" },
+    { name: "4개까지", url: "#" },
+    { name: "4개까지.pdf", url: "#" },
+  ]
+});
 
-const loginFormTop = ref("-100vh");
+// 첨부파일 다운로드 처리
+const downloadFile = (file) => {
+  console.log("Downloading file:", file.name);
+  // 실제 다운로드 로직 구현
+};
+
+// 다시 보지 않기 체크박스
+const doNotShowAgain = ref(false);
+
 
 AOS.init({
   duration: 800,
@@ -172,6 +251,7 @@ AOS.init({
 
 // 모달 상태
 const showModal = ref(false);
+const showNoticeModal = ref(false);
 
 // 모달 토글
 const toggleModal = () => {
@@ -244,6 +324,7 @@ const toggleModal = () => {
 .forgot-password {
   color: $primary-color;
   text-decoration: none;
+  font-size: $font-size-md;
 }
 
 .forgot-password:hover {
@@ -252,7 +333,7 @@ const toggleModal = () => {
 
 .login-button {
   width: 100%;
-  padding: 12px;
+  padding: 16px;
   background-color: $primary-color;
   color: white;
   font-size: 16px;
@@ -279,7 +360,7 @@ const toggleModal = () => {
 }
 
 .notice-section h3 {
-  font-size: 16px;
+  font-size: $font-size-lg;
   font-weight: 600;
   color: #202124;
   margin-bottom: 12px;
@@ -369,7 +450,7 @@ const toggleModal = () => {
   }
 }
 
-.modal-content .login-form{
+.modal-content .login-form {
   padding: 10px;
 }
 
@@ -392,4 +473,82 @@ const toggleModal = () => {
     background-color: rgba($info-color, 0.1);
   }
 }
+
+.notice-modal-content {
+  padding: 20px;
+  
+  .notice-header {
+    margin-bottom: 16px;
+    border-bottom: 1px solid #e8eaed;
+    padding-bottom: 12px;
+    
+    .notice-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: #202124;
+    }
+    
+    .notice-date {
+      font-size: 14px;
+      color: #5f6368;
+    }
+  }
+  
+  .notice-body {
+    margin-bottom: 20px;
+    
+    .notice-text {
+      font-size: 16px;
+      line-height: 1.3;
+      color: #202124;
+      white-space: pre-line;
+      margin-bottom: 16px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    
+    .notice-attachments {
+      background-color: #f8fafc;
+      border-radius: 6px;
+      padding: 12px 16px;
+      
+      h4 {
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #202124;
+      }
+      
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      
+      li {
+        padding: 6px 0;
+        
+        a {
+          display: flex;
+          align-items: center;
+          color: $primary-color;
+          text-decoration: none;
+          font-size: 14px;
+          
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+  
+  .notice-footer {
+    border-top: 1px solid #e8eaed;
+    padding-top: 16px;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
 </style>
