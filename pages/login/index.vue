@@ -1,16 +1,16 @@
 <template>
   <div class="login-page">
     <div class="login-container" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-      <!-- Logo Section -->
+      <!-- 로고 섹션 -->
       <div class="login-logo">
         <h1>
           <img src="@/assets/images/s-gate_logo.svg" alt="SGate Logo" />
         </h1>
       </div>
       
-      <!-- Login Form Section -->
+      <!-- 로그인 폼 섹션 -->
       <div class="login-form" :style="{ top: loginFormTop }">
-        <!-- Company ID Input -->
+        <!-- 회사아이디 입력 -->
         <UiInput
           v-model="companyId"
           label="회사아이디"
@@ -19,7 +19,7 @@
           block
         />
         
-        <!-- Username Input -->
+        <!-- 아이디 입력 -->
         <UiInput
           v-model="username"
           label="아이디"
@@ -28,33 +28,32 @@
           block
         />
         
-        <!-- Password Input -->
+        <!-- 비밀번호 입력 -->
         <UiInput
           v-model="password"
           type="password"
-          label="패스워드"
+          label="비밀번호"
           size="medium"
           prefixIcon="mdi:lock"
           block
         />
         
-        <!-- Login Options -->
+        <!-- 로그인 옵션 -->
         <div class="login-options">
-          <div class="remember-me">
-            <input type="checkbox" id="remember" v-model="rememberMe" />
-            <label for="remember">로그인정보 저장</label>
+          <div class="remember-me flex items-center justify-between w-full">
+            <UiCheckbox v-model="rememberMe" label="로그인정보 저장" size="large" />
+            <a href="#" class="forgot-password">비밀번호 찾기</a>
           </div>
-          <a href="#" class="forgot-password">비밀번호 찾기</a>
         </div>
         
-        <!-- Login Button -->
+        <!-- 로그인 버튼 -->
         <button class="login-button" @click="handleLogin">로그인</button>
       </div>
       
-      <!-- Divider -->
+      <!-- 구분선 -->
       <div class="divider"></div>
       
-      <!-- Notice Section -->
+      <!-- 공지 섹션 -->
       <div class="notice-section">
         <h3 class="flex items-center gap-4" >
             <Icon name="mdi:bell"  style="background-color: #777;"/>공지사항
@@ -72,7 +71,7 @@
         </div>
       </div>
       
-      <!-- Footer -->
+      <!-- 푸터 -->
       <div class="login-footer">
         <div class="footer-content">
           <img src="@/assets/images/ispark_logo.svg" alt="ISPARK Logo" />
@@ -84,21 +83,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 // Layout setting - don't use default layout
 definePageMeta({
   layout: false
-});
-
-// Initialize AOS
-onMounted(() => {
-  AOS.init({
-    once: true, // 애니메이션이 한 번만 실행되도록 설정
-    duration: 800, // 기본 지속 시간
-  });
 });
 
 // Sample notices
@@ -109,6 +100,11 @@ const notices = ref([
 ]);
 
 const loginFormTop = ref('-100vh');
+
+AOS.init({
+  duration: 800,
+  once: true
+});
 
 // First page load, scroll up login form
 window.addEventListener('load', () => {

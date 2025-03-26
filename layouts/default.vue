@@ -15,13 +15,24 @@
 // 명시적 임포트 사용
 import TheHeader from '~/components/Layout/TheHeader.vue';
 import TheSidebar from '~/components/Layout/TheSidebar.vue';
-import { ref, provide } from 'vue';
+import { ref, provide, onMounted } from 'vue';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 // 로고 텍스트 상태 관리
 const logoText = ref('개인성과');
 
 // 자식 컴포넌트에서 접근할 수 있도록 provide
 provide('logoText', logoText);
+
+// 애니메이션 초기화
+onMounted(() => {
+  AOS.init({
+    once: true, // 애니메이션이 한 번만 실행되도록 설정
+    duration: 800, // 기본 지속 시간
+  });
+});
+
 </script>
 
 <style scoped>
