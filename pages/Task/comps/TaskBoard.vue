@@ -284,7 +284,6 @@
                   <!-- 대댓글 입력 폼 -->
                   <div v-if="detachedActiveReplyIds[detachedCardItem.id] === comment.id" class="reply-form">
                     <UiTextarea 
-                      class="reply-textarea" 
                       placeholder="답글을 입력해주세요..." 
                       v-model="detachedReplyTexts[detachedCardItem.id]"
                       rows="2"
