@@ -507,8 +507,6 @@ const handleLogin = () => {
       color: #202124;
       white-space: pre-line;
       margin-bottom: 16px;
-      max-height: 400px;
-      overflow-y: auto;
     }
     
     .notice-attachments {
