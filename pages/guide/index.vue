@@ -332,7 +332,7 @@ const guideData = reactive({
         {
           id: "header",
           title: "공통 HEADER 상단",
-          status: "in-progress",
+          status: "completed",
           items: [
             {
               id: "profile-menu",
@@ -356,7 +356,7 @@ const guideData = reactive({
               description: "시스템 전체 메뉴 보기",
               icon: "heroicons:bars-3",
               url: "/ispark-sgate/",
-              status: "in-progress",
+              status: "completed",
             },
           ],
         },
