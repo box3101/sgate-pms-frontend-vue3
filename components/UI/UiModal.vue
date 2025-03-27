@@ -278,10 +278,11 @@ function handleMouseUp() {
     background-color: #fff;
     border-radius: 8px;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* 모바일 스크롤 개선 */
   
-  &::-webkit-scrollbar {
-    display: none;
-  }
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   &__footer {
@@ -351,6 +352,8 @@ function handleMouseUp() {
     max-height: 100vh;
     border-radius: 0;
     animation: scale-in $transition-normal forwards;
+    overflow-y: auto; /* 전체화면 모드에서 스크롤 가능하도록 */
+    -webkit-overflow-scrolling: touch; /* 모바일 스크롤 개선 */
   }
 }
 
@@ -390,17 +393,38 @@ function handleMouseUp() {
     &__content {
       margin: $spacing-md;
       max-height: calc(100vh - #{$spacing-md * 2});
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     &--small,
     &--medium,
     &--large {
       max-width: calc(100vw - #{$spacing-md * 2});
+      width: calc(100vw - #{$spacing-md * 2});
     }
 
     &--right {
-      max-width: 80vw;
+      max-width: 100vw;
+      width: 100vw;
       margin: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    &--fullscreen {
+      width: 100vw;
+      height: 100vh;
+      max-width: 100vw;
+      max-height: 100vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    &__body {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      max-height: 70vh; /* 모바일에서 본문 영역 최대 높이 제한 */
     }
   }
 }
