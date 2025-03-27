@@ -45,6 +45,15 @@
                 <label :for="'task-' + catIndex + '-' + taskIndex">{{
                   task.title
                 }}</label>
+                <div class="task-actions">
+                  <button 
+                    class="delete-btn" 
+                    @click.stop="deleteTask(catIndex, taskIndex)"
+                    title="삭제"
+                  >
+                    <Icon name="mdi:delete-outline" size="16" />
+                  </button>
+                </div>
               </div>
 
               <!-- 하위 업무 그룹 -->
@@ -113,6 +122,15 @@
                       "
                       >{{ subtask.title }}</label
                     >
+                    <div class="task-actions">
+                      <button 
+                        class="delete-btn" 
+                        @click.stop="deleteSubtask(catIndex, subIndex, subtaskIndex)"
+                        title="삭제"
+                      >
+                        <Icon name="mdi:delete-outline" size="16" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -534,6 +552,18 @@ const findSubcategoryById = (categoryId, subcategoryId) => {
   }
   return null;
 };
+
+// 업무 삭제
+const deleteTask = (categoryIndex, taskIndex) => {
+  taskCategories.value[categoryIndex].tasks.splice(taskIndex, 1);
+  saveTaskState();
+};
+
+// 하위 업무 삭제
+const deleteSubtask = (categoryIndex, subgroupIndex, subtaskIndex) => {
+  taskCategories.value[categoryIndex].subgroups[subgroupIndex].tasks.splice(subtaskIndex, 1);
+  saveTaskState();
+};
 </script>
 
 <style lang="scss" scoped>
@@ -683,9 +713,35 @@ const findSubcategoryById = (categoryId, subcategoryId) => {
         font-size: 14px;
         color: #333;
         cursor: pointer;
+        flex: 1;
 
         &:hover {
           color: #3b82f6;
+        }
+      }
+      
+      .task-actions {
+        display: flex;
+        align-items: center;
+        
+        .delete-btn {
+          background: none;
+          border: none;
+          color: #9ca3af;
+          cursor: pointer;
+          padding: 4px;
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0.6;
+          transition: all 0.2s;
+          
+          &:hover {
+            color: #ef4444;
+            opacity: 1;
+            background-color: rgba(239, 68, 68, 0.1);
+          }
         }
       }
     }
