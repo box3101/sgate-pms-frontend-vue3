@@ -121,7 +121,6 @@ defineEmits(['update:modelValue', 'focus', 'blur', 'change']);
   display: flex;
   flex-direction: column;
   gap: $spacing-xs;
-  font-family: inherit;
 
   &__label {
     font-size: $font-size-sm;
@@ -150,7 +149,6 @@ defineEmits(['update:modelValue', 'focus', 'blur', 'change']);
     color: $text-color;
     resize: none;
     transition: all $transition-normal ease;
-    font-family: inherit;
     line-height: 1.5;
     min-height: 100px;
 

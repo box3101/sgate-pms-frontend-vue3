@@ -328,7 +328,7 @@ const handleLogin = () => {
 .forgot-password {
   color: $primary-color;
   text-decoration: none;
-  font-size: $font-size-md;
+  font-size: $font-size-sm;
 }
 
 .forgot-password:hover {
@@ -502,8 +502,8 @@ const handleLogin = () => {
     margin-bottom: 20px;
     
     .notice-text {
-      font-size: 16px;
-      line-height: 1.3;
+      font-size: $font-size-sm;
+      line-height: 1.5;
       color: #202124;
       white-space: pre-line;
       margin-bottom: 16px;
@@ -515,7 +515,7 @@ const handleLogin = () => {
       padding: 12px 16px;
       
       h4 {
-        font-size: 15px;
+        font-size: $font-size-md;
         font-weight: 600;
         margin-bottom: 8px;
         color: #202124;

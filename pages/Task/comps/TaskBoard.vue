@@ -1310,7 +1310,6 @@ function updateCardInCategories(updatedCard) {
   padding: 12px;
   border: none;
   resize: vertical;
-  font-family: inherit;
   font-size: 14px;
   line-height: 1.5;
   
@@ -1556,7 +1555,6 @@ function updateCardInCategories(updatedCard) {
   padding: 8px;
   border: none;
   resize: vertical;
-  font-family: inherit;
   font-size: 14px;
   line-height: 1.5;
   

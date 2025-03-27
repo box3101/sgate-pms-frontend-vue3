@@ -328,3 +328,28 @@
 .text-white {
   color: white !important;
 }
+
+// ======== 아이콘 애니메이션 ========
+@keyframes moveRight {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(7px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.icon-move-right {
+  animation: moveRight 1.5s ease-in-out infinite;
+}
+
+.icon-move-right-slow {
+  animation: moveRight 2.5s ease-in-out infinite;
+}
+
+.icon-move-right-fast {
+  animation: moveRight 0.8s ease-in-out infinite;
+}

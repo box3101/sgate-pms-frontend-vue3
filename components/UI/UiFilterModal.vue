@@ -25,7 +25,7 @@
         <slot />
       </div>
 
-      <div v-if="showFooter" class="filter-footer">
+      <div v-if="showFooter" class="filter-footer" :style="{background : bgColor}">
         <slot name="footerActions" />
       </div>
     </div>
@@ -33,12 +33,16 @@
 </template>
 
 <script setup>
-import { ref, nextTick, onMounted, watch } from "vue";
+import { ref, nextTick, watch } from "vue";
 
 const isFilterModalOpen = ref(false);
 const filterPosition = ref({});
 
 const props = defineProps({
+  bgColor: {
+    type: String,
+    default: "#fff",
+  },
   title: {
     type: String,
     default: "검색 필터",

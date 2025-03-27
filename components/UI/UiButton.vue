@@ -95,7 +95,7 @@ defineEmits(["click"]);
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  font-weight: 500;
+  font-weight: 400;
   cursor: pointer;
   transition: all $transition-normal ease;
   border: none;
@@ -201,15 +201,15 @@ defineEmits(["click"]);
   }
 
   &--tertiary {
-    background-color: $tertiary-color;
+    background-color: $background-color;
     color: #000;
 
     &:hover:not(:disabled) {
-      background-color: darken($tertiary-color, 10%);
+      background-color: darken($background-color, 10%);
     }
 
     &:active:not(:disabled) {
-      background-color: darken($tertiary-color, 20%);
+      background-color: darken($background-color, 20%);
     }
   }
 

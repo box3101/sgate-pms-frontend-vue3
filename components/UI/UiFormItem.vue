@@ -27,16 +27,17 @@ defineProps({
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  min-height: 44px;
   margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
 
   &:last-child {
-    margin-bottom: 0;
+    border-bottom: none;
   }
 
   &__label {
     flex-shrink: 0;
-    font-size: 14px;
+    font-size: $font-size-sm;
     font-weight: 500;
     margin-right: 10px;
     flex:0.2;

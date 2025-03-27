@@ -299,7 +299,7 @@ defineEmits(['update:modelValue', 'focus', 'blur', 'change']);
       height: 40px;
     }
     .ui-input__field {
-      font-size: $font-size-md;
+      font-size: $font-size-sm;
     }
   }
 

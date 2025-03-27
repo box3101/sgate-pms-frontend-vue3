@@ -85,7 +85,7 @@ defineEmits(['update:modelValue']);
   }
 
   &--large {
-    font-size: 16px;
+    font-size: $font-size-sm;
 
     .ui-checkbox__input {
       width: 22px;

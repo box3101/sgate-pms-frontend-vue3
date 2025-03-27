@@ -18,7 +18,7 @@
     >
       <div
         v-if="position === 'right' && !isFullscreen"
-        class="ui-popup__resize-handle"
+        :class="`ui-popup__resize-handle`"
         @mousedown="handleResizeStart"
       ></div>
       <div class="ui-popup__header">
@@ -51,7 +51,7 @@
           </div>
         </div>
       </div>
-      <div class="ui-popup__body">
+      <div class="ui-popup__body" :style="{padding: `${size === 'small' ? '0px' : size === 'xmedium' ? '12px' : size === 'medium' ? '16px' : size === 'large' ? '20px' : '24px'}`}">
         <slot></slot>
       </div>
       <div v-if="showFooter" class="ui-popup__footer">
@@ -285,6 +285,7 @@ function handleMouseUp() {
 
   // Sizes
   &--small {
+    width: 400px;
     max-width: 400px;
   }
 
@@ -316,8 +317,8 @@ function handleMouseUp() {
     bottom: 0;
     margin: 0;
     border-radius: 8px 0 0 8px;
-    width: 700px;
     max-width: 1000px;
+    min-width: 400px;
     height: 100vh;
     max-height: 100vh;
     animation: slide-in-right $transition-normal forwards;

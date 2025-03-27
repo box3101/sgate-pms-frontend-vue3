@@ -17,59 +17,60 @@
 const props = defineProps({
   modelValue: {
     type: [String, Number, Boolean],
-    required: true
+    required: true,
   },
   options: {
     type: Array,
     required: true,
     validator: (value) => {
-      return value.every(option => 'value' in option && 'label' in option);
-    }
-  }
+      return value.every((option) => "value" in option && "label" in option);
+    },
+  },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(["update:modelValue"]);
 
 const updateValue = (value) => {
-  emit('update:modelValue', value);
+  emit("update:modelValue", value);
 };
 </script>
-
-<style scoped>
+<style lang="scss" scoped>
 .ui-segment-control {
   display: inline-flex;
   border-radius: 8px;
   overflow: hidden;
-  border: 1px solid #e0e0e0;
-  background-color: #f5f5f5;
+  border: 1px solid $border-color;
+  background-color: $background-color;
+  width: 100%;
+  max-width: 131px;
 }
 
 .segment-button {
-  padding: 8px 16px;
+  padding: 8px 12px;
   border: none;
-  background: transparent;
   cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s ease;
-  min-width: 60px;
+  background: transparent;
+  font-size: $font-size-sm;
+  transition: all $transition-normal ease;
+  flex: 1;
   text-align: center;
-  color: #666;
+  color: $text-color;
   position: relative;
+  white-space: nowrap;
 }
 
-
 .segment-button.active {
-  background-color: #2196F3;
+  background-color: $primary-color;
   color: white;
   font-weight: 500;
 }
 
 .segment-button:hover:not(.active) {
-  background-color: #e8e8e8;
+  background-color: darken(#f5f5f5, 5%);
 }
 
 .segment-button:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.3);
+  box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
 }
 </style>

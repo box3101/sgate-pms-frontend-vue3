@@ -4,7 +4,11 @@
       <!-- 로고 부분 -->
       <div class="logo">
         <NuxtLink to="/login">
-          <img src="@/assets/images/sgate_bot_icon.png" class="w-50" alt="SGate Logo" />
+          <img
+            src="@/assets/images/sgate_bot_icon.png"
+            class="w-50"
+            alt="SGate Logo"
+          />
         </NuxtLink>
       </div>
 
@@ -36,6 +40,7 @@
             position="right"
             :title="'장호영(isap136)'"
             :showFooter="true"
+            :bgColor="'#eee'"
           >
             <UiFormLayout>
               <UiFormItem label="언어">
@@ -48,7 +53,10 @@
                 />
               </UiFormItem>
               <UiFormItem label="메인페이지">
-                <UiButton variant="tertiary" icon="heroicons:arrow-right"
+                <UiButton
+                  variant="tertiary"
+                  icon="heroicons:arrow-right"
+                  icon-position="right"
                   >부진사유/대책</UiButton
                 >
               </UiFormItem>
@@ -152,8 +160,45 @@
               </UiButton>
             </div>
           </template>
+          <div class="notifications-container">
+            <a
+              href="#none"
+              style="display: block"
+              v-for="(notification, index) in notifications"
+              :key="index"
+              :class="['notification-card', `notification-status-${notification.status}`]"
+            >
+              <div class="notification-header">
+                <div class="notification-sender">
+                  <Icon name="mdi:account" size="30" class="sender-icon" />
+                  <span class="sender-name">{{ notification.sender }}</span>
+                </div>
+                <span class="notification-time">{{ notification.time }}</span>
+              </div>
+              <p class="notification-title" :class="`notification-status-${notification.status}`">
+                {{ notification.title }}
+              </p>
 
-          오승현
+              <div class="notification-content">
+                {{ notification.content }}
+              </div>
+              <div class="notification-actions">
+                <UiButton
+                  variant="ghost"
+                  size="small"
+                  iconOnly
+                  @click.stop.prevent="deleteNotification(notification.id)"
+                >
+                  <Icon name="mdi:delete-outline" size="20" />
+                </UiButton>
+              </div>
+            </a>
+            
+            <!-- 알림 예시 -->
+            <div v-if="notifications.length === 0" class="no-notifications">
+              알림이 없습니다.
+            </div>
+          </div>
         </UiModal>
 
         <button class="icon-button" @click="isFullMenuModalOpen = true">
@@ -234,6 +279,104 @@ const tabMenus = {
 
   // 기본값: 빈 배열 (탭 없음)
   default: [],
+};
+// 알림 관련 상태
+const notifications = ref([
+  {
+    id: 1,
+    sender: "시스템",
+    title: "시스템 업데이트",
+    time: "10분 전",
+    content: "시스템이 성공적으로 업데이트되었습니다. 새로운 기능이 추가되었으니 확인해보세요. 문제가 있으면 관리자에게 문의하세요.",
+    read: false,
+    status: "info"
+  },
+  {
+    id: 2,
+    sender: "홍길동",
+    title: "새로운 활동",
+    time: "1시간 전",
+    content: "홍길동님으로부터 새 메시지가 도착했습니다. 프로젝트 진행 상황에 대한 피드백입니다.",
+    read: false,
+    status: "success"
+  },
+  {
+    id: 3,
+    sender: "일정관리",
+    title: "일정 알림",
+    time: "3시간 전",
+    content: "내일 오전 10시 회의가 예정되어 있습니다. 회의실 A동 302호에서 진행됩니다. 필요한 자료를 준비해주세요.",
+    read: true,
+    status: "warning"
+  },
+  {
+    id: 4,
+    sender: "김윤기",
+    title: "디자인 피드백",
+    time: "5시간 전",
+    content: "디자인 시스템 초안에 대한 피드백이 있습니다. 컬러 팔레트 조정이 필요합니다.",
+    read: false,
+    status: "info"
+  },
+  {
+    id: 5,
+    sender: "프로젝트 관리",
+    title: "마감일 임박",
+    time: "어제",
+    content: "프로젝트 마감일이 3일 남았습니다. 진행 상황을 확인해주세요.",
+    read: false,
+    status: "danger"
+  },
+  {
+    id: 6,
+    sender: "이지은",
+    title: "문서 공유",
+    time: "어제",
+    content: "요청하신 문서가 공유되었습니다. 확인 후 의견 부탁드립니다.",
+    read: true,
+    status: "success"
+  },
+  {
+    id: 7,
+    sender: "보안 시스템",
+    title: "로그인 알림",
+    time: "2일 전",
+    content: "새로운 기기에서 로그인이 감지되었습니다. 본인이 아닐 경우 관리자에게 문의하세요.",
+    read: true,
+    status: "danger"
+  },
+  {
+    id: 8,
+    sender: "최수진",
+    title: "설문조사 요청",
+    time: "3일 전",
+    content: "사용자 경험 개선을 위한 설문조사에 참여해주세요. 5분이면 충분합니다.",
+    read: true,
+    status: "info"
+  },
+  {
+    id: 9,
+    sender: "시스템",
+    title: "백업 완료",
+    time: "4일 전",
+    content: "시스템 데이터 백업이 성공적으로 완료되었습니다.",
+    read: true,
+    status: "success"
+  },
+  {
+    id: 10,
+    sender: "박서버",
+    title: "API 업데이트",
+    time: "1주일 전",
+    content: "인증 API가 업데이트되었습니다. 개발 가이드를 확인해주세요.",
+    read: true,
+    status: "warning"
+  }
+]);
+
+// 알림 삭제 함수
+const deleteNotification = (id) => {
+  notifications.value = notifications.value.filter(notification => notification.id !== id);
 };
 
 // 현재 경로에 맞는 탭 메뉴 결정
@@ -395,30 +538,33 @@ const isActive = (path) => {
   justify-content: space-between;
   align-items: center;
   height: 32px;
-  border-bottom: 1px solid $border-color;
   font-size: $font-size-xs;
   color: $text-color;
-  background-color: #fafafa;
+  padding: 0 8px;
 
-  &__time {
+  &__item {
     display: flex;
     align-items: center;
-    padding: 0 12px;
     height: 100%;
+    padding: 0 12px;
+    gap: 8px;
+  }
+
+  &__time {
+    flex: 1;
     border-right: 1px solid $border-color;
+    padding-right: 12px;
+    display: flex;
+    align-items: center;
   }
 
   &__action {
-    display: flex;
-    align-items: center;
-    padding: 0 12px;
-    height: 100%;
+    justify-content: center;
+    flex: 1;
     cursor: pointer;
     transition: background-color 0.2s ease;
-
-    &:hover {
-      background-color: $hover-background;
-    }
+    display: flex;
+    align-items: center;
   }
 
   &__icon {
@@ -428,8 +574,11 @@ const isActive = (path) => {
     color: $icon-color;
   }
 
+  &__text {
+    font-weight: 400;
+  }
+
   &__time-text {
-    font-family: "Consolas", monospace;
     letter-spacing: 0.5px;
   }
 
@@ -438,11 +587,103 @@ const isActive = (path) => {
   }
 }
 
+.notifications-container {
+  overflow-y: auto;
+  
+  .notification-card {
+    padding: 12px;
+    background-color: #fff;
+    border-bottom: 1px solid #e8e8e8;
+    transition: background-color 0.2s;
+    
+    &:hover {
+      background-color: #f8f8f8;
+    }
+    
+    .notification-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      
+      .notification-sender {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        
+        .sender-icon {
+          color: #666;
+        }
+        
+        .sender-name {
+          font-weight: 700;
+          font-size: $font-size-md;
+          color: #333;
+        }
+      }
+      
+      .notification-time {
+        font-size: 12px;
+        color: #999;
+      }
+    }
+    
+    .notification-title {
+      font-size: $font-size-md;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 8px;
+      &.notification-status-info {
+        color: #3498db;
+      }
+
+      &.notification-status-success {
+        color: #34a853;
+        font-weight: 600;
+      }
+
+      &.notification-status-warning {
+        color: #f39c12;
+        font-weight: 600;
+      }
+    }
+    
+    .notification-content {
+      font-size: $font-size-sm;
+      color: $text-color;
+      margin-bottom: 8px;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+    
+    .notification-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 4px;
+    }
+  }
+  
+  .no-notifications {
+    padding: 24px;
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+  }
+}
+
 :deep(.ui-form-item__content) {
   display: flex;
   justify-content: flex-end;
 }
-
+:deep(.filter-footer) {
+  padding: 4px 16px;
+}
+:deep(.ui-button--medium) {
+  height: 36px;
+}
+:deep(.ui-form-layout .ui-button .iconify) {
+  animation: moveRight 1.7s ease-in-out infinite;
+}
 .ui-popup__title span {
   font-size: smaller;
   color: #666;

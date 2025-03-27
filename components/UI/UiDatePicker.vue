@@ -662,7 +662,6 @@ watch([selectedDate, startDate, endDate], () => {
 .ui-datepicker {
   position: relative;
   width: 100%;
-  font-family: inherit;
 
   &__label {
     display: block;

@@ -378,7 +378,7 @@ const guideData = reactive({
               description: "업무 홈 화면",
               icon: "mdi:home",
               url: "/ispark-sgate/task",
-              status: "in-progress",
+              status: "waiting",
             },
           ],
         },
