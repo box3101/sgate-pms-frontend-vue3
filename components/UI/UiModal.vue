@@ -277,7 +277,7 @@ function handleMouseUp() {
     scrollbar-width: none;
     background-color: #fff;
     border-radius: 8px;
-    overflow-y: auto;
+    overflow: auto;
     -webkit-overflow-scrolling: touch; /* 모바일 스크롤 개선 */
   
     &::-webkit-scrollbar {

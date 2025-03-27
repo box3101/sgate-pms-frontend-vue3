@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import TasksBoard from './comps/TaskBoard.vue';
+import TasksBoard from '../comps/TaskBoard.vue';   
 import { inject } from 'vue';
 
 // 로고 텍스트 접근

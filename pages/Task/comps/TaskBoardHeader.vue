@@ -83,13 +83,13 @@
             >
               <!-- 필터 내용을 여기에 추가 -->
               <UiFormLayout>
-                <UiFormItem class="mb-1" label="실행기간">
+                <UiFormItem label="실행기간">
                   <UiDatePicker v-model="dateRange" isRange size="small" />
                 </UiFormItem>
-                <UiFormItem class="mb-1" label="업무상태">
+                <UiFormItem label="업무상태">
                   <UiSelect size="small" placeholder="업무상태 선택" />
                 </UiFormItem>
-                <UiFormItem class="mb-1" label="D-DAY">
+                <UiFormItem label="D-DAY">
                   <UiSelect size="small" placeholder="전체" />
                 </UiFormItem>
                 <!-- 추가 항목 -->
@@ -137,7 +137,7 @@
                   <div v-for="i in 5" :key="i" class="user-item">
                     <div class="user-info">
                       <div class="user-avatar">
-                        <Icon name="mdi:account-circle" size="32" />
+                        <i class="icon-user-gray icon-xl"></i>
                       </div>
                       <div class="user-details">
                         <div class="user-name">[이강표] Contact</div>

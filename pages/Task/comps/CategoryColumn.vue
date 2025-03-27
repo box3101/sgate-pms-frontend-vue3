@@ -59,7 +59,7 @@
                   <UiFormItem label="협업" minWidth="min-w-10">
                     <div class="flex gap-5">
                       <UiInput  placeholder="조회 및 선택하세요" />
-                      <UiButton variant="tertiary" icon-only class="mt-1">
+                      <UiButton variant="tertiary" icon-only>
                         <Icon name="heroicons:magnifying-glass" size="20" />
                       </UiButton>
                     </div>
@@ -67,7 +67,7 @@
                   <UiFormItem label="공유" minWidth="min-w-10">
                     <div class="flex gap-5">
                       <UiInput  placeholder="조회 및 선택하세요" />
-                      <UiButton variant="tertiary" icon-only class="mt-1">
+                      <UiButton variant="tertiary" icon-only>
                         <Icon name="heroicons:magnifying-glass" size="20" />
                       </UiButton>
                     </div>

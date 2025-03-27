@@ -340,7 +340,7 @@ const guideData = reactive({
               description: "사용자 프로필 클릭",
               icon: "heroicons:user-circle",
               url: "/ispark-sgate/",
-              status: "in-progress",
+              status: "completed",
             },
             {
               id: "notification",
@@ -348,7 +348,7 @@ const guideData = reactive({
               description: "시스템 알림 메뉴",
               icon: "heroicons:bell-alert",
               url: "/ispark-sgate/",
-              status: "in-progress",
+              status: "completed",
             },
             {
               id: "full-menu",
@@ -392,7 +392,7 @@ const guideData = reactive({
               title: "업무 보드",
               description: "업무 보드 화면",
               icon: "mdi:view-dashboard",
-              url: "/ispark-sgate/task/board",
+              url: "/ispark-sgate/task/collaboration/board",
               status: "in-progress",
             },
           ],

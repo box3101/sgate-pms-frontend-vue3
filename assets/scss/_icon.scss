@@ -1,0 +1,70 @@
+// 아이콘 공통 스타일
+.icon {
+  background-repeat: no-repeat;
+  background-position: center;
+  display: inline-block;
+}
+
+// SVG 아이콘 함수 - fill 색상만 변경 가능하도록
+@function svg-icon-user($fill-color) {
+  $encoded-fill: str-replace('#{$fill-color}', '#', '%23');
+  @return url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='#{$encoded-fill}' d='M12 19.2c-2.5 0-4.71-1.28-6-3.2c.03-2 4-3.1 6-3.1s5.97 1.1 6 3.1a7.23 7.23 0 0 1-6 3.2M12 5a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3m0-3A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10c0-5.53-4.5-10-10-10'/%3E%3C/svg%3E");
+}
+
+// 문자열 치환 함수
+@function str-replace($string, $search, $replace) {
+  $index: str-index($string, $search);
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+  @return $string;
+}
+
+// 아이콘 SVG 정의 - 기본 검정색
+.icon-user {
+  @extend .icon;
+  background-image: svg-icon-user('black');
+}
+
+// 아이콘 회색 변형
+.icon-user-gray {
+  @extend .icon;
+  background-image: svg-icon-user('#808080');
+}
+
+// 아이콘 크기 변형
+.icon-xs {
+  width: 12px;
+  height: 12px;
+  background-size: 12px;
+}
+
+.icon-sm {
+  width: 16px;
+  height: 16px;
+  background-size: 16px;
+}
+
+.icon-md {
+  width: 20px;
+  height: 20px;
+  background-size: 20px;
+}
+
+.icon-lg {
+  width: 24px;
+  height: 24px;
+  background-size: 24px;
+}
+
+.icon-xl {
+  width: 28px;
+  height: 28px;
+  background-size: 28px;
+}
+
+.icon-xxl {
+  width: 32px;
+  height: 32px;
+  background-size: 32px;
+}
