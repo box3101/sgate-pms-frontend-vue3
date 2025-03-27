@@ -10,6 +10,31 @@
             alt="SGate Logo"
           />
         </NuxtLink>
+        <!-- 타이틀 부분 -->
+        <div class="title-area">
+          <h1 class="title">{{ logoText }}</h1>
+          <span v-if="hasLink" class="subtitle with-link">
+            {{ subTitle || "링크 있음" }}
+            <Icon
+              v-if="linkIconType === 'arrow'"
+              name="heroicons:arrow-right"
+              size="16"
+            />
+            <Icon
+              v-else-if="linkIconType === 'youtube'"
+              name="mdi:youtube"
+              size="16"
+            />
+            <Icon
+              v-else-if="linkIconType === 'external'"
+              name="heroicons:arrow-top-right-on-square"
+              size="16"
+            />
+          </span>
+          <span v-else class="subtitle">
+            {{ subTitle || "" }}
+          </span>
+        </div>
       </div>
 
       <!-- 동적 탭 메뉴 부분 -->
@@ -166,7 +191,10 @@
               style="display: block"
               v-for="(notification, index) in notifications"
               :key="index"
-              :class="['notification-card', `notification-status-${notification.status}`]"
+              :class="[
+                'notification-card',
+                `notification-status-${notification.status}`,
+              ]"
             >
               <div class="notification-header">
                 <div class="notification-sender">
@@ -175,7 +203,10 @@
                 </div>
                 <span class="notification-time">{{ notification.time }}</span>
               </div>
-              <p class="notification-title" :class="`notification-status-${notification.status}`">
+              <p
+                class="notification-title"
+                :class="`notification-status-${notification.status}`"
+              >
                 {{ notification.title }}
               </p>
 
@@ -193,7 +224,7 @@
                 </UiButton>
               </div>
             </a>
-            
+
             <!-- 알림 예시 -->
             <div v-if="notifications.length === 0" class="no-notifications">
               알림이 없습니다.
@@ -260,6 +291,17 @@ function openFilter() {
 // 현재 라우트 가져오기
 const route = useRoute();
 
+// 현재 URL이 /task/로 시작하는지 확인
+const isTaskRoute = computed(() => {
+  return route.path.startsWith('/task/');
+});
+
+// 해시 상태 계산
+const hash = computed(() => {
+  return isTaskRoute.value;
+});
+
+
 // 각 섹션별 탭 메뉴 정의
 const tabMenus = {
   // 홈 섹션 탭
@@ -287,36 +329,40 @@ const notifications = ref([
     sender: "시스템",
     title: "시스템 업데이트",
     time: "10분 전",
-    content: "시스템이 성공적으로 업데이트되었습니다. 새로운 기능이 추가되었으니 확인해보세요. 문제가 있으면 관리자에게 문의하세요.",
+    content:
+      "시스템이 성공적으로 업데이트되었습니다. 새로운 기능이 추가되었으니 확인해보세요. 문제가 있으면 관리자에게 문의하세요.",
     read: false,
-    status: "info"
+    status: "info",
   },
   {
     id: 2,
     sender: "홍길동",
     title: "새로운 활동",
     time: "1시간 전",
-    content: "홍길동님으로부터 새 메시지가 도착했습니다. 프로젝트 진행 상황에 대한 피드백입니다.",
+    content:
+      "홍길동님으로부터 새 메시지가 도착했습니다. 프로젝트 진행 상황에 대한 피드백입니다.",
     read: false,
-    status: "success"
+    status: "success",
   },
   {
     id: 3,
     sender: "일정관리",
     title: "일정 알림",
     time: "3시간 전",
-    content: "내일 오전 10시 회의가 예정되어 있습니다. 회의실 A동 302호에서 진행됩니다. 필요한 자료를 준비해주세요.",
+    content:
+      "내일 오전 10시 회의가 예정되어 있습니다. 회의실 A동 302호에서 진행됩니다. 필요한 자료를 준비해주세요.",
     read: true,
-    status: "warning"
+    status: "warning",
   },
   {
     id: 4,
     sender: "김윤기",
     title: "디자인 피드백",
     time: "5시간 전",
-    content: "디자인 시스템 초안에 대한 피드백이 있습니다. 컬러 팔레트 조정이 필요합니다.",
+    content:
+      "디자인 시스템 초안에 대한 피드백이 있습니다. 컬러 팔레트 조정이 필요합니다.",
     read: false,
-    status: "info"
+    status: "info",
   },
   {
     id: 5,
@@ -325,7 +371,7 @@ const notifications = ref([
     time: "어제",
     content: "프로젝트 마감일이 3일 남았습니다. 진행 상황을 확인해주세요.",
     read: false,
-    status: "danger"
+    status: "danger",
   },
   {
     id: 6,
@@ -334,25 +380,27 @@ const notifications = ref([
     time: "어제",
     content: "요청하신 문서가 공유되었습니다. 확인 후 의견 부탁드립니다.",
     read: true,
-    status: "success"
+    status: "success",
   },
   {
     id: 7,
     sender: "보안 시스템",
     title: "로그인 알림",
     time: "2일 전",
-    content: "새로운 기기에서 로그인이 감지되었습니다. 본인이 아닐 경우 관리자에게 문의하세요.",
+    content:
+      "새로운 기기에서 로그인이 감지되었습니다. 본인이 아닐 경우 관리자에게 문의하세요.",
     read: true,
-    status: "danger"
+    status: "danger",
   },
   {
     id: 8,
     sender: "최수진",
     title: "설문조사 요청",
     time: "3일 전",
-    content: "사용자 경험 개선을 위한 설문조사에 참여해주세요. 5분이면 충분합니다.",
+    content:
+      "사용자 경험 개선을 위한 설문조사에 참여해주세요. 5분이면 충분합니다.",
     read: true,
-    status: "info"
+    status: "info",
   },
   {
     id: 9,
@@ -361,7 +409,7 @@ const notifications = ref([
     time: "4일 전",
     content: "시스템 데이터 백업이 성공적으로 완료되었습니다.",
     read: true,
-    status: "success"
+    status: "success",
   },
   {
     id: 10,
@@ -370,13 +418,15 @@ const notifications = ref([
     time: "1주일 전",
     content: "인증 API가 업데이트되었습니다. 개발 가이드를 확인해주세요.",
     read: true,
-    status: "warning"
-  }
+    status: "warning",
+  },
 ]);
 
 // 알림 삭제 함수
 const deleteNotification = (id) => {
-  notifications.value = notifications.value.filter(notification => notification.id !== id);
+  notifications.value = notifications.value.filter(
+    (notification) => notification.id !== id
+  );
 };
 
 // 현재 경로에 맞는 탭 메뉴 결정
@@ -429,6 +479,17 @@ const isActive = (path) => {
   display: flex;
   align-items: center;
   margin-right: 5px;
+
+  .title-area {
+    display: flex;
+    align-items: center;
+  }
+
+  .title {
+    margin: 0 14px;
+    font-size: $font-size-xxl;
+    font-weight: 700;
+  }
 }
 
 .logo a {
@@ -589,45 +650,45 @@ const isActive = (path) => {
 
 .notifications-container {
   overflow-y: auto;
-  
+
   .notification-card {
     padding: 12px;
     background-color: #fff;
     border-bottom: 1px solid #e8e8e8;
     transition: background-color 0.2s;
-    
+
     &:hover {
       background-color: #f8f8f8;
     }
-    
+
     .notification-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 8px;
-      
+
       .notification-sender {
         display: flex;
         align-items: center;
         gap: 6px;
-        
+
         .sender-icon {
           color: #666;
         }
-        
+
         .sender-name {
           font-weight: 700;
           font-size: $font-size-md;
           color: #333;
         }
       }
-      
+
       .notification-time {
         font-size: 12px;
         color: #999;
       }
     }
-    
+
     .notification-title {
       font-size: $font-size-md;
       font-weight: 700;
@@ -647,7 +708,7 @@ const isActive = (path) => {
         font-weight: 600;
       }
     }
-    
+
     .notification-content {
       font-size: $font-size-sm;
       color: $text-color;
@@ -655,14 +716,14 @@ const isActive = (path) => {
       font-weight: 500;
       line-height: 1.4;
     }
-    
+
     .notification-actions {
       display: flex;
       justify-content: flex-end;
       gap: 4px;
     }
   }
-  
+
   .no-notifications {
     padding: 24px;
     text-align: center;

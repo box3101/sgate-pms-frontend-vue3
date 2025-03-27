@@ -182,7 +182,10 @@ function handleMouseUp() {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow-y: auto;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   &__backdrop {
     position: fixed;
@@ -270,8 +273,15 @@ function handleMouseUp() {
 
   &__body {
     padding: $spacing-lg;
-    overflow-y: auto;
     flex-grow: 1;
+    scrollbar-width: none;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow-y: auto;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
   }
 
   &__footer {
@@ -309,7 +319,6 @@ function handleMouseUp() {
   &--centered {
     margin: auto;
   }
-
   &--right {
     position: absolute;
     right: 0;

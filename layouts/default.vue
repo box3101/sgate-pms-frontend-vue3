@@ -57,6 +57,8 @@ onMounted(() => {
   width: 100%;
   min-width: 1200px;
   animation: fade-in 0.3s ease-out;
+  height: calc(100vh - 95px);
+
 }
 
 @keyframes fade-in {
