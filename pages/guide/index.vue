@@ -281,6 +281,7 @@ const taskCategories = ref([
     expanded: true,
     tasks: [
       { title: "로그인 화면 모바일 확인 작업", completed: false },
+      { title: "공통 header 상단 프로필 메뉴, 알림, 전체메뉴 디자인 작업", completed: false },
     ],
   },
 ]);
