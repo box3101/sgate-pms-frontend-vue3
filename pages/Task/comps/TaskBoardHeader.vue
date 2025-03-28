@@ -145,8 +145,14 @@
                       </div>
                     </div>
                     <div class="flex gap-10">
-                      <UiSelect placeholder="선택하세요" size="small" class="w-200" />
-                      <UiButton variant="tertiary" size="small">이동</UiButton>
+                      <template v-if="isActive">
+                        <UiTextarea placeholder="제외사유를 입력하세요." size="small" class="w-200" rows="2" />
+                        <UiButton variant="tertiary" size="small">제외</UiButton>
+                      </template>
+                      <template v-else>
+                        <UiSelect placeholder="선택하세요" size="small" class="w-200" />
+                        <UiButton variant="tertiary" size="small">이동</UiButton>
+                      </template>
                     </div>
                   </div>
                 </div>
@@ -155,7 +161,7 @@
 
             <template #footerActions>
               <div class="flex gap-4 w-full justify-end">
-                <UiSelect class="w-300" placeholder="선택하세요" />
+                <UiSelect class="w-300"  placeholder="선택하세요" />
                 <UiButton
                   variant="tertiary"
                   @click="isCollaborationModalOpen = false"
@@ -187,6 +193,7 @@ import { ref } from "vue";
 import UiSelect from "~/components/UI/UiSelect.vue";
 import UiDatePicker from "~/components/UI/UiDatePicker.vue";
 import UiButton from "~/components/UI/UiButton.vue";
+import UiTextarea from "~/components/UI/UiTextarea.vue";
 
 // 필터 모달 상태 관리 - 검색 필터 모달의 열림/닫힘 상태를 관리하는 변수
 const filterButton = ref(null);
@@ -225,7 +232,8 @@ function openCollaborationModal() {
 }
 
 function handleSwitchChange(value) {
-  console.log("Switch value:", value);
+  console.log('스위치 상태 변경:', value);
+  isActive.value = value;
 }
 </script>
 
@@ -279,7 +287,6 @@ function handleSwitchChange(value) {
     
     .user-list {
       max-height: 400px;
-      overflow-y: auto;
       
       .user-item {
         display: flex;
@@ -299,6 +306,8 @@ function handleSwitchChange(value) {
           
           .user-avatar {
             color: #5f6368;
+            display: flex;
+            align-items: center;
           }
           
           .user-details {

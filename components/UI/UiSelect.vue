@@ -185,12 +185,12 @@ watch(() => props.modelValue, (newValue) => {
 
   &.size-medium {
     .select-header {
-      padding: 8px 12px;
+      padding: 7px 12px;
       font-size: 1rem;
     }
 
     .option-item {
-      padding: 8px 12px;
+      padding: 7px 12px;
       font-size: 1rem;
     }
   }
@@ -217,7 +217,6 @@ watch(() => props.modelValue, (newValue) => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 12px;
     border: 1px solid #ddd;
     border-radius: 4px;
     background-color: #fff;
@@ -398,3 +397,7 @@ watch(() => props.modelValue, (newValue) => {
   }
 }
 </style>
+        top: 50%;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;

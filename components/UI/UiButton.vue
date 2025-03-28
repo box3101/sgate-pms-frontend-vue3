@@ -260,7 +260,6 @@ defineEmits(["click"]);
 
     &.ui-button--icon-only {
       width: 40px;
-      padding: 0;
     }
   }
 

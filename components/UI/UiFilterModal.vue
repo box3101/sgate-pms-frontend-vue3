@@ -200,6 +200,7 @@ defineExpose({
 
 .filter-body {
   padding: 16px;
+  overflow-y: scroll;
 }
 
 .filter-footer {

@@ -233,7 +233,7 @@
         </UiModal>
 
         <button class="icon-button" @click="isFullMenuModalOpen = true">
-          <Icon name="mdi:emoticon" size="24" />
+          <i class="icon icon-eye icon-lg"></i>
         </button>
 
         <UiModal v-model="isFullMenuModalOpen" :size="'full'">
