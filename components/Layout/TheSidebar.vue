@@ -47,6 +47,7 @@
                 class="submenu-item"
               >
                 <NuxtLink :to="item.path" class="submenu-link">
+                  <span class="submenu-bullet">•</span>
                   <div class="menu-text">{{ item.name }}</div>
                 </NuxtLink>
               </li>
@@ -66,7 +67,10 @@
                 :key="submenuIndex"
                 class="submenu-section"
               >
-                <div class="submenu-section-title">{{ submenu.title }}</div>
+                <div class="submenu-section-title">
+                  <span class="section-indicator">›</span>
+                  {{ submenu.title }}
+                </div>
                 <ul class="nested-submenu">
                   <li
                     v-for="(submenuItem, submenuItemIndex) in submenu.items"
@@ -77,6 +81,7 @@
                       :to="submenuItem.path"
                       class="nested-submenu-link"
                     >
+                      <span class="nested-submenu-bullet">·</span>
                       <div class="menu-text">{{ submenuItem.name }}</div>
                     </NuxtLink>
                   </li>
@@ -858,19 +863,34 @@ onMounted(() => {
   white-space: nowrap;
   transition: all 0.2s;
   border-radius: 4px;
+  position: relative;
+}
+
+.submenu-bullet {
+  display: inline-block;
+  margin-right: 8px;
+  font-size: 18px;
+  color: $primary-color;
+  line-height: 1;
 }
 
 .submenu-link:hover {
-  background-color: $primary-color;
-  color: white;
+  background-color: rgba($primary-color, 0.1);
+  color: $primary-color;
+  
+  .submenu-bullet {
+    color: $primary-color;
+  }
 }
 
-.submenu-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 12px;
-  width: 18px;
+.submenu-link.router-link-active {
+  background-color: rgba($primary-color, 0.1);
+  color: $primary-color;
+  font-weight: 500;
+  
+  .submenu-bullet {
+    color: $primary-color;
+  }
 }
 
 .submenu-sections {
@@ -884,11 +904,21 @@ onMounted(() => {
 }
 
 .submenu-section-title {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   color: $text-color;
   padding: 4px 16px;
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.section-indicator {
+  color: $primary-color;
+  margin-right: 6px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .nested-submenu {
@@ -904,25 +934,40 @@ onMounted(() => {
 .nested-submenu-link {
   display: flex;
   align-items: center;
-  padding: 6px 16px;
+  padding: 6px 16px 6px 24px;
   text-decoration: none;
   color: $text-color;
   white-space: nowrap;
   transition: all 0.2s;
   border-radius: 4px;
   font-size: 13px;
+  position: relative;
+}
+
+.nested-submenu-bullet {
+  display: inline-block;
+  margin-right: 8px;
+  color: #666;
+  font-size: 16px;
+  line-height: 1;
 }
 
 .nested-submenu-link:hover {
-  background-color: $primary-color;
-  color: white;
+  background-color: rgba($primary-color, 0.1);
+  color: $primary-color;
+  
+  .nested-submenu-bullet {
+    color: $primary-color;
+  }
 }
 
-.nested-submenu-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 10px;
-  width: 16px;
+.nested-submenu-link.router-link-active {
+  background-color: rgba($primary-color, 0.1);
+  color: $primary-color;
+  font-weight: 500;
+  
+  .nested-submenu-bullet {
+    color: $primary-color;
+  }
 }
 </style>
