@@ -35,6 +35,8 @@ const updateValue = (value) => {
 };
 </script>
 <style lang="scss" scoped>
+@use "sass:color";
+
 .ui-segment-control {
   display: inline-flex;
   border-radius: 8px;
@@ -66,7 +68,7 @@ const updateValue = (value) => {
 }
 
 .segment-button:hover:not(.active) {
-  background-color: darken(#f5f5f5, 5%);
+  background-color: color.adjust(#f5f5f5, $lightness: -5%);
 }
 
 .segment-button:focus {

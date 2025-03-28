@@ -89,6 +89,8 @@ defineProps({
 defineEmits(["click"]);
 </script>
 <style lang="scss" scoped>
+@use "sass:color";
+
 .ui-button {
   position: relative;
   display: inline-flex;
@@ -179,11 +181,11 @@ defineEmits(["click"]);
     color: white;
 
     &:hover:not(:disabled) {
-      background-color: darken($primary-color, 10%);
+      background-color: color.adjust($primary-color, $lightness: -10%);
     }
 
     &:active:not(:disabled) {
-      background-color: darken($primary-color, 20%);
+      background-color: color.adjust($primary-color, $lightness: -20%);
     }
   }
 
@@ -192,11 +194,11 @@ defineEmits(["click"]);
     color: $primary-color;
 
     &:hover:not(:disabled) {
-      background-color: darken($selected-background, 5%);
+      background-color: color.adjust($selected-background, $lightness: -5%);
     }
 
     &:active:not(:disabled) {
-      background-color: darken($selected-background, 10%);
+      background-color: color.adjust($selected-background, $lightness: -10%);
     }
   }
 
@@ -205,11 +207,11 @@ defineEmits(["click"]);
     color: #000;
 
     &:hover:not(:disabled) {
-      background-color: darken($background-color, 10%);
+      background-color: color.adjust($background-color, $lightness: -10%);
     }
 
     &:active:not(:disabled) {
-      background-color: darken($background-color, 20%);
+      background-color: color.adjust($background-color, $lightness: -20%);
     }
   }
 
@@ -218,11 +220,11 @@ defineEmits(["click"]);
     color: white;
 
     &:hover:not(:disabled) {
-      background-color: darken(#aaa, 10%);
+      background-color: color.adjust(#aaa, $lightness: -10%);
     }
 
     &:active:not(:disabled) {
-      background-color: darken(#aaa, 20%);
+      background-color: color.adjust(#aaa, $lightness: -20%);
     }
   }
 
