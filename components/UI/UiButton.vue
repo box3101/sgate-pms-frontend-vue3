@@ -181,50 +181,50 @@ defineEmits(["click"]);
     color: white;
 
     &:hover:not(:disabled) {
-      background-color: color.adjust($primary-color, $lightness: -10%);
+      background-color: $primary-hover-color;
     }
 
     &:active:not(:disabled) {
-      background-color: color.adjust($primary-color, $lightness: -20%);
+      background-color: $primary-active-color;
     }
   }
 
   &--secondary {
-    background-color: $selected-background;
+    background-color: $secondary-color;
     color: $primary-color;
 
     &:hover:not(:disabled) {
-      background-color: color.adjust($selected-background, $lightness: -5%);
+      background-color: $secondary-hover-color;
     }
 
     &:active:not(:disabled) {
-      background-color: color.adjust($selected-background, $lightness: -10%);
+      background-color: $secondary-active-color;
     }
   }
 
   &--tertiary {
-    background-color: $background-color;
+    background-color: $tertiary-color;
     color: #000;
 
     &:hover:not(:disabled) {
-      background-color: color.adjust($background-color, $lightness: -10%);
+      background-color: $tertiary-hover-color;
     }
 
     &:active:not(:disabled) {
-      background-color: color.adjust($background-color, $lightness: -20%);
+      background-color: $tertiary-active-color;
     }
   }
 
   &--danger {
-    background-color: #aaa;
+    background-color: $danger-color;
     color: white;
 
     &:hover:not(:disabled) {
-      background-color: color.adjust(#aaa, $lightness: -10%);
+      background-color: $danger-hover-color;
     }
 
     &:active:not(:disabled) {
-      background-color: color.adjust(#aaa, $lightness: -20%);
+      background-color: $danger-active-color;
     }
   }
 
@@ -233,11 +233,11 @@ defineEmits(["click"]);
     color: $text-color;
 
     &:hover:not(:disabled) {
-      background-color: rgba(0, 0, 0, 0.04);
+      background-color: $ghost-hover-color;
     }
 
     &:active:not(:disabled) {
-      background-color: rgba(0, 0, 0, 0.08);
+      background-color: $ghost-active-color;
     }
   }
 

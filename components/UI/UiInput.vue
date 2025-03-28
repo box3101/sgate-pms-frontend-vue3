@@ -194,12 +194,12 @@ defineEmits(['update:modelValue', 'focus', 'blur', 'change']);
     align-items: center;
     background-color: white;
     border: 1px solid $border-color;
-    border-radius: 6px;
+    border-radius: $border-radius-md;
     transition: all $transition-normal ease;
 
     &:focus-within {
       border-color: $primary-color;
-      box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+      box-shadow: 0 0 0 2px $primary-shadow;
     }
   }
 

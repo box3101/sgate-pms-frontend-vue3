@@ -1,3 +1,6 @@
+// 변수 정의
+@use "sass:color";
+
 // 기본 색상 변수
 $primary-color: #2196f3;
 $secondary-color: #6c757d;
@@ -47,12 +50,45 @@ $spacing-xl: 24px;
 
 // 테두리
 $border-radius-sm: 4px;
-$border-radius-md: 8px;
-$border-radius-lg: 16px;
+$border-radius-md: 6px;
+$border-radius-lg: 8px;
 $border-radius-pill: 9999px;
 $border-width: 1px;
 $border-width-md: 2px;
 $border-width-lg: 3px;
+
+// UI 컴포넌트 사이즈
+$ui-height-sm: 32px;
+$ui-height-md: 40px;
+$ui-height-lg: 48px;
+$ui-height-xl: 56px;
+
+$ui-padding-sm: 0 $spacing-sm;
+$ui-padding-md: 0 $spacing-lg;
+$ui-padding-lg: 0 $spacing-xl;
+$ui-padding-xl: 0 $spacing-xl;
+
+// UI 컴포넌트 상태별 색상
+$primary-hover-color: color.adjust($primary-color, $lightness: -10%);
+$primary-active-color: color.adjust($primary-color, $lightness: -20%);
+
+$secondary-color: $selected-background;
+$secondary-hover-color: color.adjust($selected-background, $lightness: -5%);
+$secondary-active-color: color.adjust($selected-background, $lightness: -10%);
+
+$tertiary-color: $background-color;
+$tertiary-hover-color: color.adjust($background-color, $lightness: -10%);
+$tertiary-active-color: color.adjust($background-color, $lightness: -20%);
+
+$ghost-hover-color: rgba(0, 0, 0, 0.04);
+$ghost-active-color: rgba(0, 0, 0, 0.08);
+
+$danger-hover-color: color.adjust($danger-color, $lightness: -10%);
+$danger-active-color: color.adjust($danger-color, $lightness: -20%);
+
+$gray-color: #aaa;
+$gray-hover-color: color.adjust($gray-color, $lightness: -10%);
+$gray-active-color: color.adjust($gray-color, $lightness: -20%);
 
 // 애니메이션
 $transition-fast: 0.15s;

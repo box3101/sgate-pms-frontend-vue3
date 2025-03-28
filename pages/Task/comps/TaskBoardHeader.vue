@@ -3,7 +3,7 @@
     <section class="header-container">
       <article class="left-section">
         <div class="flex gap-5">
-          <UiSearchableSelect placeholder="업무 보드명입니다" class="w-200" />
+          <UiSearchableSelect size="medium" placeholder="업무 보드명입니다" class="w-200" />
           <div>
             <UiButton
               variant="tertiary"

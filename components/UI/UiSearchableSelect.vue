@@ -166,12 +166,13 @@ onUnmounted(() => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 12px;
+    padding: 0 12px;
     border: 1px solid $border-color;
-    border-radius: 4px;
-    background-color: $background-color;
+    border-radius: $border-radius-sm;
+    background-color:#fff;
     cursor: pointer;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: border-color $transition-normal, box-shadow $transition-normal;
+    height: 100%;
 
     &:hover {
       border-color: $border-hover-color;
@@ -229,7 +230,7 @@ onUnmounted(() => {
     top: calc(100% + 4px);
     left: 0;
     width: 100%;
-    background-color: $background-color;
+    background-color:#fff;
     border: 1px solid $border-color;
     border-radius: 4px;
     box-shadow: 0 4px 12px $shadow-color;
@@ -249,7 +250,7 @@ onUnmounted(() => {
     border-bottom: 1px solid $border-color;
     position: sticky;
     top: 0;
-    background: $background-color;
+    background:#fff;
     z-index: 2;
   }
 
