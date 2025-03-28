@@ -65,9 +65,6 @@
               </template>
             </UiFilterModal>
           </div>
-          <UiButton variant="danger" @click="$emit('add-category')">
-            카테고리 추가
-          </UiButton>
         </div>
         <div class="flex gap-5">
           <div>

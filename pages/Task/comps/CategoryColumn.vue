@@ -148,7 +148,7 @@ function openCategoryModal() {
 }
 </script>
 
-<style scoped>
+<style>
 .category-column {
   min-width: 350px;
   width: 350px;
