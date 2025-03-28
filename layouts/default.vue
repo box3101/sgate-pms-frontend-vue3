@@ -1,7 +1,7 @@
 <!-- layouts/default.vue -->
 <template>
   <div class="app-layout">
-    <TheHeader :logoText="logoText" />
+    <TheHeader :logoText="logoText" :hasLink="hasLink"/>
     <div class="content-wrapper">
       <TheSidebar />
       <main class="main-content" :key="$route.path">
@@ -20,9 +20,11 @@ import AOS from 'aos';
 
 // 로고 텍스트 상태 관리
 const logoText = ref('개인성과');
+const hasLink = ref(false);
 
 // 자식 컴포넌트에서 접근할 수 있도록 provide
 provide('logoText', logoText);
+provide('hasLink', hasLink);
 
 // 애니메이션 초기화
 onMounted(() => {

@@ -21,7 +21,7 @@
         </div>
       </div>
 
-      <div class="filter-body">
+      <div class="filter-body" :class="{ isScroll: 'is-scroll' }">
         <slot />
       </div>
 
@@ -37,6 +37,7 @@ import { ref, nextTick, watch } from "vue";
 
 const isFilterModalOpen = ref(false);
 const filterPosition = ref({});
+const isScroll = ref(false);
 
 const props = defineProps({
   bgColor: {
@@ -72,6 +73,10 @@ const props = defineProps({
     type: String,
     default: "medium",
     validator: (value) => ["small", "medium", "large"].includes(value),
+  },
+  isScroll: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -147,7 +152,7 @@ defineExpose({
   display: inline-block;
 }
 </style>
-<style scoped>
+<style lang="scss" scoped>
 .filter-container {
   position: relative;
 }
@@ -200,7 +205,10 @@ defineExpose({
 
 .filter-body {
   padding: 16px;
-  overflow-y: scroll;
+  &.is-scroll {
+    max-height: 400px;
+    overflow-y: auto;
+  }
 }
 
 .filter-footer {

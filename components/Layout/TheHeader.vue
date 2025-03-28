@@ -13,27 +13,10 @@
         <!-- 타이틀 부분 -->
         <div class="title-area">
           <h1 class="title">{{ logoText }}</h1>
-          <span v-if="hasLink" class="subtitle with-link">
-            {{ subTitle || "링크 있음" }}
-            <Icon
-              v-if="linkIconType === 'arrow'"
-              name="heroicons:arrow-right"
-              size="16"
-            />
-            <Icon
-              v-else-if="linkIconType === 'youtube'"
-              name="mdi:youtube"
-              size="16"
-            />
-            <Icon
-              v-else-if="linkIconType === 'external'"
-              name="heroicons:arrow-top-right-on-square"
-              size="16"
-            />
-          </span>
-          <span v-else class="subtitle">
-            {{ subTitle || "" }}
-          </span>
+          
+          <a v-if="hasLink" href="javascript:void(0);">
+            <i :class="hasLinkIcon"></i>
+          </a>
         </div>
       </div>
 
@@ -312,7 +295,19 @@ const props = defineProps({
     type: String,
     default: "개인성과",
   },
+  hasLink: {
+    type: Boolean,
+    default: false,
+  },
+  hasLinkIcon: {
+    type: String,
+    default: "",
+  },
 });
+
+// hasLink
+const hasLink = ref(false);
+const hasLinkIcon = ref("");
 
 // 필터 모달 관련 상태
 const filterButton = ref(null);
@@ -1059,11 +1054,15 @@ const currentTabMenu = computed(() => {
     route.path.startsWith("/task/timeline") ||
     route.path.startsWith("/task/summary")
   ) {
+    hasLink.value = true;
+    hasLinkIcon.value = "icon icon-youtube icon-lg";
     return tabMenus.tasks;
   } else if (route.path.startsWith("/projects")) {
     return tabMenus.projects;
   } else {
     // 해당하는 탭 메뉴가 없으면 빈 배열 반환
+    hasLink.value = false;
+    hasLinkIcon.value = "";
     return tabMenus.default;
   }
 });
@@ -1357,7 +1356,6 @@ const isActive = (path) => {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 16px;
-  padding: 16px;
   overflow-x: auto;
   max-width: 100%;
   
@@ -1478,7 +1476,7 @@ const isActive = (path) => {
   }
 
   .submenu-item {
-    padding: 4px 4px;
+    padding: 4px 0px;
     border-radius: 4px;
     text-decoration: none;
     transition: all 0.2s;

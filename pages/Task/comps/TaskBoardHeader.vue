@@ -119,6 +119,7 @@
             size="large"
             position="right"
             :showFooter="true"
+            :isScroll="true"
           >
             <template #headerActions>
               <UiSwitch
