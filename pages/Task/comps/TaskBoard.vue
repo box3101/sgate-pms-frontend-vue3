@@ -80,6 +80,88 @@
           <Icon name="mdi:pencil" size="16" />
         </button>
       </template>
+
+      <UiAccordionMenu :menuItems="menuItems">
+        <template #content-1>
+          <UiFormLayout :showFooter="true">
+            <UiFormItem label="카테고리" minWidth="min-w-10">
+              <UiSelect placeholder="업무 보드명입니다." />
+            </UiFormItem>
+            <UiFormItem label="실행기간" minWidth="min-w-10">
+              <UiDatePicker isRange />
+            </UiFormItem>
+            <UiFormItem label="협업" minWidth="min-w-10">
+              <div class="flex gap-5">
+                <UiInput placeholder="협업者の 이름을 입력해주세요" />
+                <UiButton variant="tertiary" icon-only>
+                  <Icon name="heroicons:user" size="20" />
+                </UiButton>
+                <UiButton variant="tertiary" icon-only>
+                  <Icon name="heroicons:magnifying-glass" size="20" />
+                </UiButton>
+              </div>
+            </UiFormItem>
+            <UiFormItem label="공유" minWidth="min-w-10">
+              <div class="flex gap-5">
+                <UiInput placeholder="공유者の 이름을 입력해주세요" />
+                <UiButton variant="tertiary" icon-only>
+                  <Icon name="heroicons:user" size="20" />
+                </UiButton>
+                <UiButton variant="tertiary" icon-only>
+                  <Icon name="heroicons:magnifying-glass" size="20" />
+                </UiButton>
+              </div>
+            </UiFormItem>
+            <UiFormItem label="내용" minWidth="min-w-10">
+              <UiTextarea
+                placeholder="업무에 대한 구체적인 내용을 입력해주세요."
+              />
+            </UiFormItem>
+
+            <template #footerActions>
+              <div class="flex gap-5 justify-end">
+                <UiButton>등록</UiButton>
+                <UiButton variant="tertiary">취소</UiButton>
+              </div>
+            </template>
+          </UiFormLayout>
+        </template>
+        <template #content-2>
+          <div class="activity-content">
+            <div class="flex justify-between gap-5 mb-4">
+              <div class="flex gap-10 items-center">
+                <p class="flex-none">일자</p>
+                <UiDatePicker placeholder="날짜 선택" />
+              </div>
+              <div class="flex gap-20 items-center">
+                <p class="flex-none">업무상태</p>
+                <UiSelect placeholder="선택하세요" class="w-200" />
+                <p class="flex-none">진행만족도</p>
+                <UiSelect placeholder="선택하세요" class="w-200" />
+              </div>
+            </div>
+
+            <div
+              class="editor-container mt-10 my-4"
+              style="height: 200px; border: 1px solid #141212"
+            ></div>
+
+            <div
+              class="flex justify-between items-center mt-20 pt-10"
+              style="border-top: 1px solid #eee"
+            >
+              <button class="attachment-btn">
+                <Icon
+                  name="heroicons:paper-clip"
+                  size="20"
+                  @click="openAttachmentModal"
+                />
+              </button>
+              <UiButton variant="primary">저장</UiButton>
+            </div>
+          </div>
+        </template>
+      </UiAccordionMenu>
     </UiModal>
 
     <!-- 카드 상세 모달 -->
@@ -465,6 +547,25 @@
         @mousedown.stop="startResize($event, detachedCardItem.id, 'w')"
       ></div>
     </div>
+
+    <!-- 첨부파일 모달 -->
+    <UiModal v-model="isAttachmentModalOpen" title="첨부파일" size="medium">
+      <div class="attachment-modal-content">
+        <UiAttachmentAccordion
+          v-model="uploadedFiles"
+          title="파일첨부"
+          :initialOpen="true"
+        />
+        <UiAttachmentAccordion
+          v-model="googleDriveFiles"
+          title="Google Drive"
+          :initialOpen="false"
+        />
+        <div class="attachment-actions flex justify-end">
+          <UiButton @click="saveAttachments">첨부완료</UiButton>
+        </div>
+      </div>
+    </UiModal>
   </div>
 </template>
 <script setup>
@@ -474,6 +575,7 @@ import CategoryColumn from "./CategoryColumn.vue";
 import CategoryCard from "./CategoryCard.vue";
 import UiModal from "@/components/UI/UiModal.vue";
 import UiTag from "@/components/UI/UiTag.vue";
+import UiAttachmentAccordion from "~/components/UI/UiAttachment.vue";
 
 // 카테고리 목록 데이터 - 각 카테고리에는 ID, 제목, 카드 배열이 포함됨
 const categories = ref([
@@ -664,8 +766,29 @@ const categories = ref([
   },
 ]);
 
+// 카드 추가 아코디언 메뉴
+const menuItems = [
+  {
+    title: "속성",
+    isAccordion: true,
+    initialOpen: false,
+    items: [],
+    action: () => {},
+  },
+  {
+    title: "활동",
+    isAccordion: true,
+    initialOpen: true,
+    items: [],
+    action: () => {},
+  },
+];
+
+// 첨부파일 모달 상태 관리
+const isAttachmentModalOpen = ref(true);
+
 // 카드 모달 상태 관리 - 카드 추가/편집을 위한 모달 표시 여부
-const isCardModalOpen = ref(false);
+const isCardModalOpen = ref(true);
 const isCardDetailOpen = ref(false);
 const selectedCard = ref(null);
 
@@ -699,6 +822,15 @@ let resizeDirection = "";
 let resizeStartPosition = { x: 0, y: 0 };
 let resizeStartSize = { width: 0, height: 0 };
 let resizeStartModalPosition = { x: 0, y: 0 };
+
+// 첨부파일 관련 상태
+const uploadedFiles = ref([]);
+const googleDriveFiles = ref([]);
+
+// 첨부파일 모달 열기 함수
+function openAttachmentModal() {
+  isAttachmentModalOpen.value = true;
+}
 
 // 카드 모달 열기 함수 - 카드 추가 또는 편집 시 모달을 표시
 function openCardModal() {

@@ -2,8 +2,8 @@
   <div class="ui-accordion">
     <div class="accordion-header" @click="toggleAccordion">
       <div class="accordion-title">{{ title }}</div>
-      <div class="accordion-icon">
-        <Icon :name="modelValue ? 'heroicons:chevron-up' : 'heroicons:chevron-down'" size="16" />
+      <div class="accordion-icon" :class="{ 'accordion-icon--open': modelValue }">
+        <Icon name="heroicons:chevron-down" size="16" />
       </div>
     </div>
     <div v-show="modelValue" class="accordion-content">
@@ -56,6 +56,14 @@ function toggleAccordion() {
 .accordion-title {
   font-weight: 500;
   font-size: 14px;
+}
+
+.accordion-icon {
+  transition: transform 0.3s ease;
+}
+
+.accordion-icon--open {
+  transform: rotate(180deg);
 }
 
 .accordion-content {

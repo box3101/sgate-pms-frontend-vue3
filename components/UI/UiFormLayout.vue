@@ -6,9 +6,19 @@
       </ul>
     </div>
   </div>
+
+  <div v-if="showFooter" class="ui-form-layout__footer">
+    <slot name="footerActions"></slot>
+  </div>
 </template>
 
 <script setup>
+const props = defineProps({
+  showFooter: {
+    type: Boolean,
+    default: false,
+  },
+});
 // props나 이벤트가 필요하다면 여기에 추가
 </script>
 

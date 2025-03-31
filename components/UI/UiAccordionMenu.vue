@@ -18,9 +18,9 @@
       </div>
 
       <!-- 아코디언 카테고리 -->
-      <UiAccordion 
-        v-else 
-        :title="menu.title" 
+      <UiAccordion
+        v-else
+        :title="menu.title"
         v-model="openAccordions[index]"
         @update:modelValue="handleAccordionToggle(index, $event)"
       >
@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from "vue";
+import { reactive, onMounted } from "vue";
 
 const props = defineProps({
   menuItems: {
@@ -80,7 +80,7 @@ onMounted(() => {
 function handleAccordionToggle(index, isOpen) {
   if (isOpen) {
     // 다른 모든 아코디언 닫기
-    Object.keys(openAccordions).forEach(key => {
+    Object.keys(openAccordions).forEach((key) => {
       if (parseInt(key) !== index) {
         openAccordions[key] = false;
       }

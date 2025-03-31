@@ -186,12 +186,12 @@ watch(() => props.modelValue, (newValue) => {
   &.size-medium {
     .select-header {
       padding: 7px 12px;
-      font-size: 1rem;
+      font-size: $font-size-sm;
     }
 
     .option-item {
       padding: 7px 12px;
-      font-size: 1rem;
+      font-size: $font-size-sm;
     }
   }
 
