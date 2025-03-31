@@ -52,6 +52,12 @@ const menus = [
     icon: "uil:clipboard-notes",
     text: "업무2",
   },
+  {
+    id: 4,
+    link: "/buttonCnt",
+    icon: "uil:clipboard-notes",
+    text: "버튼 컴포넌트",
+  },
 ];
 </script>
 
