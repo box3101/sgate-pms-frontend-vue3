@@ -233,6 +233,8 @@ function handleSwitchChange(value) {
   console.log('스위치 상태 변경:', value);
   isActive.value = value;
 }
+
+
 </script>
 
 <style scoped>
