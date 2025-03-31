@@ -9,7 +9,7 @@
         <!-- 빈 카테고리 -->
         <div v-if="categories.length === 0" class="empty-category">
           <div class="add-category-placeholder" @click="addNewCategory">
-            <div class="add-placeholder-icon">
+            <div class="add-category-placeholder-icon">
               <Icon name="mdi:plus" size="24" />
             </div>
             <p>새 카테고리 추가하기</p>
@@ -92,7 +92,7 @@
             </UiFormItem>
             <UiFormItem label="협업" minWidth="min-w-10">
               <div class="flex gap-5">
-                <UiInput placeholder="협업者の 이름을 입력해주세요" />
+                <UiInput placeholder="협업자 이름을 입력해주세요" />
                 <UiButton variant="tertiary" icon-only>
                   <Icon name="heroicons:user" size="20" />
                 </UiButton>
@@ -103,7 +103,7 @@
             </UiFormItem>
             <UiFormItem label="공유" minWidth="min-w-10">
               <div class="flex gap-5">
-                <UiInput placeholder="공유者の 이름을 입력해주세요" />
+                <UiInput placeholder="공유자 이름을 입력해주세요" />
                 <UiButton variant="tertiary" icon-only>
                   <Icon name="heroicons:user" size="20" />
                 </UiButton>
@@ -191,107 +191,18 @@
         </div>
 
         <div class="card-detail-content">
-          <div class="card-comments-section">
-            <h3 class="content-section-title">활동내역</h3>
-
-            <!-- 댓글 입력 영역 -->
-            <div class="comment-input-container">
-              <UiTextarea
-                placeholder="내용을 입력해주세요."
-                v-model="newComment"
-                rows="3"
-                @input="autoResizeTextarea"
-                ref="commentTextarea"
-              ></UiTextarea>
-              <div class="comment-actions">
-                <button class="comment-submit-btn" @click="addComment">
-                  등록
-                </button>
-              </div>
+          <div class="card-detail-info">
+            <div class="info-item">
+              <span class="info-label">기간</span>
+              <span class="info-value">{{ selectedCard.date }}</span>
             </div>
-
-            <!-- 댓글 목록 -->
-            <div class="comments-list">
-              <div
-                v-for="(comment, index) in selectedCard.commentsList"
-                :key="index"
-                class="comment-item"
-              >
-                <div class="comment-header">
-                  <div class="comment-author">
-                    <img
-                      src="https://via.placeholder.com/32"
-                      alt="User Avatar"
-                      class="comment-avatar"
-                    />
-                    <span class="comment-author-name">{{
-                      comment.author
-                    }}</span>
-                  </div>
-                  <span class="comment-date">{{ comment.date }}</span>
-                </div>
-                <div class="comment-body">
-                  {{ comment.text }}
-                </div>
-                <div class="comment-actions-row">
-                  <button
-                    class="reply-btn"
-                    @click="toggleReplyForm(comment.id)"
-                  >
-                    <Icon name="mdi:reply" size="14" />
-                    답글
-                  </button>
-                </div>
-
-                <!-- 대댓글 입력 폼 -->
-                <div v-if="activeReplyId === comment.id" class="reply-form">
-                  <UiTextarea
-                    class="reply-textarea"
-                    placeholder="답글을 입력해주세요..."
-                    v-model="replyText"
-                    rows="2"
-                    @input="autoResizeReplyTextarea"
-                    ref="replyTextarea"
-                  ></UiTextarea>
-                  <div class="reply-form-actions">
-                    <button class="cancel-btn" @click="cancelReply">
-                      취소
-                    </button>
-                    <button class="submit-btn" @click="addReply(comment.id)">
-                      등록
-                    </button>
-                  </div>
-                </div>
-
-                <!-- 대댓글 목록 -->
-                <div
-                  v-if="comment.replies && comment.replies.length > 0"
-                  class="replies-list"
-                >
-                  <div
-                    v-for="(reply, replyIndex) in comment.replies"
-                    :key="replyIndex"
-                    class="reply-item"
-                  >
-                    <div class="reply-header">
-                      <div class="reply-author">
-                        <img
-                          src="https://via.placeholder.com/24"
-                          alt="User Avatar"
-                          class="reply-avatar"
-                        />
-                        <span class="reply-author-name">{{
-                          reply.author
-                        }}</span>
-                      </div>
-                      <span class="reply-date">{{ reply.date }}</span>
-                    </div>
-                    <div class="reply-body">
-                      {{ reply.text }}
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div class="info-item">
+              <span class="info-label">댓글</span>
+              <span class="info-value">{{ selectedCard.comments }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">첨부파일</span>
+              <span class="info-value">{{ selectedCard.attachments }}</span>
             </div>
           </div>
         </div>
@@ -358,156 +269,11 @@
             </div>
             <div class="info-item">
               <span class="info-label">댓글</span>
-              <span class="info-value">{{
-                detachedCardItem.card.comments || 0
-              }}</span>
+              <span class="info-value">{{ detachedCardItem.card.comments }}</span>
             </div>
             <div class="info-item">
               <span class="info-label">첨부파일</span>
-              <span class="info-value">{{
-                detachedCardItem.card.attachments || 0
-              }}</span>
-            </div>
-          </div>
-
-          <div class="card-detail-content">
-            <div class="card-comments-section">
-              <h3 class="content-section-title">활동내역</h3>
-
-              <!-- 댓글 입력 영역 -->
-              <div class="comment-input-container">
-                <UiTextarea
-                  class="comment-textarea"
-                  placeholder="내용을 입력해주세요."
-                  v-model="detachedCardComments[detachedCardItem.id]"
-                  rows="3"
-                  @input="(e) => autoResizeTextarea(e, detachedCardItem.id)"
-                  :ref="
-                    (el) => {
-                      if (el) detachedTextareaRefs[detachedCardItem.id] = el;
-                    }
-                  "
-                ></UiTextarea>
-                <div class="comment-actions">
-                  <button
-                    class="comment-submit-btn"
-                    @click="addCommentToDetached(detachedCardItem.id)"
-                  >
-                    등록
-                  </button>
-                </div>
-              </div>
-
-              <!-- 댓글 목록 -->
-              <div class="comments-list">
-                <div
-                  v-for="(comment, index) in detachedCardItem.card.commentsList"
-                  :key="index"
-                  class="comment-item"
-                >
-                  <div class="comment-header">
-                    <div class="comment-author">
-                      <img
-                        src="https://via.placeholder.com/32"
-                        alt="User Avatar"
-                        class="comment-avatar"
-                      />
-                      <span class="comment-author-name">{{
-                        comment.author
-                      }}</span>
-                    </div>
-                    <span class="comment-date">{{ comment.date }}</span>
-                  </div>
-                  <div class="comment-body">
-                    {{ comment.text }}
-                  </div>
-                  <div class="comment-actions-row">
-                    <button
-                      class="reply-btn"
-                      @click="
-                        toggleDetachedReplyForm(detachedCardItem.id, comment.id)
-                      "
-                    >
-                      <Icon name="mdi:reply" size="14" />
-                      답글
-                    </button>
-                  </div>
-
-                  <!-- 대댓글 입력 폼 -->
-                  <div
-                    v-if="
-                      detachedActiveReplyIds[detachedCardItem.id] === comment.id
-                    "
-                    class="reply-form"
-                  >
-                    <UiTextarea
-                      placeholder="답글을 입력해주세요..."
-                      v-model="detachedReplyTexts[detachedCardItem.id]"
-                      rows="2"
-                      @input="
-                        (e) =>
-                          autoResizeDetachedReplyTextarea(
-                            e,
-                            detachedCardItem.id
-                          )
-                      "
-                      :ref="
-                        (el) => {
-                          if (el)
-                            detachedReplyTextareaRefs[
-                              `${detachedCardItem.id}-${comment.id}`
-                            ] = el;
-                        }
-                      "
-                    ></UiTextarea>
-                    <div class="reply-form-actions">
-                      <button
-                        class="cancel-btn"
-                        @click="cancelDetachedReply(detachedCardItem.id)"
-                      >
-                        취소
-                      </button>
-                      <button
-                        class="submit-btn"
-                        @click="
-                          addDetachedReply(detachedCardItem.id, comment.id)
-                        "
-                      >
-                        등록
-                      </button>
-                    </div>
-                  </div>
-
-                  <!-- 대댓글 목록 -->
-                  <div
-                    v-if="comment.replies && comment.replies.length > 0"
-                    class="replies-list"
-                  >
-                    <div
-                      v-for="(reply, replyIndex) in comment.replies"
-                      :key="replyIndex"
-                      class="reply-item"
-                    >
-                      <div class="reply-header">
-                        <div class="reply-author">
-                          <img
-                            src="https://via.placeholder.com/24"
-                            alt="User Avatar"
-                            class="reply-avatar"
-                          />
-                          <span class="reply-author-name">{{
-                            reply.author
-                          }}</span>
-                        </div>
-                        <span class="reply-date">{{ reply.date }}</span>
-                      </div>
-                      <div class="reply-body">
-                        {{ reply.text }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <span class="info-value">{{ detachedCardItem.card.attachments }}</span>
             </div>
           </div>
         </div>
@@ -785,26 +551,12 @@ const menuItems = [
 ];
 
 // 첨부파일 모달 상태 관리
-const isAttachmentModalOpen = ref(true);
+const isAttachmentModalOpen = ref(false);
 
 // 카드 모달 상태 관리 - 카드 추가/편집을 위한 모달 표시 여부
-const isCardModalOpen = ref(true);
+const isCardModalOpen = ref(false);
 const isCardDetailOpen = ref(false);
 const selectedCard = ref(null);
-
-// 댓글 관련 상태
-const newComment = ref("");
-const commentTextarea = ref(null);
-const detachedTextareaRefs = reactive({});
-const detachedCardComments = reactive({});
-
-// 대댓글 관련 상태
-const activeReplyId = ref(null);
-const replyText = ref("");
-const replyTextarea = ref(null);
-const detachedActiveReplyIds = reactive({});
-const detachedReplyTexts = reactive({});
-const detachedReplyTextareaRefs = reactive({});
 
 // 분리된 모달 상태 관리 (여러 개)
 const detachedCards = ref([]);
@@ -1181,17 +933,6 @@ function updateDetachedModalStyle(cardId) {
   };
 }
 
-// 이벤트 리스너 등록 및 해제
-onMounted(() => {
-  window.addEventListener("mousemove", handleMouseMove);
-  window.addEventListener("mouseup", handleMouseUp);
-});
-
-onUnmounted(() => {
-  window.removeEventListener("mousemove", handleMouseMove);
-  window.removeEventListener("mouseup", handleMouseUp);
-});
-
 // 새 카테고리 추가 함수 - 카테고리 목록에 새 카테고리를 추가
 function addNewCategory() {
   // 새 카테고리 객체 생성 및 추가
@@ -1203,255 +944,16 @@ function addNewCategory() {
   });
 }
 
-// 댓글 추가 함수
-function addComment() {
-  if (!newComment.value.trim() || !selectedCard.value) return;
+// 이벤트 리스너 등록 및 해제
+onMounted(() => {
+  window.addEventListener("mousemove", handleMouseMove);
+  window.addEventListener("mouseup", handleMouseUp);
+});
 
-  // 댓글 목록이 없으면 초기화
-  if (!selectedCard.value.commentsList) {
-    selectedCard.value.commentsList = [];
-  }
-
-  // 새 댓글 객체 생성
-  const comment = {
-    id: `comment-${Date.now()}`,
-    author: "김윤기", // 실제로는 로그인한 사용자 정보를 사용
-    date: new Date().toLocaleString(),
-    text: newComment.value.trim(),
-    replies: [],
-  };
-
-  // 댓글 목록에 추가
-  selectedCard.value.commentsList.push(comment);
-
-  // 댓글 수 업데이트
-  selectedCard.value.comments = selectedCard.value.commentsList.length;
-
-  // 입력 필드 초기화
-  newComment.value = "";
-
-  // 원본 카드 데이터도 업데이트
-  updateCardInCategories(selectedCard.value);
-}
-
-// 분리된 모달에 댓글 추가
-function addCommentToDetached(cardId) {
-  const commentText = detachedCardComments[cardId];
-  if (!commentText || !commentText.trim()) return;
-
-  const cardIndex = detachedCards.value.findIndex((item) => item.id === cardId);
-  if (cardIndex === -1) return;
-
-  const card = detachedCards.value[cardIndex].card;
-
-  // 댓글 목록이 없으면 초기화
-  if (!card.commentsList) {
-    card.commentsList = [];
-  }
-
-  // 새 댓글 객체 생성
-  const comment = {
-    id: `comment-${Date.now()}`,
-    author: "김윤기", // 실제로는 로그인한 사용자 정보를 사용
-    date: new Date().toLocaleString(),
-    text: commentText.trim(),
-    replies: [],
-  };
-
-  // 댓글 목록에 추가
-  card.commentsList.push(comment);
-
-  // 댓글 수 업데이트
-  card.comments = card.commentsList.length;
-
-  // 입력 필드 초기화
-  detachedCardComments[cardId] = "";
-
-  // 원본 카드 데이터도 업데이트
-  updateCardInCategories(card);
-}
-
-// 대댓글 폼 토글
-function toggleReplyForm(commentId) {
-  if (activeReplyId.value === commentId) {
-    activeReplyId.value = null;
-    replyText.value = "";
-  } else {
-    activeReplyId.value = commentId;
-    replyText.value = "";
-    // 다음 틱에 텍스트 영역에 포커스
-    nextTick(() => {
-      if (replyTextarea.value) {
-        replyTextarea.value.focus();
-      }
-    });
-  }
-}
-
-// 분리된 모달의 대댓글 폼 토글
-function toggleDetachedReplyForm(cardId, commentId) {
-  if (detachedActiveReplyIds[cardId] === commentId) {
-    detachedActiveReplyIds[cardId] = null;
-    detachedReplyTexts[cardId] = "";
-  } else {
-    detachedActiveReplyIds[cardId] = commentId;
-    detachedReplyTexts[cardId] = "";
-    // 다음 틱에 텍스트 영역에 포커스
-    nextTick(() => {
-      const textareaRef = detachedReplyTextareaRefs[`${cardId}-${commentId}`];
-      if (textareaRef) {
-        textareaRef.focus();
-      }
-    });
-  }
-}
-
-// 대댓글 취소
-function cancelReply() {
-  activeReplyId.value = null;
-  replyText.value = "";
-}
-
-// 분리된 모달의 대댓글 취소
-function cancelDetachedReply(cardId) {
-  detachedActiveReplyIds[cardId] = null;
-  detachedReplyTexts[cardId] = "";
-}
-
-// 대댓글 추가
-function addReply(commentId) {
-  if (!replyText.value.trim() || !selectedCard.value) return;
-
-  // 해당 댓글 찾기
-  const commentIndex = selectedCard.value.commentsList.findIndex(
-    (comment) => comment.id === commentId
-  );
-  if (commentIndex === -1) return;
-
-  // 대댓글 객체 생성
-  const reply = {
-    id: `reply-${Date.now()}`,
-    author: "김윤기", // 실제로는 로그인한 사용자 정보를 사용
-    date: new Date().toLocaleString(),
-    text: replyText.value.trim(),
-  };
-
-  // 대댓글이 없으면 초기화
-  if (!selectedCard.value.commentsList[commentIndex].replies) {
-    selectedCard.value.commentsList[commentIndex].replies = [];
-  }
-
-  // 대댓글 추가
-  selectedCard.value.commentsList[commentIndex].replies.push(reply);
-
-  // 입력 폼 초기화
-  activeReplyId.value = null;
-  replyText.value = "";
-
-  // 원본 카드 데이터도 업데이트
-  updateCardInCategories(selectedCard.value);
-}
-
-// 분리된 모달에 대댓글 추가
-function addDetachedReply(cardId, commentId) {
-  const replyText = detachedReplyTexts[cardId];
-  if (!replyText || !replyText.trim()) return;
-
-  const cardIndex = detachedCards.value.findIndex((item) => item.id === cardId);
-  if (cardIndex === -1) return;
-
-  const card = detachedCards.value[cardIndex].card;
-
-  // 해당 댓글 찾기
-  const commentIndex = card.commentsList.findIndex(
-    (comment) => comment.id === commentId
-  );
-  if (commentIndex === -1) return;
-
-  // 대댓글 객체 생성
-  const reply = {
-    id: `reply-${Date.now()}`,
-    author: "김윤기", // 실제로는 로그인한 사용자 정보를 사용
-    date: new Date().toLocaleString(),
-    text: replyText.trim(),
-  };
-
-  // 대댓글이 없으면 초기화
-  if (!card.commentsList[commentIndex].replies) {
-    card.commentsList[commentIndex].replies = [];
-  }
-
-  // 대댓글 추가
-  card.commentsList[commentIndex].replies.push(reply);
-
-  // 입력 폼 초기화
-  detachedActiveReplyIds[cardId] = null;
-  detachedReplyTexts[cardId] = "";
-
-  // 원본 카드 데이터도 업데이트
-  updateCardInCategories(card);
-}
-
-// 텍스트 영역 자동 크기 조절
-function autoResizeTextarea(event, detachedCardId) {
-  const textarea = detachedCardId
-    ? detachedTextareaRefs[detachedCardId]
-    : commentTextarea.value;
-
-  if (!textarea) return;
-
-  // 높이 초기화
-  textarea.style.height = "auto";
-
-  // 스크롤 높이로 설정 (최소 높이 유지)
-  const minHeight = 80; // 최소 높이 (px)
-  textarea.style.height = `${Math.max(textarea.scrollHeight, minHeight)}px`;
-}
-
-// 대댓글 텍스트 영역 자동 크기 조절
-function autoResizeReplyTextarea() {
-  if (!replyTextarea.value) return;
-
-  // 높이 초기화
-  replyTextarea.value.style.height = "auto";
-
-  // 스크롤 높이로 설정 (최소 높이 유지)
-  const minHeight = 60; // 최소 높이 (px)
-  replyTextarea.value.style.height = `${Math.max(
-    replyTextarea.value.scrollHeight,
-    minHeight
-  )}px`;
-}
-
-// 분리된 모달의 대댓글 텍스트 영역 자동 크기 조절
-function autoResizeDetachedReplyTextarea(event, cardId) {
-  const commentId = detachedActiveReplyIds[cardId];
-  if (!commentId) return;
-
-  const textarea = detachedReplyTextareaRefs[`${cardId}-${commentId}`];
-  if (!textarea) return;
-
-  // 높이 초기화
-  textarea.style.height = "auto";
-
-  // 스크롤 높이로 설정 (최소 높이 유지)
-  const minHeight = 60; // 최소 높이 (px)
-  textarea.style.height = `${Math.max(textarea.scrollHeight, minHeight)}px`;
-}
-
-// 카테고리 내 카드 데이터 업데이트
-function updateCardInCategories(updatedCard) {
-  categories.value.forEach((category) => {
-    const cardIndex = category.cards.findIndex(
-      (card) => card.id === updatedCard.id
-    );
-    if (cardIndex !== -1) {
-      // 댓글 수와 댓글 목록 업데이트
-      category.cards[cardIndex].comments = updatedCard.comments;
-      category.cards[cardIndex].commentsList = [...updatedCard.commentsList];
-    }
-  });
-}
+onUnmounted(() => {
+  window.removeEventListener("mousemove", handleMouseMove);
+  window.removeEventListener("mouseup", handleMouseUp);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -1462,17 +964,6 @@ function updateCardInCategories(updatedCard) {
   min-height: calc(100vh - 167px);
   overflow-x: auto;
   padding-bottom: 50px;
-}
-
-.empty-category {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.categories-container {
-  display: flex;
-  gap: 16px;
 }
 
 .empty-category {
@@ -1608,113 +1099,6 @@ function updateCardInCategories(updatedCard) {
   margin-top: 24px;
 }
 
-.comment-input-container {
-  margin-bottom: 16px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.comment-textarea {
-  width: 100%;
-  min-height: 80px;
-  padding: 12px;
-  border: none;
-  resize: vertical;
-  font-size: 14px;
-  line-height: 1.5;
-
-  &:focus {
-    outline: none;
-  }
-}
-
-.comment-actions {
-  display: flex;
-  justify-content: flex-end;
-  padding: 8px 12px;
-  background-color: #f9fafb;
-  border-top: 1px solid #e5e7eb;
-}
-
-.comment-submit-btn {
-  padding: 6px 16px;
-  background-color: #3b82f6;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #2563eb;
-  }
-}
-
-.comments-list {
-  margin-top: 16px;
-}
-
-.comment-item {
-  padding: 12px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  background-color: #fff;
-}
-
-.comment-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.comment-author {
-  display: flex;
-  align-items: center;
-}
-
-.comment-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  margin-right: 8px;
-}
-
-.comment-author-name {
-  font-weight: 500;
-  font-size: 14px;
-}
-
-.comment-date {
-  font-size: 12px;
-  color: #6b7280;
-}
-
-.comment-body {
-  font-size: 14px;
-  line-height: 1.5;
-  white-space: pre-wrap;
-}
-
-.detach-modal-btn,
-.detached-modal-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 4px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #f3f4f6;
-  }
-}
-
 // 분리된 모달 스타일
 .detached-modal {
   position: fixed;
@@ -1827,136 +1211,5 @@ function updateCardInCategories(updatedCard) {
     width: 6px;
     cursor: ew-resize;
   }
-}
-
-.comment-actions-row {
-  display: flex;
-  margin-top: 8px;
-}
-
-.reply-btn {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background: none;
-  border: none;
-  color: #6b7280;
-  font-size: 12px;
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 4px;
-
-  &:hover {
-    background-color: #f3f4f6;
-    color: #3b82f6;
-  }
-}
-
-.reply-form {
-  margin-top: 8px;
-  margin-left: 16px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.reply-textarea {
-  width: 100%;
-  min-height: 60px;
-  padding: 8px;
-  border: none;
-  resize: vertical;
-  font-size: 14px;
-  line-height: 1.5;
-
-  &:focus {
-    outline: none;
-  }
-}
-
-.reply-form-actions {
-  display: flex;
-  justify-content: flex-end;
-  padding: 6px 8px;
-  background-color: #f9fafb;
-  border-top: 1px solid #e5e7eb;
-  gap: 8px;
-}
-
-.cancel-btn {
-  padding: 4px 12px;
-  background-color: #f3f4f6;
-  color: #6b7280;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  font-size: 12px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #e5e7eb;
-  }
-}
-
-.submit-btn {
-  padding: 4px 12px;
-  background-color: #3b82f6;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 12px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #2563eb;
-  }
-}
-
-.replies-list {
-  margin-top: 8px;
-  margin-left: 24px;
-  border-left: 2px solid #e5e7eb;
-  padding-left: 12px;
-}
-
-.reply-item {
-  padding: 8px;
-  margin-bottom: 8px;
-  background-color: #f9fafb;
-  border-radius: 8px;
-}
-
-.reply-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 4px;
-}
-
-.reply-author {
-  display: flex;
-  align-items: center;
-}
-
-.reply-avatar {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  margin-right: 6px;
-}
-
-.reply-author-name {
-  font-weight: 500;
-  font-size: 13px;
-}
-
-.reply-date {
-  font-size: 11px;
-  color: #6b7280;
-}
-
-.reply-body {
-  font-size: 13px;
-  line-height: 1.4;
-  white-space: pre-wrap;
 }
 </style>
