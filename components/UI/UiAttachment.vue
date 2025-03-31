@@ -9,6 +9,7 @@
           class="attachment-container"    
           @dragleave.prevent="onDragLeave"
           @drop.prevent="onDrop"
+          @dragover.prevent="onDragOver"
         >
           <div class="attachment-content" :class="{ 'drag-over': isDragging }">
             <div class="file-upload-container">
