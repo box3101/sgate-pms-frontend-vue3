@@ -40,6 +40,7 @@
             <template #content-1>
               <div @click.stop>
                 <UiSelect placeholder="제조공정" />
+                <UiSelect class="mt-5" placeholder="업무유형" />
                 <UiButton
                   class="mt-5"
                   variant="tertiary"
@@ -73,16 +74,9 @@
             <template #content-3>
               <div @click.stop>
                 <p class="mb-9">업무 합치기 대상 선택</p>
-                <UiFormLayout>
-                  <UiFormItem label="업무" minWidth="min-w-10">
-                    <div class="flex gap-5">
-                      <UiInput placeholder="조회 및 선택하세요" />
-                      <UiButton variant="tertiary" icon-only @click.stop>
-                        <Icon name="heroicons:magnifying-glass" size="20" />
-                      </UiButton>
-                    </div>
-                  </UiFormItem>
-                </UiFormLayout>
+                <UiSelect placeholder="업무" />
+                <UiSelect class="mt-5" placeholder="업무2" />
+                <UiSelect class="mt-5" placeholder="업무3" />
                 <UiButton class="mt-5" variant="tertiary" block @click.stop>
                   합치기
                 </UiButton>
