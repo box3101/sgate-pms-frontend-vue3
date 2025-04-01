@@ -228,7 +228,7 @@ defineEmits(['update:modelValue', 'focus', 'blur', 'change']);
     height: 100%;
 
     &::placeholder {
-      color: #333;
+      color: #999;
     }
 
     &--with-prefix-icon {
