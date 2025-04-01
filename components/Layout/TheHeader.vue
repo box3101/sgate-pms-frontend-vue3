@@ -14,8 +14,9 @@
         <div class="title-area">
           <h1 class="title">{{ logoText }}</h1>
           
-          <a v-if="hasLink" href="javascript:void(0);">
+          <a v-if="hasLink" href="javascript:void(0);" class="flex gap-10 items-center has-link">
             <i :class="hasLinkIcon"></i>
+            <p>바로가기</p>
           </a>
         </div>
       </div>
@@ -1524,4 +1525,21 @@ const isActive = (path) => {
   font-size: smaller;
   color: #666;
 }
+.has-link {
+  margin-right: 20px;
+  position: relative;
+  cursor: pointer;
+  transition: all $transition-normal ease;
+  border: 1px solid $border-color;
+  border-radius: 30px;
+  padding: 10px 20px;
+  background-color: #eee;
+  color: $text-color;
+  
+  &:hover {
+    border-color: #666;
+    font-weight: 500;
+  }
+}
+
 </style>

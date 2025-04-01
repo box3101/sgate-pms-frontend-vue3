@@ -325,7 +325,8 @@
         <UiAttachmentAccordion
           v-model="googleDriveFiles"
           title="Google Drive"
-          :initialOpen="false"
+          icon="mdi:google-drive"
+          :initialOpen="true"
         />
         <div class="attachment-actions flex justify-end">
           <UiButton @click="saveAttachments">첨부완료</UiButton>

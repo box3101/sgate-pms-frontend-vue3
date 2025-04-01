@@ -6,7 +6,7 @@
       class="dim-background"
       @click.stop="closeFilterMenu"
     ></div>
-    
+
     <div
       class="task-card"
       @click="handleCardClick"
@@ -224,7 +224,7 @@ function handleCardClick(event) {
   if (showFilterMenu.value) {
     return;
   }
-  
+
   // Shift 키를 누른 상태로 클릭하면 새 창으로 열기
   if (event.shiftKey) {
     openInNewWindow();
@@ -375,7 +375,7 @@ function getTagProps(tag) {
     right: 8px;
     display: flex;
     gap: 4px;
-    z-index: 999;
+    z-index: 99;
 
     .action-btn {
       background: none;
@@ -489,7 +489,11 @@ function getTagProps(tag) {
   bottom: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
   z-index: 998;
+}
+
+:deep(.task-card .right-aligned) {
+  right: -9px;
+  top: 21px;
 }
 </style>

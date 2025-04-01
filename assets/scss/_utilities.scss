@@ -353,3 +353,61 @@
 .icon-move-right-fast {
   animation: moveRight 0.8s ease-in-out infinite;
 }
+
+// width %
+// width 퍼센트 (1% ~ 100%)
+@for $i from 1 through 100 {
+  .w-#{$i}p {
+    width: percentage($i/100) !important;
+  }
+}
+
+// 자주 사용하는 퍼센트 값
+.w-25p {
+  width: 25% !important;
+}
+
+.w-33p {
+  width: 33.333% !important;
+}
+
+.w-50p {
+  width: 50% !important;
+}
+
+.w-75p {
+  width: 75% !important;
+}
+
+.w-100p {
+  width: 100% !important;
+}
+
+// height %
+// height 퍼센트 (1% ~ 100%)
+@for $i from 1 through 100 {
+  .h-#{$i}p {
+    height: percentage($i/100) !important;
+  }
+}
+
+// 자주 사용하는 퍼센트 값
+.h-25p {
+  height: 25% !important;
+}
+
+.h-33p {
+  height: 33.333% !important;
+}
+
+.h-50p {
+  height: 50% !important;
+}
+
+.h-75p {
+  height: 75% !important;
+}
+
+.h-100p {
+  height: 100% !important;
+}

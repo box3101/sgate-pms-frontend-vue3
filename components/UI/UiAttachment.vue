@@ -1,12 +1,13 @@
 <template>
   <div class="ui-attachment">
     <div class="attachment-section">
-      <div class="section-header">
-        <span class="section-title">{{title}}</span>
+      <div class="section-header flex items-center gap-5">
+        <Icon :name="icon" size="24" class="section-icon" />
+        <span class="section-title">{{ title }}</span>
       </div>
       <div class="section-content">
-        <div 
-          class="attachment-container"    
+        <div
+          class="attachment-container"
           @dragleave.prevent="onDragLeave"
           @drop.prevent="onDrop"
           @dragover.prevent="onDragOver"
@@ -14,7 +15,7 @@
           <div class="attachment-content" :class="{ 'drag-over': isDragging }">
             <div class="file-upload-container">
               <label for="file-upload" class="file-upload-label">
-                <Icon name="mdi:plus" size="20" />
+                <Icon name="mdi:plus-circle-outline" size="24" />
                 <span>클릭하거나 드래그해서 파일을 추가하세요.</span>
               </label>
               <input
@@ -25,20 +26,28 @@
                 @change="handleFileUpload"
               />
             </div>
-            
+
             <div class="file-info" v-if="files.length === 0">
               <div class="file-info-text">
                 <Icon name="mdi:file-outline" size="24" class="file-icon" />
-                <span>파일 개수 : 0 / 5　　Total Size : 0 / 52,428,800 bytes</span>
+                <span
+                  >파일 개수 : 0 / 5　　Total Size : 0 / 52,428,800 bytes</span
+                >
               </div>
               <div class="file-formats">
-                <span>첨부 허용 확장자 : jpg,jpeg,gif,png,bmp,txt,pdf,xls,xlsx,ppt,pptx,doc,docx,hwp,zip,7z,rar,alz,hwpx,heic,avi,mp4</span>
+                <span
+                  >첨부 허용 확장자 :
+                  jpg,jpeg,gif,png,bmp,txt,pdf,xls,xlsx,ppt,pptx,doc,docx,hwp,zip,7z,rar,alz,hwpx,heic,avi,mp4</span
+                >
               </div>
             </div>
-            
+
             <div class="uploaded-files-list" v-if="files.length > 0">
               <div class="file-info-text">
-                <span>파일 개수 : {{ files.length }} / 5　　Total Size : {{ totalSize }} / 52,428,800 bytes</span>
+                <span
+                  >파일 개수 : {{ files.length }} / 5　　Total Size :
+                  {{ totalSize }} / 52,428,800 bytes</span
+                >
               </div>
               <div
                 v-for="(file, index) in files"
@@ -59,25 +68,29 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed } from "vue";
 
 const props = defineProps({
   title: {
     type: String,
-    default: '파일첨부'
+    default: "파일첨부",
   },
   modelValue: {
     type: Array,
-    default: () => []
-  }
+    default: () => [],
+  },
+  icon: {
+    type: String,
+    default: "mdi:paperclip",
+  },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(["update:modelValue"]);
 
 // 파일 목록 관리
 const files = computed({
   get: () => props.modelValue,
-  set: (value) => emit('update:modelValue', value)
+  set: (value) => emit("update:modelValue", value),
 });
 
 // 드래그 앤 드롭 상태 관리
@@ -94,7 +107,7 @@ function handleFileUpload(event) {
   const newFiles = Array.from(event.target.files);
   processFiles(newFiles);
   // 파일 선택 후 input 초기화 (같은 파일 다시 선택 가능하도록)
-  event.target.value = '';
+  event.target.value = "";
 }
 
 // 드래그 앤 드롭 이벤트 핸들러
@@ -118,17 +131,17 @@ function processFiles(newFiles) {
     // 최대 5개 파일만 허용
     const totalFiles = [...files.value, ...newFiles];
     if (totalFiles.length > 5) {
-      alert('최대 5개 파일까지만 업로드 가능합니다.');
+      alert("최대 5개 파일까지만 업로드 가능합니다.");
       return;
     }
-    
+
     // 파일 크기 제한 (50MB = 52,428,800 bytes)
     const totalFileSize = totalFiles.reduce((acc, file) => acc + file.size, 0);
     if (totalFileSize > 52428800) {
-      alert('총 파일 크기는 50MB를 초과할 수 없습니다.');
+      alert("총 파일 크기는 50MB를 초과할 수 없습니다.");
       return;
     }
-    
+
     files.value = totalFiles;
   }
 }
@@ -150,14 +163,13 @@ function removeFile(index) {
 
 .attachment-section {
   margin-bottom: 16px;
-  border: 1px solid #e0e0e0;
+  border: 1px dashed #e0e0e0;
   border-radius: 4px;
   overflow: hidden;
 }
 
 .section-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
   background-color: #f5f5f5;
@@ -180,7 +192,7 @@ function removeFile(index) {
   padding: 16px;
   background-color: #f9f9f9;
   transition: all 0.3s ease;
-  
+
   &.drag-over {
     border-color: $primary-color;
     background-color: rgba($primary-color, 0.05);
@@ -191,13 +203,18 @@ function removeFile(index) {
 .file-upload-container {
   margin-bottom: 16px;
   text-align: center;
+  border-radius: 6px;
 }
 
 .file-upload-label {
   display: inline-flex;
   align-items: center;
+  width: 100%;
+  justify-content: center;
   gap: 8px;
-  padding: 8px 16px;
+  padding: 30px;
+  border: 1px dashed;
+  border-radius: 6px;
   color: #666;
   cursor: pointer;
   font-size: $font-size-sm;
