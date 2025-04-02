@@ -1,26 +1,29 @@
 <template>
   <div class="ui-multi-select" :class="{ 'is-open': isOpen }">
     <!-- 선택된 태그들 표시 영역 -->
-    <div class="ui-multi-select__tags" @click="toggleDropdown">
-      <template v-if="selectedOptions.length > 0">
-        <UiTag
-          v-for="option in selectedOptions"
-          :key="option.value"
-          :text="option.label"
-          :variant="tagVariant"
-          size="small"
-          closable
-          @close.stop="removeOption(option)"
-        />
-      </template>
-      <div v-else class="ui-multi-select__placeholder">
-        {{ placeholder }}
+    <div class="ui-multi-select__tags">
+      <div class="ui-multi-select__tags-container" @click="toggleDropdown">
+        <template v-if="selectedOptions.length > 0">
+          <UiTag
+            v-for="option in selectedOptions"
+            :key="option.value"
+            :text="option.label"
+            :variant="tagVariant"
+            size="small"
+            closable
+            @close="removeOption(option)"
+          />
+        </template>
+        <div v-else class="ui-multi-select__placeholder">
+          {{ placeholder }}
+        </div>
       </div>
-      <Icon
-        :name="isOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'"
-        class="ui-multi-select__toggle-icon"
-        @click.stop="toggleDropdown"
-      />
+      <div class="ui-multi-select__dropdown-toggle"  @click="toggleDropdown">
+        <Icon
+          :name="isOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'"
+          class="ui-multi-select__toggle-icon"
+        />
+      </div>
     </div>
 
     <!-- 드롭다운 메뉴 -->
@@ -153,14 +156,12 @@ onBeforeUnmount(() => {
 
   &__tags {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     min-height: $ui-height-md;
     padding: 4px 8px;
     border: 1px solid $border-color;
     border-radius: 4px;
     background-color: #fff;
-    cursor: pointer;
     gap: 4px;
     position: relative;
 
@@ -169,29 +170,35 @@ onBeforeUnmount(() => {
     }
   }
 
-  &__placeholder {
-    color: #999;
-    padding: 4px 0;
+  &__tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    gap: 4px;
+    z-index: 20;
   }
 
-  &__toggle-btn {
-    position: absolute;
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    padding: 0;
-    font-size: 16px;
-    color: #999;
+  &__dropdown-toggle {
     cursor: pointer;
+    margin-left: auto;
     display: flex;
     align-items: center;
     justify-content: center;
+  }
 
-    &:hover {
-      color: $text-color;
-    }
+  &__placeholder {
+    color: #999;
+    padding: 4px 0;
+    cursor: pointer;
+  }
+
+  &__toggle-icon{
+    transition: transform 0.2s ease;
+    margin-left: auto;
+  }
+  
+  &.is-open &__toggle-icon {
+    transform: rotate(180deg);
   }
 
   &__dropdown {
@@ -205,10 +212,10 @@ onBeforeUnmount(() => {
     border: 1px solid $border-color;
     border-radius: 4px;
     margin-top: 4px;
-    z-index: 100;
+    z-index: 5;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     display: none;
-
+    z-index: 100;
     &--open {
       display: block;
     }
@@ -281,14 +288,6 @@ onBeforeUnmount(() => {
     padding: 12px;
     text-align: center;
     color: #999;
-  }
-  &__toggle-icon{
-    transition: transform 0.2s ease;
-    margin-left: auto;
-  }
-  
-  &.is-open &__toggle-icon {
-    transform: rotate(180deg);
   }
 }
 </style>

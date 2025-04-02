@@ -43,7 +43,7 @@ defineProps({
     type: String,
     default: "primary",
     validator: (value) =>
-      ["primary", "secondary", "tertiary", "danger", "ghost", "white"].includes(value),
+      ["primary", "secondary", "tertiary", "danger", "ghost", "white","info"].includes(value),
   },
   size: {
     type: String,
@@ -174,6 +174,17 @@ defineEmits(["click"]);
   &--white {
     background-color: white;
     border: 1px solid #555;
+    color: #555;
+
+    &:hover:not(:disabled) {
+      background-color: #555;
+      color: white;
+    }
+
+    &:active:not(:disabled) {
+      background-color: #555;
+      color: white;
+    }
   }
 
   &--primary {

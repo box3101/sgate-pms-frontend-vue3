@@ -92,7 +92,10 @@
             </UiFormItem>
             <UiFormItem label="협업" minWidth="min-w-10">
               <div class="flex gap-5">
-                <UiInput placeholder="협업자 이름을 입력해주세요" />
+                <UiMultiSelect
+                  placeholder="협업자 이름을 입력해주세요"
+                  :options="departmentOptions"
+                />
                 <UiButton variant="tertiary" icon-only>
                   <Icon name="heroicons:user" size="20" />
                 </UiButton>
@@ -103,7 +106,10 @@
             </UiFormItem>
             <UiFormItem label="공유" minWidth="min-w-10">
               <div class="flex gap-5">
-                <UiInput placeholder="공유자 이름을 입력해주세요" />
+                <UiMultiSelect
+                  placeholder="공유자 이름을 입력해주세요"
+                  :options="departmentOptions"
+                />
                 <UiButton variant="tertiary" icon-only>
                   <Icon name="heroicons:user" size="20" />
                 </UiButton>
@@ -549,6 +555,18 @@ const menuItems = [
     items: [],
     action: () => {},
   },
+];
+
+// 협업 공유 멀티셀렉트
+const departmentOptions = [
+  { value: "김도현", label: "김도현[공공클라우드 영업팀]" },
+  { value: "박지원", label: "박지원[솔루션 개발팀]" },
+  { value: "이서연", label: "이서연[마케팅팀]" },
+  { value: "최준호", label: "최준호[인사팀]" },
+  { value: "정민지", label: "정민지[고객지원팀]" },
+  { value: "강태영", label: "강태영[재무팀]" },
+  { value: "윤서현", label: "윤서현[연구개발팀]" },
+  { value: "한지민", label: "한지민[전략기획팀]" },
 ];
 
 // 첨부파일 모달 상태 관리

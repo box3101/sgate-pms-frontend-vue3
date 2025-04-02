@@ -337,10 +337,8 @@ const route = useRoute();
 const tabMenus = {
   // 업무 섹션 탭
   tasks: [
-    { name: "홈", path: "/task" },
+    { name: "홈", path: "/task/collaboration/home" },
     { name: "보드", path: "/task/collaboration/board" },
-    { name: "Timeline", path: "/task/timeline" },
-    { name: "요약", path: "/task/summary" },
   ],
 
   // 프로젝트 섹션 탭

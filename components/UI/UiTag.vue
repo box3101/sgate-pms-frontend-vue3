@@ -17,7 +17,7 @@
       v-if="closable" 
       class="ui-tag__close" 
       type="button" 
-      @click="$emit('close')"
+      @click.stop="$emit('close')"
       aria-label="태그 삭제"
     >
       ×

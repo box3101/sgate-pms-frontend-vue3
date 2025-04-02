@@ -168,7 +168,6 @@
               size="medium"
             />
             <div class="flex items-center">
-              <span class="filter-label mr-2">기준:</span>
               <UiSelect
                 v-model="criteriaType"
                 :options="[
@@ -180,7 +179,6 @@
               />
             </div>
             <div class="flex items-center">
-              <span class="filter-label mr-2">키워드:</span>
               <UiSelect
                 v-model="keywordType"
                 :options="[
@@ -333,8 +331,9 @@ const timelineItems = ref([
     author: "김윤기",
     status: "진행중",
     statusColor: "#4CAF50",
-    content: "글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트",
-    createDate: "2024-01-15 14:30"
+    content:
+      "글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트",
+    createDate: "2024-01-15 14:30",
   },
   {
     type: "type2",
@@ -342,8 +341,9 @@ const timelineItems = ref([
     author: "김윤기",
     status: "진행중",
     statusColor: "#FF9800",
-    content: "인사평가 시스템 개선 프로젝트를 시작했습니다. 피드백 부탁드립니다.",
-    createDate: "2024-01-14 10:30"
+    content:
+      "인사평가 시스템 개선 프로젝트를 시작했습니다. 피드백 부탁드립니다.",
+    createDate: "2024-01-14 10:30",
   },
   {
     type: "type2",
@@ -351,8 +351,9 @@ const timelineItems = ref([
     author: "이지은",
     status: "진행중",
     statusColor: "#2196F3",
-    content: "Q2 신규 마케팅 캠페인 기획안을 공유드립니다. 회의 전 검토 부탁드립니다.",
-    createDate: "2024-01-13 10:15"
+    content:
+      "Q2 신규 마케팅 캠페인 기획안을 공유드립니다. 회의 전 검토 부탁드립니다.",
+    createDate: "2024-01-13 10:15",
   },
   {
     type: "type2",
@@ -360,8 +361,9 @@ const timelineItems = ref([
     author: "박서버",
     status: "피드백",
     statusColor: "#9C27B0",
-    content: "인증 API v2.0 업데이트가 완료되었습니다. 개발 가이드 문서를 참고해주세요.",
-    createDate: "2024-01-11 16:45"
+    content:
+      "인증 API v2.0 업데이트가 완료되었습니다. 개발 가이드 문서를 참고해주세요.",
+    createDate: "2024-01-11 16:45",
   },
   {
     type: "type2",
@@ -369,8 +371,9 @@ const timelineItems = ref([
     author: "박서버",
     status: "완료",
     statusColor: "#4CAF50",
-    content: "인증 API v2.0 업데이트가 완료되었습니다. 개발 가이드 문서를 참고해주세요.",
-    createDate: "2024-01-10 14:30"
+    content:
+      "인증 API v2.0 업데이트가 완료되었습니다. 개발 가이드 문서를 참고해주세요.",
+    createDate: "2024-01-10 14:30",
   },
   {
     type: "type1",
@@ -380,8 +383,9 @@ const timelineItems = ref([
     author: "최수진",
     status: "완료",
     statusColor: "#4CAF50",
-    content: "Q1 마케팅 캠페인 성과 보고서가 완성되었습니다. 검토 부탁드립니다.",
-    createDate: "2024-01-09 11:20"
+    content:
+      "Q1 마케팅 캠페인 성과 보고서가 완성되었습니다. 검토 부탁드립니다.",
+    createDate: "2024-01-09 11:20",
   },
   {
     type: "type2",
@@ -389,8 +393,9 @@ const timelineItems = ref([
     author: "홍길동",
     status: "대기중",
     statusColor: "#9E9E9E",
-    content: "신규 프로젝트 제안서를 업로드했습니다. 검토 후 피드백 부탁드립니다.",
-    createDate: "2024-01-08 09:45"
+    content:
+      "신규 프로젝트 제안서를 업로드했습니다. 검토 후 피드백 부탁드립니다.",
+    createDate: "2024-01-08 09:45",
   },
   {
     type: "type2",
@@ -398,8 +403,9 @@ const timelineItems = ref([
     author: "이지은",
     status: "완료",
     statusColor: "#4CAF50",
-    content: "디자인 시스템 v1.5 업데이트가 완료되었습니다. 변경사항을 확인해주세요.",
-    createDate: "2024-01-07 16:30"
+    content:
+      "디자인 시스템 v1.5 업데이트가 완료되었습니다. 변경사항을 확인해주세요.",
+    createDate: "2024-01-07 16:30",
   },
   {
     type: "type1",
@@ -410,7 +416,7 @@ const timelineItems = ref([
     status: "검토중",
     statusColor: "#673AB7",
     content: "백엔드 API 구조 개선안을 작성했습니다. 코드 리뷰 부탁드립니다.",
-    createDate: "2024-01-05 13:15"
+    createDate: "2024-01-05 13:15",
   },
   {
     type: "type2",
@@ -418,9 +424,10 @@ const timelineItems = ref([
     author: "김윤기",
     status: "완료",
     statusColor: "#4CAF50",
-    content: "2024년 1분기 업무 계획을 공유드립니다. 검토 후 의견 부탁드립니다.",
-    createDate: "2024-01-03 10:00"
-  }
+    content:
+      "2024년 1분기 업무 계획을 공유드립니다. 검토 후 의견 부탁드립니다.",
+    createDate: "2024-01-03 10:00",
+  },
 ]);
 </script>
 <style lang="scss" scoped>

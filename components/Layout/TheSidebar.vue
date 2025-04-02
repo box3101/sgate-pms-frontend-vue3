@@ -163,12 +163,12 @@ const menuSections = reactive([
     items: [
       {
         name: "업무/협업",
-        path: "/task",
+        path: "/task/collaboration/home",
         icon: "mdi:account-group",
       },
       {
         name: "일일/주간보고",
-        path: "/task/reports",
+        path: "/task/reports/daily",
         icon: "mdi:file-document-outline",
       },
       {
