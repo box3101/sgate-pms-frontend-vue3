@@ -5,13 +5,16 @@
     <UiButton size="size-md">Button</UiButton>
     <UiButton size="size-sm">Button</UiButton>
 
-    <UiButton size="size-lg" :disabled="true">Button</UiButton>
-    <UiButton size="size-md" :disabled="false">Button</UiButton>
-    <UiButton size="size-sm" :disabled="true">Button</UiButton>
+    <UiButton size="size-lg" disabled>Button</UiButton>
+    <UiButton size="size-md" disabled>Button</UiButton>
+    <UiButton size="size-sm" disabled>Button</UiButton>
 
-    <UiButton size="size-lg" :active="true">Button</UiButton>
-    <UiButton size="size-md" :active="true">Button</UiButton>
-    <UiButton size="size-sm" :active="false">Button</UiButton>
+    <UiButton size="size-lg" active>Button</UiButton>
+    <UiButton size="size-md" active>Button</UiButton>
+    <UiButton size="size-sm" active>Button</UiButton>
+
+    <UiButton size="size-lg" loading>Button</UiButton>
+    <UiButton size="size-lg" icon name="23">Button</UiButton>
   </div>
 </template>
 
