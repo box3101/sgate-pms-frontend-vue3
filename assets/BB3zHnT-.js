@@ -1,0 +1,1 @@
+import{i as t,c as a,a as l,o as n}from"./DYJ6fwiu.js";const u={__name:"daily",setup(s){const o=t("logoText");return o.value="일일/주간보고",(r,e)=>(n(),a("div",null,e[0]||(e[0]=[l("h1",null,"일일/주간보고",-1)])))}};export{u as default};
