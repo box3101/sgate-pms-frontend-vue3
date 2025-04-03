@@ -23,7 +23,7 @@
             <i class="icon icon-md icon-excel"></i>
             <span>Excel</span>
           </UiButton>
-          <UiButton variant="tertiary">
+          <UiButton variant="tertiary" @click="aiReportModal = true">
             <i class="icon icon-md icon-robot"></i>
             <span>AI 취합 보고서 생성</span>
           </UiButton>
