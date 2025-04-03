@@ -17,7 +17,6 @@ export default defineNuxtConfig({
   css: [
     "~/assets/scss/_reset.scss",    // 리셋 CSS
     "~/assets/scss/_utilities.scss", // 유틸리티 클래스
-    "~/assets/scss/_form.scss",
     "~/assets/scss/_icon.scss",
     "~/assets/scss/_common.scss",
   ],

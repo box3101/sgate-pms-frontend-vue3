@@ -26,7 +26,10 @@
             <i class="icon icon-md icon-robot"></i>
             <span>AI 취합 보고서 생성</span>
           </UiButton>
-          <UiButton class="org-btn new">보고서작성</UiButton>
+          <UiButton class="org-btn new" @click="showModal = true">
+            <i class="icon icon-md icon-create icon-white"></i>
+            <span>보고서작성</span>
+          </UiButton>
         </div>
       </div>
     </header>
@@ -105,70 +108,10 @@
                   </thead>
                   <tbody>
                     <tr v-for="(item, index) in reportItems" :key="index">
-                      <td class="kpi-cell">
-                        <div class="kpi-title">{{ item.kpi.title }}</div>
-                        <div class="kpi-detail">
-                          <div class="kpi-item">
-                            <span class="kpi-label">목표:</span>
-                            <span class="kpi-value">{{ item.kpi.target }}</span>
-                          </div>
-                          <div class="kpi-item">
-                            <span class="kpi-label">실적:</span>
-                            <span class="kpi-value">{{
-                              item.kpi.achievement
-                            }}</span>
-                          </div>
-                          <div class="kpi-item">
-                            <span class="kpi-label">달성률:</span>
-                            <span class="kpi-value"
-                              >{{ item.kpi.percentage }}%</span
-                            >
-                            <div class="progress-bar">
-                              <div
-                                class="progress-fill"
-                                :style="{ width: item.kpi.percentage + '%' }"
-                              ></div>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="okr-cell">
-                        <div
-                          class="okr-title"
-                          :style="{ borderLeftColor: item.okr.color }"
-                        >
-                          {{ item.okr.title }}
-                        </div>
-                        <div class="okr-items">
-                          <div
-                            v-for="(subItem, subIndex) in item.okr.items"
-                            :key="subIndex"
-                            class="okr-item"
-                            :style="{ borderLeftColor: subItem.color }"
-                          >
-                            <div class="okr-item-title">
-                              {{ subItem.title }}
-                            </div>
-                            <div class="okr-item-percentage">
-                              <span>{{ subItem.percentage }}%</span>
-                              <div class="progress-bar">
-                                <div
-                                  class="progress-fill"
-                                  :style="{
-                                    width: subItem.percentage + '%',
-                                    backgroundColor: subItem.color,
-                                  }"
-                                ></div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td
-                        class="achievement-cell"
-                        v-html="item.weeklyAchievement"
-                      ></td>
-                      <td class="plan-cell" v-html="item.nextWeekPlan"></td>
+                      <td class="kpi-cell">3</td>
+                      <td class="okr-cell">3</td>
+                      <td>4</td>
+                      <td class="plan-cell">5</td>
                     </tr>
                   </tbody>
                 </table>
@@ -226,15 +169,10 @@
                     </colgroup>
                     <tbody>
                       <tr>
-                        <th
-                          scope="row"
-                          class="txt-c br firCornerBot pd10"
-                        >
+                        <th scope="row" class="txt-c br firCornerBot pd10">
                           첨부파일
                         </th>
-                        <td
-                          class="pd10"
-                        >
+                        <td class="pd10">
                           <div>
                             <span id="spanViewAttachFile">23</span>
                           </div>
@@ -251,186 +189,65 @@
     </div>
   </div>
 
-  <!-- 보고서 작성 팝업 -->
-  <UiModal v-model="showModal" title="보고서 작성" size="xlarge">
+  <!-- 보고서 팝업 -->
+  <UiModal title="보고서 설정" v-model="showModal" :size="'large'">
     <template #headerActions-right>
-      <div class="flex justify-end">
-        <UiButton variant="tertiary" class="mr-2">
-          <i class="icon icon-md icon-reset"></i>
-          <span>재설정</span>
-        </UiButton>
-        <UiButton variant="tertiary" class="mr-2">
-          <i class="icon icon-md icon-save"></i>
-          <span>임시저장</span>
-        </UiButton>
-        <UiButton>
-          <i class="icon icon-md icon-submit icon-white"></i>
-          <span>제출</span>
-        </UiButton>
-      </div>
+      <UiButton variant="primary">
+        <i class="icon icon-md icon-create icon-white"></i>
+        <span>보고서생성</span>
+      </UiButton>
     </template>
 
-    <div class="modal-content p-4">
-      <div class="header-section mb-6 border-b pb-4">
-        <div class="header-container flex justify-between items-start">
-          <div class="user-info">
-            <div class="user-name-container flex items-center gap-2 mb-2">
-              <i class="icon icon-md icon-user"></i>
-              <h3 class="text-lg font-medium">이찬용</h3>
-            </div>
-            <div class="report-type text-sm text-gray-600 mb-2">
-              <span>주간보고</span>
-            </div>
-            <div class="date-info text-sm text-gray-600">
-              <span>2025.02.20 ~ 2025.03.05 미설정</span>
-            </div>
-          </div>
-
-          <div class="action-controls flex flex-col items-end">
-            <div class="target-selection flex items-center gap-2 mb-3">
-              <span class="font-medium text-sm">제출 대상 :</span>
-              <UiMultiSelect placeholder="대상자 선택" class="w-200" />
-            </div>
-
-            <div class="button-group flex gap-2">
-              <UiButton variant="tertiary" size="small">직접입력</UiButton>
-              <UiButton variant="tertiary" size="small">활동재생성</UiButton>
-              <UiButton variant="primary" size="small">
-                <i class="icon icon-sm icon-plus icon-white"></i>
-                <span>업무 활동추가</span>
-              </UiButton>
-            </div>
-          </div>
+    <UiFormLayout>
+      <UiFormItem label="보고서명">
+        <div class="flex gap-10 align-center">
+          <UiSelect
+            class="w-150"
+            placeholder="일간보고"
+            :options="[
+              { value: '일간보고', label: '일간보고' },
+              { value: '주간보고', label: '주간보고' },
+            ]"
+          />
+          <UiDatePicker class="w-150" />
         </div>
-      </div>
-
-      <div class="content-section w-full">
-        <div class="report-table-container">
-          <div class="report" style="overflow: auto">
-            <table style="min-height: 400px; word-break: break-all">
-              <colgroup>
-                <col width="20%" />
-                <col width="20%" />
-                <col width="30%" />
-                <col width="30%" />
-              </colgroup>
-              <thead>
-                <tr>
-                  <th
-                    class="txt-c pl0 head thSolid"
-                    style="border-bottom: none !important"
-                  >
-                    <div class="bm pd10">KPI</div>
-                  </th>
-                  <th
-                    class="txt-c pl0 head thSolid"
-                    style="border-bottom: none !important"
-                  >
-                    <div class="bm pd10">OKR</div>
-                  </th>
-                  <th
-                    class="txt-c pl0 head thSolid"
-                    style="border-bottom: none !important"
-                  >
-                    <div class="bm pd10">금주실적</div>
-                  </th>
-                  <th
-                    class="txt-c pl0 head thSolid"
-                    style="border-bottom: none !important"
-                  >
-                    <div class="bm pd10">차주계획</div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="sortableObjs ui-sortable">
-                <tr
-                  v-for="(item, index) in reportItems"
-                  :key="index"
-                  class="sortableObj"
-                  style="border-bottom: 1px solid rgb(219, 222, 230)"
-                >
-                  <td class="pd15 br" style="vertical-align: top">
-                    <div class="weekly-group mb10">
-                      <div class="task-title">
-                        <div class="statusBar"></div>
-                        <a href="#" class="save">{{ item.kpi.title }}</a>
-                      </div>
-                      <div class="task-content cm_bullet">
-                        <span class="label fs12 mr5">목표</span>
-                        {{ item.kpi.target }}
-                      </div>
-                      <div class="task-content cm_bullet">
-                        <span class="label fs12 mr5">실적</span>
-                        {{ item.kpi.achievement }}
-                      </div>
-                      <div class="task-content cm_bullet">
-                        <span class="label fs12 mr5">달성률</span>
-                        {{ item.kpi.percentage }}%
-                      </div>
-                    </div>
-                  </td>
-                  <td
-                    class="pd15 br sortableObjContent"
-                    style="vertical-align: top"
-                  >
-                    <div class="weekly-group">
-                      <div class="task-title">
-                        <div
-                          class="statusBar"
-                          :style="{ backgroundColor: item.okr.color }"
-                        ></div>
-                        {{ item.okr.title }}
-                        <span class="sortIcon" style="cursor: move"></span>
-                      </div>
-                      <div
-                        v-for="(subItem, subIndex) in item.okr.items"
-                        :key="subIndex"
-                      >
-                        <div class="task-content">
-                          <a href="#">
-                            <div
-                              class="statusBar"
-                              :style="{ backgroundColor: subItem.color }"
-                            ></div>
-                            {{ subItem.title }}
-                            <div class="task-content cm_bullet ml15">
-                              <span class="label fs12 mr5">달성률</span
-                              >{{ subItem.percentage }}%
-                            </div>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td
-                    class="pd15 br sortablePlans ui-sortable"
-                    style="vertical-align: top"
-                  >
-                    <div v-html="item.weeklyAchievement"></div>
-                  </td>
-                  <td class="pd15 br" style="vertical-align: top">
-                    <div class="quill-editor-container">
-                      <QuillEditor
-                        v-model:content="item.nextWeekPlan"
-                        placeholder="내용을 입력해 주세요."
-                      />
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+      </UiFormItem>
+      <UiFormItem label="표시할내용">
+        <div class="flex flex-col gap-15">
+          <UiCheckbox size="large" label="KPI" />
+          <UiCheckbox size="large" label="OKR" />
+          <UiCheckbox size="large" label="Project" />
         </div>
-      </div>
-    </div>
+      </UiFormItem>
+      <UiFormItem label="실적작성방법">
+        <div class="flex flex-col gap-15">
+          <div class="flex gap-10 align-center">
+            <UiRadio name="reportType" size="large" label="활동" />
+            <div class="flex gap-10 is-border">
+              <UiRadio name="reportType2" size="large" label="활동일" />
+              <UiRadio name="reportType2" size="large" label="작성일" />
+            </div>
+            <div class="is-border">
+              <UiCheckbox size="large" label="나의 활동만 가져오기" />
+            </div>
+            <div class="is-border">
+              <UiCheckbox size="large" label="피드백도 포함해서 가져오기" />
+            </div>
+          </div>
+          <UiRadio name="reportType" size="large" label="직접입력" />
+        </div>
+      </UiFormItem>
+    </UiFormLayout>
   </UiModal>
 </template>
 
 <script setup>
 import { ref } from "vue";
 
-const showModal = ref(false);
+// 보고서 설정 팝업
+const showModal = ref(true);
 
+// 보고서 목록
 const reports = ref([
   { type: "주간보고", date: "2025.03.05", status: "제출완료" },
   { type: "월간보고", date: "2025.03.01", status: "임시저장" },
@@ -439,82 +256,15 @@ const reports = ref([
   { type: "월간보고", date: "2025.02.01", status: "제출완료" },
 ]);
 
+// 보고서 아이템
 const reportItems = ref([
   {
     kpi: {
       title: "신규 고객 유치",
-      target: "100명",
-      achievement: "85명",
-      percentage: 85,
     },
     okr: {
       title: "마케팅 캠페인 실행",
-      color: "#4f46e5",
-      items: [
-        { title: "소셜미디어 광고 집행", color: "#818cf8", percentage: 90 },
-        { title: "이메일 마케팅 캠페인", color: "#818cf8", percentage: 75 },
-      ],
     },
-    weeklyAchievement: `
-      <div class="task-content">
-        <div class="statusBar" style="background-color: #818cf8"></div>
-        <p>소셜미디어 광고 집행</p>
-        <ul class="cm_bullet ml15">
-          <li>인스타그램 광고 3건 집행 완료</li>
-          <li>페이스북 광고 2건 집행 완료</li>
-          <li>신규 유입 고객 65명 확보</li>
-        </ul>
-      </div>
-      <div class="task-content mt10">
-        <div class="statusBar" style="background-color: #818cf8"></div>
-        <p>이메일 마케팅 캠페인</p>
-        <ul class="cm_bullet ml15">
-          <li>뉴스레터 2회 발송 완료</li>
-          <li>오픈율 35%, 클릭률 12% 달성</li>
-          <li>신규 유입 고객 20명 확보</li>
-        </ul>
-      </div>
-    `,
-    nextWeekPlan:
-      "<p>1. 인스타그램 광고 성과 분석 및 최적화</p><p>2. 새로운 이메일 템플릿 개발</p><p>3. 구글 애즈 캠페인 준비</p>",
-  },
-  {
-    kpi: {
-      title: "매출 증대",
-      target: "5,000만원",
-      achievement: "4,200만원",
-      percentage: 84,
-    },
-    okr: {
-      title: "신규 상품 출시",
-      color: "#0891b2",
-      items: [
-        { title: "상품 개발 완료", color: "#06b6d4", percentage: 100 },
-        { title: "마케팅 자료 제작", color: "#06b6d4", percentage: 80 },
-      ],
-    },
-    weeklyAchievement: `
-      <div class="task-content">
-        <div class="statusBar" style="background-color: #06b6d4"></div>
-        <p>상품 개발 완료</p>
-        <ul class="cm_bullet ml15">
-          <li>신규 상품 A 출시 완료</li>
-          <li>신규 상품 B 최종 테스트 완료</li>
-          <li>상품 매뉴얼 작성 완료</li>
-        </ul>
-      </div>
-      <div class="task-content mt10">
-        <div class="statusBar" style="background-color: #06b6d4"></div>
-        <p>마케팅 자료 제작</p>
-        <ul class="cm_bullet ml15">
-          <li>상품 소개서 제작 완료</li>
-          <li>홍보 영상 촬영 완료</li>
-          <li>SNS 홍보물 디자인 진행중</li>
-        </ul>
-      </div>
-    `,
-    nextWeekPlan:
-      "<p>1. 신규 상품 B 출시</p><p>2. SNS 홍보물 디자인 완료</p><p>3. 온라인 론칭 이벤트 기획</p>",
   },
 ]);
 </script>
@@ -785,12 +535,12 @@ const reportItems = ref([
   border: 1px solid #e5e7eb;
   border-radius: 6px;
   overflow: hidden;
-  
+
   table {
     width: 100%;
     border-collapse: collapse;
   }
-  
+
   th.txt-c {
     text-align: center;
     background-color: #f9fafb;
@@ -798,33 +548,32 @@ const reportItems = ref([
     font-size: 14px;
     color: #4b5563;
   }
-  
+
   th.br {
     border-right: 1px solid #e5e7eb;
   }
-  
+
   th.firCornerTop {
     border-top-left-radius: 6px;
   }
-  
+
   th.firCornerBot {
     border-bottom-left-radius: 6px;
   }
-  
+
   .pd10 {
     padding: 10px;
   }
-  
+
   td {
     vertical-align: top;
     color: #374151;
     font-size: 14px;
   }
-  
+
   #spanViewAttachFile {
     display: inline-block;
     min-height: 24px;
   }
 }
-
 </style>
