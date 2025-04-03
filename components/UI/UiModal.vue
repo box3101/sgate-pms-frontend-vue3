@@ -23,6 +23,7 @@
       ></div>
       <div class="ui-popup__header">
         <div class="flex items-center gap-5">
+          <slot name="headerActions-left"></slot>
           <h3 class="ui-popup__title">
             <slot name="title">
               {{ title }}

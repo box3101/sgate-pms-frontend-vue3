@@ -26,7 +26,7 @@
             <i class="icon icon-md icon-robot"></i>
             <span>AI 취합 보고서 생성</span>
           </UiButton>
-          <UiButton class="org-btn new" @click="showModal = true">
+          <UiButton class="org-btn new" @click="reportConfigModal = true">
             <i class="icon icon-md icon-create icon-white"></i>
             <span>보고서작성</span>
           </UiButton>
@@ -190,7 +190,7 @@
   </div>
 
   <!-- 보고서 팝업 -->
-  <UiModal title="보고서 설정" v-model="showModal" :size="'large'">
+  <UiModal title="보고서 설정" v-model="reportConfigModal" :size="'large'">
     <template #headerActions-right>
       <UiButton variant="primary">
         <i class="icon icon-md icon-create icon-white"></i>
@@ -239,13 +239,23 @@
       </UiFormItem>
     </UiFormLayout>
   </UiModal>
+
+  <!-- AI 취업 보고서 생성-->
+   <UiModal title="AI 취업 보고서 생성" v-model="aiReportModal">
+     <template #headerActions-left>
+      <img src="@/assets/images/ico_avatar_sai.svg" alt="sai" />
+     </template>
+   </UiModal>
 </template>
 
 <script setup>
 import { ref } from "vue";
 
 // 보고서 설정 팝업
-const showModal = ref(true);
+const reportConfigModal = ref(false);
+
+// AI 보고서 생성 팝업
+const aiReportModal = ref(true);
 
 // 보고서 목록
 const reports = ref([
