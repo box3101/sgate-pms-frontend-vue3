@@ -1,0 +1,56 @@
+{
+  "rules": {
+    "global": {
+      "enabled": true,
+      "language": "ko",
+      "preferences": {
+        "response_language": "ko",
+        "coding_style": {
+          "css": "scss",
+          "vue": {
+            "style_lang": "scss",
+            "focus_on_ui": true,
+            "avoid_reset_functions": true,
+            "scss_nesting": true,
+            "comments": {
+              "required": true,
+              "language": "ko",
+              "detailed": true
+            }
+          },
+          "js": {
+            "comments": {
+              "required": true,
+              "language": "ko",
+              "function_purpose": true,
+              "parameter_description": true,
+              "return_value": true
+            }
+          }
+        },
+        "git": {
+          "commit_message_format": "<type>: <subject>\n\n<body>",
+          "commit_types": [
+            "feat", "fix", "docs", "style", "refactor", "test", "chore"
+          ],
+          "subject_rules": {
+            "max_length": 50,
+            "no_period": true,
+            "present_tense": true
+          },
+          "body_rules": {
+            "bullet_points": "-",
+            "focus_on_what_and_why": true
+          }
+        },
+        "ui_components": {
+          "recommend_components": true,
+          "html_tags": {
+            "layout_utilities_reference": "utilities.scss",
+            "prefer_custom_classes": true
+          }
+        }
+      }
+    }
+  }
+}
