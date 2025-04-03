@@ -409,7 +409,7 @@ import { ref } from "vue";
 const reportConfigModal = ref(false);
 
 // AI 보고서 생성 팝업
-const aiReportModal = ref(false);
+const aiReportModal = ref(true);
 
 // 취합 대상 보고서 선택
 const reportMergeModal = ref(false);
