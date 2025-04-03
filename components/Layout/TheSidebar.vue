@@ -168,7 +168,7 @@ const menuSections = reactive([
       },
       {
         name: "일일/주간보고",
-        path: "/task/reports/daily",
+        path: "/task/reports/create",
         icon: "mdi:file-document-outline",
       },
       {
@@ -877,7 +877,7 @@ onMounted(() => {
 .submenu-link:hover {
   background-color: rgba($primary-color, 0.1);
   color: $primary-color;
-  
+
   .submenu-bullet {
     color: $primary-color;
   }
@@ -887,7 +887,7 @@ onMounted(() => {
   background-color: rgba($primary-color, 0.1);
   color: $primary-color;
   font-weight: 500;
-  
+
   .submenu-bullet {
     color: $primary-color;
   }
@@ -955,7 +955,7 @@ onMounted(() => {
 .nested-submenu-link:hover {
   background-color: rgba($primary-color, 0.1);
   color: $primary-color;
-  
+
   .nested-submenu-bullet {
     color: $primary-color;
   }
@@ -965,7 +965,7 @@ onMounted(() => {
   background-color: rgba($primary-color, 0.1);
   color: $primary-color;
   font-weight: 500;
-  
+
   .nested-submenu-bullet {
     color: $primary-color;
   }

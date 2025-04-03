@@ -106,6 +106,9 @@ defineEmits(["click"]);
 
   &__text{
     white-space: nowrap;
+    display: flex;
+    gap: 7px;
+    align-items: center;
   }
 
   &__content {

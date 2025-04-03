@@ -31,6 +31,7 @@
           <slot name="headerActions"></slot>
         </div>
         <div class="ui-popup__header-actions">
+          <slot name="headerActions-right"></slot>
           <div class="ui-popup__actions flex gap-5">
             <button class="ui-popup__fullscreen" @click="toggleFullscreen">
               <Icon
@@ -51,7 +52,7 @@
           </div>
         </div>
       </div>
-      <div class="ui-popup__body" :style="{padding: `${size === 'small' ? '0px' : size === 'xmedium' ? '12px' : size === 'medium' ? '16px' : size === 'large' ? '20px' : '24px'}`}">
+      <div class="ui-popup__body" :style="{padding: `${size === 'small' ? '0px' : size === 'xmedium' ? '12px' : size === 'medium' ? '16px' : size === 'large' ? '20px' : size === 'xlarge' ? '24px' : '24px'}`}">
         <slot></slot>
       </div>
       <div v-if="showFooter" class="ui-popup__footer">
@@ -76,7 +77,7 @@ const props = defineProps({
   size: {
     type: String,
     default: "medium",
-    validator: (value) => ["small", "xmedium", "medium", "large", "full"].includes(value),
+    validator: (value) => ["small", "xmedium", "medium", "large", "xlarge", "full"].includes(value),
   },
   centered: {
     type: Boolean,
@@ -312,6 +313,10 @@ function handleMouseUp() {
     max-width: 800px;
   }
 
+  &--xlarge {
+    max-width: 1200px;
+  }
+
   &--full {
     max-width: calc(100vw - #{$spacing-xl * 2});
     height: calc(100vh - #{$spacing-xl * 2});
@@ -399,7 +404,8 @@ function handleMouseUp() {
 
     &--small,
     &--medium,
-    &--large {
+    &--large,
+    &--xlarge {
       max-width: calc(100vw - #{$spacing-md * 2});
       width: calc(100vw - #{$spacing-md * 2});
     }

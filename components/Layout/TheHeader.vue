@@ -341,6 +341,12 @@ const tabMenus = {
     { name: "보드", path: "/task/collaboration/board" },
   ],
 
+  // 보고 섹션 탭
+  reports: [
+    { name: "보고서 작성", path: "/task/reports/create" },
+    { name: "보고서 조회", path: "/task/reports/view" },
+  ],
+
   // 프로젝트 섹션 탭
   projects: [
     { name: "프로젝트 목록", path: "/projects" },
@@ -1048,15 +1054,20 @@ const currentTabMenu = computed(() => {
   // 경로 기반으로 섹션 결정
   if (
     route.path === "/task" ||
-    route.path.startsWith("/task/collaboration") ||
+    route.path.startsWith("/task/collaboration/home") ||
     route.path.startsWith("/task/collaboration/board") ||
-    route.path.startsWith("/task/timeline") ||
-    route.path.startsWith("/task/summary")
+    route.path.startsWith("/task/repots/daily")
   ) {
     hasLink.value = true;
     hasLinkIcon.value = "icon icon-youtube icon-lg";
     return tabMenus.tasks;
-  } else if (route.path.startsWith("/projects")) {
+  }
+  else if (route.path.startsWith("/task/reports/view") || route.path.startsWith("/task/reports/create")) {
+    hasLink.value = true;
+    hasLinkIcon.value = "icon icon-youtube icon-lg";
+    return tabMenus.reports;
+  }
+  else if (route.path.startsWith("/projects")) {
     return tabMenus.projects;
   } else {
     // 해당하는 탭 메뉴가 없으면 빈 배열 반환

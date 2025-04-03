@@ -19,6 +19,7 @@ export default defineNuxtConfig({
     "~/assets/scss/_utilities.scss", // 유틸리티 클래스
     "~/assets/scss/_form.scss",
     "~/assets/scss/_icon.scss",
+    "~/assets/scss/_common.scss",
   ],
   // 변수, 믹스인 등을 모든 컴포넌트에서 사용할 수 있도록 설정
   vite: {

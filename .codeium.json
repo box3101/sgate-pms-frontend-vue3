@@ -10,7 +10,22 @@
           "vue": {
             "style_lang": "scss",
             "focus_on_ui": true,
-            "avoid_reset_functions": true
+            "avoid_reset_functions": true,
+            "scss_nesting": true,
+            "comments": {
+              "required": true,
+              "language": "ko",
+              "detailed": true
+            }
+          },
+          "js": {
+            "comments": {
+              "required": true,
+              "language": "ko",
+              "function_purpose": true,
+              "parameter_description": true,
+              "return_value": true
+            }
           }
         },
         "git": {

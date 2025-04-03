@@ -195,7 +195,7 @@
                 placeholder="검색어를 입력하세요"
               />
               <UiButton variant="tertiary" icon-only title="검색">
-                <Icon name="heroicons:magnifying-glass" size="18" />
+                <i class="icon icon-md icon-search"></i> 
               </UiButton>
             </div>
             <div class="flex items-center gap-5">
@@ -463,15 +463,6 @@ const timelineItems = ref([
   font-size: $font-size-md;
 }
 
-.w-30p {
-  overflow: hidden;
-  min-width: 528px; // 최소 너비 설정
-}
-
-.w-70p {
-  overflow: hidden;
-  min-width: 1233px; // 최소 너비 설정
-}
 
 .task-list {
   overflow-y: auto;
