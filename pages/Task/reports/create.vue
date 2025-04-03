@@ -2,20 +2,21 @@
   <div class="report-creation-container">
     <header class="report-header">
       <div class="ct-top flex justify-between w-full">
-        <ul class="my_menu flex gap-140 items-center">
+        <ul class="my_menu flex gap-23 items-center">
           <li class="tbl-btn flex gap-5">
             <UiDatePicker
-              class="w-280"
+              class="w-270"
               v-model="dateRange"
               isRange
               startPlaceholder="시작일"
               endPlaceholder="마지막날짜"
               size="medium"
             />
-            <UiButton variant="tertiary" icon-only title="검색">
+            <UiButton variant="tertiary">
               <i class="icon icon-md icon-search"></i>
             </UiButton>
           </li>
+          <h1>주간보고</h1>
         </ul>
         <div class="tbl-btn flex gap-5">
           <UiButton variant="tertiary">
@@ -73,7 +74,6 @@
           <div class="report-detail">
             <!-- 보고서 상세 내용이 들어갈 영역 -->
             <div class="report-header">
-              <h2>주간보고</h2>
               <div class="report-meta">
                 <div class="report-date">
                   작성자: 이찬용 | 제출일: 2025.03.05 | 제출대상 : 한성진
@@ -91,96 +91,28 @@
               </div>
             </div>
             <div class="report-body">
-              <div class="report-table-container">
-                <table class="report-table">
-                  <colgroup>
-                    <col width="20%" />
-                    <col width="20%" />
-                    <col width="30%" />
-                  </colgroup>
-                  <thead>
-                    <tr>
-                      <th class="text-center">KPI</th>
-                      <th class="text-center">OKR</th>
-                      <th class="text-center">금주실적</th>
-                      <th class="text-center">차주계획</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(item, index) in reportItems" :key="index">
-                      <td class="kpi-cell">3</td>
-                      <td class="okr-cell">3</td>
-                      <td>4</td>
-                      <td class="plan-cell">5</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <UiTable
+                :headers="['KPI', 'OKR', '금주실적', '차주계획']"
+                :column-widths="['20%', '20%', '30%', '30%']"
+                :items="reportItems"
+              />
               <div>
-                <div class="reportEtc">
-                  <table>
-                    <colgroup>
-                      <col width="10%" />
-                      <col width="90%" />
-                    </colgroup>
-                    <tbody>
-                      <tr>
-                        <th
-                          scope="row"
-                          class="txt-c br firCornerTop"
-                          style="min-height: 100px"
-                        >
-                          의견/기타
-                        </th>
-                        <td>
-                          <div class="pd10" style="min-height: 100px">2323</div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="reportEtc">
-                  <table>
-                    <colgroup>
-                      <col width="10%" />
-                      <col width="90%" />
-                    </colgroup>
-                    <tbody>
-                      <tr>
-                        <th
-                          scope="row"
-                          class="txt-c br firCornerTop"
-                          style="min-height: 100px"
-                        >
-                          첨부파일
-                        </th>
-                        <td>
-                          <div class="pd10" style="min-height: 100px">2323</div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="reportEtc">
-                  <table>
-                    <colgroup>
-                      <col width="10%" />
-                      <col width="90%" />
-                    </colgroup>
-                    <tbody>
-                      <tr>
-                        <th scope="row" class="txt-c br firCornerBot pd10">
-                          첨부파일
-                        </th>
-                        <td class="pd10">
-                          <div>
-                            <span id="spanViewAttachFile">23</span>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                <UiRowTable
+                  :items="[
+                    {
+                      title: '의견/기타',
+                      content:
+                        '의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다.',
+                    },
+                    { title: '첨부파일', content: '첨부파일 내용입니다.' },
+                    { title: '피드백', content: '피드백 내용입니다.' },
+                  ]"
+                  leftColumnWidth="10%"
+                  rightColumnWidth="90%"
+                  :padding="true"
+                  :centerLeftText="true"
+                  :showBorderRight="true"
+                />
               </div>
             </div>
           </div>
@@ -241,11 +173,102 @@
   </UiModal>
 
   <!-- AI 취업 보고서 생성-->
-   <UiModal title="AI 취업 보고서 생성" v-model="aiReportModal">
-     <template #headerActions-left>
+  <UiModal title="AI 취업 보고서 생성" v-model="aiReportModal">
+    <template #headerActions-left>
       <img src="@/assets/images/ico_avatar_sai.svg" alt="sai" />
-     </template>
-   </UiModal>
+    </template>
+  </UiModal>
+
+  <!-- 취합 대상 보고서 선택-->
+  <UiModal title="취합 대상 보고서 선택" v-model="reportMergeModal" size="xmedium" :show-footer="true">
+    <div class="report-selection-container">
+      <div class="w-400 body-bg p-4">
+        <h3 class="text-lg font-semibold">
+          제출 기간 : 2023.03.19 ~ 2023.04.03
+        </h3>
+
+        <div class="mt-4 mb-4">
+          <UiCheckbox
+            id="selectAllReports"
+            label="전체 보고서 선택"
+            size="large"
+            :checked="true"
+            class="mt-10"
+          />
+          <div class="report-submitter">
+            <div class="submitter-header" @click="toggleSubmitter('chanYong')">
+              <UiCheckbox label="이찬용 선임(UI/UX)" size="large" />
+              <i
+                class="icon icon-md"
+                :class="
+                  isSubmitterOpen.chanYong
+                    ? 'icon-chevron-up'
+                    : 'icon-chevron-down'
+                "
+              ></i>
+            </div>
+            <div
+              class="report-submitter-list flex flex-col gap-10"
+              v-if="isSubmitterOpen.chanYong"
+            >
+              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.19" size="medium" />
+              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.20" size="medium" />
+              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.21" size="medium" />
+            </div>
+          </div>
+          <div class="report-submitter">
+            <div class="submitter-header" @click="toggleSubmitter('chanYong2')">
+              <UiCheckbox label="이찬용 선임(UI/UX)" size="large" />
+              <i
+                class="icon icon-md"
+                :class="
+                  isSubmitterOpen.chanYong2
+                    ? 'icon-chevron-up'
+                    : 'icon-chevron-down'
+                "
+              ></i>
+            </div>
+            <div
+              class="report-submitter-list flex flex-col gap-10"
+              v-if="isSubmitterOpen.chanYong2"
+            >
+              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.19" size="medium" />
+              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.20" size="medium" />
+              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.21" size="medium" />
+            </div>
+          </div>
+          <div class="report-submitter">  
+            <div class="submitter-header" @click="toggleSubmitter('chanYong3')">
+              <UiCheckbox label="이찬용 선임(UI/UX)" size="large" />
+              <i
+                class="icon icon-md"
+                :class="
+                  isSubmitterOpen.chanYong3
+                    ? 'icon-chevron-up'
+                    : 'icon-chevron-down'
+                "
+              ></i>
+            </div>
+            <div
+              class="report-submitter-list flex flex-col gap-10"
+              v-if="isSubmitterOpen.chanYong3"
+            >
+              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.19" size="medium" />
+              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.20" size="medium" />
+              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.21" size="medium" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <template #footerActions>
+      <UiButton variant="primary">
+        <i class="icon icon-md icon-create icon-white"></i>
+        보고서 생성
+      </UiButton>
+    </template>
+  </UiModal>
 </template>
 
 <script setup>
@@ -255,7 +278,23 @@ import { ref } from "vue";
 const reportConfigModal = ref(false);
 
 // AI 보고서 생성 팝업
-const aiReportModal = ref(true);
+const aiReportModal = ref(false);
+
+// 취합 대상 보고서 선택
+const reportMergeModal = ref(false);
+
+// 보고서 제출자 펼쳐짐 여부
+const isSubmitterOpen = ref({
+  chanYong: true,
+  chanYong2: false,
+  chanYong3: false,
+});
+
+// 보고서 제출자 펼쳐짐 토글
+const toggleSubmitter = (submitter) => {
+isSubmitterOpen.value[submitter] = !isSubmitterOpen.value[submitter];
+  
+};
 
 // 보고서 목록
 const reports = ref([
@@ -266,16 +305,13 @@ const reports = ref([
   { type: "월간보고", date: "2025.02.01", status: "제출완료" },
 ]);
 
-// 보고서 아이템
+// 보고서 목록
 const reportItems = ref([
-  {
-    kpi: {
-      title: "신규 고객 유치",
-    },
-    okr: {
-      title: "마케팅 캠페인 실행",
-    },
-  },
+  { kpi: "팀 생산성", okr: "협업 투자", achievement: "신규 시장 조사 완료, 마케팅 전략 수립", plan: "현 프로세스 분석 및 문제점 파악, 개선안 초안 작성" },
+  { kpi: "협업 투자", okr: "고객 피드백 수집 및 분석, 개선 포인트 도출", achievement: "신규 협업 툴 도입 교육 진행, 초기 데이터 마이그레이션", plan: "전체 팀 활용 독려, 사용 현황 모니터링" },
+  { kpi: "협업 투자", okr: "고객 피드백 수집 및 분석, 개선 포인트 도출", achievement: "신규 협업 툴 도입 교육 진행, 초기 데이터 마이그레이션", plan: "전체 팀 활용 독려, 사용 현황 모니터링" },
+  { kpi: "협업 투자", okr: "고객 피드백 수집 및 분석, 개선 포인트 도출", achievement: "신규 협업 툴 도입 교육 진행, 초기 데이터 마이그레이션", plan: "전체 팀 활용 독려, 사용 현황 모니터링" },
+  { kpi: "협업 투자", okr: "고객 피드백 수집 및 분석, 개선 포인트 도출", achievement: "신규 협업 툴 도입 교육 진행, 초기 데이터 마이그레이션", plan: "전체 팀 활용 독려, 사용 현황 모니터링" },
 ]);
 </script>
 
@@ -586,4 +622,35 @@ const reportItems = ref([
     min-height: 24px;
   }
 }
+
+.report-submitter {
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  
+  .submitter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #f9fafb;
+    cursor: pointer;
+    border-radius: 6px;
+    
+    &:hover {
+      background-color: #f3f4f6;
+    }
+  }
+
+  .report-submitter-list{
+    padding: 15px 25px;
+  }
+  
+  .icon {
+    transition: transform 0.2s ease;
+    color: #6b7280;
+  }
+}
+
 </style>

@@ -84,7 +84,7 @@ defineEmits(['update:modelValue']);
     .ui-radio__input {
       width: 22px;
       height: 22px;
-      margin-right: 10px;
+      margin-right: 5px;
     }
   }
 

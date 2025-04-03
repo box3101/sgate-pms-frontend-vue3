@@ -1,5 +1,8 @@
 <template>
-  <div :class="['ui-checkbox', `ui-checkbox--${size}`]">
+  <div 
+    :class="['ui-checkbox', `ui-checkbox--${size}`]"
+    @click="handleClick"
+  >
     <input 
       :id="id" 
       type="checkbox" 
@@ -15,8 +18,6 @@
 </template>
 
 <script setup>
-
-
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -41,7 +42,13 @@ const props = defineProps({
   }
 });
 
-defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue']);
+
+const handleClick = (event) => {
+  if (event.target === event.currentTarget && !props.disabled) {
+    emit('update:modelValue', !props.modelValue);
+  }
+};
 </script>
 
 <style scoped lang="scss">
@@ -49,6 +56,7 @@ defineEmits(['update:modelValue']);
   display: flex;
   align-items: center;
   cursor: pointer;
+  width: fit-content;
 
   &--small {
     font-size: 12px;
@@ -90,7 +98,7 @@ defineEmits(['update:modelValue']);
     .ui-checkbox__input {
       width: 22px;
       height: 22px;
-      margin-right: 10px;
+      margin-right: 5px;
     }
 
     .ui-checkbox__input:checked::after {
