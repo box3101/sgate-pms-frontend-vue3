@@ -78,7 +78,7 @@ const props = defineProps({
   size: {
     type: String,
     default: "medium",
-    validator: (value) => ["small", "xmedium", "medium", "large", "xlarge", "full"].includes(value),
+    validator: (value) => ["small", "xmedium", "medium", "large","mlarge", "xlarge", "full"].includes(value),
   },
   centered: {
     type: Boolean,
@@ -314,6 +314,10 @@ function handleMouseUp() {
     max-width: 800px;
   }
 
+  &--mlarge{
+    max-width: 1100px;
+  }
+
   &--xlarge {
     max-width: 1400px;
   }
@@ -406,7 +410,8 @@ function handleMouseUp() {
     &--small,
     &--medium,
     &--large,
-    &--xlarge {
+    &--xlarge,
+    &--mlarge {
       max-width: calc(100vw - #{$spacing-md * 2});
       width: calc(100vw - #{$spacing-md * 2});
     }

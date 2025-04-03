@@ -173,14 +173,118 @@
   </UiModal>
 
   <!-- AI 취업 보고서 생성-->
-  <UiModal title="AI 취업 보고서 생성" v-model="aiReportModal">
+  <!-- AI 취업 보고서 생성-->
+  <UiModal title="AI 취업 보고서 생성" v-model="aiReportModal" :size="'mlarge'">
     <template #headerActions-left>
       <img src="@/assets/images/ico_avatar_sai.svg" alt="sai" />
     </template>
+
+    <template #headerActions-right>
+      <UiButton>
+        <i class="icon icon-sm icon-create icon-white"></i>
+        취합 대상 보고서 선택
+      </UiButton>
+    </template>
+
+    <UiFormLayout>
+      <UiFormItem label="보고서 명">
+        <div class="flex gap-10 items-center">
+          <UiSelect
+            class="w-150"
+            placeholder="주간보고"
+            :options="[
+              { value: '주간보고', label: '주간보고' },
+              { value: '일간보고', label: '일간보고' },
+            ]"
+          >
+          </UiSelect>
+          <UiDatePicker isRange class="w-220"></UiDatePicker>
+        </div>
+      </UiFormItem>
+      <UiFormItem label="표시할내용">
+        <div class="flex flex-col gap-15">
+          <div class="flex gap-10 items-center">
+            <UiCheckbox class="w-60" size="large" label="KPI" />
+            <UiSelect
+              class="w-150"
+              placeholder="2025"
+              :options="[
+                { value: '2025', label: '2025' },
+                { value: '2024', label: '2024' },
+              ]"
+            >
+            </UiSelect>
+          </div>
+          <div class="flex gap-10 items-center">
+            <UiCheckbox class="w-60" size="large" label="OKR" />
+            <UiSelect
+              class="w-150"
+              placeholder="2025"
+              :options="[
+                { value: '2025', label: '2025' },
+                { value: '2024', label: '2024' },
+              ]"
+            >
+            </UiSelect>
+            <UiSelect
+              class="w-150"
+              placeholder="1분기"
+              :options="[
+                { value: '1분기', label: '1분기' },
+                { value: '2분기', label: '2분기' },
+                { value: '3분기', label: '3분기' },
+                { value: '4분기', label: '4분기' },
+              ]"
+            >
+            </UiSelect>
+          </div>
+        </div>
+      </UiFormItem>
+      <UiFormItem label="실적작성방법">
+        <div class="flex gap-10">
+          <UiRadio
+            name="reportType"
+            size="large"
+            label="내 활동도 같이 요약하기"
+          >
+          </UiRadio>
+          <div class="flex gap-10 is-border">
+            <UiRadio name="reportType" size="large" label="활동일"> </UiRadio>
+            <UiRadio name="reportType" size="large" label="작성일"> </UiRadio>
+          </div>
+          <div class="flex gap-10 is-border">
+            <UiCheckbox size="large" label="나의 활동만 가져오기" />
+          </div>
+          <div class="flex gap-10 is-border">
+            <UiCheckbox size="large" label="피드백도 포함해서 가져오기" />
+          </div>
+        </div>
+        <UiRadio name="reportType" size="large" label="내 활동도 같이 요약하기">
+        </UiRadio>
+      </UiFormItem>
+
+      <div class="notice">
+        <ul>
+          <li class="notice-item">
+            선택한 기간동안 나에게 제출된 보고서들을 선택하여 내가 최근에 제출한
+            보고서의 형태로 요약합니다.
+          </li>
+          <li class="notice-item">
+            보고서 취합 시 내 활동을 포함하여 요약하고자 하는 경우 내활동 같이
+            요약하기를 선택합니다.
+          </li>
+        </ul>
+      </div>
+    </UiFormLayout>
   </UiModal>
 
   <!-- 취합 대상 보고서 선택-->
-  <UiModal title="취합 대상 보고서 선택" v-model="reportMergeModal" size="xmedium" :show-footer="true">
+  <UiModal
+    title="취합 대상 보고서 선택"
+    v-model="reportMergeModal"
+    size="xmedium"
+    :show-footer="true"
+  >
     <div class="report-selection-container">
       <div class="w-400 body-bg p-4">
         <h3 class="text-lg font-semibold">
@@ -211,9 +315,18 @@
               class="report-submitter-list flex flex-col gap-10"
               v-if="isSubmitterOpen.chanYong"
             >
-              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.19" size="medium" />
-              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.20" size="medium" />
-              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.21" size="medium" />
+              <UiCheckbox
+                label="이찬용 선임(UI/UX) - 2025.03.19"
+                size="medium"
+              />
+              <UiCheckbox
+                label="이찬용 선임(UI/UX) - 2025.03.20"
+                size="medium"
+              />
+              <UiCheckbox
+                label="이찬용 선임(UI/UX) - 2025.03.21"
+                size="medium"
+              />
             </div>
           </div>
           <div class="report-submitter">
@@ -232,12 +345,21 @@
               class="report-submitter-list flex flex-col gap-10"
               v-if="isSubmitterOpen.chanYong2"
             >
-              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.19" size="medium" />
-              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.20" size="medium" />
-              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.21" size="medium" />
+              <UiCheckbox
+                label="이찬용 선임(UI/UX) - 2025.03.19"
+                size="medium"
+              />
+              <UiCheckbox
+                label="이찬용 선임(UI/UX) - 2025.03.20"
+                size="medium"
+              />
+              <UiCheckbox
+                label="이찬용 선임(UI/UX) - 2025.03.21"
+                size="medium"
+              />
             </div>
           </div>
-          <div class="report-submitter">  
+          <div class="report-submitter">
             <div class="submitter-header" @click="toggleSubmitter('chanYong3')">
               <UiCheckbox label="이찬용 선임(UI/UX)" size="large" />
               <i
@@ -253,9 +375,18 @@
               class="report-submitter-list flex flex-col gap-10"
               v-if="isSubmitterOpen.chanYong3"
             >
-              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.19" size="medium" />
-              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.20" size="medium" />
-              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.21" size="medium" />
+              <UiCheckbox
+                label="이찬용 선임(UI/UX) - 2025.03.19"
+                size="medium"
+              />
+              <UiCheckbox
+                label="이찬용 선임(UI/UX) - 2025.03.20"
+                size="medium"
+              />
+              <UiCheckbox
+                label="이찬용 선임(UI/UX) - 2025.03.21"
+                size="medium"
+              />
             </div>
           </div>
         </div>
@@ -278,7 +409,7 @@ import { ref } from "vue";
 const reportConfigModal = ref(false);
 
 // AI 보고서 생성 팝업
-const aiReportModal = ref(false);
+const aiReportModal = ref(true);
 
 // 취합 대상 보고서 선택
 const reportMergeModal = ref(false);
@@ -292,8 +423,7 @@ const isSubmitterOpen = ref({
 
 // 보고서 제출자 펼쳐짐 토글
 const toggleSubmitter = (submitter) => {
-isSubmitterOpen.value[submitter] = !isSubmitterOpen.value[submitter];
-  
+  isSubmitterOpen.value[submitter] = !isSubmitterOpen.value[submitter];
 };
 
 // 보고서 목록
@@ -307,11 +437,36 @@ const reports = ref([
 
 // 보고서 목록
 const reportItems = ref([
-  { kpi: "팀 생산성", okr: "협업 투자", achievement: "신규 시장 조사 완료, 마케팅 전략 수립", plan: "현 프로세스 분석 및 문제점 파악, 개선안 초안 작성" },
-  { kpi: "협업 투자", okr: "고객 피드백 수집 및 분석, 개선 포인트 도출", achievement: "신규 협업 툴 도입 교육 진행, 초기 데이터 마이그레이션", plan: "전체 팀 활용 독려, 사용 현황 모니터링" },
-  { kpi: "협업 투자", okr: "고객 피드백 수집 및 분석, 개선 포인트 도출", achievement: "신규 협업 툴 도입 교육 진행, 초기 데이터 마이그레이션", plan: "전체 팀 활용 독려, 사용 현황 모니터링" },
-  { kpi: "협업 투자", okr: "고객 피드백 수집 및 분석, 개선 포인트 도출", achievement: "신규 협업 툴 도입 교육 진행, 초기 데이터 마이그레이션", plan: "전체 팀 활용 독려, 사용 현황 모니터링" },
-  { kpi: "협업 투자", okr: "고객 피드백 수집 및 분석, 개선 포인트 도출", achievement: "신규 협업 툴 도입 교육 진행, 초기 데이터 마이그레이션", plan: "전체 팀 활용 독려, 사용 현황 모니터링" },
+  {
+    kpi: "팀 생산성",
+    okr: "협업 투자",
+    achievement: "신규 시장 조사 완료, 마케팅 전략 수립",
+    plan: "현 프로세스 분석 및 문제점 파악, 개선안 초안 작성",
+  },
+  {
+    kpi: "협업 투자",
+    okr: "고객 피드백 수집 및 분석, 개선 포인트 도출",
+    achievement: "신규 협업 툴 도입 교육 진행, 초기 데이터 마이그레이션",
+    plan: "전체 팀 활용 독려, 사용 현황 모니터링",
+  },
+  {
+    kpi: "협업 투자",
+    okr: "고객 피드백 수집 및 분석, 개선 포인트 도출",
+    achievement: "신규 협업 툴 도입 교육 진행, 초기 데이터 마이그레이션",
+    plan: "전체 팀 활용 독려, 사용 현황 모니터링",
+  },
+  {
+    kpi: "협업 투자",
+    okr: "고객 피드백 수집 및 분석, 개선 포인트 도출",
+    achievement: "신규 협업 툴 도입 교육 진행, 초기 데이터 마이그레이션",
+    plan: "전체 팀 활용 독려, 사용 현황 모니터링",
+  },
+  {
+    kpi: "협업 투자",
+    okr: "고객 피드백 수집 및 분석, 개선 포인트 도출",
+    achievement: "신규 협업 툴 도입 교육 진행, 초기 데이터 마이그레이션",
+    plan: "전체 팀 활용 독려, 사용 현황 모니터링",
+  },
 ]);
 </script>
 
@@ -628,7 +783,7 @@ const reportItems = ref([
   border-radius: 6px;
   margin-bottom: 10px;
   margin-top: 10px;
-  
+
   .submitter-header {
     display: flex;
     justify-content: space-between;
@@ -637,20 +792,35 @@ const reportItems = ref([
     background-color: #f9fafb;
     cursor: pointer;
     border-radius: 6px;
-    
+
     &:hover {
       background-color: #f3f4f6;
     }
   }
 
-  .report-submitter-list{
+  .report-submitter-list {
     padding: 15px 25px;
   }
-  
+
   .icon {
     transition: transform 0.2s ease;
     color: #6b7280;
   }
 }
 
+
+.notice{width: 100%;background-color: #ddd;border-radius: 5px;padding: 16px;
+.notice-item{ font-weight: 700;
+
+
+&::before {
+        content: "· ";
+        font-size: 16px;
+        color: #6b7280;
+        margin-right: 4px;
+        
+      }}
+
+
+}
 </style>
