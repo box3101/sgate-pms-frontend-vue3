@@ -44,7 +44,11 @@
           }
         },
         "ui_components": {
-          "recommend_components": true
+          "recommend_components": true,
+          "html_tags": {
+            "layout_utilities_reference": "utilities.scss",
+            "prefer_custom_classes": true
+          }
         }
       }
     }
