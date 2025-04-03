@@ -241,10 +241,76 @@
   </UiModal>
 
   <!-- AI 취업 보고서 생성-->
-   <UiModal title="AI 취업 보고서 생성" v-model="aiReportModal">
+   <UiModal title="AI 취업 보고서 생성" v-model="aiReportModal" :size="'mlarge'">
      <template #headerActions-left>
       <img src="@/assets/images/ico_avatar_sai.svg" alt="sai" />
      </template>
+
+     <template #headerActions-right>
+       <UiButton>
+         <i class="icon icon-sm icon-create icon-white"></i>
+         취합 대상 보고서 선택
+       </UiButton>
+     </template>
+
+     <UiFormLayout>
+      <UiFormItem label="보고서 명">
+        <div class="flex gap-10 items-center">
+          <UiSelect  class="w-150" placeholder="주간보고" :options="[{value:'주간보고',label:'주간보고'},
+          {value:'일간보고',label:'일간보고'},]">
+          </UiSelect>
+          <UiDatePicker isRange class="w-220"></UiDatePicker>
+        </div>
+      </UiFormItem>
+       <UiFormItem label="표시할내용">
+       <div class="flex flex-col gap-15">
+          <div class="flex gap-10 items-center" >
+            <UiCheckbox class="w-60" size="large" label="KPI" />
+            <UiSelect  class="w-150" placeholder="2025" :options="[{value:'2025',label:'2025'},
+              {value:'2024',label:'2024'},]">
+              </UiSelect>
+          </div>
+          <div class="flex gap-10 items-center">
+            <UiCheckbox class="w-60" size="large" label="OKR" />
+            <UiSelect  class="w-150" placeholder="2025" :options="[{value:'2025',label:'2025'},
+              {value:'2024',label:'2024'},]">
+              </UiSelect>
+              <UiSelect  class="w-150" placeholder="1분기" :options="[{value:'1분기',label:'1분기'},
+              {value:'2분기',label:'2분기'},
+              {value:'3분기',label:'3분기'},
+              {value:'4분기',label:'4분기'},]">
+              </UiSelect>
+          </div>
+       </div>
+      </UiFormItem>
+       <UiFormItem label="실적작성방법">
+       <div class="flex gap-10">
+          <UiRadio name="reportType" size="large" label="내 활동도 같이 요약하기"> </UiRadio>
+          <div class="flex gap-10 is-border">
+            <UiRadio name="reportType" size="large" label="활동일"> </UiRadio>
+            <UiRadio name="reportType" size="large" label="작성일"> </UiRadio>
+          </div>
+           <div class="flex gap-10 is-border">
+             <UiCheckbox size="large" label="나의 활동만 가져오기" />
+          </div>
+          <div class="flex gap-10 is-border">
+             <UiCheckbox size="large" label="피드백도 포함해서 가져오기" />
+          </div>
+         
+       </div>
+        <UiRadio name="reportType" size="large" label="내 활동도 같이 요약하기"> </UiRadio>
+      </UiFormItem>
+ 
+
+      <div class="notice">
+        <ul>
+          <li>fffff</li>
+          <li>121211212</li>
+        </ul>
+      </div>
+     </UiFormLayout>
+
+
    </UiModal>
 </template>
 
@@ -585,5 +651,9 @@ const reportItems = ref([
     display: inline-block;
     min-height: 24px;
   }
+}
+.notice{width: 100%;background-color: #ddd;border-radius: 5px;padding: 16px;
+
+
 }
 </style>

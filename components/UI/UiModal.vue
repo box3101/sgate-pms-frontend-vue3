@@ -53,7 +53,24 @@
           </div>
         </div>
       </div>
-      <div class="ui-popup__body" :style="{padding: `${size === 'small' ? '0px' : size === 'xmedium' ? '12px' : size === 'medium' ? '16px' : size === 'large' ? '20px' : size === 'xlarge' ? '24px' : '24px'}`}">
+      <div
+        class="ui-popup__body"
+        :style="{
+          padding: `${
+            size === 'small'
+              ? '0px'
+              : size === 'xmedium'
+              ? '12px'
+              : size === 'medium'
+              ? '16px'
+              : size === 'large'
+              ? '20px'
+              : size === 'xlarge'
+              ? '24px'
+              : '24px'
+          }`,
+        }"
+      >
         <slot></slot>
       </div>
       <div v-if="showFooter" class="ui-popup__footer">
@@ -78,7 +95,8 @@ const props = defineProps({
   size: {
     type: String,
     default: "medium",
-    validator: (value) => ["small", "xmedium", "medium", "large", "xlarge", "full"].includes(value),
+    validator: (value) =>
+      ["small", "xmedium", "medium", "large", "mlarge", "xlarge", "full"].includes(value),
   },
   centered: {
     type: Boolean,
@@ -184,7 +202,7 @@ function handleMouseUp() {
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -238,7 +256,7 @@ function handleMouseUp() {
   }
 
   &__header-actions {
-    margin-left: auto;  
+    margin-left: auto;
     display: flex;
     align-items: center;
     gap: $spacing-sm;
@@ -281,7 +299,7 @@ function handleMouseUp() {
     border-radius: 8px;
     overflow: auto;
     -webkit-overflow-scrolling: touch; /* 모바일 스크롤 개선 */
-  
+
     &::-webkit-scrollbar {
       display: none;
     }
@@ -312,6 +330,10 @@ function handleMouseUp() {
 
   &--large {
     max-width: 800px;
+  }
+
+  &--mlarge {
+    max-width: 1100px;
   }
 
   &--xlarge {
@@ -406,6 +428,7 @@ function handleMouseUp() {
     &--small,
     &--medium,
     &--large,
+    &--mlarge,
     &--xlarge {
       max-width: calc(100vw - #{$spacing-md * 2});
       width: calc(100vw - #{$spacing-md * 2});
@@ -418,7 +441,7 @@ function handleMouseUp() {
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
     }
-    
+
     &--fullscreen {
       width: 100vw;
       height: 100vh;
@@ -427,7 +450,7 @@ function handleMouseUp() {
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
     }
-    
+
     &__body {
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
