@@ -91,6 +91,7 @@
               </div>
             </div>
             <div class="report-body">
+              <<<<<<< HEAD
               <!-- 모든 테이블 표시 -->
               <UiReportContent
                 :kpiOkrItems="reportItems"
@@ -101,6 +102,31 @@
                   { title: '피드백', content: '피드백 내용입니다.' },
                 ]"
               />
+              =======
+              <UiTable
+                :headers="['KPI', 'OKR', '금주실적', '차주계획']"
+                :column-widths="['20%', '20%', '30%', '30%']"
+                :items="reportItems"
+              />
+              <div>
+                <UiRowTable
+                  :items="[
+                    {
+                      title: '의견/기타',
+                      content:
+                        '의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다.',
+                    },
+                    { title: '첨부파일', content: '첨부파일 내용입니다.' },
+                    { title: '피드백', content: '피드백 내용입니다.' },
+                  ]"
+                  leftColumnWidth="10%"
+                  rightColumnWidth="90%"
+                  :padding="true"
+                  :centerLeftText="true"
+                  :showBorderRight="true"
+                />
+              </div>
+              >>>>>>> origin/ley
             </div>
           </div>
         </div>
@@ -111,7 +137,7 @@
   <!-- 보고서 팝업 -->
   <UiModal title="보고서 설정" v-model="reportConfigModal" :size="'large'">
     <template #headerActions-right>
-      <UiButton variant="primary">
+      <UiButton variant="primary" @click="reportCreateModal = true">
         <i class="icon icon-md icon-create icon-white"></i>
         <span>보고서생성</span>
       </UiButton>
@@ -186,6 +212,61 @@
             </div>
           </div>
           <UiRadio name="reportType" size="large" label="직접입력" />
+        </div>
+      </UiFormItem>
+    </UiFormLayout>
+  </UiModal>
+
+  <!-- 보고서 생성 팝업 -->
+
+  <UiModal title="보고서 작성" v-model="reportCreateModal" :size="'xlarge'">
+    <template #headerActions-right>
+      <UiButton variant="primary" @click="isFilterModalOpen = false"
+        >제출</UiButton
+      >
+    </template>
+    <UiFormLayout>
+      <UiFormItem label="">
+        <div class="flex gap-10 align-center">
+          <div class="user-label gap-5">
+            <img
+              src="@/assets/images/ico_avatar_sai.svg"
+              alt="sai"
+              class="icon-md"
+            />
+            <div class="user-name">김윤기</div>
+          </div>
+          <div>
+            <ul class="daily-report">
+              <li>일간보고</li>
+              <li>2025.04.04 제출</li>
+            </ul>
+          </div>
+          <UiMultiSelect
+            class="w-400"
+            placeholder="협업자 이름을 입력해주세요"
+            :options="[
+              { value: 'value', label: '형광민[기업]' },
+              { value: 'value', label: '땡땡땡[기업]' },
+            ]"
+          />
+          <UiButton variant="tertiary">
+            <img
+              src="@/assets/images/ico_avatar_sai.svg"
+              alt="sai"
+              class="icon-md"
+            />
+            <span>AI 요약</span>
+          </UiButton>
+          <UiButton variant="tertiary">
+            <span>직접입력</span>
+          </UiButton>
+          <UiButton variant="tertiary">
+            <span>활동재생성</span>
+          </UiButton>
+          <UiButton variant="tertiary">
+            <span>업무 활동 추가</span>
+          </UiButton>
         </div>
       </UiFormItem>
     </UiFormLayout>
@@ -611,7 +692,7 @@
               '길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트',
             작성자: '홍길동',
             작성일자: '2023-04-05',
-          }
+          },
         ]"
       >
         <template #header-0>
@@ -627,6 +708,9 @@ import { ref } from "vue";
 
 // 보고서 설정 팝업
 const reportConfigModal = ref(false);
+
+// 보고서 생성 팝업
+const reportCreateModal = ref(true);
 
 // AI 보고서 생성 팝업
 const aiReportModal = ref(false);
@@ -691,7 +775,6 @@ const reportItems = ref([
     plan: "전체 팀 활용 독려, 사용 현황 모니터링",
   },
 ]);
-
 </script>
 
 <style lang="scss" scoped>
@@ -716,6 +799,7 @@ const reportItems = ref([
   .left-content {
     border-right: 1px solid #e5e7eb;
   }
+
   .report-list {
     overflow-y: auto;
     height: calc(100vh - 180px);
@@ -1031,18 +1115,18 @@ const reportItems = ref([
     color: #6b7280;
   }
 }
-
 .notice {
   width: 100%;
   background-color: #ddd;
   border-radius: 5px;
   padding: 16px;
-}
-.notice-item {
-  font-weight: 700;
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+
+  .notice-item {
+    font-weight: 700;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
 }
 </style>
