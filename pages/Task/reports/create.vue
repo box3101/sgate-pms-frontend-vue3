@@ -146,9 +146,41 @@
       </UiFormItem>
       <UiFormItem label="표시할내용">
         <div class="flex flex-col gap-15">
-          <UiCheckbox size="large" label="KPI" />
-          <UiCheckbox size="large" label="OKR" />
-          <UiCheckbox size="large" label="Project" />
+          <div class="flex gap-10 items-center">
+            <UiCheckbox class="w-60" size="large" label="KPI" />
+            <UiSelect
+              class="w-150"
+              placeholder="2025"
+              :options="[
+                { value: '2025', label: '2025' },
+                { value: '2024', label: '2024' },
+              ]"
+            >
+            </UiSelect>
+          </div>
+          <div class="flex gap-10 items-center">
+            <UiCheckbox class="w-60" size="large" label="OKR" />
+            <UiSelect
+              class="w-150"
+              placeholder="2025"
+              :options="[
+                { value: '2025', label: '2025' },
+                { value: '2024', label: '2024' },
+              ]"
+            >
+            </UiSelect>
+            <UiSelect
+              class="w-150"
+              placeholder="1분기"
+              :options="[
+                { value: '1분기', label: '1분기' },
+                { value: '2분기', label: '2분기' },
+                { value: '3분기', label: '3분기' },
+                { value: '4분기', label: '4분기' },
+              ]"
+            >
+            </UiSelect>
+          </div>
         </div>
       </UiFormItem>
       <UiFormItem label="실적작성방법">
@@ -173,14 +205,13 @@
   </UiModal>
 
   <!-- AI 취업 보고서 생성-->
-  <!-- AI 취업 보고서 생성-->
   <UiModal title="AI 취업 보고서 생성" v-model="aiReportModal" :size="'mlarge'">
     <template #headerActions-left>
       <img src="@/assets/images/ico_avatar_sai.svg" alt="sai" />
     </template>
 
     <template #headerActions-right>
-      <UiButton>
+      <UiButton @click="reportMergeModal = true">
         <i class="icon icon-sm icon-create icon-white"></i>
         취합 대상 보고서 선택
       </UiButton>
@@ -409,7 +440,7 @@ import { ref } from "vue";
 const reportConfigModal = ref(false);
 
 // AI 보고서 생성 팝업
-const aiReportModal = ref(true);
+const aiReportModal = ref(false);
 
 // 취합 대상 보고서 선택
 const reportMergeModal = ref(false);
@@ -808,19 +839,20 @@ const reportItems = ref([
   }
 }
 
+.notice {
+  width: 100%;
+  background-color: #ddd;
+  border-radius: 5px;
+  padding: 16px;
+  .notice-item {
+    font-weight: 700;
 
-.notice{width: 100%;background-color: #ddd;border-radius: 5px;padding: 16px;
-.notice-item{ font-weight: 700;
-
-
-&::before {
-        content: "· ";
-        font-size: 16px;
-        color: #6b7280;
-        margin-right: 4px;
-        
-      }}
-
-
+    &::before {
+      content: "· ";
+      font-size: 16px;
+      color: #6b7280;
+      margin-right: 4px;
+    }
+  }
 }
 </style>
