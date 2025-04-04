@@ -310,7 +310,7 @@ function handleSwitchChange(value) {
             align-items: center;
           }
           
-          .user-details {
+          .ㅊ {
             .user-name {
               font-weight: 500;
               font-size: 14px;

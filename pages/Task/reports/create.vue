@@ -4,14 +4,7 @@
       <div class="ct-top flex justify-between w-full">
         <ul class="my_menu flex gap-23 items-center">
           <li class="tbl-btn flex gap-5">
-            <UiDatePicker
-              class="w-270"
-              v-model="dateRange"
-              isRange
-              startPlaceholder="시작일"
-              endPlaceholder="마지막날짜"
-              size="medium"
-            />
+            <UiDatePicker class="w-270" v-model="dateRange" isRange startPlaceholder="시작일" endPlaceholder="마지막날짜" size="medium" />
             <UiButton variant="tertiary">
               <i class="icon icon-md icon-search"></i>
             </UiButton>
@@ -41,15 +34,8 @@
           <div class="report-list">
             <!-- 보고서 목록이 들어갈 영역 -->
             <ul class="report-items">
-              <li
-                v-for="(report, index) in reports"
-                :key="index"
-                class="report-item"
-              >
-                <div
-                  :data-index="index"
-                  class="flex justify-between items-center p-2 hover:bg-gray-50 cursor-pointer"
-                >
+              <li v-for="(report, index) in reports" :key="index" class="report-item">
+                <div :data-index="index" class="flex justify-between items-center p-2 hover:bg-gray-50 cursor-pointer">
                   <span>
                     {{ report.type }} {{ report.date }} {{ report.status }}
                   </span>
@@ -91,28 +77,17 @@
               </div>
             </div>
             <div class="report-body">
-              <UiTable
-                :headers="['KPI', 'OKR', '금주실적', '차주계획']"
-                :column-widths="['20%', '20%', '30%', '30%']"
-                :items="reportItems"
-              />
+              <UiTable :headers="['KPI', 'OKR', '금주실적', '차주계획']" :column-widths="['20%', '20%', '30%', '30%']" :items="reportItems" />
               <div>
-                <UiRowTable
-                  :items="[
-                    {
-                      title: '의견/기타',
-                      content:
-                        '의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다.',
-                    },
-                    { title: '첨부파일', content: '첨부파일 내용입니다.' },
-                    { title: '피드백', content: '피드백 내용입니다.' },
-                  ]"
-                  leftColumnWidth="10%"
-                  rightColumnWidth="90%"
-                  :padding="true"
-                  :centerLeftText="true"
-                  :showBorderRight="true"
-                />
+                <UiRowTable :items="[
+                  {
+                    title: '의견/기타',
+                    content:
+                      '의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다.',
+                  },
+                  { title: '첨부파일', content: '첨부파일 내용입니다.' },
+                  { title: '피드백', content: '피드백 내용입니다.' },
+                ]" leftColumnWidth="10%" rightColumnWidth="90%" :padding="true" :centerLeftText="true" :showBorderRight="true" />
               </div>
             </div>
           </div>
@@ -124,7 +99,7 @@
   <!-- 보고서 팝업 -->
   <UiModal title="보고서 설정" v-model="reportConfigModal" :size="'large'">
     <template #headerActions-right>
-      <UiButton variant="primary">
+      <UiButton variant="primary" @click="reportCreateModal = true">
         <i class="icon icon-md icon-create icon-white"></i>
         <span>보고서생성</span>
       </UiButton>
@@ -133,14 +108,10 @@
     <UiFormLayout>
       <UiFormItem label="보고서명">
         <div class="flex gap-10 align-center">
-          <UiSelect
-            class="w-150"
-            placeholder="일간보고"
-            :options="[
-              { value: '일간보고', label: '일간보고' },
-              { value: '주간보고', label: '주간보고' },
-            ]"
-          />
+          <UiSelect class="w-150" placeholder="일간보고" :options="[
+            { value: '일간보고', label: '일간보고' },
+            { value: '주간보고', label: '주간보고' },
+          ]" />
           <UiDatePicker class="w-150" />
         </div>
       </UiFormItem>
@@ -172,6 +143,52 @@
     </UiFormLayout>
   </UiModal>
 
+
+  <!-- 보고서 생성 팝업 -->
+
+  <UiModal title="보고서 작성" v-model="reportCreateModal" :size="'xlarge'">
+    <template #headerActions-right>
+      <UiButton variant="primary" @click="isFilterModalOpen = false">제출</UiButton>
+    </template>
+    <UiFormLayout>
+      <UiFormItem label="">
+        <div class="flex gap-10 align-center">
+          <div class="user-label gap-5"> 
+            <img src="@/assets/images/ico_avatar_sai.svg" alt="sai" class="icon-md" />
+            <div class="user-name">김윤기</div>
+          </div>
+          <div > 
+            <ul class="daily-report">
+              <li>일간보고</li>
+              <li>2025.04.04 제출</li>
+            </ul>
+          </div>
+          <UiMultiSelect class="w-400"
+                  placeholder="협업자 이름을 입력해주세요"
+                  :options="[{ value: 'value', label: '형광민[기업]'},
+                    { value: 'value', label: '땡땡땡[기업]'}
+                  ]"
+                />
+                <UiButton variant="tertiary">
+                  <img src="@/assets/images/ico_avatar_sai.svg" alt="sai" class="icon-md" />
+                    <span>AI 요약</span>
+                  </UiButton>
+                  <UiButton variant="tertiary">
+                    <span>직접입력</span>
+                  </UiButton>
+                  <UiButton variant="tertiary">
+                    <span>활동재생성</span>
+                  </UiButton>
+                  <UiButton variant="tertiary">
+                    <span>업무 활동 추가</span>
+                  </UiButton>
+        </div>
+      </UiFormItem>
+    </UiFormLayout>
+  </UiModal>
+
+
+
   <!-- AI 취업 보고서 생성-->
   <UiModal title="AI 취업 보고서 생성" v-model="aiReportModal" :size="'mlarge'">
     <template #headerActions-left>
@@ -188,14 +205,10 @@
     <UiFormLayout>
       <UiFormItem label="보고서 명">
         <div class="flex gap-10 items-center">
-          <UiSelect
-            class="w-150"
-            placeholder="주간보고"
-            :options="[
-              { value: '주간보고', label: '주간보고' },
-              { value: '일간보고', label: '일간보고' },
-            ]"
-          >
+          <UiSelect class="w-150" placeholder="주간보고" :options="[
+            { value: '주간보고', label: '주간보고' },
+            { value: '일간보고', label: '일간보고' },
+          ]">
           </UiSelect>
           <UiDatePicker isRange class="w-220"></UiDatePicker>
         </div>
@@ -204,48 +217,32 @@
         <div class="flex flex-col gap-15">
           <div class="flex gap-10 items-center">
             <UiCheckbox class="w-60" size="large" label="KPI" />
-            <UiSelect
-              class="w-150"
-              placeholder="2025"
-              :options="[
-                { value: '2025', label: '2025' },
-                { value: '2024', label: '2024' },
-              ]"
-            >
+            <UiSelect class="w-150" placeholder="2025" :options="[
+              { value: '2025', label: '2025' },
+              { value: '2024', label: '2024' },
+            ]">
             </UiSelect>
           </div>
           <div class="flex gap-10 items-center">
             <UiCheckbox class="w-60" size="large" label="OKR" />
-            <UiSelect
-              class="w-150"
-              placeholder="2025"
-              :options="[
-                { value: '2025', label: '2025' },
-                { value: '2024', label: '2024' },
-              ]"
-            >
+            <UiSelect class="w-150" placeholder="2025" :options="[
+              { value: '2025', label: '2025' },
+              { value: '2024', label: '2024' },
+            ]">
             </UiSelect>
-            <UiSelect
-              class="w-150"
-              placeholder="1분기"
-              :options="[
-                { value: '1분기', label: '1분기' },
-                { value: '2분기', label: '2분기' },
-                { value: '3분기', label: '3분기' },
-                { value: '4분기', label: '4분기' },
-              ]"
-            >
+            <UiSelect class="w-150" placeholder="1분기" :options="[
+              { value: '1분기', label: '1분기' },
+              { value: '2분기', label: '2분기' },
+              { value: '3분기', label: '3분기' },
+              { value: '4분기', label: '4분기' },
+            ]">
             </UiSelect>
           </div>
         </div>
       </UiFormItem>
       <UiFormItem label="실적작성방법">
         <div class="flex gap-10">
-          <UiRadio
-            name="reportType"
-            size="large"
-            label="내 활동도 같이 요약하기"
-          >
+          <UiRadio name="reportType" size="large" label="내 활동도 같이 요약하기">
           </UiRadio>
           <div class="flex gap-10 is-border">
             <UiRadio name="reportType" size="large" label="활동일"> </UiRadio>
@@ -276,16 +273,12 @@
           </li>
         </ul>
       </div>
+
     </UiFormLayout>
   </UiModal>
 
   <!-- 취합 대상 보고서 선택-->
-  <UiModal
-    title="취합 대상 보고서 선택"
-    v-model="reportMergeModal"
-    size="xmedium"
-    :show-footer="true"
-  >
+  <UiModal title="취합 대상 보고서 선택" v-model="reportMergeModal" size="xmedium" :show-footer="true">
     <div class="report-selection-container">
       <div class="w-400 body-bg p-4">
         <h3 class="text-lg font-semibold">
@@ -293,101 +286,47 @@
         </h3>
 
         <div class="mt-4 mb-4">
-          <UiCheckbox
-            id="selectAllReports"
-            label="전체 보고서 선택"
-            size="large"
-            :checked="true"
-            class="mt-10"
-          />
+          <UiCheckbox id="selectAllReports" label="전체 보고서 선택" size="large" :checked="true" class="mt-10" />
           <div class="report-submitter">
             <div class="submitter-header" @click="toggleSubmitter('chanYong')">
               <UiCheckbox label="이찬용 선임(UI/UX)" size="large" />
-              <i
-                class="icon icon-md"
-                :class="
-                  isSubmitterOpen.chanYong
-                    ? 'icon-chevron-up'
-                    : 'icon-chevron-down'
-                "
-              ></i>
+              <i class="icon icon-md" :class="isSubmitterOpen.chanYong
+                  ? 'icon-chevron-up'
+                  : 'icon-chevron-down'
+                "></i>
             </div>
-            <div
-              class="report-submitter-list flex flex-col gap-10"
-              v-if="isSubmitterOpen.chanYong"
-            >
-              <UiCheckbox
-                label="이찬용 선임(UI/UX) - 2025.03.19"
-                size="medium"
-              />
-              <UiCheckbox
-                label="이찬용 선임(UI/UX) - 2025.03.20"
-                size="medium"
-              />
-              <UiCheckbox
-                label="이찬용 선임(UI/UX) - 2025.03.21"
-                size="medium"
-              />
+            <div class="report-submitter-list flex flex-col gap-10" v-if="isSubmitterOpen.chanYong">
+              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.19" size="medium" />
+              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.20" size="medium" />
+              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.21" size="medium" />
             </div>
           </div>
           <div class="report-submitter">
             <div class="submitter-header" @click="toggleSubmitter('chanYong2')">
               <UiCheckbox label="이찬용 선임(UI/UX)" size="large" />
-              <i
-                class="icon icon-md"
-                :class="
-                  isSubmitterOpen.chanYong2
-                    ? 'icon-chevron-up'
-                    : 'icon-chevron-down'
-                "
-              ></i>
+              <i class="icon icon-md" :class="isSubmitterOpen.chanYong2
+                  ? 'icon-chevron-up'
+                  : 'icon-chevron-down'
+                "></i>
             </div>
-            <div
-              class="report-submitter-list flex flex-col gap-10"
-              v-if="isSubmitterOpen.chanYong2"
-            >
-              <UiCheckbox
-                label="이찬용 선임(UI/UX) - 2025.03.19"
-                size="medium"
-              />
-              <UiCheckbox
-                label="이찬용 선임(UI/UX) - 2025.03.20"
-                size="medium"
-              />
-              <UiCheckbox
-                label="이찬용 선임(UI/UX) - 2025.03.21"
-                size="medium"
-              />
+            <div class="report-submitter-list flex flex-col gap-10" v-if="isSubmitterOpen.chanYong2">
+              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.19" size="medium" />
+              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.20" size="medium" />
+              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.21" size="medium" />
             </div>
           </div>
           <div class="report-submitter">
             <div class="submitter-header" @click="toggleSubmitter('chanYong3')">
               <UiCheckbox label="이찬용 선임(UI/UX)" size="large" />
-              <i
-                class="icon icon-md"
-                :class="
-                  isSubmitterOpen.chanYong3
-                    ? 'icon-chevron-up'
-                    : 'icon-chevron-down'
-                "
-              ></i>
+              <i class="icon icon-md" :class="isSubmitterOpen.chanYong3
+                  ? 'icon-chevron-up'
+                  : 'icon-chevron-down'
+                "></i>
             </div>
-            <div
-              class="report-submitter-list flex flex-col gap-10"
-              v-if="isSubmitterOpen.chanYong3"
-            >
-              <UiCheckbox
-                label="이찬용 선임(UI/UX) - 2025.03.19"
-                size="medium"
-              />
-              <UiCheckbox
-                label="이찬용 선임(UI/UX) - 2025.03.20"
-                size="medium"
-              />
-              <UiCheckbox
-                label="이찬용 선임(UI/UX) - 2025.03.21"
-                size="medium"
-              />
+            <div class="report-submitter-list flex flex-col gap-10" v-if="isSubmitterOpen.chanYong3">
+              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.19" size="medium" />
+              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.20" size="medium" />
+              <UiCheckbox label="이찬용 선임(UI/UX) - 2025.03.21" size="medium" />
             </div>
           </div>
         </div>
@@ -408,6 +347,11 @@ import { ref } from "vue";
 
 // 보고서 설정 팝업
 const reportConfigModal = ref(false);
+
+
+
+// 보고서 생성 팝업
+const reportCreateModal = ref(true);
 
 // AI 보고서 생성 팝업
 const aiReportModal = ref(false);
@@ -493,6 +437,7 @@ const reportItems = ref([
   .left-content {
     border-right: 1px solid #e5e7eb;
   }
+
   .report-list {
     overflow-y: auto;
     height: calc(100vh - 180px);
@@ -810,8 +755,20 @@ const reportItems = ref([
 }
 
 
-.notice{width: 100%;background-color: #ddd;border-radius: 5px;padding: 16px;
-  .notice-item{ font-weight: 700;position: relative;display: flex; align-items: center; gap: 4px;
+.notice {
+  width: 100%;
+  background-color: #ddd;
+  border-radius: 5px;
+  padding: 16px;
+
+  .notice-item {
+    font-weight: 700;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 4px;
   }
 }
+
+.daily-report{}
 </style>
