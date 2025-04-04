@@ -770,5 +770,4 @@ const reportItems = ref([
   }
 }
 
-.daily-report{}
 </style>
