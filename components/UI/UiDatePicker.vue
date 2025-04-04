@@ -8,7 +8,7 @@
       'ui-datepicker--error': error,
       'ui-datepicker--small': size === 'small',
       'ui-datepicker--medium': size === 'medium',
-      'ui-datepicker--large': size === 'large'
+      'ui-datepicker--large': size === 'large',
     }"
   >
     <label v-if="label" class="ui-datepicker__label">
@@ -20,48 +20,156 @@
       <!-- 단일 날짜 선택 -->
       <div v-if="!isRange" class="ui-datepicker__input" @click="openCalendar">
         <div class="ui-datepicker__icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="3" y="6" width="18" height="15" rx="2" stroke="currentColor" stroke-width="2"/>
-            <path d="M3 10H21" stroke="currentColor" stroke-width="2"/>
-            <path d="M8 3L8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <path d="M16 3L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              x="3"
+              y="6"
+              width="18"
+              height="15"
+              rx="2"
+              stroke="currentColor"
+              stroke-width="2"
+            />
+            <path d="M3 10H21" stroke="currentColor" stroke-width="2" />
+            <path
+              d="M8 3L8 7"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <path
+              d="M16 3L16 7"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
           </svg>
         </div>
         <div class="ui-datepicker__text">
-          <span v-if="selectedDate" class="ui-datepicker__selected-text">{{ formatDate(selectedDate) }}</span>
-          <span v-else class="ui-datepicker__placeholder">{{ placeholder || '날짜 선택' }}</span>
+          <span v-if="selectedDate" class="ui-datepicker__selected-text">{{
+            formatDate(selectedDate)
+          }}</span>
+          <span v-else class="ui-datepicker__placeholder">{{
+            placeholder || "날짜 선택"
+          }}</span>
         </div>
-        <div class="ui-datepicker__clear" v-if="selectedDate && clearable" @click.stop="clearDate">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <div
+          class="ui-datepicker__clear"
+          v-if="selectedDate && clearable"
+          @click.stop="clearDate"
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M18 6L6 18"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M6 6L18 18"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
         </div>
       </div>
 
       <!-- 범위 날짜 선택 -->
-      <div v-if="isRange" class="ui-datepicker__range-input" @click="openCalendar">
+      <div
+        v-if="isRange"
+        class="ui-datepicker__range-input"
+        @click="openCalendar"
+      >
         <div class="ui-datepicker__icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="3" y="6" width="18" height="15" rx="2" stroke="currentColor" stroke-width="2"/>
-            <path d="M3 10H21" stroke="currentColor" stroke-width="2"/>
-            <path d="M8 3L8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <path d="M16 3L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              x="3"
+              y="6"
+              width="18"
+              height="15"
+              rx="2"
+              stroke="currentColor"
+              stroke-width="2"
+            />
+            <path d="M3 10H21" stroke="currentColor" stroke-width="2" />
+            <path
+              d="M8 3L8 7"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <path
+              d="M16 3L16 7"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
           </svg>
         </div>
         <div class="ui-datepicker__range-text">
-          <span v-if="startDate" class="ui-datepicker__selected-text">{{ formatDate(startDate) }}</span>
-          <span v-else class="ui-datepicker__placeholder">{{ startPlaceholder || '시작일' }}</span>
+          <span v-if="startDate" class="ui-datepicker__selected-text">{{
+            formatDate(startDate)
+          }}</span>
+          <span v-else class="ui-datepicker__placeholder">{{
+            startPlaceholder || "시작일"
+          }}</span>
         </div>
         <div class="ui-datepicker__range-separator">-</div>
         <div class="ui-datepicker__range-text">
-          <span v-if="endDate" class="ui-datepicker__selected-text">{{ formatDate(endDate) }}</span>
-          <span v-else class="ui-datepicker__placeholder">{{ endPlaceholder || '종료일' }}</span>
+          <span v-if="endDate" class="ui-datepicker__selected-text">{{
+            formatDate(endDate)
+          }}</span>
+          <span v-else class="ui-datepicker__placeholder">{{
+            endPlaceholder || "종료일"
+          }}</span>
         </div>
-        <div class="ui-datepicker__clear" v-if="(startDate || endDate) && clearable" @click.stop="clearDate">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <div
+          class="ui-datepicker__clear"
+          v-if="(startDate || endDate) && clearable"
+          @click.stop="clearDate"
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M18 6L6 18"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M6 6L18 18"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
         </div>
       </div>
@@ -77,26 +185,60 @@
             @click="prevMonth"
             type="button"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M15 18L9 12L15 6"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
           </button>
 
           <div class="ui-datepicker__selectors">
             <!-- 월 선택 드롭다운 -->
             <div class="ui-datepicker__dropdown">
-              <div class="ui-datepicker__month-select" @click.stop="toggleMonthDropdown">
+              <div
+                class="ui-datepicker__month-select"
+                @click.stop="toggleMonthDropdown"
+              >
                 {{ currentMonthName }}
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6 9L12 15L18 9"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                 </svg>
               </div>
-              <div v-if="monthDropdownOpen" class="ui-datepicker__dropdown-list" @click.stop>
+              <div
+                v-if="monthDropdownOpen"
+                class="ui-datepicker__dropdown-list"
+                @click.stop
+              >
                 <div
                   v-for="(month, index) in months"
                   :key="month"
                   class="ui-datepicker__dropdown-item"
-                  :class="{ 'ui-datepicker__dropdown-item--selected': currentMonth === index }"
+                  :class="{
+                    'ui-datepicker__dropdown-item--selected':
+                      currentMonth === index,
+                  }"
                   @click="selectMonth(index)"
                 >
                   {{ month }}
@@ -106,19 +248,41 @@
 
             <!-- 년도 선택 드롭다운 -->
             <div class="ui-datepicker__dropdown">
-              <div class="ui-datepicker__year-select" @click.stop="toggleYearDropdown">
+              <div
+                class="ui-datepicker__year-select"
+                @click.stop="toggleYearDropdown"
+              >
                 {{ currentYear }}
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6 9L12 15L18 9"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                 </svg>
               </div>
-              <div v-if="yearDropdownOpen" class="ui-datepicker__dropdown-list ui-datepicker__dropdown-list--years" @click.stop>
+              <div
+                v-if="yearDropdownOpen"
+                class="ui-datepicker__dropdown-list ui-datepicker__dropdown-list--years"
+                @click.stop
+              >
                 <div class="ui-datepicker__year-scroll">
                   <div
                     v-for="year in yearListToShow"
                     :key="year"
                     class="ui-datepicker__dropdown-item"
-                    :class="{ 'ui-datepicker__dropdown-item--selected': currentYear === year }"
+                    :class="{
+                      'ui-datepicker__dropdown-item--selected':
+                        currentYear === year,
+                    }"
                     @click="selectYear(year)"
                   >
                     {{ year }}
@@ -133,14 +297,32 @@
             @click="nextMonth"
             type="button"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 6L15 12L9 18"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
           </button>
         </div>
 
         <div class="ui-datepicker__weekdays">
-          <div v-for="day in weekdays" :key="day" class="ui-datepicker__weekday">{{ day }}</div>
+          <div
+            v-for="day in weekdays"
+            :key="day"
+            class="ui-datepicker__weekday"
+          >
+            {{ day }}
+          </div>
         </div>
 
         <div class="ui-datepicker__days">
@@ -154,7 +336,7 @@
               'ui-datepicker__day--selected': day.selected,
               'ui-datepicker__day--range-start': day.rangeStart,
               'ui-datepicker__day--range-end': day.rangeEnd,
-              'ui-datepicker__day--in-range': day.inRange
+              'ui-datepicker__day--in-range': day.inRange,
             }"
             @click="selectDate(day)"
           >
@@ -182,83 +364,87 @@
       </div>
     </div>
 
-    <div v-if="error && errorMessage" class="ui-datepicker__error">{{ errorMessage }}</div>
-    <div v-else-if="helperText" class="ui-datepicker__helper">{{ helperText }}</div>
+    <div v-if="error && errorMessage" class="ui-datepicker__error">
+      {{ errorMessage }}
+    </div>
+    <div v-else-if="helperText" class="ui-datepicker__helper">
+      {{ helperText }}
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted } from "vue";
 
 const props = defineProps({
   modelValue: {
     type: [Date, String, Array, null],
-    default: null
+    default: null,
   },
   isRange: {
     type: Boolean,
-    default: false
+    default: false,
   },
   label: {
     type: String,
-    default: ''
+    default: "",
   },
   placeholder: {
     type: String,
-    default: '날짜 선택'
+    default: "날짜 선택",
   },
   startPlaceholder: {
     type: String,
-    default: '시작일'
+    default: "시작일",
   },
   endPlaceholder: {
     type: String,
-    default: '종료일'
+    default: "종료일",
   },
   format: {
     type: String,
-    default: 'YYYY.MM.DD'
+    default: "YYYY.MM.DD",
   },
   clearable: {
     type: Boolean,
-    default: true
+    default: true,
   },
   disabled: {
     type: Boolean,
-    default: false
+    default: false,
   },
   required: {
     type: Boolean,
-    default: false
+    default: false,
   },
   error: {
     type: Boolean,
-    default: false
+    default: false,
   },
   errorMessage: {
     type: String,
-    default: ''
+    default: "",
   },
   helperText: {
     type: String,
-    default: ''
+    default: "",
   },
   minDate: {
     type: [Date, String],
-    default: null
+    default: null,
   },
   maxDate: {
     type: [Date, String],
-    default: null
+    default: null,
   },
   size: {
     type: String,
-    default: 'medium',
-    validator: (value) => ['small', 'medium', 'large'].includes(value)
-  }
+    default: "medium",
+    validator: (value) => ["small", "medium", "large"].includes(value),
+  },
 });
 
-const emit = defineEmits(['update:modelValue', 'change']);
+const emit = defineEmits(["update:modelValue", "change"]);
 
 // 상태 관리
 const isOpen = ref(false);
@@ -269,15 +455,28 @@ const startDate = ref(null);
 const endDate = ref(null);
 const tempStartDate = ref(null);
 const tempEndDate = ref(null);
-const viewMode = ref('days');
+const viewMode = ref("days");
 
 // 월/년도 드롭다운 상태
 const monthDropdownOpen = ref(false);
 const yearDropdownOpen = ref(false);
 
 // 요일 이름과 월 이름
-const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
-const months = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
+const months = [
+  "1월",
+  "2월",
+  "3월",
+  "4월",
+  "5월",
+  "6월",
+  "7월",
+  "8월",
+  "9월",
+  "10월",
+  "11월",
+  "12월",
+];
 
 // 년도 목록 생성 (현재 년도 기준 -10년 ~ +10년)
 const yearListToShow = computed(() => {
@@ -309,11 +508,19 @@ const calendarDays = computed(() => {
   const firstDayWeekday = firstDayOfMonth.getDay();
 
   // 이전 달의 마지막 날
-  const lastDayOfPrevMonth = new Date(currentYear.value, currentMonth.value, 0).getDate();
+  const lastDayOfPrevMonth = new Date(
+    currentYear.value,
+    currentMonth.value,
+    0
+  ).getDate();
 
   // 이전 달의 날짜 추가
   for (let i = 0; i < firstDayWeekday; i++) {
-    const date = new Date(currentYear.value, currentMonth.value - 1, lastDayOfPrevMonth - firstDayWeekday + i + 1);
+    const date = new Date(
+      currentYear.value,
+      currentMonth.value - 1,
+      lastDayOfPrevMonth - firstDayWeekday + i + 1
+    );
     days.push({
       day: date.getDate(),
       date: date,
@@ -322,7 +529,7 @@ const calendarDays = computed(() => {
       selected: isSameDate(date, selectedDate.value),
       rangeStart: isSameDate(date, startDate.value),
       rangeEnd: isSameDate(date, endDate.value),
-      inRange: isInRange(date)
+      inRange: isInRange(date),
     });
   }
 
@@ -337,7 +544,7 @@ const calendarDays = computed(() => {
       selected: isSameDate(date, selectedDate.value),
       rangeStart: isSameDate(date, startDate.value),
       rangeEnd: isSameDate(date, endDate.value),
-      inRange: isInRange(date)
+      inRange: isInRange(date),
     });
   }
 
@@ -353,7 +560,7 @@ const calendarDays = computed(() => {
       selected: isSameDate(date, selectedDate.value),
       rangeStart: isSameDate(date, startDate.value),
       rangeEnd: isSameDate(date, endDate.value),
-      inRange: isInRange(date)
+      inRange: isInRange(date),
     });
   }
 
@@ -363,12 +570,12 @@ const calendarDays = computed(() => {
 // 초기화
 onMounted(() => {
   initializeValues();
-  document.addEventListener('click', handleClickOutside);
+  document.addEventListener("click", handleClickOutside);
 });
 
 // 언마운트시 이벤트 리스너 제거
 onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside);
+  document.removeEventListener("click", handleClickOutside);
 });
 
 // 초기 값 설정
@@ -461,22 +668,22 @@ function isInRange(date) {
 // 날짜 포맷팅
 function formatDate(date) {
   if (!date || isNaN(date.getTime())) {
-    return '';
+    return "";
   }
 
   try {
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
 
     let formattedDate = props.format;
-    formattedDate = formattedDate.replace('YYYY', year);
-    formattedDate = formattedDate.replace('MM', month);
-    formattedDate = formattedDate.replace('DD', day);
+    formattedDate = formattedDate.replace("YYYY", year);
+    formattedDate = formattedDate.replace("MM", month);
+    formattedDate = formattedDate.replace("DD", day);
 
     return formattedDate;
   } catch (e) {
-    return '';
+    return "";
   }
 }
 
@@ -485,7 +692,7 @@ function openCalendar() {
   if (props.disabled) return;
 
   isOpen.value = true;
-  viewMode.value = 'days';
+  viewMode.value = "days";
 
   if (props.isRange) {
     // 범위 모드에서 열 때 임시 값 저장
@@ -496,7 +703,7 @@ function openCalendar() {
 
 // 외부 클릭 처리
 function handleClickOutside(event) {
-  const datepicker = event.target.closest('.ui-datepicker');
+  const datepicker = event.target.closest(".ui-datepicker");
 
   if (!datepicker && isOpen.value) {
     if (props.isRange) {
@@ -584,8 +791,8 @@ function selectDate(day) {
     selectedDate.value = new Date(day.date);
 
     // 선택 즉시 적용하고 닫기
-    emit('update:modelValue', selectedDate.value);
-    emit('change', selectedDate.value);
+    emit("update:modelValue", selectedDate.value);
+    emit("change", selectedDate.value);
     isOpen.value = false;
   }
 }
@@ -597,12 +804,12 @@ function clearDate(event) {
   if (props.isRange) {
     startDate.value = null;
     endDate.value = null;
-    emit('update:modelValue', [null, null]);
-    emit('change', [null, null]);
+    emit("update:modelValue", [null, null]);
+    emit("change", [null, null]);
   } else {
     selectedDate.value = null;
-    emit('update:modelValue', null);
-    emit('change', null);
+    emit("update:modelValue", null);
+    emit("change", null);
   }
 }
 
@@ -617,38 +824,42 @@ function cancelSelection() {
 // 범위 선택 적용
 function applySelection() {
   if (startDate.value && endDate.value) {
-    emit('update:modelValue', [startDate.value, endDate.value]);
-    emit('change', [startDate.value, endDate.value]);
+    emit("update:modelValue", [startDate.value, endDate.value]);
+    emit("change", [startDate.value, endDate.value]);
     isOpen.value = false;
     closeAllDropdowns();
   }
 }
 
 // 모델 값 변경 감시
-watch(() => props.modelValue, (newValue) => {
-  if (newValue === null || newValue === undefined) {
-    selectedDate.value = null;
-    startDate.value = null;
-    endDate.value = null;
-    return;
-  }
-
-  if (props.isRange && Array.isArray(newValue)) {
-    startDate.value = newValue[0] ? new Date(newValue[0]) : null;
-    endDate.value = newValue[1] ? new Date(newValue[1]) : null;
-  } else if (!props.isRange) {
-    try {
-      selectedDate.value = newValue ? new Date(newValue) : null;
-    } catch (e) {
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    if (newValue === null || newValue === undefined) {
       selectedDate.value = null;
+      startDate.value = null;
+      endDate.value = null;
+      return;
     }
-  }
-}, { immediate: true });
+
+    if (props.isRange && Array.isArray(newValue)) {
+      startDate.value = newValue[0] ? new Date(newValue[0]) : null;
+      endDate.value = newValue[1] ? new Date(newValue[1]) : null;
+    } else if (!props.isRange) {
+      try {
+        selectedDate.value = newValue ? new Date(newValue) : null;
+      } catch (e) {
+        selectedDate.value = null;
+      }
+    }
+  },
+  { immediate: true }
+);
 
 // 선택한 날짜가 변경될 때마다 캘린더 업데이트
 watch([selectedDate, startDate, endDate], () => {
   const dateToUse = props.isRange
-    ? (startDate.value || endDate.value)
+    ? startDate.value || endDate.value
     : selectedDate.value;
 
   if (dateToUse) {
@@ -971,6 +1182,13 @@ watch([selectedDate, startDate, endDate], () => {
   }
 
   // 상태 스타일
+  .ui-datepicker__input {
+    max-width: 150px;
+  }
+  .ui-datepicker__range-input{
+    max-width: 250px;
+  }
+
   &--disabled {
     opacity: 0.6;
     pointer-events: none;
@@ -991,35 +1209,15 @@ watch([selectedDate, startDate, endDate], () => {
 
   // 사이즈 스타일
   &--small {
-    .ui-datepicker__input,
-    .ui-datepicker__range-input {
-      min-height: 32px;
-      padding: 4px 8px;
-      font-size: 12px;
-    }
-
     .ui-datepicker__icon {
       margin-right: 6px;
     }
   }
 
   &--medium {
-    .ui-datepicker__input,
-    .ui-datepicker__range-input {
-      min-height: 40px;
-      padding: 8px 12px;
-      font-size: 14px;
-    }
   }
 
   &--large {
-    .ui-datepicker__input,
-    .ui-datepicker__range-input {
-      min-height: 48px;
-      padding: 10px 16px;
-      font-size: 16px;
-    }
-
     .ui-datepicker__icon {
       margin-right: 10px;
     }
