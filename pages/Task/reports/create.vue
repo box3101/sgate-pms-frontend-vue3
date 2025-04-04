@@ -23,7 +23,7 @@
             <i class="icon icon-md icon-excel"></i>
             <span>Excel</span>
           </UiButton>
-          <UiButton variant="tertiary">
+          <UiButton variant="tertiary" @click="aiReportModal = true">
             <i class="icon icon-md icon-robot"></i>
             <span>AI 취합 보고서 생성</span>
           </UiButton>
@@ -173,7 +173,6 @@
   </UiModal>
 
   <!-- AI 취업 보고서 생성-->
-  <!-- AI 취업 보고서 생성-->
   <UiModal title="AI 취업 보고서 생성" v-model="aiReportModal" :size="'mlarge'">
     <template #headerActions-left>
       <img src="@/assets/images/ico_avatar_sai.svg" alt="sai" />
@@ -265,11 +264,13 @@
 
       <div class="notice">
         <ul>
-          <li class="notice-item">
+          <li class="notice-item mb-5">
+            <i class="icon icon-md icon-info"></i>
             선택한 기간동안 나에게 제출된 보고서들을 선택하여 내가 최근에 제출한
             보고서의 형태로 요약합니다.
           </li>
           <li class="notice-item">
+            <i class="icon icon-md icon-info"></i>
             보고서 취합 시 내 활동을 포함하여 요약하고자 하는 경우 내활동 같이
             요약하기를 선택합니다.
           </li>
@@ -409,7 +410,7 @@ import { ref } from "vue";
 const reportConfigModal = ref(false);
 
 // AI 보고서 생성 팝업
-const aiReportModal = ref(true);
+const aiReportModal = ref(false);
 
 // 취합 대상 보고서 선택
 const reportMergeModal = ref(false);
@@ -810,17 +811,7 @@ const reportItems = ref([
 
 
 .notice{width: 100%;background-color: #ddd;border-radius: 5px;padding: 16px;
-.notice-item{ font-weight: 700;
-
-
-&::before {
-        content: "· ";
-        font-size: 16px;
-        color: #6b7280;
-        margin-right: 4px;
-        
-      }}
-
-
+  .notice-item{ font-weight: 700;position: relative;display: flex; align-items: center; gap: 4px;
+  }
 }
 </style>
