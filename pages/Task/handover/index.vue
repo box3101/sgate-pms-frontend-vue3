@@ -10,7 +10,7 @@
           <div class="filter-row">
             <div class="search-container">
               <UiInput placeholder="이찬용" v-model="searchKeyword" class="search-input w-226" />
-              <UiButton icon-only variant="tertiary">
+              <UiButton icon-only variant="tertiary" @click="showUserSelectModal = true">
                 <i class="icon icon-xl icon-search"></i>
               </UiButton>
             </div>
@@ -120,7 +120,7 @@
             v-model="recipientSearchKeyword"
             class="recipient-search-input"
           />
-          <UiButton icon-only variant="tertiary">
+          <UiButton icon-only variant="tertiary" @click="showUserSelectModal = true">
             <i class="icon icon-xl icon-search"></i>
           </UiButton>
         </div>
@@ -471,13 +471,12 @@
     alert('업무 전달이 완료되었습니다.')
   }
   // 담당자 선택 모달 관련
-  const showUserSelectModal = ref(true)
+  const showUserSelectModal = ref(false)
   const userNameFilter = ref('')
   const userPositionFilter = ref(null)
   const userRankFilter = ref(null)
   const expandedDepts = ref([])
   const selectedDeptId = ref(null)
-  const selectedUsers = ref([])
 
   // 직위 옵션
   const positionOptions = [
