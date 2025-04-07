@@ -79,7 +79,7 @@
           >
             <div class="task-card-left">
               <div class="profile-image">
-                <i class="icon icon-xl icon-user"></i>
+                <i class="icon icon-xxl icon-user"></i>
               </div>
             </div>
             <div class="task-card-center">
@@ -91,9 +91,11 @@
               <div class="task-title">{{ task.title }}</div>
               <div class="task-meta">
                 <span class="comment-count">
-                  <i class="icon-comment"></i> {{ task.commentCount }}
+                  <i class="icon icon-sm icon-comment"></i> {{ task.commentCount }}
                 </span>
-                <span class="share-count"> <i class="icon-share"></i> {{ task.shareCount }} </span>
+                <span class="share-count">
+                  <i class="icon icon-sm icon-share"></i> {{ task.shareCount }}
+                </span>
               </div>
             </div>
             <div class="task-card-right">
@@ -142,6 +144,117 @@
       </div>
     </div>
   </div>
+
+  <!-- 담당자 선택 팝업 -->
+  <UiModal v-model="showUserSelectModal" title="담당자 선택" size="large">
+    <!-- 상단 영역: 검색 필터 -->
+    <div class="user-select-filters">
+      <div class="filter-row">
+        <UiInput placeholder="이름" v-model="userNameFilter" class="filter-input" />
+        <UiSelect
+          placeholder="직위"
+          v-model="userPositionFilter"
+          :options="positionOptions"
+          class="filter-select"
+        />
+        <UiSelect
+          placeholder="직급"
+          v-model="userRankFilter"
+          :options="rankOptions"
+          class="filter-select"
+        />
+      </div>
+    </div>
+
+    <!-- 메인 영역: 부서 트리와 사용자 목록 -->
+    <div class="user-select-main">
+      <!-- 왼쪽 영역: 부서 트리 -->
+      <div class="department-tree-container">
+        <div class="department-header">
+          <h3 class="department-title">부서</h3>
+          <div class="tree-actions">
+            <button class="tree-action-btn" @click="expandAllDepts">
+              <i class="icon icon-sm icon-plus"></i> 전체 펼침
+            </button>
+            <button class="tree-action-btn" @click="collapseAllDepts">
+              <i class="icon icon-sm icon-minus"></i> 전체 닫힘
+            </button>
+          </div>
+        </div>
+
+        <!-- 부서 트리 구조 -->
+        <div class="department-tree">
+          <div v-for="dept in departments" :key="dept.id" class="dept-item-wrapper">
+            <div
+              :id="`popDept_${dept.id}`"
+              class="dept-item"
+              :class="{ hasChild: dept.hasChildren, expanded: expandedDepts.includes(dept.id) }"
+              @click="popSearchUserByDeptId(dept.id)"
+            >
+              <button
+                v-if="dept.hasChildren"
+                class="dept-expand-btn"
+                @click.stop="popExpandTree(dept.id)"
+              >
+                <i
+                  class="icon icon-sm"
+                  :class="expandedDepts.includes(dept.id) ? 'icon-minus' : 'icon-plus'"
+                ></i>
+              </button>
+              <span class="dept-name">{{ dept.name }}</span>
+            </div>
+
+            <!-- 하위 부서 (재귀적 구조) -->
+            <div v-if="dept.hasChildren && expandedDepts.includes(dept.id)" class="sub-departments">
+              <div v-for="subDept in dept.children" :key="subDept.id" class="dept-item-wrapper">
+                <div
+                  :id="`popDept_${subDept.id}`"
+                  class="dept-item"
+                  :class="{
+                    hasChild: subDept.hasChildren,
+                    expanded: expandedDepts.includes(subDept.id)
+                  }"
+                  @click="popSearchUserByDeptId(subDept.id)"
+                >
+                  <button
+                    v-if="subDept.hasChildren"
+                    class="dept-expand-btn"
+                    @click.stop="popExpandTree(subDept.id)"
+                  >
+                    <i
+                      class="icon icon-sm"
+                      :class="expandedDepts.includes(subDept.id) ? 'icon-minus' : 'icon-plus'"
+                    ></i>
+                  </button>
+                  <span class="dept-name">{{ subDept.name }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 오른쪽 영역: 사용자 목록 -->
+      <div class="user-list-container">
+        <h3 class="user-list-title">사용자</h3>
+        <div class="user-list-wrapper">
+          <select id="userList" class="wp100 multiselect" multiple="multiple">
+            <option v-for="user in filteredUsers" :key="user.id" :value="user.id">
+              {{ user.rank }} {{ user.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- 푸터 영역: 확인/취소 버튼 -->
+    <template #footerActions>
+      <div class="modal-footer-actions">
+        <UiButton variant="tertiary" @click="closeUserSelectModal">취소</UiButton>
+        <UiButton variant="primary" @click="confirmUserSelection">확인</UiButton>
+      </div>
+    </template>
+  </UiModal>
 </template>
 
 <script setup>
@@ -301,6 +414,183 @@
     console.log('전달할 업무:', selectedTasks.value)
     console.log('전달 대상:', recipientSearchKeyword.value)
     alert('업무 전달이 완료되었습니다.')
+  }
+
+  // 담당자 선택 모달 관련
+  const showUserSelectModal = ref(true)
+  const userNameFilter = ref('')
+  const userPositionFilter = ref(null)
+  const userRankFilter = ref(null)
+  const expandedDepts = ref([])
+  const selectedDeptId = ref(null)
+  const selectedUsers = ref([])
+
+  // 직위 옵션
+  const positionOptions = [
+    { value: 'manager', label: '팀장' },
+    { value: 'leader', label: '리더' },
+    { value: 'member', label: '팀원' }
+  ]
+
+  // 직급 옵션
+  const rankOptions = [
+    { value: 'senior', label: '수석' },
+    { value: 'principal', label: '책임' },
+    { value: 'senior_manager', label: '차장' },
+    { value: 'manager', label: '과장' },
+    { value: 'assistant_manager', label: '대리' },
+    { value: 'staff', label: '사원' }
+  ]
+
+  // 부서 데이터 (예시)
+  const departments = ref([
+    {
+      id: 1,
+      name: '경영지원본부',
+      hasChildren: true,
+      children: [
+        {
+          id: 11,
+          name: '인사팀',
+          hasChildren: true,
+          children: [
+            { id: 111, name: '채용파트', hasChildren: false },
+            { id: 112, name: '교육파트', hasChildren: false },
+            {
+              id: 113,
+              name: '평가파트',
+              hasChildren: true,
+              children: [
+                { id: 1131, name: '성과평가', hasChildren: false },
+                { id: 1132, name: '역량평가', hasChildren: false }
+              ]
+            }
+          ]
+        },
+        { id: 12, name: '총무팀', hasChildren: false },
+        { id: 13, name: '재무팀', hasChildren: false }
+      ]
+    },
+    {
+      id: 2,
+      name: '개발본부',
+      hasChildren: true,
+      children: [
+        { id: 21, name: '프론트엔드팀', hasChildren: false },
+        { id: 22, name: '백엔드팀', hasChildren: false },
+        { id: 23, name: '인프라팀', hasChildren: false }
+      ]
+    },
+    {
+      id: 3,
+      name: '영업본부',
+      hasChildren: true,
+      children: [
+        { id: 31, name: '국내영업팀', hasChildren: false },
+        { id: 32, name: '해외영업팀', hasChildren: false }
+      ]
+    }
+  ])
+
+  // 사용자 데이터 (예시)
+  const users = ref([
+    { id: 1, name: '공수호', rank: '과장', deptId: 21 },
+    { id: 2, name: '송기준', rank: '사원', deptId: 21 },
+    { id: 3, name: '김민수', rank: '차장', deptId: 22 },
+    { id: 4, name: '이지원', rank: '대리', deptId: 22 },
+    { id: 5, name: '박영희', rank: '과장', deptId: 23 },
+    { id: 6, name: '최준호', rank: '사원', deptId: 11 },
+    { id: 7, name: '정미영', rank: '대리', deptId: 12 },
+    { id: 8, name: '윤성민', rank: '과장', deptId: 13 }
+  ])
+
+  // 필터링된 사용자 목록
+  const filteredUsers = computed(() => {
+    let filtered = [...users.value]
+
+    // 선택된 부서에 따라 필터링
+    if (selectedDeptId.value) {
+      filtered = filtered.filter(user => user.deptId === selectedDeptId.value)
+    }
+
+    // 이름 필터링
+    if (userNameFilter.value) {
+      filtered = filtered.filter(user => user.name.includes(userNameFilter.value))
+    }
+
+    // 직위 필터링
+    if (userPositionFilter.value) {
+      // 실제 구현에서는 사용자 데이터에 position 필드 추가 필요
+      // filtered = filtered.filter(user => user.position === userPositionFilter.value)
+    }
+
+    // 직급 필터링
+    if (userRankFilter.value) {
+      filtered = filtered.filter(
+        user => user.rank === rankOptions.find(r => r.value === userRankFilter.value)?.label
+      )
+    }
+
+    return filtered
+  })
+
+  // 담당자 선택 모달 열기
+  const openUserSelectModal = () => {
+    showUserSelectModal.value = true
+  }
+
+  // 담당자 선택 모달 닫기
+  const closeUserSelectModal = () => {
+    showUserSelectModal.value = false
+    userNameFilter.value = ''
+    userPositionFilter.value = null
+    userRankFilter.value = null
+    selectedDeptId.value = null
+    selectedUsers.value = []
+  }
+
+  // 부서 트리 펼치기/접기
+  const popExpandTree = deptId => {
+    const index = expandedDepts.value.indexOf(deptId)
+    if (index === -1) {
+      expandedDepts.value.push(deptId)
+    } else {
+      expandedDepts.value.splice(index, 1)
+    }
+  }
+
+  // 모든 부서 펼치기
+  const expandAllDepts = () => {
+    const allDeptIds = []
+
+    // 모든 부서 ID 수집
+    departments.value.forEach(dept => {
+      allDeptIds.push(dept.id)
+      if (dept.hasChildren && dept.children) {
+        dept.children.forEach(subDept => {
+          allDeptIds.push(subDept.id)
+        })
+      }
+    })
+
+    expandedDepts.value = [...allDeptIds]
+  }
+
+  // 모든 부서 접기
+  const collapseAllDepts = () => {
+    expandedDepts.value = []
+  }
+
+  // 부서별 사용자 검색
+  const popSearchUserByDeptId = deptId => {
+    selectedDeptId.value = deptId
+  }
+
+  // 사용자 선택 확인
+  const confirmUserSelection = () => {
+    // 선택된 사용자 처리 로직
+    // 실제 구현에서는 멀티셀렉트 값을 가져와야 함
+    closeUserSelectModal()
   }
 </script>
 
@@ -560,5 +850,143 @@
         min-width: 180px;
       }
     }
+  }
+
+  .user-select-filters {
+    margin-bottom: 16px;
+
+    .filter-row {
+      display: flex;
+      gap: 12px;
+
+      .filter-input,
+      .filter-select {
+        flex: 1;
+      }
+    }
+  }
+
+  .user-select-main {
+    display: flex;
+    gap: 20px;
+    height: 400px;
+
+    .department-tree-container,
+    .user-list-container {
+      flex: 1;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .department-header,
+    .user-list-title {
+      background-color: #f5f5f5;
+      padding: 10px 12px;
+      border-bottom: 1px solid #e0e0e0;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .department-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .tree-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .tree-action-btn {
+        background: none;
+        border: none;
+        font-size: 12px;
+        color: #666;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        &:hover {
+          color: #333;
+        }
+      }
+    }
+
+    .department-tree {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+
+    .dept-item-wrapper {
+      padding-left: 8px;
+    }
+
+    .dept-item {
+      display: flex;
+      align-items: center;
+      padding: 6px 8px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #f0f0f0;
+      }
+
+      &.expanded {
+        font-weight: 600;
+      }
+    }
+
+    .dept-expand-btn {
+      background: none;
+      border: none;
+      padding: 0;
+      margin-right: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+    }
+
+    .sub-departments {
+      margin-left: 16px;
+    }
+
+    .user-list-wrapper {
+      flex: 1;
+      padding: 12px;
+      overflow-y: auto;
+    }
+
+    .multiselect {
+      width: 100%;
+      height: 100%;
+      border: none;
+      outline: none;
+
+      option {
+        padding: 8px 12px;
+
+        &:hover {
+          background-color: #f0f0f0;
+        }
+      }
+    }
+  }
+
+  .modal-footer-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+
+  .wp100 {
+    width: 100%;
   }
 </style>
