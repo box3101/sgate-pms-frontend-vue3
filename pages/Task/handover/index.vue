@@ -45,7 +45,7 @@
               class="filter-select"
             />
             <UiButton type="secondary" size="medium" class="flex justify-end">
-              <i class="icon icon-xl icon-search icon-white"></i>
+              <i class="icon icon-md icon-search icon-white"></i>
               통합검색
             </UiButton>
           </div>
@@ -146,7 +146,7 @@
   </div>
 
   <!-- 담당자 선택 팝업 -->
-  <UiModal v-model="showUserSelectModal" title="담당자 선택" size="large">
+  <UiModal v-model="showUserSelectModal" title="담당자 선택" size="large" :show-footer="true">
     <!-- 상단 영역: 검색 필터 -->
     <div class="user-select-filters">
       <div class="filter-row">
