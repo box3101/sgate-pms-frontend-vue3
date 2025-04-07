@@ -502,6 +502,12 @@
 <script setup>
   import { ref } from 'vue'
 
+  // 로고 텍스트 접근
+  const logoText = inject('logoText')
+
+  // 원하는 시점에 로고 텍스트 변경
+  logoText.value = '일일/주간보고'
+
   // 보고서 설정 팝업
   const reportConfigModal = ref(false)
 
@@ -538,6 +544,26 @@
     { type: '월간보고', date: '2025.03.01', status: '임시저장' },
     { type: '주간보고', date: '2025.02.26', status: '제출완료' },
     { type: '주간보고', date: '2025.02.19', status: '제출완료' },
+    { type: '월간보고', date: '2025.02.01', status: '제출완료' },
+    { type: '주간보고', date: '2025.03.05', status: '제출완료' },
+    { type: '월간보고', date: '2025.03.01', status: '임시저장' },
+    { type: '주간보고', date: '2025.02.26', status: '제출완료' },
+    { type: '주간보고', date: '2025.02.19', status: '제출완료' },
+    { type: '월간보고', date: '2025.02.01', status: '제출완료' },
+    { type: '주간보고', date: '2025.03.05', status: '제출완료' },
+    { type: '월간보고', date: '2025.03.01', status: '임시저장' },
+    { type: '주간보고', date: '2025.02.26', status: '제출완료' },
+    { type: '주간보고', date: '2025.02.19', status: '제출완료' },
+    { type: '월간보고', date: '2025.02.01', status: '제출완료' },
+    { type: '주간보고', date: '2025.03.05', status: '제출완료' },
+    { type: '월간보고', date: '2025.03.01', status: '임시저장' },
+    { type: '주간보고', date: '2025.02.26', status: '제출완료' },
+    { type: '주간보고', date: '2025.02.19', status: '제출완료' },
+    { type: '월간보고', date: '2025.02.01', status: '제출완료' },
+    { type: '주간보고', date: '2025.03.05', status: '제출완료' },
+    { type: '월간보고', date: '2025.03.01', status: '임시저장' },
+    { type: '주간보고', date: '2025.02.26', status: '제출완료' },
+    { type: '주간보고', date: '2025.02.19', status: '제출완료' },
     { type: '월간보고', date: '2025.02.01', status: '제출완료' }
   ])
 </script>
@@ -566,7 +592,7 @@
 
     .report-list {
       overflow-y: auto;
-      height: calc(100vh - 180px);
+      height: calc(100vh - 20px);
       padding-right: 10px;
     }
 
