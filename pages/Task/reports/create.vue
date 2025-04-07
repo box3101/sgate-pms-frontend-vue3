@@ -85,42 +85,95 @@
               </div>
             </div>
             <div class="report-body">
-              <<<<<<< HEAD
-              <!-- 모든 테이블 표시 -->
-              <UiReportContent
-                :kpiOkrItems="reportItems"
-                :projectItems="reportItems"
-                :rowTableItems="[
-                  { title: '의견/기타', content: '의견 내용입니다...' },
-                  { title: '첨부파일', content: '첨부파일 내용입니다.' },
-                  { title: '피드백', content: '피드백 내용입니다.' }
-                ]"
-              />
-              =======
-              <UiTable
-                :headers="['KPI', 'OKR', '금주실적', '차주계획']"
-                :column-widths="['20%', '20%', '30%', '30%']"
-                :items="reportItems"
-              />
-              <div>
-                <UiRowTable
-                  :items="[
-                    {
-                      title: '의견/기타',
-                      content:
-                        '의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다의견 내용입니다.'
-                    },
-                    { title: '첨부파일', content: '첨부파일 내용입니다.' },
-                    { title: '피드백', content: '피드백 내용입니다.' }
-                  ]"
-                  leftColumnWidth="10%"
-                  rightColumnWidth="90%"
-                  :padding="true"
-                  :centerLeftText="true"
-                  :showBorderRight="true"
-                />
+              <!-- 공통 보고서 내용 영역 -->
+              <div class="report-section">
+                <h3 class="report-section-title">KPI 및 OKR 현황</h3>
+                <UiTable bordered hover size="medium">
+                  <template #colgroup>
+                    <col style="width: 25%" />
+                    <col style="width: 25%" />
+                    <col style="width: 25%" />
+                    <col style="width: 25%" />
+                  </template>
+                  <template #header>
+                    <tr>
+                      <th>KPI</th>
+                      <th>OKR</th>
+                      <th>금일실적</th>
+                      <th>차주 계획</th>
+                    </tr>
+                  </template>
+                  <tr>
+                    <td rowspan="2">고객만족도 향상</td>
+                    <td>고객 피드백 분석 완료</td>
+                    <td>개선점 도출 및 적용</td>
+                    <td>피드백 수집 부족</td>
+                  </tr>
+                  <tr>
+                    <td>CS 교육 진행</td>
+                    <td>CS 매뉴얼 업데이트</td>
+                    <td>일정 지연</td>
+                  </tr>
+                  <tr>
+                    <td rowspan="2">매출 증대</td>
+                    <td>신규 고객 10% 증가</td>
+                    <td>마케팅 캠페인 확대</td>
+                    <td>경쟁사 프로모션</td>
+                  </tr>
+                  <tr>
+                    <td>기존 고객 유지율 90%</td>
+                    <td>충성 고객 프로그램 개발</td>
+                    <td>없음</td>
+                  </tr>
+                </UiTable>
+
+                <h3 class="report-section-title">프로젝트 현황</h3>
+                <UiTable bordered hover size="medium">
+                  <template #colgroup>
+                    <col style="width: 25%" />
+                    <col style="width: 25%" />
+                    <col style="width: 25%" />
+                    <col style="width: 25%" />
+                  </template>
+                  <template #header>
+                    <tr>
+                      <th>프로젝트</th>
+                      <th>금일실적</th>
+                      <th>차주계획</th>
+                      <th>이슈</th>
+                    </tr>
+                  </template>
+                  <tr>
+                    <td>
+                      글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </UiTable>
+
+                <h3 class="report-section-title">의견 및 피드백</h3>
+
+                <UiTable bordered hover size="medium" layout="horizontal">
+                  <template #colgroup>
+                    <col style="width: 25%" />
+                    <col style="width: 75%" />
+                  </template>
+                  <tr>
+                    <th>의견</th>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <th>첨부파일</th>
+                    <td>파일 첨부</td>
+                  </tr>
+                  <tr>
+                    <th>피드백</th>
+                    <td></td>
+                  </tr>
+                </UiTable>
               </div>
-              >>>>>>> origin/ley
             </div>
           </div>
         </div>
@@ -212,7 +265,6 @@
   </UiModal>
 
   <!-- 보고서 생성 팝업 -->
-
   <UiModal title="보고서 작성" v-model="reportCreateModal" :size="'xlarge'">
     <template #headerActions-right>
       <UiButton variant="primary" @click="isFilterModalOpen = false">제출</UiButton>
@@ -248,7 +300,7 @@
           <UiButton variant="tertiary">
             <span>활동재생성</span>
           </UiButton>
-          <UiButton variant="tertiary">
+          <UiButton variant="tertiary" @click="addActivityPopup = true">
             <span>업무 활동 추가</span>
           </UiButton>
         </div>
@@ -459,165 +511,13 @@
         </div>
       </div>
 
-      <div className="activity-header__checkbox-section flex gap-10">
+      <div class="activity-header__checkbox-section flex gap-10">
         <UiCheckbox id="a1">나의 활동만 가져오기</UiCheckbox>
         <UiCheckbox id="a2">피드백도 포함해서 가져오기</UiCheckbox>
       </div>
     </div>
 
-    <div class="activity-content mt-20">
-      <UiTable
-        :show-checkbox="true"
-        :columnAlign="['left', 'center', 'left', 'center', 'left', 'center', 'center']"
-        :headers="['목적', '보드', '업무', '활동일자', '활동내용', '작성자', '작성일자']"
-        :columnWidths="['10%', '10%', '15%', '15%', '30%', '10%', '10%']"
-        :items="[
-          {
-            목적: '프로젝트 관리',
-            보드: '개발',
-            업무: '백엔드 개발',
-            활동일자: '2023-04-05',
-            활동내용: '...',
-            작성자: '홍길동',
-            작성일자: '2023-04-05'
-          },
-          {
-            목적: '프로젝트 관리',
-            보드: '개발',
-            업무: '백엔드 개발',
-            활동일자: '2023-04-05',
-            활동내용:
-              '길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트',
-            작성자: '홍길동',
-            작성일자: '2023-04-05'
-          },
-          {
-            목적: '프로젝트 관리',
-            보드: '개발',
-            업무: '백엔드 개발',
-            활동일자: '2023-04-05',
-            활동내용:
-              '길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트',
-            작성자: '홍길동',
-            작성일자: '2023-04-05'
-          },
-          {
-            목적: '프로젝트 관리',
-            보드: '개발',
-            업무: '백엔드 개발',
-            활동일자: '2023-04-05',
-            활동내용:
-              '길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트',
-            작성자: '홍길동',
-            작성일자: '2023-04-05'
-          },
-          {
-            목적: '프로젝트 관리',
-            보드: '개발',
-            업무: '백엔드 개발',
-            활동일자: '2023-04-05',
-            활동내용:
-              '길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트',
-            작성자: '홍길동',
-            작성일자: '2023-04-05'
-          },
-          {
-            목적: '프로젝트 관리',
-            보드: '개발',
-            업무: '백엔드 개발',
-            활동일자: '2023-04-05',
-            활동내용:
-              '길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트',
-            작성자: '홍길동',
-            작성일자: '2023-04-05'
-          },
-          {
-            목적: '프로젝트 관리',
-            보드: '개발',
-            업무: '백엔드 개발',
-            활동일자: '2023-04-05',
-            활동내용:
-              '길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트',
-            작성자: '홍길동',
-            작성일자: '2023-04-05'
-          },
-          {
-            목적: '프로젝트 관리',
-            보드: '개발',
-            업무: '백엔드 개발',
-            활동일자: '2023-04-05',
-            활동내용:
-              '길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트',
-            작성자: '홍길동',
-            작성일자: '2023-04-05'
-          },
-          {
-            목적: '프로젝트 관리',
-            보드: '개발',
-            업무: '백엔드 개발',
-            활동일자: '2023-04-05',
-            활동내용:
-              '길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트',
-            작성자: '홍길동',
-            작성일자: '2023-04-05'
-          },
-          {
-            목적: '프로젝트 관리',
-            보드: '개발',
-            업무: '백엔드 개발',
-            활동일자: '2023-04-05',
-            활동내용:
-              '길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트',
-            작성자: '홍길동',
-            작성일자: '2023-04-05'
-          },
-          {
-            목적: '프로젝트 관리',
-            보드: '개발',
-            업무: '백엔드 개발',
-            활동일자: '2023-04-05',
-            활동내용:
-              '길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트',
-            작성자: '홍길동',
-            작성일자: '2023-04-05'
-          },
-          {
-            목적: '프로젝트 관리',
-            보드: '개발',
-            업무: '백엔드 개발',
-            활동일자: '2023-04-05',
-            활동내용:
-              '길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트',
-            작성자: '홍길동',
-            작성일자: '2023-04-05'
-          },
-          {
-            목적: '프로젝트 관리',
-            보드: '개발',
-            업무: '백엔드 개발',
-            활동일자: '2023-04-05',
-            활동내용:
-              '길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트',
-            작성자: '홍길동',
-            작성일자: '2023-04-05'
-          },
-          {
-            목적: '프로젝트 관리',
-            보드: '개발',
-            업무: '백엔드 개발',
-            활동일자: '2023-04-05',
-            활동내용:
-              '길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트',
-            작성자: '홍길동',
-            작성일자: '2023-04-05'
-          }
-        ]"
-      >
-        <template #header-0>
-          <UiCheckbox />
-        </template>
-      </UiTable>
-    </div>
+    <div class="activity-content mt-20"></div>
   </UiModal>
 </template>
 
@@ -628,7 +528,7 @@
   const reportConfigModal = ref(false)
 
   // 보고서 생성 팝업
-  const reportCreateModal = ref(true)
+  const reportCreateModal = ref(false)
 
   // AI 보고서 생성 팝업
   const aiReportModal = ref(false)
@@ -637,7 +537,7 @@
   const reportMergeModal = ref(false)
 
   // 활동 추가 팝업
-  const addActivityPopup = ref(true)
+  const addActivityPopup = ref(false)
 
   // 보고서 제출자 펼쳐짐 여부
   const isSubmitterOpen = ref({
@@ -659,42 +559,7 @@
     { type: '주간보고', date: '2025.02.19', status: '제출완료' },
     { type: '월간보고', date: '2025.02.01', status: '제출완료' }
   ])
-
-  // 보고서 목록
-  const reportItems = ref([
-    {
-      kpi: '팀 생산성',
-      okr: '협업 투자',
-      achievement: '신규 시장 조사 완료, 마케팅 전략 수립',
-      plan: '현 프로세스 분석 및 문제점 파악, 개선안 초안 작성'
-    },
-    {
-      kpi: '협업 투자',
-      okr: '고객 피드백 수집 및 분석, 개선 포인트 도출',
-      achievement: '신규 협업 툴 도입 교육 진행, 초기 데이터 마이그레이션',
-      plan: '전체 팀 활용 독려, 사용 현황 모니터링'
-    },
-    {
-      kpi: '협업 투자',
-      okr: '고객 피드백 수집 및 분석, 개선 포인트 도출',
-      achievement: '신규 협업 툴 도입 교육 진행, 초기 데이터 마이그레이션',
-      plan: '전체 팀 활용 독려, 사용 현황 모니터링'
-    },
-    {
-      kpi: '협업 투자',
-      okr: '고객 피드백 수집 및 분석, 개선 포인트 도출',
-      achievement: '신규 협업 툴 도입 교육 진행, 초기 데이터 마이그레이션',
-      plan: '전체 팀 활용 독려, 사용 현황 모니터링'
-    },
-    {
-      kpi: '협업 투자',
-      okr: '고객 피드백 수집 및 분석, 개선 포인트 도출',
-      achievement: '신규 협업 툴 도입 교육 진행, 초기 데이터 마이그레이션',
-      plan: '전체 팀 활용 독려, 사용 현황 모니터링'
-    }
-  ])
 </script>
-
 <style lang="scss" scoped>
   .report-creation-container {
     padding: 20px;
@@ -789,112 +654,6 @@
           }
         }
       }
-
-      .report-body {
-        .report-table-container {
-          overflow-y: auto;
-        }
-
-        .report-table {
-          width: 100%;
-          border-collapse: collapse;
-
-          th {
-            background-color: #e2e4e7;
-            font-weight: 600;
-            padding: 10px 12px;
-            text-align: center;
-            color: #374151;
-            border-bottom: 1px solid #e5e7eb;
-          }
-
-          td {
-            padding: 12px;
-            border: 1px solid #e5e7eb;
-            vertical-align: top;
-          }
-        }
-
-        .kpi-cell {
-          .kpi-title {
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 8px;
-          }
-
-          .kpi-detail {
-            .kpi-item {
-              margin-bottom: 8px;
-
-              .kpi-label {
-                color: #6b7280;
-                font-size: 14px;
-              }
-
-              .kpi-value {
-                color: #111827;
-                font-size: 14px;
-              }
-
-              .progress-bar {
-                width: 100%;
-                height: 4px;
-                background-color: #e5e7eb;
-                border-radius: 2px;
-
-                .progress-fill {
-                  height: 4px;
-                  background-color: #3b82f6;
-                  border-radius: 2px;
-                }
-              }
-            }
-          }
-        }
-
-        .okr-cell {
-          .okr-title {
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 8px;
-            padding-left: 8px;
-            border-left: 4px solid;
-          }
-
-          .okr-items {
-            .okr-item {
-              margin-bottom: 8px;
-              padding-left: 8px;
-              border-left: 4px solid;
-
-              .okr-item-title {
-                font-weight: 500;
-                color: #374151;
-                margin-bottom: 4px;
-              }
-
-              .okr-item-percentage {
-                .progress-bar {
-                  width: 100%;
-                  height: 4px;
-                  background-color: #e5e7eb;
-                  border-radius: 2px;
-
-                  .progress-fill {
-                    height: 4px;
-                    border-radius: 2px;
-                  }
-                }
-              }
-            }
-          }
-        }
-
-        .achievement-cell,
-        .plan-cell {
-          white-space: pre-line;
-        }
-      }
     }
 
     .searchIcon {
@@ -962,41 +721,6 @@
     border: 1px solid #e5e7eb;
     border-radius: 6px;
     overflow: hidden;
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th.txt-c {
-      text-align: center;
-      background-color: #f9fafb;
-      font-weight: 500;
-      font-size: 14px;
-      color: #4b5563;
-    }
-
-    th.br {
-      border-right: 1px solid #e5e7eb;
-    }
-
-    th.firCornerTop {
-      border-top-left-radius: 6px;
-    }
-
-    th.firCornerBot {
-      border-bottom-left-radius: 6px;
-    }
-
-    .pd10 {
-      padding: 10px;
-    }
-
-    td {
-      vertical-align: top;
-      color: #374151;
-      font-size: 14px;
-    }
 
     #spanViewAttachFile {
       display: inline-block;
