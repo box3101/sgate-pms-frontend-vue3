@@ -45,6 +45,7 @@
 }
 
 .user-label {
+  border: 1px solid #ddd;
   background-color: #eee;
   padding: 0 16px;
   height: 40px;
@@ -52,7 +53,6 @@
   display: flex;
   align-items: center;
 }
-
 .report-section-title {
   font-size: 16px;
   font-weight: 700;
