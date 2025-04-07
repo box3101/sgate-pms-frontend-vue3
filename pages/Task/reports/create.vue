@@ -515,7 +515,7 @@
   const reportMergeModal = ref(false)
 
   // 활동 추가 팝업
-  const addActivityPopup = ref(true)
+  const addActivityPopup = ref(false)
 
   // AI 요약 전달 팝업
   const aiSummaryModal = ref(false)

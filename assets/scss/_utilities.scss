@@ -1,5 +1,7 @@
 // 통합 유틸리티 파일 (마진, 패딩, 너비, Flex)
 
+@use 'sass:math';
+
 // ======== 마진 생성 (1px ~ 100px) ========
 @for $i from 1 through 100 {
   .m-#{$i} {
@@ -358,7 +360,7 @@
 // width 퍼센트 (1% ~ 100%)
 @for $i from 1 through 100 {
   .w-#{$i}p {
-    width: percentage($i/100) !important;
+    width: math.percentage(math.div($i, 100)) !important;
   }
 }
 
@@ -387,7 +389,7 @@
 // height 퍼센트 (1% ~ 100%)
 @for $i from 1 through 100 {
   .h-#{$i}p {
-    height: percentage($i/100) !important;
+    height: math.percentage(math.div($i, 100)) !important;
   }
 }
 
