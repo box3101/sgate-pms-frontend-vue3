@@ -10,8 +10,8 @@
       <thead v-if="$slots.header && layout !== 'horizontal'">
         <slot name="header"></slot>
       </thead>
-      <tbody>
-        <slot></slot>
+      <tbody v-if="$slots.body">
+        <slot name="body"></slot>
       </tbody>
       <tfoot v-if="$slots.footer">
         <slot name="footer"></slot>
@@ -189,6 +189,9 @@
 
     td {
       border-bottom: 1px solid #e2e8f0;
+      &.text-center {
+        text-align: center;
+      }
     }
 
     tbody tr:last-child td {
