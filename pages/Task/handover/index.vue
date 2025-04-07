@@ -9,11 +9,11 @@
         <div class="filter-section">
           <div class="filter-row">
             <div class="search-container">
-              <UiInput placeholder="이찬용" v-model="searchKeyword" class="search-input" />
-              <UiButton type="primary" size="medium">검색</UiButton>
+              <UiInput placeholder="이찬용" v-model="searchKeyword" class="search-input w-226" />
+              <UiButton icon-only variant="tertiary">
+                <i class="icon icon-xl icon-search"></i>
+              </UiButton>
             </div>
-          </div>
-          <div class="filter-row">
             <UiSelect
               placeholder="보드 선택"
               v-model="selectedBoard"
@@ -44,16 +44,28 @@
               :options="progressStatusOptions"
               class="filter-select"
             />
-            <UiButton type="secondary" size="medium">통합검색</UiButton>
+            <UiButton type="secondary" size="medium" class="flex justify-end">
+              <i class="icon icon-lg icon-search icon-white"></i>
+              통합검색
+            </UiButton>
           </div>
         </div>
 
         <!-- 중간 헤더 영역 -->
         <div class="selection-header">
           <h2 class="selection-title">전달할 업무를 선택하세요</h2>
-          <UiButton type="tertiary" size="small" @click="toggleSelectAll">
-            {{ isAllSelected ? '전체해제' : '전체선택' }}
-          </UiButton>
+          <div v-if="isAllSelected">
+            <UiButton variant="primary" size="small" @click="toggleSelectAll">
+              <i class="icon icon-md icon-check icon-white"></i>
+              전체해제
+            </UiButton>
+          </div>
+          <div v-else>
+            <UiButton variant="tertiary" size="small" @click="toggleSelectAll">
+              <i class="icon icon-md icon-check"></i>
+              전체선택
+            </UiButton>
+          </div>
         </div>
 
         <!-- 하단 카드 리스트 영역 -->
@@ -67,16 +79,15 @@
           >
             <div class="task-card-left">
               <div class="profile-image">
-                <img :src="task.profileImage" alt="프로필 이미지" />
+                <i class="icon icon-xl icon-user"></i>
               </div>
+            </div>
+            <div class="task-card-center">
               <div class="task-tags">
                 <UiTag v-for="(tag, tagIndex) in task.tags" :key="tagIndex" :type="tag.type">
                   {{ tag.text }}
                 </UiTag>
               </div>
-              <div class="assignee-name">{{ task.assigneeName }}</div>
-            </div>
-            <div class="task-card-center">
               <div class="task-title">{{ task.title }}</div>
               <div class="task-meta">
                 <span class="comment-count">
@@ -107,7 +118,9 @@
             v-model="recipientSearchKeyword"
             class="recipient-search-input"
           />
-          <UiButton type="primary" size="medium">검색</UiButton>
+          <UiButton icon-only variant="tertiary">
+            <i class="icon icon-xl icon-search"></i>
+          </UiButton>
         </div>
 
         <!-- 중간 헤더 영역 -->
@@ -193,7 +206,6 @@
         { type: 'primary', text: '클라우드' },
         { type: 'secondary', text: '공유' }
       ],
-      assigneeName: '홍길동',
       title: '클라우드 서버 마이그레이션 작업',
       commentCount: 5,
       shareCount: 3,
@@ -204,7 +216,6 @@
       id: 2,
       profileImage: '/images/profile2.jpg',
       tags: [{ type: 'primary', text: '개발' }],
-      assigneeName: '김철수',
       title: '신규 기능 개발',
       commentCount: 2,
       shareCount: 1,
@@ -218,7 +229,32 @@
         { type: 'secondary', text: '공유' },
         { type: 'warning', text: '긴급' }
       ],
-      assigneeName: '이영희',
+      title: '보안 취약점 패치 적용',
+      commentCount: 8,
+      shareCount: 4,
+      startDate: '2025-04-03',
+      endDate: '2025-04-10'
+    },
+    {
+      id: 4,
+      profileImage: '/images/profile3.jpg',
+      tags: [
+        { type: 'secondary', text: '공유' },
+        { type: 'warning', text: '긴급' }
+      ],
+      title: '보안 취약점 패치 적용',
+      commentCount: 8,
+      shareCount: 4,
+      startDate: '2025-04-03',
+      endDate: '2025-04-10'
+    },
+    {
+      id: 5,
+      profileImage: '/images/profile3.jpg',
+      tags: [
+        { type: 'secondary', text: '공유' },
+        { type: 'warning', text: '긴급' }
+      ],
       title: '보안 취약점 패치 적용',
       commentCount: 8,
       shareCount: 4,
@@ -310,11 +346,6 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-
-      .filter-select {
-        flex: 1;
-        min-width: 120px;
-      }
     }
   }
 
@@ -362,12 +393,11 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       margin-right: 16px;
-      min-width: 80px;
+      min-width: 60px;
 
       .profile-image {
-        width: 48px;
-        height: 48px;
         border-radius: 50%;
         overflow: hidden;
         margin-bottom: 8px;
@@ -377,14 +407,6 @@
           height: 100%;
           object-fit: cover;
         }
-      }
-
-      .task-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 4px;
-        margin-bottom: 4px;
-        justify-content: center;
       }
 
       .assignee-name {
@@ -399,6 +421,13 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+
+      .task-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin-bottom: 4px;
+      }
 
       .task-title {
         font-size: 16px;
@@ -524,15 +553,11 @@
         display: flex;
         gap: 8px;
         width: 100%;
-
-        .search-input {
-          width: 243px;
-        }
       }
 
       .filter-select {
         flex: 1;
-        min-width: 120px;
+        min-width: 180px;
       }
     }
   }
