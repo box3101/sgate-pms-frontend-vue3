@@ -45,7 +45,7 @@
               class="filter-select"
             />
             <UiButton type="secondary" size="medium" class="flex justify-end">
-              <i class="icon icon-lg icon-search icon-white"></i>
+              <i class="icon icon-xl icon-search icon-white"></i>
               통합검색
             </UiButton>
           </div>
@@ -163,6 +163,10 @@
           :options="rankOptions"
           class="filter-select"
         />
+        <UiButton type="primary" size="medium">
+          <i class="icon icon-sm icon-search icon-white"></i>
+          검색
+        </UiButton>
       </div>
     </div>
 
@@ -184,6 +188,7 @@
 
         <!-- 부서 트리 구조 -->
         <div class="department-tree">
+          <!-- 1DEPTH: 최상위 부서 -->
           <div v-for="dept in departments" :key="dept.id" class="dept-item-wrapper">
             <div
               :id="`popDept_${dept.id}`"
@@ -191,20 +196,18 @@
               :class="{ hasChild: dept.hasChildren, expanded: expandedDepts.includes(dept.id) }"
               @click="popSearchUserByDeptId(dept.id)"
             >
-              <button
+              <i
                 v-if="dept.hasChildren"
-                class="dept-expand-btn"
-                @click.stop="popExpandTree(dept.id)"
-              >
-                <i
-                  class="icon icon-sm"
-                  :class="expandedDepts.includes(dept.id) ? 'icon-minus' : 'icon-plus'"
-                ></i>
-              </button>
+                class="icon icon-sm dept-toggle-icon"
+                :class="
+                  expandedDepts.includes(dept.id) ? 'icon-chevron-down' : 'icon-chevron-right'
+                "
+                @click.stop="toggleDeptExpand(dept.id)"
+              ></i>
               <span class="dept-name">{{ dept.name }}</span>
             </div>
 
-            <!-- 하위 부서 (재귀적 구조) -->
+            <!-- 2DEPTH: 하위 부서 -->
             <div v-if="dept.hasChildren && expandedDepts.includes(dept.id)" class="sub-departments">
               <div v-for="subDept in dept.children" :key="subDept.id" class="dept-item-wrapper">
                 <div
@@ -216,17 +219,69 @@
                   }"
                   @click="popSearchUserByDeptId(subDept.id)"
                 >
-                  <button
+                  <i
                     v-if="subDept.hasChildren"
-                    class="dept-expand-btn"
-                    @click.stop="popExpandTree(subDept.id)"
-                  >
-                    <i
-                      class="icon icon-sm"
-                      :class="expandedDepts.includes(subDept.id) ? 'icon-minus' : 'icon-plus'"
-                    ></i>
-                  </button>
+                    class="icon icon-sm dept-toggle-icon"
+                    :class="
+                      expandedDepts.includes(subDept.id)
+                        ? 'icon-chevron-down'
+                        : 'icon-chevron-right'
+                    "
+                  ></i>
                   <span class="dept-name">{{ subDept.name }}</span>
+                </div>
+
+                <!-- 3DEPTH: 하위 부서 -->
+                <div
+                  v-if="subDept.hasChildren && expandedDepts.includes(subDept.id)"
+                  class="sub-departments"
+                >
+                  <div
+                    v-for="subSubDept in subDept.children"
+                    :key="subSubDept.id"
+                    class="dept-item-wrapper"
+                  >
+                    <div
+                      :id="`popDept_${subSubDept.id}`"
+                      class="dept-item"
+                      :class="{
+                        hasChild: subSubDept.hasChildren,
+                        expanded: expandedDepts.includes(subSubDept.id)
+                      }"
+                      @click="popSearchUserByDeptId(subSubDept.id)"
+                    >
+                      <i
+                        v-if="subSubDept.hasChildren"
+                        class="icon icon-sm dept-toggle-icon"
+                        :class="
+                          expandedDepts.includes(subSubDept.id)
+                            ? 'icon-chevron-down'
+                            : 'icon-chevron-right'
+                        "
+                      ></i>
+                      <span class="dept-name">{{ subSubDept.name }}</span>
+                    </div>
+
+                    <!-- 4DEPTH: 하위 부서 -->
+                    <div
+                      v-if="subSubDept.hasChildren && expandedDepts.includes(subSubDept.id)"
+                      class="sub-departments"
+                    >
+                      <div
+                        v-for="level4Dept in subSubDept.children"
+                        :key="level4Dept.id"
+                        class="dept-item-wrapper"
+                      >
+                        <div
+                          :id="`popDept_${level4Dept.id}`"
+                          class="dept-item"
+                          @click="popSearchUserByDeptId(level4Dept.id)"
+                        >
+                          <span class="dept-name">{{ level4Dept.name }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -415,7 +470,6 @@
     console.log('전달 대상:', recipientSearchKeyword.value)
     alert('업무 전달이 완료되었습니다.')
   }
-
   // 담당자 선택 모달 관련
   const showUserSelectModal = ref(true)
   const userNameFilter = ref('')
@@ -442,7 +496,7 @@
     { value: 'staff', label: '사원' }
   ]
 
-  // 부서 데이터 (예시)
+  // 부서 데이터 (예시 - 4DEPTH까지 구현)
   const departments = ref([
     {
       id: 1,
@@ -504,34 +558,9 @@
     { id: 8, name: '윤성민', rank: '과장', deptId: 13 }
   ])
 
-  // 필터링된 사용자 목록
+  // 필터링된 사용자 목록 (UI용)
   const filteredUsers = computed(() => {
-    let filtered = [...users.value]
-
-    // 선택된 부서에 따라 필터링
-    if (selectedDeptId.value) {
-      filtered = filtered.filter(user => user.deptId === selectedDeptId.value)
-    }
-
-    // 이름 필터링
-    if (userNameFilter.value) {
-      filtered = filtered.filter(user => user.name.includes(userNameFilter.value))
-    }
-
-    // 직위 필터링
-    if (userPositionFilter.value) {
-      // 실제 구현에서는 사용자 데이터에 position 필드 추가 필요
-      // filtered = filtered.filter(user => user.position === userPositionFilter.value)
-    }
-
-    // 직급 필터링
-    if (userRankFilter.value) {
-      filtered = filtered.filter(
-        user => user.rank === rankOptions.find(r => r.value === userRankFilter.value)?.label
-      )
-    }
-
-    return filtered
+    return users.value
   })
 
   // 담당자 선택 모달 열기
@@ -542,14 +571,9 @@
   // 담당자 선택 모달 닫기
   const closeUserSelectModal = () => {
     showUserSelectModal.value = false
-    userNameFilter.value = ''
-    userPositionFilter.value = null
-    userRankFilter.value = null
-    selectedDeptId.value = null
-    selectedUsers.value = []
   }
 
-  // 부서 트리 펼치기/접기
+  // 부서 트리 펼치기/접기 (UI용)
   const popExpandTree = deptId => {
     const index = expandedDepts.value.indexOf(deptId)
     if (index === -1) {
@@ -559,37 +583,54 @@
     }
   }
 
-  // 모든 부서 펼치기
+  // 모든 부서 펼치기 (UI용)
   const expandAllDepts = () => {
     const allDeptIds = []
-
-    // 모든 부서 ID 수집
     departments.value.forEach(dept => {
       allDeptIds.push(dept.id)
       if (dept.hasChildren && dept.children) {
         dept.children.forEach(subDept => {
           allDeptIds.push(subDept.id)
+          if (subDept.hasChildren && subDept.children) {
+            subDept.children.forEach(subSubDept => {
+              allDeptIds.push(subSubDept.id)
+              if (subSubDept.hasChildren && subSubDept.children) {
+                subSubDept.children.forEach(level4Dept => {
+                  allDeptIds.push(level4Dept.id)
+                })
+              }
+            })
+          }
         })
       }
     })
-
     expandedDepts.value = [...allDeptIds]
   }
 
-  // 모든 부서 접기
+  // 모든 부서 접기 (UI용)
   const collapseAllDepts = () => {
     expandedDepts.value = []
   }
 
-  // 부서별 사용자 검색
+  // 부서별 사용자 검색 (UI용)
   const popSearchUserByDeptId = deptId => {
     selectedDeptId.value = deptId
+
+    // 부서 클릭 시 해당 부서의 하위 메뉴 토글
+    const dept =
+      departments.value.find(d => d.id === deptId) ||
+      departments.value.flatMap(d => d.children || []).find(d => d.id === deptId) ||
+      departments.value
+        .flatMap(d => (d.children || []).flatMap(c => c.children || []))
+        .find(d => d.id === deptId)
+
+    if (dept && dept.hasChildren) {
+      popExpandTree(deptId) // 토글 기능 사용
+    }
   }
 
-  // 사용자 선택 확인
+  // 사용자 선택 확인 (UI용)
   const confirmUserSelection = () => {
-    // 선택된 사용자 처리 로직
-    // 실제 구현에서는 멀티셀렉트 값을 가져와야 함
     closeUserSelectModal()
   }
 </script>
@@ -866,6 +907,20 @@
     }
   }
 
+  .user-select-filters {
+    margin-bottom: 16px;
+
+    .filter-row {
+      display: flex;
+      gap: 12px;
+
+      .filter-input,
+      .filter-select {
+        flex: 1;
+      }
+    }
+  }
+
   .user-select-main {
     display: flex;
     gap: 20px;
@@ -929,15 +984,16 @@
     .dept-item {
       display: flex;
       align-items: center;
-      padding: 6px 8px;
+      padding: 8px 12px;
       cursor: pointer;
 
       &:hover {
-        background-color: #f0f0f0;
+        background-color: rgba(0, 0, 0, 0.05);
       }
 
       &.expanded {
-        font-weight: 600;
+        background-color: rgba(0, 0, 0, 0.05);
+        font-weight: 500;
       }
     }
 
@@ -952,6 +1008,15 @@
       justify-content: center;
       width: 16px;
       height: 16px;
+    }
+
+    .dept-toggle-icon {
+      margin-right: 6px;
+      transition: transform 0.2s;
+    }
+
+    .dept-name {
+      flex: 1;
     }
 
     .sub-departments {
@@ -974,10 +1039,20 @@
         padding: 8px 12px;
 
         &:hover {
-          background-color: #f0f0f0;
+          background-color: rgba(0, 0, 0, 0.05);
         }
       }
     }
+  }
+
+  .modal-footer-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+
+  .wp100 {
+    width: 100%;
   }
 
   .modal-footer-actions {
