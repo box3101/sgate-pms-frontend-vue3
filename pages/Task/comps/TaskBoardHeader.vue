@@ -55,13 +55,13 @@
               <!-- 필터 내용을 여기에 추가 -->
               <UiFormLayout>
                 <UiFormItem label="실행기간">
-                  <UiDatePicker v-model="dateRange" isRange size="small" />
+                  <UiDatePicker v-model="dateRange" isRange />
                 </UiFormItem>
                 <UiFormItem label="업무상태">
-                  <UiSelect size="small" placeholder="업무상태 선택" />
+                  <UiSelect placeholder="업무상태 선택" />
                 </UiFormItem>
                 <UiFormItem label="D-DAY">
-                  <UiSelect size="small" placeholder="전체" />
+                  <UiSelect placeholder="전체" />
                 </UiFormItem>
                 <!-- 추가 항목 -->
               </UiFormLayout>
@@ -111,17 +111,12 @@
                     </div>
                     <div class="flex gap-10">
                       <template v-if="isActive">
-                        <UiTextarea
-                          placeholder="제외사유를 입력하세요."
-                          size="small"
-                          class="w-200"
-                          rows="2"
-                        />
-                        <UiButton variant="tertiary" size="small">제외</UiButton>
+                        <UiTextarea placeholder="제외사유를 입력하세요." class="w-200" rows="2" />
+                        <UiButton variant="tertiary">제외</UiButton>
                       </template>
                       <template v-else>
-                        <UiSelect placeholder="선택하세요" size="small" class="w-200" />
-                        <UiButton variant="tertiary" size="small">이동</UiButton>
+                        <UiSelect placeholder="선택하세요" class="w-200" />
+                        <UiButton variant="tertiary">이동</UiButton>
                       </template>
                     </div>
                   </div>

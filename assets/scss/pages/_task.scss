@@ -809,3 +809,151 @@
     cursor: ew-resize;
   }
 }
+
+// task-card
+.task-card-wrapper {
+  position: relative;
+
+  .task-card {
+    margin-top: 10px;
+    padding: 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background-color: #fff;
+    position: relative;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease;
+
+    &:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    // 카드 액션 버튼 스타일
+    .card-actions {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      display: flex;
+      gap: 4px;
+      z-index: 99;
+
+      .action-btn {
+        background: none;
+        border: none;
+        padding: 4px;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6b7280;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background-color: #f3f4f6;
+          color: #374151;
+        }
+
+        &.favorite-btn {
+          &:hover {
+            color: #f59e0b;
+          }
+
+          .star-active {
+            color: #f59e0b;
+          }
+        }
+      }
+
+      // 필터 메뉴 스타일
+      .filter-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 240px;
+        background-color: white;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        padding: 8px;
+        z-index: 9999;
+      }
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-weight: 500;
+      margin: 8px 0;
+      line-height: 1.4;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .card-stats {
+      display: flex;
+      gap: 8px;
+    }
+
+    .card-comments,
+    .card-attachments {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-date {
+      font-size: 11px;
+    }
+
+    // 컨텍스트 메뉴 스타일
+    .card-context-menu {
+      position: absolute;
+      background-color: white;
+      border-radius: 4px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+      z-index: 9999;
+      min-width: 150px;
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #f3f4f6;
+        }
+      }
+    }
+  }
+
+  // 딤 배경 스타일
+  .dim-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 998;
+  }
+
+  :deep(.task-card .right-aligned) {
+    right: -9px;
+    top: 21px;
+  }
+}
