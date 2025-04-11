@@ -5,6 +5,7 @@
 <script setup>
   import TasksBoard from '../comps/TaskBoard.vue'
   import { inject } from 'vue'
+  import '@/assets/scss/pages/_task.scss'
 
   // 로고 텍스트 접근
   const logoText = inject('logoText')

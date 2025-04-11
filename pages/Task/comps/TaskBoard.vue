@@ -7,12 +7,13 @@
     <section class="board-content">
       <ul class="categories-container">
         <!-- 빈 카테고리 -->
-        <div v-if="categories.length === 0" class="empty-category">
-          <div class="add-category-placeholder" @click="addNewCategory">
-            <div class="add-category-placeholder-icon">
-              <Icon name="mdi:plus" size="24" />
-            </div>
-            <p>새 카테고리 추가하기</p>
+        <div v-if="categories.length === 0" class="empty-category full">
+          <div class="welcome-message">
+            <p>환영합니다.</p>
+            <p>업무등록을 위한 보드를 생성해보세요.</p>
+            <UiButton variant="primary" class="create-board-btn" @click="addNewCategory">
+              업무 보드 생성하기
+            </UiButton>
           </div>
         </div>
         <!-- 카테고리가 있는 경우 -->
@@ -20,7 +21,7 @@
           v-for="category in categories"
           :key="category.id"
           :title="category.title"
-          @add-board="openCardModal"
+          @add-board="openCardModal(category.id)"
           @open-menu="openCategoryMenu"
         >
           <!-- 카드가 있는 경우 -->
@@ -41,7 +42,7 @@
           <!-- 카드가 없는 경우 -->
           <div v-else>
             <div class="empty-category">
-              <div class="add-card-placeholder" @click="openCardModal">
+              <div class="add-card-placeholder" @click="openCardModal(category.id)">
                 <div class="add-placeholder-icon">
                   <Icon name="mdi:plus" size="24" />
                 </div>
@@ -54,10 +55,9 @@
           </div>
         </CategoryColumn>
 
-        <!-- 카테고리 추가 버튼 -->
-        <li class="category-column">
+        <!-- 카테고리가 0일때는 안보이고 하나 이상일때만 보임 -->
+        <li class="category-column" v-if="categories.length > 0">
           <div class="category-header">
-            <h3 class="category-title">카테고리 추가</h3>
             <div class="category-actions">
               <UiButton
                 variant="tertiary"
@@ -161,7 +161,7 @@
               <button class="attachment-btn">
                 <Icon name="heroicons:paper-clip" size="20" @click="openAttachmentModal" />
               </button>
-              <UiButton variant="primary">저장</UiButton>
+              <UiButton variant="primary" @click="saveCard">저장</UiButton>
             </div>
           </div>
         </template>
@@ -341,193 +341,7 @@
   import OrganizationUserSelector from '~/components/domain/OrganizationUserSelector.vue'
 
   // 카테고리 목록 데이터 - 각 카테고리에는 ID, 제목, 카드 배열이 포함됨
-  const categories = ref([
-    {
-      id: 1,
-      title: '할 일',
-      cards: [
-        {
-          id: 1,
-          title: '디자인 시스템 구축',
-          tags: ['디자인', 'UI/UX'],
-          date: '2023-09-15',
-          comments: 3,
-          attachments: 2,
-          commentsList: [
-            {
-              id: 'comment-1',
-              author: '김윤기',
-              date: '2023-09-10 14:30',
-              text: '디자인 시스템 초안 완료했습니다. 리뷰 부탁드립니다.',
-              replies: []
-            },
-            {
-              id: 'comment-2',
-              author: '이지은',
-              date: '2023-09-11 09:15',
-              text: '컬러 팔레트 부분 조금 수정이 필요할 것 같습니다. 미팅에서 논의해요.',
-              replies: [
-                {
-                  id: 'reply-1',
-                  author: '김윤기',
-                  date: '2023-09-11 10:30',
-                  text: '네, 미팅에서 논의하겠습니다. 추가 의견 있으시면 미리 공유해주세요.'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          id: 2,
-          title: '사용자 피드백 수집',
-          tags: ['리서치', '사용자경험'],
-          date: '2023-09-20',
-          comments: 1,
-          attachments: 0,
-          commentsList: [
-            {
-              id: 'comment-4',
-              author: '최수진',
-              date: '2023-09-18 11:20',
-              text: '설문조사 양식 초안 작성했습니다. 검토 부탁드려요.',
-              replies: []
-            }
-          ]
-        },
-        {
-          id: 5,
-          title: '프로토타입 제작',
-          tags: ['디자인', '프로토타입'],
-          date: '2023-09-30',
-          comments: 0,
-          attachments: 1,
-          commentsList: []
-        },
-        {
-          id: 6,
-          title: '사용성 테스트 계획',
-          tags: ['테스트', 'QA'],
-          date: '2023-10-05',
-          comments: 0,
-          attachments: 0,
-          commentsList: []
-        },
-        {
-          id: 7,
-          title: '경쟁사 분석 보고서',
-          tags: ['리서치', '분석'],
-          date: '2023-10-10',
-          comments: 0,
-          attachments: 0,
-          commentsList: []
-        }
-      ]
-    },
-    {
-      id: 2,
-      title: '진행 중',
-      cards: [
-        {
-          id: 3,
-          title: '랜딩 페이지 개발',
-          tags: ['프론트엔드', '개발'],
-          date: '2023-09-25',
-          comments: 2,
-          attachments: 3,
-          commentsList: [
-            {
-              id: 'comment-5',
-              author: '김개발',
-              date: '2023-09-22 10:30',
-              text: '헤더 부분 반응형 이슈가 있습니다. 수정 중입니다.',
-              replies: []
-            },
-            {
-              id: 'comment-6',
-              author: '이디자인',
-              date: '2023-09-23 15:45',
-              text: '모바일 뷰에서 버튼 크기 조정이 필요합니다.',
-              replies: []
-            }
-          ]
-        },
-        {
-          id: 8,
-          title: 'API 연동 작업',
-          tags: ['백엔드', 'API'],
-          date: '2023-10-15',
-          comments: 1,
-          attachments: 0,
-          commentsList: [
-            {
-              id: 'comment-7',
-              author: '박서버',
-              date: '2023-10-12 09:30',
-              text: '인증 API 문서 업데이트했습니다. 참고해주세요.',
-              replies: []
-            }
-          ]
-        },
-        {
-          id: 9,
-          title: '데이터 시각화 구현',
-          tags: ['데이터', '차트'],
-          date: '2023-10-20',
-          comments: 0,
-          attachments: 1,
-          commentsList: []
-        }
-      ]
-    },
-    {
-      id: 3,
-      title: '완료',
-      cards: [
-        {
-          id: 4,
-          title: '로그인 기능 구현',
-          tags: ['백엔드', '보안'],
-          date: '2023-09-10',
-          comments: 0,
-          attachments: 1,
-          commentsList: []
-        },
-        {
-          id: 10,
-          title: '회원가입 페이지 개발',
-          tags: ['프론트엔드', 'UI'],
-          date: '2023-09-05',
-          comments: 0,
-          attachments: 0,
-          commentsList: []
-        },
-        {
-          id: 11,
-          title: 'DB 스키마 설계',
-          tags: ['데이터베이스', '설계'],
-          date: '2023-08-28',
-          comments: 2,
-          attachments: 1,
-          commentsList: [
-            {
-              id: 'comment-8',
-              author: '김데이터',
-              date: '2023-08-25 11:20',
-              text: '인덱스 최적화 작업 완료했습니다.',
-              replies: []
-            },
-            {
-              id: 'comment-9',
-              author: '이백엔드',
-              date: '2023-08-26 14:30',
-              text: '쿼리 성능 테스트 결과 첨부합니다.',
-              replies: []
-            }
-          ]
-        }
-      ]
-    }
-  ])
+  const categories = ref([])
 
   // 카드 추가 아코디언 메뉴
   const menuItems = [
@@ -591,14 +405,25 @@
   const uploadedFiles = ref([])
   const googleDriveFiles = ref([])
 
+  // 카드 입력 관련 상태
+  const cardTitle = ref('')
+  const selectedTags = ref([])
+  const selectedCategoryId = ref(null)
+
   // 첨부파일 모달 열기 함수
   function openAttachmentModal() {
     isAttachmentModalOpen.value = true
   }
 
   // 카드 모달 열기 함수 - 카드 추가 또는 편집 시 모달을 표시
-  function openCardModal() {
+  function openCardModal(categoryId) {
+    console.log('카드 모달 열기 - 카테고리 ID:', categoryId)
+    selectedCategoryId.value = categoryId
     isCardModalOpen.value = true
+
+    // 입력 필드 초기화
+    cardTitle.value = ''
+    selectedTags.value = []
   }
 
   // 카드 상세 모달 열기
@@ -936,6 +761,61 @@
     })
   }
 
+  function saveCard() {
+    console.log('카드 저장 - UI 변경만 적용')
+    isCardModalOpen.value = false
+
+    // 선택된 카테고리 찾기 (첫 번째 카테고리를 기본값으로 사용)
+    const targetCategory =
+      categories.value.find(category => category.id === selectedCategoryId.value) ||
+      categories.value[0]
+
+    if (targetCategory) {
+      // 새 카드 객체 생성 및 추가 (UI 변경만)
+      const newCard = {
+        id: Date.now(), // 고유 ID 생성
+        title: cardTitle.value || '새 업무 카드',
+        tags: selectedTags.value || [],
+        date: new Date().toISOString().split('T')[0],
+        comments: 0,
+        attachments: 0
+      }
+
+      console.log('UI에 추가될 카드:', newCard)
+      console.log('대상 카테고리:', targetCategory.title)
+
+      // UI에만 카드 추가
+      targetCategory.cards.push(newCard)
+
+      // 카드 입력 필드 초기화
+      cardTitle.value = ''
+      selectedTags.value = []
+    } else if (categories.value.length === 0) {
+      console.log('카테고리가 없음 - 새 카테고리와 카드 UI만 생성')
+
+      // 새 카드 객체
+      const newCard = {
+        id: Date.now(),
+        title: cardTitle.value || '새 업무 카드',
+        tags: selectedTags.value || [],
+        date: new Date().toISOString().split('T')[0],
+        comments: 0,
+        attachments: 0
+      }
+
+      // UI에만 카테고리와 카드 추가
+      categories.value.push({
+        id: 1,
+        title: '카테고리 1',
+        cards: [newCard]
+      })
+
+      // 카드 입력 필드 초기화
+      cardTitle.value = ''
+      selectedTags.value = []
+    }
+  }
+
   // 이벤트 리스너 등록 및 해제
   onMounted(() => {
     window.addEventListener('mousemove', handleMouseMove)
@@ -947,261 +827,3 @@
     window.removeEventListener('mouseup', handleMouseUp)
   })
 </script>
-
-<style lang="scss" scoped>
-  .categories-container {
-    display: flex;
-    gap: 16px;
-    width: 100%;
-    min-height: calc(100vh - 167px);
-    overflow-x: auto;
-    padding-bottom: 50px;
-  }
-
-  .empty-category {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .add-card-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    padding: 16px;
-    border-radius: 8px;
-    border: 1px dashed #dadce0;
-    width: 100%;
-    p {
-      text-align: center;
-    }
-  }
-
-  .add-card-placeholder:hover {
-    background-color: #f8f9fa;
-  }
-
-  .add-placeholder-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background-color: #e8f0fe;
-    margin-bottom: 8px;
-  }
-
-  .add-category-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    padding: 16px;
-    border-radius: 8px;
-    border: 1px dashed #dadce0;
-    width: 100%;
-    height: 100%;
-  }
-
-  .add-category-placeholder:hover {
-    background-color: #f8f9fa;
-  }
-
-  .add-category-placeholder-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background-color: #e8f0fe;
-    margin-bottom: 8px;
-  }
-
-  // 카드 상세 스타일
-  .card-detail {
-    padding: 16px;
-
-    &-header {
-      margin-bottom: 24px;
-    }
-
-    &-title {
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
-
-    &-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 8px;
-    }
-
-    &-info {
-      background-color: #f9fafb;
-      border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 24px;
-
-      .info-item {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 8px;
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
-
-      .info-label {
-        font-weight: 500;
-        color: #4b5563;
-      }
-
-      .info-value {
-        color: #1f2937;
-      }
-    }
-
-    &-content {
-      min-height: 200px;
-    }
-  }
-
-  .card-detail-content {
-    margin-top: 20px;
-  }
-
-  .content-section-title {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 12px;
-    color: #333;
-  }
-
-  .card-description {
-    margin-bottom: 24px;
-  }
-
-  .card-comments-section {
-    margin-top: 24px;
-  }
-
-  // 분리된 모달 스타일
-  .detached-modal {
-    position: fixed;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-
-    &-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 16px;
-      background-color: #f9fafb;
-      border-bottom: 1px solid #e5e7eb;
-      cursor: move;
-      user-select: none;
-    }
-
-    &-title {
-      font-size: 16px;
-      font-weight: 600;
-      margin: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 80%;
-    }
-
-    &-actions {
-      display: flex;
-      gap: 4px;
-    }
-
-    &-body {
-      flex: 1;
-      overflow-y: auto;
-      padding: 0;
-    }
-  }
-
-  // 리사이즈 핸들 스타일
-  .resize-handle {
-    position: absolute;
-    background-color: transparent;
-
-    &-se {
-      bottom: 0;
-      right: 0;
-      width: 16px;
-      height: 16px;
-      cursor: nwse-resize;
-    }
-
-    &-sw {
-      bottom: 0;
-      left: 0;
-      width: 16px;
-      height: 16px;
-      cursor: nesw-resize;
-    }
-
-    &-ne {
-      top: 0;
-      right: 0;
-      width: 16px;
-      height: 16px;
-      cursor: nesw-resize;
-    }
-
-    &-nw {
-      top: 0;
-      left: 0;
-      width: 16px;
-      height: 16px;
-      cursor: nwse-resize;
-    }
-
-    &-n {
-      top: 0;
-      left: 16px;
-      right: 16px;
-      height: 6px;
-      cursor: ns-resize;
-    }
-
-    &-s {
-      bottom: 0;
-      left: 16px;
-      right: 16px;
-      height: 6px;
-      cursor: ns-resize;
-    }
-
-    &-e {
-      top: 16px;
-      bottom: 16px;
-      right: 0;
-      width: 6px;
-      cursor: ew-resize;
-    }
-
-    &-w {
-      top: 16px;
-      bottom: 16px;
-      left: 0;
-      width: 6px;
-      cursor: ew-resize;
-    }
-  }
-</style>
