@@ -53,8 +53,65 @@
   display: flex;
   align-items: center;
 }
+
 .report-section-title {
   font-size: 16px;
   font-weight: 700;
   margin-bottom: 10px;
+}
+
+/* 모바일 화면에서 하단 빈 여백 제거를 위한 스타일 */
+html {
+  height: 100% !important;
+}
+
+body {
+  min-height: 100% !important;
+  overflow-x: hidden;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#__nuxt,
+#__layout {
+  min-height: 100% !important;
+}
+
+@media screen and (max-width: 768px) {
+  html,
+  body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: auto !important;
+    max-height: 100% !important;
+    position: relative !important;
+  }
+
+  .app-layout {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow: hidden !important;
+  }
+
+  /* 빈 여백 제거를 위한 추가 스타일 */
+  body::after {
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+  }
+
+  /* 페이지 끝에 도달했을 때 여백 제거 */
+  html {
+    overflow-y: auto !important;
+  }
+
+  /* 모든 컨테이너 요소의 높이 제한 */
+  .guide-container,
+  .content-wrapper,
+  .main-content {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
 }
