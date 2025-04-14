@@ -429,6 +429,14 @@
                 icon: 'mdi:account-group',
                 url: '/ispark-sgate/task/collaboration/board',
                 status: 'completed'
+              },
+              {
+                id: 'file-attachment',
+                title: '파일 첨부',
+                description: '활동에 파일 첨부 기능',
+                icon: 'mdi:file-upload',
+                url: '/ispark-sgate/task/collaboration/board',
+                status: 'completed'
               }
             ]
           }
