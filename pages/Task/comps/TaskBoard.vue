@@ -59,12 +59,7 @@
         <li class="category-column" v-if="categories.length > 0">
           <div class="category-header">
             <div class="category-actions">
-              <UiButton
-                variant="tertiary"
-                size="small"
-                icon="heroicons:plus"
-                @click="addNewCategory"
-              >
+              <UiButton variant="secondary" icon="heroicons:plus" @click="addNewCategory">
                 카테고리 추가
               </UiButton>
             </div>
@@ -97,7 +92,7 @@
                   :options="departmentOptions"
                 />
                 <UiButton
-                  variant="tertiary"
+                  variant="secondary"
                   icon-only
                   @click="isOrganizationUserSelectorOpen = true"
                 >
@@ -180,12 +175,7 @@
         <div class="card-detail-header">
           <h2 class="card-detail-title">{{ selectedCard.title }}</h2>
           <div class="card-detail-tags">
-            <UiTag
-              v-for="(tag, index) in selectedCard.tags"
-              :key="index"
-              :text="tag"
-              size="small"
-            />
+            <UiTag v-for="(tag, index) in selectedCard.tags" :key="index" :text="tag" />
           </div>
         </div>
 
@@ -239,12 +229,7 @@
         <div class="card-detail">
           <div class="card-detail-header">
             <div class="card-detail-tags">
-              <UiTag
-                v-for="(tag, index) in detachedCardItem.card.tags"
-                :key="index"
-                :text="tag"
-                size="small"
-              />
+              <UiTag v-for="(tag, index) in detachedCardItem.card.tags" :key="index" :text="tag" />
             </div>
           </div>
 

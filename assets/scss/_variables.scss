@@ -1,9 +1,9 @@
 // 변수 정의
-@use "sass:color";
+@use 'sass:color';
 
 // 기본 색상 변수
-$primary-color: #2196f3;
-$secondary-color: #6c757d;
+$primary-color: #00aaff;
+$secondary-color: #58616a;
 $success-color: #4caf50;
 $tertiary-color: #ddd;
 $danger-color: #f44336;
@@ -34,16 +34,104 @@ $scrollbar-color: #ccc;
 
 // 폰트
 $font-family: 'Pretendard Variable', Pretendard, sans-serif;
-$font-size-xs: 12px;
-$font-size-sm: 14px;
-$font-size-md: 16px;
-$font-size-lg: 18px;
-$font-size-xl: 20px;
-$font-size-xxl: 24px;
+$font-size-xs: 10px;
+$font-size-sm: 12px;
+$font-size-md: 14px;
+$font-size-lg: 16px;
+$font-size-xl: 18px;
+$font-size-xxl: 20px;
+
+// 텍스트 색상
+$text-default-color: #464c53; // var(--color-gray-70)
+$text-light-color: #fff; // var(--color-gray-0)
+
+// 폰트 스타일 - Body
+// Body Caption
+$body-caption: (
+  'font-family': $font-family,
+  'font-size': 10px,
+  'font-weight': 400,
+  'line-height': 150%
+);
+
+$body-caption-bold: (
+  'font-family': $font-family,
+  'font-size': 10px,
+  'font-weight': 700,
+  'line-height': 150%
+);
+
+// Body XSmall
+$body-xsmall: (
+  'font-family': $font-family,
+  'font-size': 12px,
+  'font-weight': 400,
+  'line-height': 150%
+);
+
+$body-xsmall-bold: (
+  'font-family': $font-family,
+  'font-size': 12px,
+  'font-weight': 700,
+  'line-height': 150%
+);
+
+// Body Small
+$body-small: (
+  'font-family': $font-family,
+  'font-size': 14px,
+  'font-weight': 400,
+  'line-height': 150%
+);
+
+$body-small-bold: (
+  'font-family': $font-family,
+  'font-size': 14px,
+  'font-weight': 700,
+  'line-height': 150%
+);
+
+// Body Medium
+$body-medium: (
+  'font-family': $font-family,
+  'font-size': 16px,
+  'font-weight': 400,
+  'line-height': 150%
+);
+
+$body-medium-bold: (
+  'font-family': $font-family,
+  'font-size': 16px,
+  'font-weight': 700,
+  'line-height': 150%
+);
+
+// Body Large
+$body-large: (
+  'font-family': $font-family,
+  'font-size': 18px,
+  'font-weight': 400,
+  'line-height': 150%
+);
+
+$body-large-bold: (
+  'font-family': $font-family,
+  'font-size': 18px,
+  'font-weight': 700,
+  'line-height': 150%
+);
+
+// 폰트 스타일 - Head
+$head-xxsmall: (
+  'font-family': $font-family,
+  'font-size': 16px,
+  'font-weight': 700,
+  'line-height': 150%
+);
 
 // 간격 및 크기
 $spacing-xs: 4px;
-$spacing-sm: 8px;
+$spacing-sm: 9px;
 $spacing-md: 12px;
 $spacing-lg: 16px;
 $spacing-xl: 24px;
@@ -94,3 +182,11 @@ $gray-active-color: color.adjust($gray-color, $lightness: -20%);
 $transition-fast: 0.15s;
 $transition-normal: 0.2s;
 $transition-slow: 0.3s;
+
+// 폰트 믹스인
+@mixin font-style($style-map) {
+  font-family: map-get($style-map, 'font-family');
+  font-size: map-get($style-map, 'font-size');
+  font-weight: map-get($style-map, 'font-weight');
+  line-height: map-get($style-map, 'line-height');
+}

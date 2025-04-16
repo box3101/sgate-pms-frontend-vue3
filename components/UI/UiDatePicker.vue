@@ -837,14 +837,13 @@
     &__range-input {
       display: flex;
       align-items: center;
-      padding: 8px 12px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      background-color: #fff;
+      padding: 0px 8px;
+      height: 32px;
       cursor: pointer;
       transition: all 0.2s ease;
-      min-height: 40px;
-
+      border-radius: 4px;
+      border: 1px solid var(--color-gray-40, #8a949e);
+      background: var(--color-gray-0, #fff);
       &:hover {
         border-color: #bbb;
       }
@@ -885,7 +884,7 @@
     }
 
     &__selected-text {
-      color: #333;
+      color: #464c53;
       font-weight: 500;
     }
 

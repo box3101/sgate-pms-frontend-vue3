@@ -3,9 +3,9 @@
     <section class="header-container">
       <article class="left-section">
         <div class="flex gap-5">
-          <UiSearchableSelect size="medium" placeholder="업무 보드명입니다" class="w-200" />
+          <UiSearchableSelect placeholder="업무 보드명입니다" class="w-200" />
           <div>
-            <UiButton variant="tertiary" icon="heroicons:plus" @click="openBoardAddModal">
+            <UiButton variant="secondary" icon="heroicons:plus" @click="openBoardAddModal">
               보드 추가</UiButton
             >
             <UiFilterModal v-model="isBoardAddModalOpen" title="보드 추가" :showFooter="true">
@@ -16,12 +16,12 @@
               </UiFormLayout>
 
               <template #footerActions>
-                <UiButton variant="tertiary" @click="isBoardModalOpen = false">취소</UiButton>
+                <UiButton variant="secondary" @click="isBoardModalOpen = false">취소</UiButton>
                 <UiButton variant="primary" @click="isBoardModalOpen = false">저장</UiButton>
               </template>
             </UiFilterModal>
           </div>
-          <UiButton variant="tertiary" iconOnly>
+          <UiButton variant="secondary" iconOnly>
             <Icon name="heroicons:minus" size="24" />
           </UiButton>
           <div>
@@ -36,7 +36,7 @@
               </UiFormLayout>
 
               <template #footerActions>
-                <UiButton variant="tertiary" @click="isBoardEditModalOpen = false">취소</UiButton>
+                <UiButton variant="secondary" @click="isBoardEditModalOpen = false">취소</UiButton>
                 <UiButton variant="primary" @click="isBoardEditModalOpen = false">저장</UiButton>
               </template>
             </UiFilterModal>
@@ -44,7 +44,7 @@
         </div>
         <div class="flex gap-5">
           <div>
-            <UiButton variant="tertiary" @click="openFilterModal">검색필터</UiButton>
+            <UiButton variant="secondary" @click="openFilterModal">검색필터</UiButton>
             <UiFilterModal
               v-model="isFilterModalOpen"
               :targetRef="filterButton"
@@ -67,17 +67,17 @@
               </UiFormLayout>
 
               <template #footerActions>
-                <UiButton variant="tertiary" @click="isFilterModalOpen = false">취소</UiButton>
+                <UiButton variant="secondary" @click="isFilterModalOpen = false">취소</UiButton>
                 <UiButton variant="primary" @click="isFilterModalOpen = false">적용</UiButton>
               </template>
             </UiFilterModal>
           </div>
-          <UiButton variant="tertiary" icon="heroicons:plus">중요업무</UiButton>
+          <UiButton variant="secondary" icon="heroicons:plus">중요업무</UiButton>
         </div>
       </article>
       <article class="right-section">
         <div>
-          <UiButton variant="tertiary" icon="heroicons:plus" @click="openCollaborationModal"
+          <UiButton variant="secondary" icon="heroicons:plus" @click="openCollaborationModal"
             >협업</UiButton
           >
           <UiFilterModal
@@ -112,11 +112,11 @@
                     <div class="flex gap-10">
                       <template v-if="isActive">
                         <UiTextarea placeholder="제외사유를 입력하세요." class="w-200" rows="2" />
-                        <UiButton variant="tertiary">제외</UiButton>
+                        <UiButton variant="secondary">제외</UiButton>
                       </template>
                       <template v-else>
                         <UiSelect placeholder="선택하세요" class="w-200" />
-                        <UiButton variant="tertiary">이동</UiButton>
+                        <UiButton variant="secondary">이동</UiButton>
                       </template>
                     </div>
                   </div>
@@ -127,7 +127,7 @@
             <template #footerActions>
               <div class="flex gap-4 w-full justify-end">
                 <UiSelect class="w-300" placeholder="선택하세요" />
-                <UiButton variant="tertiary" @click="isCollaborationModalOpen = false"
+                <UiButton variant="secondary" @click="isCollaborationModalOpen = false"
                   >카테고리 일괄 선택</UiButton
                 >
                 <UiButton variant="primary" @click="isCollaborationModalOpen = false"
@@ -138,8 +138,8 @@
           </UiFilterModal>
         </div>
 
-        <UiButton variant="tertiary" icon="heroicons:plus">공유</UiButton>
-        <UiButton variant="tertiary" icon="heroicons:plus">전달</UiButton>
+        <UiButton variant="secondary" icon="heroicons:plus">공유</UiButton>
+        <UiButton variant="secondary" icon="heroicons:plus">전달</UiButton>
       </article>
     </section>
   </header>

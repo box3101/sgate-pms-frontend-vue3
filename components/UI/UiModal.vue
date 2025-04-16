@@ -289,7 +289,7 @@
 
     &__title {
       margin: 0;
-      font-size: $font-size-lg;
+      font-size: $font-size-xxl;
       font-weight: 600;
       white-space: nowrap;
       overflow: hidden;
