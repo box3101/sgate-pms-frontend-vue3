@@ -121,6 +121,21 @@ $body-large-bold: (
   'line-height': 150%
 );
 
+// Body XLarge
+$body-xlarge: (
+  'font-family': $font-family,
+  'font-size': 20px,
+  'font-weight': 400,
+  'line-height': 150%
+);
+
+$body-xlarge-bold: (
+  'font-family': $font-family,
+  'font-size': 20px,
+  'font-weight': 700,
+  'line-height': 150%
+);
+
 // 폰트 스타일 - Head
 $head-xxsmall: (
   'font-family': $font-family,

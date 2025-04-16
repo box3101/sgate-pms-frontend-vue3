@@ -2,19 +2,24 @@
   <div
     class="ui-multi-select"
     :class="[
-      `size-${size}`,
+      `ui-multi-select--${size}`,
       {
-        'is-open': isOpen,
-        'is-selected': selectedValues.length > 0,
-        'is-error': error,
-        'is-disabled': disabled,
-        'is-view': viewOnly
+        'ui-multi-select--open': isOpen,
+        'ui-multi-select--selected': selectedValues.length > 0,
+        'ui-multi-select--error': error,
+        'ui-multi-select--disabled': disabled,
+        'ui-multi-select--view': viewOnly
       }
     ]"
+    :style="{ width }"
   >
     <!-- 선택된 태그들 표시 영역 -->
-    <div class="select-header" @click="toggleDropdown" :tabindex="disabled || viewOnly ? -1 : 0">
-      <div class="tags-container">
+    <div
+      class="ui-multi-select__header"
+      @click="toggleDropdown"
+      :tabindex="disabled || viewOnly ? -1 : 0"
+    >
+      <div class="ui-multi-select__tags-container">
         <template v-if="selectedOptions.length > 0">
           <UiTag
             v-for="option in selectedOptions"
@@ -26,29 +31,31 @@
             @close="removeOption(option)"
           />
         </template>
-        <div v-else class="placeholder">
+        <div v-else class="ui-multi-select__placeholder">
           {{ placeholder }}
         </div>
       </div>
-      <i :class="['select-icon', { 'select-icon-up': isOpen }]"></i>
+      <i class="ui-multi-select__icon" :class="{ 'ui-multi-select__icon--up': isOpen }"></i>
     </div>
 
     <!-- 드롭다운 메뉴 -->
-    <div v-show="isOpen" class="select-dropdown">
-      <div
-        v-for="option in options"
-        :key="option.value"
-        class="option-item"
-        :class="{ 'is-selected': isSelected(option) }"
-        @click.stop="toggleOption(option)"
-      >
-        <span class="checkbox">
-          <input type="checkbox" :checked="isSelected(option)" @click.stop />
-          <span class="checkmark"></span>
-        </span>
-        {{ option.label }}
+    <div v-show="isOpen" class="ui-multi-select__dropdown">
+      <div class="ui-multi-select__options">
+        <div
+          v-for="option in options"
+          :key="option.value"
+          class="ui-multi-select__option"
+          :class="{ 'ui-multi-select__option--selected': isSelected(option) }"
+          @click.stop="toggleOption(option)"
+        >
+          <span class="ui-multi-select__checkbox">
+            <input type="checkbox" :checked="isSelected(option)" @click.stop />
+            <span class="ui-multi-select__checkmark"></span>
+          </span>
+          {{ option.label }}
+        </div>
+        <div v-if="options.length === 0" class="ui-multi-select__no-results">옵션이 없습니다</div>
       </div>
-      <div v-if="options.length === 0" class="no-results">옵션이 없습니다</div>
     </div>
   </div>
 </template>
@@ -193,177 +200,76 @@
 </script>
 
 <style lang="scss" scoped>
-  .select-icon {
-    width: 12px !important;
-    height: 8px !important;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M11 1.5L6 6.5L1 1.5' stroke='%23464C53' stroke-width='2'/%3E%3C/svg%3E");
-    transition: transform 0.2s ease;
+  // 애니메이션 키프레임
+  @keyframes dropdownFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
-  .select-icon-up {
-    transform: rotate(180deg);
-  }
   .ui-multi-select {
     position: relative;
     width: v-bind('width');
-    font-family: Pretendard;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%; /* 24px */
-    border-radius: 4px;
+    font-family: $font-family;
+    border-radius: $border-radius-sm;
     border: 1px solid var(--color-gray-40, #8a949e);
     background: var(--color-gray-0, #fff);
     color: var(--color-gray-40, #8a949e);
+    transition: all $transition-normal ease;
     box-sizing: border-box;
 
-    // 사이즈별 스타일
-    &.size-small {
-      font-size: 14px;
-      min-height: 30px;
+    // 아이콘 스타일
+    &__icon {
+      width: 12px;
+      height: 8px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M11 1.5L6 6.5L1 1.5' stroke='%23464C53' stroke-width='2'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      transition: transform 0.2s ease;
+      margin-left: 8px;
 
-      .select-header {
-        display: flex;
-        width: 100%;
-        padding: 3px 8px;
-        justify-content: space-between;
-        align-items: center;
-        min-height: 30px;
-      }
-
-      .select-icon {
-        width: 14px;
-        height: 14px;
-      }
-
-      .option-item {
-        padding: 3px 8px;
-        font-size: 14px;
+      &--up {
+        transform: rotate(180deg);
       }
     }
 
-    &.size-medium {
-      font-size: 14px;
-      min-height: 32px;
-
-      .select-header {
-        display: flex;
-        width: 100%;
-        padding: 4px 8px;
-        justify-content: space-between;
-        align-items: center;
-        min-height: 32px;
-      }
-
-      .select-icon {
-        width: 16px;
-        height: 16px;
-      }
-
-      .option-item {
-        padding: 4px 8px;
-        font-size: 14px;
-      }
-    }
-
-    &.size-large {
-      font-size: 16px;
-      min-height: 36px;
-
-      .select-header {
-        display: flex;
-        width: 100%;
-        padding: 8px;
-        justify-content: space-between;
-        align-items: center;
-        min-height: 36px;
-      }
-
-      .select-icon {
-        width: 18px;
-        height: 18px;
-      }
-
-      .option-item {
-        padding: 8px;
-        font-size: 16px;
-      }
-    }
-
-    // 상태별 스타일
-    &.is-selected {
-      border: 1px solid var(--color-gray-60, #58616a);
-      color: var(--color-gray-70, #464c53);
-    }
-
-    &.is-open {
-      border: 1px solid var(--color-system-b30, #0084ff);
-      color: var(--color-gray-70, #464c53);
-    }
-
-    &.is-error {
-      border: 1px solid var(--color-system-r30, #f30);
-      color: var(--color-gray-70, #464c53);
-    }
-
-    &.is-disabled {
-      border: 1px solid var(--color-gray-20, #cdd1d5);
-      background: var(--color-gray-10, #e6e8ea);
-      color: var(--color-gray-30, #b1b8be);
-      cursor: not-allowed;
-
-      .select-header {
-        pointer-events: none;
-      }
-    }
-
-    &.is-view {
-      border: 1px solid var(--color-gray-20, #cdd1d5);
-      background: var(--color-gray-10, #e6e8ea);
-      color: var(--color-gray-70, #464c53);
-      cursor: default;
-
-      .select-header {
-        pointer-events: none;
-      }
-    }
-
-    // 셀렉트 헤더 스타일
-    .select-header {
+    // 헤더 스타일
+    &__header {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
       cursor: pointer;
-      position: relative;
-      transition: all 0.2s ease;
+      box-sizing: border-box;
 
       &:focus {
         outline: none;
-        border-color: var(--color-system-b30, #0084ff);
       }
     }
 
     // 태그 컨테이너 스타일
-    .tags-container {
+    &__tags-container {
       display: flex;
       flex-wrap: wrap;
       flex: 1;
       gap: 4px;
-      z-index: 20;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     // 플레이스홀더 스타일
-    .placeholder {
+    &__placeholder {
       color: var(--color-gray-40, #8a949e);
-      padding: 4px 0;
-    }
-
-    // 아이콘 스타일
-    .select-icon {
-      color: var(--color-gray-40, #8a949e);
-      transition: transform 0.2s ease;
-      margin-left: 8px;
     }
 
     // 드롭다운 스타일
-    .select-dropdown {
+    &__dropdown {
       position: absolute;
       top: 100%;
       left: 0;
@@ -379,8 +285,12 @@
       overflow-y: auto;
     }
 
-    // 옵션 아이템 스타일
-    .option-item {
+    // 옵션 스타일
+    &__options {
+      width: 100%;
+    }
+
+    &__option {
       display: flex;
       align-items: center;
       cursor: pointer;
@@ -390,7 +300,7 @@
         background-color: var(--color-gray-10, #e6e8ea);
       }
 
-      &.is-selected {
+      &--selected {
         background-color: var(--color-gray-10, #e6e8ea);
         color: var(--color-system-b30, #0084ff);
         font-weight: 500;
@@ -398,7 +308,7 @@
     }
 
     // 체크박스 스타일
-    .checkbox {
+    &__checkbox {
       position: relative;
       display: inline-flex;
       align-items: center;
@@ -412,7 +322,7 @@
         width: 0;
       }
 
-      .checkmark {
+      .ui-multi-select__checkmark {
         position: relative;
         display: inline-block;
         width: 16px;
@@ -435,7 +345,7 @@
         }
       }
 
-      input:checked ~ .checkmark {
+      input:checked ~ .ui-multi-select__checkmark {
         background-color: var(--color-system-b30, #0084ff);
         border-color: var(--color-system-b30, #0084ff);
 
@@ -446,27 +356,145 @@
     }
 
     // 결과 없음 메시지 스타일
-    .no-results {
+    &__no-results {
       padding: 8px;
       text-align: center;
       color: var(--color-gray-40, #8a949e);
     }
 
-    // 애니메이션 키프레임
-    @keyframes dropdownFadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
+    // 크기 변형 - Small
+    &--small {
+      .ui-multi-select__header {
+        height: 26px;
+        padding: 3px 9px;
       }
-      to {
-        opacity: 1;
-        transform: translateY(0);
+
+      .ui-multi-select__option {
+        padding: 3px 9px;
+        font-size: $font-size-xs;
+      }
+
+      .ui-multi-select__placeholder {
+        @include font-style($body-small);
+      }
+    }
+
+    // 크기 변형 - Medium
+    &--medium {
+      .ui-multi-select__header {
+        height: 28px;
+        padding: 5px 12px;
+      }
+
+      .ui-multi-select__option {
+        padding: 5px 12px;
+        font-size: $font-size-sm;
+      }
+
+      .ui-multi-select__placeholder {
+        position: relative;
+        top: -1px;
+        @include font-style($body-small);
+      }
+    }
+
+    // 크기 변형 - Large
+    &--large {
+      .ui-multi-select__header {
+        height: 30px;
+        padding: 3px 12px;
+      }
+
+      .ui-multi-select__option {
+        padding: 6px 12px;
+        font-size: $font-size-md;
+      }
+
+      .ui-multi-select__placeholder {
+        @include font-style($body-large-bold);
+      }
+    }
+
+    // 크기 변형 - XLarge
+    &--xlarge {
+      .ui-multi-select__header {
+        height: 32px;
+        padding: 4px 16px;
+        border-radius: 4px;
+      }
+
+      .ui-multi-select__option {
+        padding: 8px 16px;
+        font-size: $font-size-lg;
+      }
+
+      .ui-multi-select__placeholder {
+        @include font-style($body-xlarge-bold);
+        font-size: $font-size-xl;
+      }
+    }
+
+    // 상태 변형
+    &--open {
+      border: 1px solid var(--color-system-b30, #0084ff);
+      color: var(--color-gray-70, #464c53);
+    }
+
+    &--selected {
+      border: 1px solid var(--color-gray-60, #58616a);
+      color: var(--color-gray-70, #464c53);
+    }
+
+    &--error {
+      border: 1px solid var(--color-system-r30, #f30);
+      color: var(--color-gray-70, #464c53);
+      box-shadow: 0 0 0 4px rgba(255, 51, 0, 0.1);
+    }
+
+    &--disabled {
+      border: 1px solid var(--color-gray-20, #cdd1d5);
+      background: var(--color-gray-10, #e6e8ea);
+      color: var(--color-gray-30, #b1b8be);
+      cursor: not-allowed;
+
+      .ui-multi-select__header {
+        pointer-events: none;
+      }
+    }
+
+    &--view {
+      border: 1px solid var(--color-gray-20, #cdd1d5);
+      background: var(--color-gray-10, #e6e8ea);
+      color: var(--color-gray-70, #464c53);
+      cursor: default;
+
+      .ui-multi-select__header {
+        pointer-events: none;
       }
     }
 
     // 모바일 스타일 최적화
-    @media (hover: none) {
-      .option-item {
+    @media (max-width: 768px) {
+      &--small {
+        .ui-multi-select__header {
+          padding: 5px 10px;
+        }
+      }
+
+      &--medium {
+        .ui-multi-select__header {
+          padding: 6px 12px;
+        }
+      }
+
+      &--large,
+      &--xlarge {
+        .ui-multi-select__header {
+          padding: 8px 16px;
+        }
+      }
+
+      .ui-multi-select__option {
         padding: 12px;
         min-height: 44px;
       }

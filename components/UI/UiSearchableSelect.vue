@@ -1,64 +1,66 @@
 <template>
   <div
-    class="ui-searchable-select"
+    class="ui-select ui-searchable-select"
     :class="[
-      `size-${size}`,
+      `ui-select--${size}`,
       {
-        'is-open': isOpen,
-        'is-selected': selectedValue,
-        'is-error': error,
-        'is-disabled': disabled,
-        'is-view': viewOnly
+        'ui-select--open': isOpen,
+        'ui-select--selected': selectedValue,
+        'ui-select--error': error,
+        'ui-select--disabled': disabled,
+        'ui-select--view': viewOnly
       }
     ]"
+    :style="{ width }"
   >
     <!-- 셀렉트 헤더 부분 (선택된 값 표시) -->
     <div
-      class="select-header"
+      class="ui-select__header"
       @click="toggleDropdown"
       :tabindex="disabled || viewOnly ? -1 : 0"
-      :placeholder="placeholder"
-      @keydown.enter="toggleDropdown"
-      @keydown.space.prevent="toggleDropdown"
       role="combobox"
       aria-haspopup="listbox"
       :aria-expanded="isOpen"
     >
-      <div class="select-value">
-        <span v-if="selectedOption" class="selected-text">{{ selectedOption.label }}</span>
-        <span v-else class="placeholder">{{ placeholder }}</span>
+      <div class="ui-select__value">
+        <span v-if="selectedOption" class="ui-select__selected-text">{{
+          selectedOption.label
+        }}</span>
+        <span v-else class="ui-select__placeholder">{{ placeholder }}</span>
       </div>
-      <i :class="['select-icon', { 'select-icon-up': isOpen }]"></i>
+      <i class="ui-select__icon" :class="{ 'ui-select__icon--up': isOpen }"></i>
     </div>
 
     <!-- 드롭다운 부분 (검색창 + 옵션 목록) -->
-    <div v-show="isOpen" class="select-dropdown">
+    <div v-show="isOpen" class="ui-select__dropdown">
       <!-- 검색 입력창 -->
-      <div class="search-container">
+      <div class="ui-select__search-container">
         <input
           ref="searchInput"
           v-model="searchQuery"
           type="text"
-          class="search-input"
+          class="ui-select__search-input"
           placeholder="검색어를 입력하세요"
           @click.stop
         />
       </div>
 
       <!-- 옵션 목록 -->
-      <div class="options-container" role="listbox">
+      <div class="ui-select__options" role="listbox">
         <div
           v-for="option in filteredOptions"
           :key="option.value"
-          class="option-item"
-          :class="{ 'is-selected': selectedValue === option.value }"
+          class="ui-select__option"
+          :class="{ 'ui-select__option--selected': selectedValue === option.value }"
           role="option"
           :aria-selected="selectedValue === option.value"
           @click="selectOption(option)"
         >
           {{ option.label }}
         </div>
-        <div v-if="filteredOptions.length === 0" class="no-results">검색 결과가 없습니다</div>
+        <div v-if="filteredOptions.length === 0" class="ui-select__no-results">
+          검색 결과가 없습니다
+        </div>
       </div>
     </div>
   </div>
@@ -106,7 +108,7 @@
     size: {
       type: String,
       default: 'medium',
-      validator: value => ['small', 'medium', 'large'].includes(value)
+      validator: value => ['small', 'medium', 'large', 'xlarge'].includes(value)
     },
     width: {
       type: [String, Number],
@@ -225,275 +227,310 @@
     }
   }
 
-  .select-icon {
-    width: 12px !important;
-    height: 8px !important;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M11 1.5L6 6.5L1 1.5' stroke='%23464C53' stroke-width='2'/%3E%3C/svg%3E");
-    transition: transform 0.2s ease;
-  }
-
-  .select-icon-up {
-    transform: rotate(180deg);
-  }
-
-  // 기본 컴포넌트 스타일
-  .ui-searchable-select {
+  .ui-select {
+    height: 30px;
     position: relative;
-    width: v-bind('width');
     font-family: Pretendard;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%; /* 24px */
     border-radius: 4px;
     border: 1px solid var(--color-gray-40, #8a949e);
     background: var(--color-gray-0, #fff);
     color: var(--color-gray-40, #8a949e);
+    transition: all 0.2s ease;
     box-sizing: border-box;
 
-    // 사이즈별 스타일
-    &.size-small {
-      font-size: 14px;
-      height: 30px;
-      .select-header {
-        display: flex;
-        width: 100%;
-        padding: 3px 8px;
-        justify-content: space-between;
-        align-items: center;
-      }
+    // 아이콘 스타일
+    &__icon {
+      width: 12px;
+      height: 8px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M11 1.5L6 6.5L1 1.5' stroke='%23464C53' stroke-width='2'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      transition: transform 0.2s ease;
 
-      .select-icon {
-        width: 14px;
-        height: 14px;
-      }
-
-      .option-item {
-        padding: 3px 8px;
-        font-size: 14px;
-      }
-
-      .search-input {
-        padding: 3px 8px;
-        font-size: 14px;
+      &--up {
+        transform: rotate(180deg);
       }
     }
 
-    &.size-medium {
-      font-size: 14px;
-      height: 32px;
-      .select-header {
-        display: flex;
-        width: 100%;
-        height: 32px;
-        padding: 4px 8px;
-        justify-content: space-between;
-        align-items: center;
-        flex-shrink: 0;
-      }
+    // 헤더 스타일
+    &__header {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      box-sizing: border-box;
 
-      .select-icon {
-        width: 16px;
-        height: 16px;
-      }
-
-      .option-item {
-        padding: 4px 8px;
-        font-size: 16px;
-      }
-
-      .search-input {
-        padding: 4px 8px;
-        font-size: 14px;
+      &:focus {
+        outline: none;
       }
     }
 
-    &.size-large {
-      font-size: 16px;
-      height: 36px;
-      .select-header {
-        display: flex;
-        width: 100%;
-        padding: 8px;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .select-icon {
-        width: 18px;
-        height: 18px;
-      }
-
-      .option-item {
-        padding: 8px;
-        font-size: 16px;
-      }
-
-      .search-input {
-        padding: 8px;
-        font-size: 16px;
-      }
+    // 값 스타일
+    &__value {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    // 상태별 스타일
-    &.is-selected {
-      border: 1px solid var(--color-gray-60, #58616a);
+    &__placeholder {
+      color: var(--color-gray-40, #8a949e);
+    }
+
+    &__selected-text {
       color: var(--color-gray-70, #464c53);
+      font-weight: 500;
     }
 
-    &.is-open {
+    // 드롭다운 스타일
+    &__dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      background: #fff;
+      border: 1px solid var(--color-gray-20, #cdd1d5);
+      border-radius: 4px;
+      margin-top: 4px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      animation: dropdownFadeIn 0.2s ease;
+      max-height: 300px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    // 검색 컨테이너 스타일
+    &__search-container {
+      padding: 8px;
+      border-bottom: 1px solid var(--color-gray-20, #cdd1d5);
+      position: sticky;
+      top: 0;
+      background: #fff;
+      z-index: 2;
+    }
+
+    // 검색 인풋 스타일
+    &__search-input {
+      width: 100%;
+      border: 1px solid var(--color-gray-20, #cdd1d5);
+      border-radius: 4px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      box-sizing: border-box;
+      padding: 6px 8px;
+      font-size: 14px;
+
+      &:focus {
+        border-color: var(--color-system-b30, #0084ff);
+        box-shadow: 0 0 0 2px rgba(0, 132, 255, 0.1);
+      }
+    }
+
+    // 옵션 스타일
+    &__options {
+      overflow-y: auto;
+      max-height: 240px;
+      width: 100%;
+    }
+
+    &__option {
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: var(--color-gray-10, #e6e8ea);
+      }
+
+      &--selected {
+        background-color: var(--color-gray-10, #e6e8ea);
+        color: var(--color-system-b30, #0084ff);
+        font-weight: 500;
+      }
+    }
+
+    &__no-results {
+      padding: 8px;
+      text-align: center;
+      color: var(--color-gray-40, #8a949e);
+    }
+
+    // 크기 변형 - Small
+    &--small {
+      .ui-select__header {
+        height: 26px;
+        padding: 3px 9px;
+      }
+
+      .ui-select__option {
+        padding: 3px 9px;
+        font-size: 14px;
+      }
+
+      .ui-select__selected-text,
+      .ui-select__placeholder {
+        font-size: 14px;
+      }
+
+      .ui-select__search-input {
+        padding: 3px 6px;
+        font-size: 14px;
+      }
+    }
+
+    // 크기 변형 - Medium
+    &--medium {
+      .ui-select__header {
+        height: 28px;
+        padding: 5px 12px;
+      }
+
+      .ui-select__option {
+        padding: 5px 12px;
+        font-size: 16px;
+      }
+
+      .ui-select__selected-text,
+      .ui-select__placeholder {
+        font-size: 16px;
+      }
+
+      .ui-select__search-input {
+        padding: 5px 8px;
+        font-size: 14px;
+      }
+    }
+
+    // 크기 변형 - Large
+    &--large {
+      .ui-select__header {
+        height: 30px;
+        padding: 3px 12px;
+      }
+
+      .ui-select__option {
+        padding: 6px 12px;
+        font-size: 16px;
+      }
+
+      .ui-select__selected-text,
+      .ui-select__placeholder {
+        font-size: 16px;
+      }
+
+      .ui-select__search-input {
+        padding: 6px 10px;
+        font-size: 16px;
+      }
+    }
+
+    // 크기 변형 - XLarge
+    &--xlarge {
+      .ui-select__header {
+        height: 32px;
+        padding: 4px 16px;
+        border-radius: 4px;
+      }
+
+      .ui-select__option {
+        padding: 8px 16px;
+        font-size: 18px;
+      }
+
+      .ui-select__selected-text,
+      .ui-select__placeholder {
+        font-size: 18px;
+      }
+
+      .ui-select__search-input {
+        padding: 8px 12px;
+        font-size: 18px;
+      }
+    }
+
+    // 상태 변형
+    &--open {
       border: 1px solid var(--color-system-b30, #0084ff);
       color: var(--color-gray-70, #464c53);
     }
 
-    &.is-error {
+    &--selected {
+      border: 1px solid var(--color-gray-60, #58616a);
+      color: var(--color-gray-70, #464c53);
+    }
+
+    &--error {
       border: 1px solid var(--color-system-r30, #f30);
       color: var(--color-gray-70, #464c53);
     }
 
-    &.is-disabled {
+    &--disabled {
       border: 1px solid var(--color-gray-20, #cdd1d5);
       background: var(--color-gray-10, #e6e8ea);
       color: var(--color-gray-30, #b1b8be);
       cursor: not-allowed;
 
-      .select-header {
+      .ui-select__header {
         pointer-events: none;
       }
     }
 
-    &.is-view {
+    &--view {
       border: 1px solid var(--color-gray-20, #cdd1d5);
       background: var(--color-gray-10, #e6e8ea);
       color: var(--color-gray-70, #464c53);
       cursor: default;
 
-      .select-header {
+      .ui-select__header {
         pointer-events: none;
       }
     }
-  }
 
-  // 셀렉트 헤더 스타일
-  .select-header {
-    cursor: pointer;
-    position: relative;
-    transition: all 0.2s ease;
+    // 반응형 스타일
+    @media (max-width: 768px) {
+      &--small {
+        .ui-select__header {
+          padding: 5px 10px;
+        }
 
-    &:focus {
-      outline: none;
-      border-color: var(--color-system-b30, #0084ff);
-    }
-  }
-
-  // 선택된 값 및 플레이스홀더 스타일
-  .select-value {
-    flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .placeholder {
-    color: var(--color-gray-40, #8a949e);
-    position: relative;
-    top: -1px;
-  }
-
-  .selected-text {
-    color: var(--color-gray-70, #464c53);
-    font-weight: 500;
-  }
-
-  // 아이콘 스타일
-  .select-icon {
-    color: var(--color-gray-40, #8a949e);
-    transition: transform 0.2s ease;
-  }
-
-  // 드롭다운 스타일
-  .select-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    z-index: 100;
-    background: #fff;
-    border: 1px solid var(--color-gray-20, #cdd1d5);
-    border-radius: 4px;
-    margin-top: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    animation: dropdownFadeIn 0.2s ease;
-    max-height: 300px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  // 검색 컨테이너 스타일
-  .search-container {
-    padding: 8px;
-    border-bottom: 1px solid var(--color-gray-20, #cdd1d5);
-    position: sticky;
-    top: 0;
-    background: #fff;
-    z-index: 2;
-  }
-
-  // 검색 인풋 스타일
-  .search-input {
-    width: 100%;
-    border: 1px solid var(--color-gray-20, #cdd1d5);
-    border-radius: 4px;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    box-sizing: border-box;
-
-    &:focus {
-      border-color: var(--color-system-b30, #0084ff);
-      box-shadow: 0 0 0 2px rgba(0, 132, 255, 0.1);
-    }
-  }
-
-  // 옵션 컨테이너 스타일
-  .options-container {
-    overflow-y: auto;
-    max-height: 240px;
-    width: 100%;
-  }
-
-  // 옵션 아이템 스타일
-  .option-item {
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-
-    &:hover {
-      background-color: var(--color-gray-10, #e6e8ea);
-    }
-
-    &.is-selected {
-      background-color: var(--color-gray-10, #e6e8ea);
-      color: var(--color-system-b30, #0084ff);
-      font-weight: 500;
-    }
-  }
-
-  // 결과 없음 메시지 스타일
-  .no-results {
-    padding: 8px;
-    text-align: center;
-    color: var(--color-gray-40, #8a949e);
-  }
-
-  // 모바일 스타일 최적화
-  @media (hover: none) {
-    .ui-searchable-select {
-      .option-item {
-        padding: 12px;
-        min-height: 44px;
+        .ui-select__search-input {
+          padding: 5px 8px;
+        }
       }
 
-      .search-input {
-        padding: 12px;
+      &--medium {
+        .ui-select__header {
+          padding: 6px 12px;
+        }
+
+        .ui-select__search-input {
+          padding: 6px 10px;
+        }
+      }
+
+      &--large {
+        .ui-select__header {
+          padding: 8px 14px;
+        }
+
+        .ui-select__search-input {
+          padding: 8px 12px;
+        }
+      }
+
+      &--xlarge {
+        .ui-select__header {
+          padding: 10px 16px;
+        }
+
+        .ui-select__search-input {
+          padding: 10px 14px;
+        }
+      }
+
+      .ui-select__option {
+        padding: 10px 12px;
         min-height: 44px;
       }
     }

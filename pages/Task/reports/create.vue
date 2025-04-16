@@ -12,23 +12,23 @@
               endPlaceholder="마지막날짜"
               size="medium"
             />
-            <UiButton variant="tertiary">
-              <i class="icon icon-md icon-search"></i>
+            <UiButton variant="secondary">
+              <i class="icon icon-md icon-search icon-white"></i>
             </UiButton>
           </li>
           <h1>주간보고</h1>
         </ul>
         <div class="tbl-btn flex gap-5">
-          <UiButton variant="tertiary">
-            <i class="icon icon-md icon-excel"></i>
+          <UiButton variant="secondary">
+            <i class="icon icon-sm icon-excel icon-white"></i>
             <span>Excel</span>
           </UiButton>
-          <UiButton variant="tertiary" @click="aiReportModal = true">
-            <i class="icon icon-md icon-robot"></i>
+          <UiButton variant="secondary" @click="aiReportModal = true">
+            <i class="icon icon-sm icon-robot icon-white"></i>
             <span>AI 취합 보고서 생성</span>
           </UiButton>
           <UiButton class="org-btn new" @click="reportConfigModal = true">
-            <i class="icon icon-md icon-create icon-white"></i>
+            <i class="icon icon-sm icon-create icon-white"></i>
             <span>보고서작성</span>
           </UiButton>
         </div>
@@ -73,12 +73,12 @@
                   작성자: 이찬용 | 제출일: 2025.03.05 | 제출대상 : 한성진
                 </div>
                 <div class="report-actions">
-                  <UiButton variant="tertiary">
-                    <i class="icon icon-md icon-edit"></i>
+                  <UiButton variant="secondary">
+                    <i class="icon icon-md icon-edit icon-white"></i>
                     <span>수정</span>
                   </UiButton>
-                  <UiButton variant="tertiary">
-                    <i class="icon icon-md icon-delete"></i>
+                  <UiButton variant="secondary">
+                    <i class="icon icon-md icon-delete icon-white"></i>
                     <span>삭제</span>
                   </UiButton>
                 </div>
@@ -202,17 +202,17 @@
               { value: 'value', label: '땡땡땡[기업]' }
             ]"
           />
-          <UiButton variant="tertiary" @click="aiSummaryModal = true">
+          <UiButton variant="secondary" @click="aiSummaryModal = true">
             <img src="@/assets/images/ico_avatar_sai.svg" alt="sai" class="icon-md" />
             <span>AI 요약</span>
           </UiButton>
-          <UiButton variant="tertiary">
+          <UiButton variant="secondary">
             <span>직접입력</span>
           </UiButton>
-          <UiButton variant="tertiary">
+          <UiButton variant="secondary">
             <span>활동재생성</span>
           </UiButton>
-          <UiButton variant="tertiary" @click="addActivityPopup = true">
+          <UiButton variant="secondary" @click="addActivityPopup = true">
             <span>업무 활동 추가</span>
           </UiButton>
         </div>

@@ -2,11 +2,12 @@
   <div
     class="ui-textarea"
     :class="[
+      `ui-textarea--${size}`,
       {
         'ui-textarea--disabled': disabled,
         'ui-textarea--error': error,
         'ui-textarea--resizable': resizable,
-        'ui-textarea--block': block,
+        'ui-textarea--block': block
       }
     ]"
   >
@@ -44,178 +45,236 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+  import { defineProps, defineEmits } from 'vue'
 
-defineProps({
-  modelValue: {
-    type: String,
-    default: '',
-  },
-  label: {
-    type: String,
-    default: '',
-  },
-  placeholder: {
-    type: String,
-    default: '',
-  },
-  rows: {
-    type: [String, Number],
-    default: 4,
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  readonly: {
-    type: Boolean,
-    default: false,
-  },
-  required: {
-    type: Boolean,
-    default: false,
-  },
-  block: {
-    type: Boolean,
-    default: false,
-  },
-  error: {
-    type: Boolean,
-    default: false,
-  },
-  errorMessage: {
-    type: String,
-    default: '',
-  },
-  helperText: {
-    type: String,
-    default: '',
-  },
-  id: {
-    type: String,
-    default: () => `ui-textarea-${Math.random().toString(36).substring(2, 9)}`,
-  },
-  name: {
-    type: String,
-    default: '',
-  },
-  maxlength: {
-    type: [String, Number],
-    default: undefined,
-  },
-  showCount: {
-    type: Boolean,
-    default: false,
-  },
-  resizable: {
-    type: Boolean,
-    default: true,
-  },
-});
+  defineProps({
+    modelValue: {
+      type: String,
+      default: ''
+    },
+    label: {
+      type: String,
+      default: ''
+    },
+    placeholder: {
+      type: String,
+      default: ''
+    },
+    rows: {
+      type: [String, Number],
+      default: 4
+    },
+    size: {
+      type: String,
+      default: 'medium',
+      validator: value => ['small', 'medium', 'large', 'xlarge'].includes(value)
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    readonly: {
+      type: Boolean,
+      default: false
+    },
+    required: {
+      type: Boolean,
+      default: false
+    },
+    block: {
+      type: Boolean,
+      default: false
+    },
+    error: {
+      type: Boolean,
+      default: false
+    },
+    errorMessage: {
+      type: String,
+      default: ''
+    },
+    helperText: {
+      type: String,
+      default: ''
+    },
+    id: {
+      type: String,
+      default: () => `ui-textarea-${Math.random().toString(36).substring(2, 9)}`
+    },
+    name: {
+      type: String,
+      default: ''
+    },
+    maxlength: {
+      type: [String, Number],
+      default: undefined
+    },
+    showCount: {
+      type: Boolean,
+      default: false
+    },
+    resizable: {
+      type: Boolean,
+      default: true
+    }
+  })
 
-defineEmits(['update:modelValue', 'focus', 'blur', 'change']);
+  defineEmits(['update:modelValue', 'focus', 'blur', 'change'])
 </script>
 
 <style lang="scss" scoped>
-.ui-textarea {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-xs;
-
-  &__label {
-    font-size: $font-size-sm;
-    font-weight: 500;
-    color: $text-color;
-  }
-
-  &__required {
-    color: $error-color;
-    margin-left: 2px;
-  }
-
-  &__wrapper {
-    position: relative;
+  .ui-textarea {
     display: flex;
     flex-direction: column;
-  }
+    gap: $spacing-xs;
 
-  &__field {
-    width: 100%;
-    padding: $spacing-sm;
-    border: 1px solid $border-color;
-    border-radius: 6px;
-    background-color: white;
-    font-size: $font-size-sm;
-    color: $text-color;
-    resize: none;
-    transition: all $transition-normal ease;
-    line-height: 1.5;
-    min-height: 100px;
-
-    &:focus {
-      outline: none;
-      border-color: $primary-color;
-      box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+    &__label {
+      font-size: $font-size-sm;
+      font-weight: 500;
+      color: var(--color-gray-70, #464c53);
+      margin-bottom: 4px;
     }
 
-    &::placeholder {
-      color: #aaa;
+    &__required {
+      color: var(--color-system-r30, #f30);
+      margin-left: 2px;
     }
-  }
 
-  &__counter {
-    position: absolute;
-    bottom: $spacing-xs;
-    right: $spacing-xs;
-    font-size: $font-size-xs;
-    color: #aaa;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 2px 4px;
-    border-radius: 4px;
-  }
-
-  &__error,
-  &__helper {
-    font-size: $font-size-xs;
-    margin-top: 2px;
-  }
-
-  &__error {
-    color: $error-color;
-  }
-
-  &__helper {
-    color: #aaa;
-  }
-
-  // 수정자
-  &--block {
-    width: 100%;
-  }
-
-  &--resizable {
-    .ui-textarea__field {
-      resize: vertical;
+    &__wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
     }
-  }
 
-  &--disabled {
-    opacity: 0.5;
-
-    .ui-textarea__field {
-      background-color: #f0f0f0;
-      cursor: not-allowed;
-    }
-  }
-
-  &--error {
-    .ui-textarea__field {
-      border-color: $error-color;
+    &__field {
+      width: 100%;
+      padding: $spacing-sm;
+      border: 1px solid var(--color-gray-40, #8a949e);
+      border-radius: 6px;
+      background-color: var(--color-gray-0, #fff);
+      font-size: $font-size-sm;
+      color: var(--color-gray-70, #464c53);
+      resize: none;
+      transition: all $transition-normal ease;
+      line-height: 1.5;
+      min-height: 100px;
 
       &:focus {
-        box-shadow: 0 0 0 2px rgba($error-color, 0.2);
+        outline: none;
+        border-color: var(--color-system-b30, #0084ff);
+        box-shadow: 0 0 0 2px rgba(0, 132, 255, 0.2);
+      }
+
+      &::placeholder {
+        color: var(--color-gray-40, #8a949e);
+      }
+    }
+
+    &__counter {
+      position: absolute;
+      bottom: $spacing-xs;
+      right: $spacing-xs;
+      font-size: $font-size-xs;
+      color: var(--color-gray-40, #8a949e);
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+
+    &__error,
+    &__helper {
+      font-size: $font-size-xs;
+      margin-top: 2px;
+    }
+
+    &__error {
+      color: var(--color-system-r30, #f30);
+    }
+
+    &__helper {
+      color: var(--color-gray-60, #58616a);
+    }
+
+    // 크기 변형 - Small
+    &--small {
+      .ui-textarea__field {
+        padding: 6px 9px;
+        font-size: $font-size-sm;
+        min-height: 80px;
+      }
+      .ui-textarea__label {
+        @include font-style($body-small);
+      }
+    }
+
+    // 크기 변형 - Medium
+    &--medium {
+      .ui-textarea__field {
+        padding: 12px;
+        font-size: $font-size-md;
+        min-height: 100px;
+      }
+      .ui-textarea__label {
+        @include font-style($body-medium);
+      }
+    }
+
+    // 크기 변형 - Large
+    &--large {
+      .ui-textarea__field {
+        padding: 10px 12px;
+        font-size: $font-size-lg;
+        min-height: 120px;
+      }
+      .ui-textarea__label {
+        @include font-style($body-large-bold);
+      }
+    }
+
+    // 크기 변형 - XLarge
+    &--xlarge {
+      .ui-textarea__field {
+        padding: 12px 16px;
+        font-size: $font-size-xl;
+        min-height: 140px;
+        border-radius: 4px;
+      }
+      .ui-textarea__label {
+        @include font-style($body-xlarge-bold);
+        font-size: $font-size-xxl;
+      }
+    }
+
+    // 수정자
+    &--block {
+      width: 100%;
+    }
+
+    &--resizable {
+      .ui-textarea__field {
+        resize: vertical;
+      }
+    }
+
+    // 상태 변형
+    &--disabled {
+      .ui-textarea__field {
+        border: 1px solid var(--color-gray-20, #cdd1d5);
+        background: var(--color-gray-10, #e6e8ea);
+        color: var(--color-gray-30, #b1b8be);
+        cursor: not-allowed;
+      }
+    }
+
+    &--error {
+      .ui-textarea__field {
+        border: 1px solid var(--color-system-r30, #f30);
+        color: var(--color-gray-70, #464c53);
+
+        &:focus {
+          box-shadow: 0 0 0 2px rgba(255, 51, 0, 0.1);
+        }
       }
     }
   }
-}
 </style>

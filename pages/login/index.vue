@@ -14,21 +14,21 @@
         <UiInput
           v-model="companyId"
           label="회사아이디"
-          size="medium"
-          prefixIcon="mdi:office-building"
+          size="xlarge"
+          prefixIcon="office-building"
           block
         />
 
         <!-- 아이디 입력 -->
-        <UiInput v-model="username" label="아이디" size="medium" prefixIcon="mdi:account" block />
+        <UiInput v-model="username" label="아이디" size="xlarge" prefixIcon="account" block />
 
         <!-- 비밀번호 입력 -->
         <UiInput
           v-model="password"
           type="password"
           label="비밀번호"
-          size="medium"
-          prefixIcon="mdi:lock"
+          size="xlarge"
+          prefixIcon="lock"
           block
         />
 
@@ -83,21 +83,22 @@
         <UiInput
           v-model="companyId"
           label="회사아이디"
-          size="medium"
-          prefixIcon="mdi:office-building"
+          size="xlarge"
+          prefixIcon="office-building"
           block
-        />
+        >
+        </UiInput>
 
         <!-- 아이디 입력 -->
-        <UiInput v-model="username" label="아이디" size="medium" prefixIcon="mdi:account" block />
+        <UiInput v-model="username" label="아이디" size="xlarge" prefixIcon="account" block />
 
         <!-- 이메일 입력 -->
         <UiInput
           v-model="email"
           type="email"
           label="이메일"
-          size="medium"
-          prefixIcon="mdi:lock"
+          size="xlarge"
+          prefixIcon="lock"
           block
         />
       </div>
@@ -496,5 +497,16 @@
       display: flex;
       justify-content: flex-end;
     }
+  }
+
+  :deep(.ui-input__label) {
+    font-size: $font-size-md !important;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--color-gray-70, #464c53);
+  }
+
+  :deep(.ui-input__text) {
+    font-size: $font-size-md !important;
   }
 </style>

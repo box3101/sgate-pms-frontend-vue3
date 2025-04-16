@@ -22,8 +22,12 @@
 
     <div class="ui-input__wrapper">
       <div v-if="prefix" class="ui-input__prefix">{{ prefix }}</div>
-      <Icon v-if="prefixIcon" :name="prefixIcon" class="ui-input__prefix-icon" />
-      <Icon v-if="icon" :name="icon" class="ui-input__icon" />
+      <i
+        v-if="prefixIcon"
+        :class="`icon icon-${prefixIcon} icon-md`"
+        class="ui-input__prefix-icon"
+      ></i>
+      <i v-if="icon" :class="`icon icon-${icon} icon-md`" class="ui-input__icon"></i>
 
       <input
         :id="id"
@@ -47,14 +51,17 @@
         @change="$emit('change', $event)"
       />
 
-      <Icon v-if="suffixIcon" :name="suffixIcon" class="ui-input__suffix-icon" />
+      <i
+        v-if="suffixIcon"
+        :class="`icon icon-${suffixIcon} icon-md`"
+        class="ui-input__suffix-icon"
+      ></i>
       <div v-if="suffix" class="ui-input__suffix">{{ suffix }}</div>
-      <Icon
+      <i
         v-if="clearable && modelValue"
-        name="x-circle"
-        class="ui-input__clear"
+        class="icon icon-x-circle icon-md ui-input__clear"
         @click="$emit('update:modelValue', '')"
-      />
+      ></i>
     </div>
 
     <div v-if="error" class="ui-input__error">{{ errorMessage }}</div>
@@ -98,7 +105,7 @@
     size: {
       type: String,
       default: 'medium',
-      validator: value => ['small', 'medium', 'large'].includes(value)
+      validator: value => ['small', 'medium', 'large', 'xlarge'].includes(value)
     },
     icon: {
       type: String,
@@ -186,6 +193,8 @@
 </script>
 
 <style lang="scss" scoped>
+  @use 'sass:color';
+
   .ui-input {
     display: flex;
     flex-direction: column;
@@ -194,12 +203,12 @@
     &__label {
       font-size: $font-size-sm;
       font-weight: 500;
-      color: #555;
+      color: var(--color-gray-70, #464c53);
       margin-bottom: 4px;
     }
 
     &__required {
-      color: $error-color;
+      color: var(--color-system-r30, #f30);
       margin-left: 2px;
     }
 
@@ -207,28 +216,27 @@
       position: relative;
       display: flex;
       align-items: center;
-      border-radius: 4px;
+      border-radius: $border-radius-sm;
       border: 1px solid var(--color-gray-40, #8a949e);
       background: var(--color-gray-0, #fff);
       transition: all $transition-normal ease;
+      box-sizing: border-box;
 
       &:focus-within {
-        border-radius: 4px;
         border: 1px solid var(--color-system-b30, #0084ff);
-        background: var(--color-gray-0, #fff);
+        color: var(--color-gray-70, #464c53);
       }
     }
 
     &__prefix-icon {
-      margin-left: 12px;
-      color: #aaa;
+      color: var(--color-gray-40, #8a949e);
       font-size: $font-size-xl;
       margin-right: 5px;
+      filter: invert(91%) sepia(4%) saturate(129%) hue-rotate(184deg) brightness(94%) contrast(88%);
     }
 
     &__suffix-icon {
-      margin-right: 12px;
-      color: #aaa;
+      color: var(--color-gray-40, #8a949e);
       font-size: $font-size-xl;
       margin-left: 5px;
     }
@@ -238,13 +246,12 @@
       border: none;
       background: transparent;
       font-size: $font-size-sm;
-      color: $text-color;
+      color: var(--color-gray-70, #464c53);
       outline: none;
-      padding: 0 8px;
       height: 100%;
 
       &::placeholder {
-        color: #999;
+        color: var(--color-gray-40, #8a949e);
       }
 
       &--with-prefix-icon {
@@ -255,11 +262,7 @@
     &__icon,
     &__clear {
       flex-shrink: 0;
-      color: #333;
-    }
-
-    &__icon {
-      margin-left: $spacing-sm;
+      color: var(--color-gray-70, #464c53);
     }
 
     &__clear {
@@ -268,21 +271,14 @@
       transition: color $transition-normal ease;
 
       &:hover {
-        color: $text-color;
+        color: var(--color-gray-70, #464c53);
       }
     }
 
     &__prefix,
     &__suffix {
-      color: #333;
+      color: var(--color-gray-70, #464c53);
       font-size: $font-size-sm;
-    }
-
-    &__prefix {
-      padding-left: $spacing-sm;
-    }
-
-    &__suffix {
       padding-right: $spacing-sm;
     }
 
@@ -293,38 +289,68 @@
     }
 
     &__error {
-      color: $error-color;
+      color: var(--color-system-r30, #f30);
     }
 
     &__helper {
-      color: #333;
+      color: var(--color-gray-60, #58616a);
     }
 
-    // Sizes
+    // 크기 변형 - Small
     &--small {
       .ui-input__wrapper {
         height: 28px;
+        padding: 3px 9px;
       }
       .ui-input__field {
         font-size: $font-size-sm;
       }
+      .ui-input__label {
+        @include font-style($body-small);
+      }
     }
 
+    // 크기 변형 - Medium
     &--medium {
       .ui-input__wrapper {
-        height: 32px;
+        height: 30px;
+        padding: 5px 12px;
       }
       .ui-input__field {
         font-size: $font-size-md;
       }
+      .ui-input__label {
+        @include font-style($body-medium);
+      }
     }
 
+    // 크기 변형 - Large
     &--large {
       .ui-input__wrapper {
-        height: 40px;
+        height: 32px;
+        padding: 3px 12px;
       }
       .ui-input__field {
         font-size: $font-size-lg;
+      }
+      .ui-input__label {
+        @include font-style($body-large-bold);
+      }
+    }
+
+    // 크기 변형 - XLarge
+    &--xlarge {
+      .ui-input__wrapper {
+        height: 34px;
+        padding: 4px 16px;
+        border-radius: 4px;
+      }
+      .ui-input__field {
+        font-size: $font-size-xl;
+      }
+      .ui-input__label {
+        @include font-style($body-xlarge-bold);
+        font-size: $font-size-xxl;
       }
     }
 
@@ -335,26 +361,28 @@
       }
     }
 
-    // States
+    // 상태 변형
     &--disabled {
-      opacity: 0.5;
-
       .ui-input__wrapper {
-        background-color: #f0f0f0;
+        border: 1px solid var(--color-gray-20, #cdd1d5);
+        background: var(--color-gray-10, #e6e8ea);
+        color: var(--color-gray-30, #b1b8be);
         cursor: not-allowed;
       }
 
       .ui-input__field {
         cursor: not-allowed;
+        color: var(--color-gray-30, #b1b8be);
       }
     }
 
     &--error {
       .ui-input__wrapper {
-        border-color: $error-color;
+        border: 1px solid var(--color-system-r30, #f30);
+        color: var(--color-gray-70, #464c53);
 
         &:focus-within {
-          box-shadow: 0 0 0 2px rgba($error-color, 0.2);
+          box-shadow: 0 0 0 2px rgba(255, 51, 0, 0.1);
         }
       }
     }
@@ -371,23 +399,30 @@
     }
   }
 
+  // 반응형 스타일
   @media (max-width: 768px) {
     .ui-input {
       &--small {
         .ui-input__wrapper {
-          height: 36px;
+          padding: 5px 10px;
         }
       }
 
       &--medium {
         .ui-input__wrapper {
-          height: 44px;
+          padding: 6px 12px;
         }
       }
 
       &--large {
         .ui-input__wrapper {
-          height: 52px;
+          padding: 8px 14px;
+        }
+      }
+
+      &--xlarge {
+        .ui-input__wrapper {
+          padding: 10px 16px;
         }
       }
     }

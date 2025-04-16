@@ -1,102 +1,42 @@
 <template>
   <div
     class="ui-datepicker"
-    :class="{
-      'ui-datepicker--opened': isOpen,
-      'ui-datepicker--range': isRange,
-      'ui-datepicker--disabled': disabled,
-      'ui-datepicker--error': error,
-      'ui-datepicker--small': size === 'small',
-      'ui-datepicker--medium': size === 'medium',
-      'ui-datepicker--large': size === 'large'
-    }"
+    :class="[
+      `ui-datepicker--${size}`,
+      {
+        'ui-datepicker--opened': isOpen,
+        'ui-datepicker--range': isRange,
+        'ui-datepicker--disabled': disabled,
+        'ui-datepicker--error': error,
+        'ui-datepicker--block': block
+      }
+    ]"
   >
-    <label v-if="label" class="ui-datepicker__label">
+    <label v-if="label" class="ui-datepicker__label" :for="id">
       {{ label }}
       <span v-if="required" class="ui-datepicker__required">*</span>
     </label>
 
-    <div class="ui-datepicker__input-wrapper">
+    <div class="ui-datepicker__wrapper">
       <!-- 단일 날짜 선택 -->
       <div v-if="!isRange" class="ui-datepicker__input" @click="openCalendar">
-        <div class="ui-datepicker__icon">
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect
-              x="3"
-              y="6"
-              width="18"
-              height="15"
-              rx="2"
-              stroke="currentColor"
-              stroke-width="2"
-            />
-            <path d="M3 10H21" stroke="currentColor" stroke-width="2" />
-            <path d="M8 3L8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-            <path d="M16 3L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          </svg>
-        </div>
+        <i class="icon icon-calendar icon-md ui-datepicker__icon"></i>
         <div class="ui-datepicker__text">
           <span v-if="selectedDate" class="ui-datepicker__selected-text">{{
             formatDate(selectedDate)
           }}</span>
           <span v-else class="ui-datepicker__placeholder">{{ placeholder || '날짜 선택' }}</span>
         </div>
-        <div class="ui-datepicker__clear" v-if="selectedDate && clearable" @click.stop="clearDate">
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M18 6L6 18"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M6 6L18 18"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </div>
+        <i
+          v-if="selectedDate && clearable"
+          class="icon icon-x-circle icon-md ui-datepicker__clear"
+          @click.stop="clearDate"
+        ></i>
       </div>
 
       <!-- 범위 날짜 선택 -->
       <div v-if="isRange" class="ui-datepicker__range-input" @click="openCalendar">
-        <div class="ui-datepicker__icon">
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect
-              x="3"
-              y="6"
-              width="18"
-              height="15"
-              rx="2"
-              stroke="currentColor"
-              stroke-width="2"
-            />
-            <path d="M3 10H21" stroke="currentColor" stroke-width="2" />
-            <path d="M8 3L8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-            <path d="M16 3L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          </svg>
-        </div>
+        <i class="icon icon-calendar icon-md ui-datepicker__icon"></i>
         <div class="ui-datepicker__range-text">
           <span v-if="startDate" class="ui-datepicker__selected-text">{{
             formatDate(startDate)
@@ -108,34 +48,11 @@
           <span v-if="endDate" class="ui-datepicker__selected-text">{{ formatDate(endDate) }}</span>
           <span v-else class="ui-datepicker__placeholder">{{ endPlaceholder || '종료일' }}</span>
         </div>
-        <div
-          class="ui-datepicker__clear"
+        <i
           v-if="(startDate || endDate) && clearable"
+          class="icon icon-x-circle icon-md ui-datepicker__clear"
           @click.stop="clearDate"
-        >
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M18 6L6 18"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M6 6L18 18"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </div>
+        ></i>
       </div>
     </div>
 
@@ -149,21 +66,7 @@
             @click="prevMonth"
             type="button"
           >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M15 18L9 12L15 6"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <i class="icon icon-chevron-left icon-md"></i>
           </button>
 
           <div class="ui-datepicker__selectors">
@@ -171,21 +74,7 @@
             <div class="ui-datepicker__dropdown">
               <div class="ui-datepicker__month-select" @click.stop="toggleMonthDropdown">
                 {{ currentMonthName }}
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M6 9L12 15L18 9"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
+                <i class="icon icon-chevron-down icon-sm"></i>
               </div>
               <div v-if="monthDropdownOpen" class="ui-datepicker__dropdown-list" @click.stop>
                 <div
@@ -206,39 +95,19 @@
             <div class="ui-datepicker__dropdown">
               <div class="ui-datepicker__year-select" @click.stop="toggleYearDropdown">
                 {{ currentYear }}
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M6 9L12 15L18 9"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
+                <i class="icon icon-chevron-down icon-sm"></i>
               </div>
-              <div
-                v-if="yearDropdownOpen"
-                class="ui-datepicker__dropdown-list ui-datepicker__dropdown-list--years"
-                @click.stop
-              >
-                <div class="ui-datepicker__year-scroll">
-                  <div
-                    v-for="year in yearListToShow"
-                    :key="year"
-                    class="ui-datepicker__dropdown-item"
-                    :class="{
-                      'ui-datepicker__dropdown-item--selected': currentYear === year
-                    }"
-                    @click="selectYear(year)"
-                  >
-                    {{ year }}
-                  </div>
+              <div v-if="yearDropdownOpen" class="ui-datepicker__dropdown-list" @click.stop>
+                <div
+                  v-for="year in yearRange"
+                  :key="year"
+                  class="ui-datepicker__dropdown-item"
+                  :class="{
+                    'ui-datepicker__dropdown-item--selected': currentYear === year
+                  }"
+                  @click="selectYear(year)"
+                >
+                  {{ year }}
                 </div>
               </div>
             </div>
@@ -249,21 +118,7 @@
             @click="nextMonth"
             type="button"
           >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M9 6L15 12L9 18"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <i class="icon icon-chevron-right icon-md"></i>
           </button>
         </div>
 
@@ -279,14 +134,13 @@
             :key="index"
             class="ui-datepicker__day"
             :class="{
-              'ui-datepicker__day--disabled': day.disabled,
               'ui-datepicker__day--other-month': !day.currentMonth,
-              'ui-datepicker__day--selected': day.selected,
-              'ui-datepicker__day--range-start': day.rangeStart,
-              'ui-datepicker__day--range-end': day.rangeEnd,
-              'ui-datepicker__day--in-range': day.inRange
+              'ui-datepicker__day--today': day.isToday,
+              'ui-datepicker__day--selected': isSelected(day.date),
+              'ui-datepicker__day--in-range': isInRange(day.date),
+              'ui-datepicker__day--disabled': isDateDisabled(day.date)
             }"
-            @click="selectDate(day)"
+            @click="!isDateDisabled(day.date) && selectDate(day)"
           >
             {{ day.day }}
           </div>
@@ -297,15 +151,12 @@
         <button
           class="ui-datepicker__action-button ui-datepicker__action-button--cancel"
           @click="cancelSelection"
-          type="button"
         >
           취소
         </button>
         <button
           class="ui-datepicker__action-button ui-datepicker__action-button--apply"
           @click="applySelection"
-          :disabled="!startDate || !endDate"
-          type="button"
         >
           적용
         </button>
@@ -388,7 +239,11 @@
     size: {
       type: String,
       default: 'medium',
-      validator: value => ['small', 'medium', 'large'].includes(value)
+      validator: value => ['small', 'medium', 'large', 'xlarge'].includes(value)
+    },
+    block: {
+      type: Boolean,
+      default: false
     }
   })
 
@@ -427,10 +282,10 @@
   ]
 
   // 년도 목록 생성 (현재 년도 기준 -10년 ~ +10년)
-  const yearListToShow = computed(() => {
+  const yearRange = computed(() => {
     const yearList = []
-    const startYear = currentYear.value - 50
-    const endYear = currentYear.value + 50
+    const startYear = currentYear.value - 10
+    const endYear = currentYear.value + 10
 
     for (let year = startYear; year <= endYear; year++) {
       yearList.push(year)
@@ -603,9 +458,26 @@
     return false
   }
 
+  // 날짜가 선택되었는지 확인
+  function isSelected(date) {
+    if (!date) return false
+
+    if (props.isRange) {
+      // 범위 선택 모드에서는 시작일과 종료일 확인
+      return (
+        (startDate.value && isSameDate(date, startDate.value)) ||
+        (endDate.value && isSameDate(date, endDate.value))
+      )
+    } else {
+      // 단일 선택 모드에서는 선택된 날짜와 비교
+      return selectedDate.value && isSameDate(date, selectedDate.value)
+    }
+  }
+
   // 날짜가 범위 내에 있는지 확인
   function isInRange(date) {
-    if (!startDate.value || !endDate.value) return false
+    if (!props.isRange || !startDate.value || !endDate.value || !date) return false
+
     return date > startDate.value && date < endDate.value
   }
 
@@ -812,24 +684,28 @@
 </script>
 
 <style lang="scss" scoped>
+  @use 'sass:color';
+
   .ui-datepicker {
     position: relative;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 
     &__label {
-      display: block;
-      margin-bottom: 4px;
       font-size: 14px;
       font-weight: 500;
-      color: #333;
+      color: var(--color-gray-70, #464c53);
+      margin-bottom: 4px;
     }
 
     &__required {
-      color: #f44336;
+      color: var(--color-system-r30, #f30);
       margin-left: 2px;
     }
 
-    &__input-wrapper {
+    &__wrapper {
       position: relative;
     }
 
@@ -837,67 +713,55 @@
     &__range-input {
       display: flex;
       align-items: center;
-      padding: 0px 8px;
-      height: 32px;
+      padding: 5px 12px;
+      border: 1px solid var(--color-gray-40, #8a949e);
+      border-radius: 4px;
+      background: var(--color-gray-0, #fff);
       cursor: pointer;
       transition: all 0.2s ease;
-      border-radius: 4px;
-      border: 1px solid var(--color-gray-40, #8a949e);
-      background: var(--color-gray-0, #fff);
+      box-sizing: border-box;
+
       &:hover {
-        border-color: #bbb;
+        border-color: var(--color-gray-50, #6e7781);
       }
     }
 
     &__icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      color: var(--color-gray-40, #8a949e);
       margin-right: 8px;
-      color: #666;
+      flex-shrink: 0;
     }
 
     &__text,
     &__range-text {
-      flex: 1;
-      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--color-gray-70, #464c53);
       font-size: 14px;
     }
 
-    &__range-text {
-      flex: 0 1 auto;
-      min-width: 70px;
-      text-align: center;
+    &__placeholder {
+      color: var(--color-gray-40, #8a949e);
+    }
+
+    &__selected-text {
+      color: var(--color-gray-70, #464c53);
     }
 
     &__range-separator {
       margin: 0 8px;
-      color: #999;
-      flex-shrink: 0;
-    }
-
-    &__placeholder {
-      color: #999;
-      font-size: 14px;
-    }
-
-    &__selected-text {
-      color: #464c53;
-      font-weight: 500;
+      color: var(--color-gray-40, #8a949e);
     }
 
     &__clear {
-      display: flex;
-      align-items: center;
-      justify-content: center;
       margin-left: 8px;
       cursor: pointer;
-      color: #999;
+      color: var(--color-gray-40, #8a949e);
+      flex-shrink: 0;
 
       &:hover {
-        color: #666;
+        color: var(--color-gray-70, #464c53);
       }
     }
 
@@ -905,86 +769,27 @@
       position: absolute;
       top: calc(100% + 4px);
       left: 0;
-      width: 300px;
-      background-color: #fff;
-      border-radius: 6px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       z-index: 100;
-      padding: 16px;
-      opacity: 0;
-      transform: translateY(-10px);
-      animation: datepickerFadeIn 0.2s ease forwards;
+      width: 280px;
+      background: var(--color-gray-0, #fff);
+      border: 1px solid var(--color-gray-20, #cdd1d5);
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      animation: datepickerFadeIn 0.2s ease;
+      overflow: hidden;
     }
 
     &__header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 16px;
+      padding: 12px;
+      border-bottom: 1px solid var(--color-gray-20, #cdd1d5);
     }
 
     &__selectors {
       display: flex;
-      align-items: center;
       gap: 8px;
-    }
-
-    &__dropdown {
-      position: relative;
-    }
-
-    &__month-select,
-    &__year-select {
-      padding: 4px 8px;
-      font-weight: 500;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-
-      &:hover {
-        background-color: #f5f5f5;
-      }
-    }
-    &__dropdown-list {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background-color: #fff;
-      border-radius: 4px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-      z-index: 101;
-      margin-top: 4px;
-      width: 100px;
-      max-height: 280px;
-      overflow-y: auto;
-
-      &--years {
-        width: 80px;
-      }
-    }
-
-    &__year-scroll {
-      max-height: 240px;
-      overflow-y: auto;
-    }
-
-    &__dropdown-item {
-      padding: 8px 12px;
-      font-size: 14px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #f5f5f5;
-      }
-
-      &--selected {
-        background-color: #e3f2fd;
-        color: #2196f3;
-        font-weight: 500;
-      }
     }
 
     &__arrow {
@@ -994,38 +799,84 @@
       width: 28px;
       height: 28px;
       border: none;
-      background-color: transparent;
-      cursor: pointer;
-      color: #666;
+      background: transparent;
       border-radius: 4px;
+      cursor: pointer;
+      color: var(--color-gray-60, #58616a);
 
       &:hover {
-        background-color: #f5f5f5;
+        background: var(--color-gray-10, #e6e8ea);
+      }
+    }
+
+    &__dropdown {
+      position: relative;
+    }
+
+    &__month-select,
+    &__year-select {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--color-gray-70, #464c53);
+
+      &:hover {
+        background: var(--color-gray-10, #e6e8ea);
+      }
+    }
+
+    &__dropdown-list {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 120px;
+      max-height: 200px;
+      overflow-y: auto;
+      background: var(--color-gray-0, #fff);
+      border: 1px solid var(--color-gray-20, #cdd1d5);
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+
+    &__dropdown-item {
+      padding: 6px 12px;
+      cursor: pointer;
+      color: var(--color-gray-70, #464c53);
+
+      &:hover {
+        background: var(--color-gray-10, #e6e8ea);
       }
 
-      &:focus {
-        outline: none;
+      &--selected {
+        background: var(--color-system-b10, #e6f4ff);
+        color: var(--color-system-b30, #0084ff);
+        font-weight: 500;
       }
     }
 
     &__weekdays {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      margin-bottom: 8px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--color-gray-20, #cdd1d5);
     }
 
     &__weekday {
       text-align: center;
       font-size: 12px;
       font-weight: 500;
-      color: #999;
-      padding: 4px 0;
+      color: var(--color-gray-60, #58616a);
     }
 
     &__days {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      gap: 2px;
+      padding: 8px;
     }
 
     &__day {
@@ -1033,40 +884,39 @@
       align-items: center;
       justify-content: center;
       height: 32px;
-      font-size: 14px;
+      width: 32px;
+      margin: 2px;
+      border-radius: 50%;
       cursor: pointer;
-      border-radius: 4px;
+      font-size: 14px;
+      color: var(--color-gray-70, #464c53);
 
-      &:hover:not(&--disabled):not(&--other-month) {
-        background-color: #f5f5f5;
+      &:hover:not(&--disabled):not(&--selected) {
+        background: var(--color-gray-10, #e6e8ea);
       }
 
       &--other-month {
-        color: #ccc;
+        color: var(--color-gray-30, #b1b8be);
       }
 
-      &--disabled {
-        color: #ccc;
-        cursor: not-allowed;
-        pointer-events: none;
+      &--today {
+        font-weight: 500;
+        border: 1px solid var(--color-gray-30, #b1b8be);
       }
 
       &--selected {
-        background-color: #2196f3;
-        color: #fff;
-        font-weight: 500;
-      }
-
-      &--range-start,
-      &--range-end {
-        background-color: #2196f3;
-        color: #fff;
-        font-weight: 500;
+        background: var(--color-system-b30, #0084ff);
+        color: var(--color-gray-0, #fff);
       }
 
       &--in-range {
-        background-color: rgba(33, 150, 243, 0.1);
-        color: #2196f3;
+        background: var(--color-system-b10, #e6f4ff);
+        border-radius: 0;
+      }
+
+      &--disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
       }
     }
 
@@ -1074,9 +924,8 @@
       display: flex;
       justify-content: flex-end;
       gap: 8px;
-      margin-top: 16px;
-      padding-top: 12px;
-      border-top: 1px solid #eee;
+      padding: 12px;
+      border-top: 1px solid var(--color-gray-20, #cdd1d5);
     }
 
     &__action-button {
@@ -1085,89 +934,152 @@
       border-radius: 4px;
       font-size: 14px;
       cursor: pointer;
+      transition: all 0.2s ease;
 
       &--cancel {
-        background-color: #f5f5f5;
-        color: #666;
+        background: var(--color-gray-10, #e6e8ea);
+        color: var(--color-gray-70, #464c53);
 
         &:hover {
-          background-color: #eee;
+          background: var(--color-gray-20, #cdd1d5);
         }
       }
 
       &--apply {
-        background-color: #2196f3;
-        color: #fff;
+        background: var(--color-system-b30, #0084ff);
+        color: var(--color-gray-0, #fff);
 
         &:hover {
-          background-color: #1e88e5;
+          background: var(--color-system-b40, #0068cc);
         }
 
         &:disabled {
-          opacity: 0.5;
+          opacity: 0.6;
           cursor: not-allowed;
         }
       }
     }
 
     &__error {
-      margin-top: 4px;
       font-size: 12px;
-      color: #f44336;
+      color: var(--color-system-r30, #f30);
+      margin-top: 2px;
     }
 
     &__helper {
-      margin-top: 4px;
       font-size: 12px;
-      color: #999;
+      color: var(--color-gray-60, #58616a);
+      margin-top: 2px;
     }
 
-    // 상태 스타일
-    .ui-datepicker__input {
-      max-width: 150px;
-    }
-    .ui-datepicker__range-input {
-      max-width: 250px;
-    }
-
-    &--disabled {
-      opacity: 0.6;
-      pointer-events: none;
-
+    // 크기 변형 - Small
+    &--small {
       .ui-datepicker__input,
       .ui-datepicker__range-input {
-        background-color: #f5f5f5;
+        height: 28px;
+        padding: 3px 9px;
+      }
+      .ui-datepicker__text,
+      .ui-datepicker__range-text,
+      .ui-datepicker__placeholder,
+      .ui-datepicker__selected-text {
+        font-size: 12px;
+      }
+      .ui-datepicker__label {
+        font-size: 12px;
+      }
+    }
+
+    // 크기 변형 - Medium
+    &--medium {
+      .ui-datepicker__input,
+      .ui-datepicker__range-input {
+        height: 30px;
+        padding: 5px 6px;
+      }
+      .ui-datepicker__text,
+      .ui-datepicker__range-text,
+      .ui-datepicker__placeholder,
+      .ui-datepicker__selected-text {
+        font-size: 14px;
+      }
+      .ui-datepicker__label {
+        font-size: 14px;
+      }
+    }
+
+    // 크기 변형 - Large
+    &--large {
+      .ui-datepicker__input,
+      .ui-datepicker__range-input {
+        height: 32px;
+        padding: 3px 12px;
+      }
+      .ui-datepicker__text,
+      .ui-datepicker__range-text,
+      .ui-datepicker__placeholder,
+      .ui-datepicker__selected-text {
+        font-size: 16px;
+      }
+      .ui-datepicker__label {
+        font-size: 16px;
+      }
+    }
+
+    // 크기 변형 - XLarge
+    &--xlarge {
+      .ui-datepicker__input,
+      .ui-datepicker__range-input {
+        height: 34px;
+        padding: 4px 16px;
+        border-radius: 4px;
+      }
+      .ui-datepicker__text,
+      .ui-datepicker__range-text,
+      .ui-datepicker__placeholder,
+      .ui-datepicker__selected-text {
+        font-size: 18px;
+      }
+      .ui-datepicker__label {
+        font-size: 18px;
+      }
+    }
+
+    // 상태 변형
+    &--disabled {
+      .ui-datepicker__input,
+      .ui-datepicker__range-input {
+        border: 1px solid var(--color-gray-20, #cdd1d5);
+        background: var(--color-gray-10, #e6e8ea);
+        color: var(--color-gray-30, #b1b8be);
         cursor: not-allowed;
+      }
+
+      .ui-datepicker__text,
+      .ui-datepicker__range-text,
+      .ui-datepicker__placeholder,
+      .ui-datepicker__selected-text,
+      .ui-datepicker__icon {
+        color: var(--color-gray-30, #b1b8be);
       }
     }
 
     &--error {
       .ui-datepicker__input,
       .ui-datepicker__range-input {
-        border-color: #f44336;
+        border: 1px solid var(--color-system-r30, #f30);
+        color: var(--color-gray-70, #464c53);
+
+        &:focus-within {
+          box-shadow: 0 0 0 2px rgba(255, 51, 0, 0.1);
+        }
       }
     }
 
-    // 사이즈 스타일
-    &--small {
-      .ui-datepicker__icon {
-        margin-right: 6px;
-      }
-    }
-
-    &--medium {
-    }
-
-    &--large {
-      .ui-datepicker__icon {
-        margin-right: 10px;
-      }
-    }
-
-    // 날짜 범위 선택기 추가 스타일
-    &--range {
-      .ui-datepicker__calendar {
-        width: 340px;
+    &--block {
+      .ui-datepicker__input,
+      .ui-datepicker__range-input {
+        width: 100%;
       }
     }
   }
@@ -1180,21 +1092,6 @@
     to {
       opacity: 1;
       transform: translateY(0);
-    }
-  }
-
-  @media (max-width: 768px) {
-    .ui-datepicker {
-      &__calendar {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: calc(100% - 32px);
-        max-width: 340px;
-        animation: none;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-      }
     }
   }
 </style>

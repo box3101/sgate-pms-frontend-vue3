@@ -1,262 +1,173 @@
 <template>
-  <div class="components-page">
-    <h1 class="page-title">UI 버튼 컴포넌트</h1>
+  <div class="button-examples">
+    <h1 class="page-title">버튼 컴포넌트 사용 예시</h1>
 
-    <section class="component-section">
-      <h2 class="section-title">버튼 종류 (Variants)</h2>
-      <div class="button-grid">
-        <div class="button-item">
-          <UiButton variant="primary">Primary 버튼</UiButton>
-          <p class="button-desc">기본 버튼 (Primary)</p>
-        </div>
-        <div class="button-item">
-          <UiButton variant="secondary">Secondary 버튼</UiButton>
-          <p class="button-desc">보조 버튼 (Secondary)</p>
-        </div>
-        <div class="button-item">
-          <UiButton variant="primary-line">Primary Line 버튼</UiButton>
-          <p class="button-desc">테두리 버튼 (Primary Line)</p>
-        </div>
-        <div class="button-item">
-          <UiButton variant="secondary-line">Secondary Line 버튼</UiButton>
-          <p class="button-desc">회색 테두리 버튼 (Secondary Line)</p>
-        </div>
+    <section class="example-section">
+      <h2 class="section-title">기본 버튼 스타일</h2>
+      <div class="button-row">
+        <UiButton variant="primary">Primary 버튼</UiButton>
+        <UiButton variant="secondary">Secondary 버튼</UiButton>
+        <UiButton variant="primary-line">Primary Line 버튼</UiButton>
+        <UiButton variant="secondary-line">Secondary Line 버튼</UiButton>
+      </div>
+      <div class="code-example">
+        <pre><code>&lt;UiButton variant="primary"&gt;Primary 버튼&lt;/UiButton&gt;
+&lt;UiButton variant="secondary"&gt;Secondary 버튼&lt;/UiButton&gt;
+&lt;UiButton variant="primary-line"&gt;Primary Line 버튼&lt;/UiButton&gt;
+&lt;UiButton variant="secondary-line"&gt;Secondary Line 버튼&lt;/UiButton&gt;</code></pre>
       </div>
     </section>
 
-    <section class="component-section">
-      <h2 class="section-title">버튼 크기 (Sizes)</h2>
+    <section class="example-section">
+      <h2 class="section-title">버튼 크기</h2>
       <div class="button-row">
-        <div class="button-item">
-          <UiButton variant="primary" size="small">Small 버튼</UiButton>
-          <p class="button-desc">작은 크기 (Small)</p>
-        </div>
-        <div class="button-item">
-          <UiButton variant="primary" size="medium">협업</UiButton>
-          <p class="button-desc">중간 크기 (Medium)</p>
-        </div>
-        <div class="button-item">
-          <UiButton variant="primary" size="large">Large 버튼</UiButton>
-          <p class="button-desc">큰 크기 (Large)</p>
-        </div>
-        <div class="button-item">
-          <UiButton variant="primary" size="xlarge">XLarge 버튼</UiButton>
-          <p class="button-desc">매우 큰 크기 (XLarge)</p>
-        </div>
+        <UiButton size="small">Small 버튼</UiButton>
+        <UiButton size="medium">Medium 버튼</UiButton>
+        <UiButton size="large">Large 버튼</UiButton>
+        <UiButton size="xlarge">XLarge 버튼</UiButton>
+      </div>
+      <div class="code-example">
+        <pre><code>&lt;UiButton size="small"&gt;Small 버튼&lt;/UiButton&gt;
+&lt;UiButton size="medium"&gt;Medium 버튼&lt;/UiButton&gt;
+&lt;UiButton size="large"&gt;Large 버튼&lt;/UiButton&gt;
+&lt;UiButton size="xlarge"&gt;XLarge 버튼&lt;/UiButton&gt;</code></pre>
       </div>
     </section>
 
-    <section class="component-section">
-      <h2 class="section-title">라인 버튼 크기 (Line Button Sizes)</h2>
+    <section class="example-section">
+      <h2 class="section-title">아이콘 버튼</h2>
       <div class="button-row">
-        <div class="button-item">
-          <UiButton variant="primary-line" size="small">Small 라인</UiButton>
-          <p class="button-desc">작은 크기 (Small)</p>
-        </div>
-        <div class="button-item">
-          <UiButton variant="primary-line" size="medium">Medium 라인</UiButton>
-          <p class="button-desc">중간 크기 (Medium)</p>
-        </div>
-        <div class="button-item">
-          <UiButton variant="primary-line" size="large">Large 라인</UiButton>
-          <p class="button-desc">큰 크기 (Large)</p>
-        </div>
-        <div class="button-item">
-          <UiButton variant="primary-line" size="xlarge">XLarge 라인</UiButton>
-          <p class="button-desc">매우 큰 크기 (XLarge)</p>
-        </div>
+        <UiButton icon="plus">
+          <i class="icon icon-plus icon-sm icon-white"></i>
+          <span>아이콘 버튼</span>
+        </UiButton>
+        <UiButton icon="search" variant="secondary">
+          <i class="icon icon-search icon-sm icon-white"></i>
+          <span>검색 버튼</span>
+        </UiButton>
+        <UiButton icon="trash" variant="primary-line">
+          <i class="icon icon-trash icon-sm"></i>
+          <span>삭제 버튼</span>
+        </UiButton>
+        <UiButton icon="edit" iconOnly>
+          <i class="icon icon-plus icon-sm icon-white"></i>
+        </UiButton>
+      </div>
+      <div class="code-example">
+        <pre><code>&lt;UiButton icon="plus"&gt;아이콘 버튼&lt;/UiButton&gt;
+&lt;UiButton icon="search" variant="secondary"&gt;검색 버튼&lt;/UiButton&gt;
+&lt;UiButton icon="trash" variant="primary-line"&gt;삭제 버튼&lt;/UiButton&gt;
+&lt;UiButton icon="edit" iconOnly&gt;&lt;/UiButton&gt;</code></pre>
       </div>
     </section>
 
-    <section class="component-section">
-      <h2 class="section-title">버튼 상태 (States)</h2>
+    <section class="example-section">
+      <h2 class="section-title">비활성화 버튼</h2>
       <div class="button-row">
-        <div class="button-item">
-          <UiButton variant="primary" disabled>비활성화 버튼</UiButton>
-          <p class="button-desc">비활성화 상태 (Disabled)</p>
-        </div>
-        <div class="button-item">
-          <UiButton variant="primary-line" disabled>비활성화 라인</UiButton>
-          <p class="button-desc">비활성화 라인 (Disabled)</p>
-        </div>
-        <div class="button-item">
-          <UiButton variant="primary" loading>로딩 버튼</UiButton>
-          <p class="button-desc">로딩 상태 (Loading)</p>
-        </div>
-        <div class="button-item">
-          <UiButton variant="primary" block>Block 버튼</UiButton>
-          <p class="button-desc">전체 너비 (Block)</p>
-        </div>
-        <div class="button-item">
-          <UiButton variant="primary" radius0>각진 버튼</UiButton>
-          <p class="button-desc">모서리 없음 (Radius 0)</p>
-        </div>
+        <UiButton disabled>비활성화 버튼</UiButton>
+        <UiButton variant="secondary" disabled>비활성화 버튼</UiButton>
+        <UiButton variant="primary-line" disabled>비활성화 버튼</UiButton>
+        <UiButton icon="plus" disabled>비활성화 아이콘 버튼</UiButton>
+      </div>
+      <div class="code-example">
+        <pre><code>&lt;UiButton disabled&gt;비활성화 버튼&lt;/UiButton&gt;
+&lt;UiButton variant="secondary" disabled&gt;비활성화 버튼&lt;/UiButton&gt;
+&lt;UiButton variant="primary-line" disabled&gt;비활성화 버튼&lt;/UiButton&gt;
+&lt;UiButton icon="plus" disabled&gt;비활성화 아이콘 버튼&lt;/UiButton&gt;</code></pre>
       </div>
     </section>
 
-    <section class="component-section">
-      <h2 class="section-title">아이콘 버튼 (Icon Buttons)</h2>
-      <div class="button-row">
-        <div class="button-item">
-          <UiButton variant="primary" icon="plus" iconPosition="left"> 왼쪽 아이콘 </UiButton>
-          <p class="button-desc">왼쪽 아이콘 버튼</p>
-        </div>
-        <div class="button-item">
-          <UiButton variant="primary-line" icon="search" iconPosition="right">
-            오른쪽 아이콘
-          </UiButton>
-          <p class="button-desc">오른쪽 아이콘 라인 버튼</p>
-        </div>
-        <div class="button-item">
-          <UiButton variant="secondary" iconOnly>
-            <Icon name="heart" />
-          </UiButton>
-          <p class="button-desc">아이콘만 있는 버튼</p>
-        </div>
-        <div class="button-item">
-          <UiButton variant="secondary-line" iconOnly>
-            <Icon name="star" />
-          </UiButton>
-          <p class="button-desc">아이콘만 있는 라인 버튼</p>
-        </div>
+    <section class="example-section">
+      <h2 class="section-title">블록 버튼</h2>
+      <div class="button-block">
+        <UiButton block>블록 버튼</UiButton>
+        <UiButton variant="secondary" block>블록 버튼</UiButton>
+        <UiButton variant="primary-line" block>블록 버튼</UiButton>
+      </div>
+      <div class="code-example">
+        <pre><code>&lt;UiButton block&gt;블록 버튼&lt;/UiButton&gt;
+&lt;UiButton variant="secondary" block&gt;블록 버튼&lt;/UiButton&gt;
+&lt;UiButton variant="primary-line" block&gt;블록 버튼&lt;/UiButton&gt;</code></pre>
       </div>
     </section>
 
-    <section class="component-section">
-      <h2 class="section-title">버튼 타입 (Types)</h2>
+    <section class="example-section">
+      <h2 class="section-title">버튼 타입</h2>
       <div class="button-row">
-        <div class="button-item">
-          <UiButton variant="primary" type="button">Button 타입</UiButton>
-          <p class="button-desc">기본 버튼 타입</p>
-        </div>
-        <div class="button-item">
-          <UiButton variant="primary" type="submit">Submit 타입</UiButton>
-          <p class="button-desc">폼 제출 타입</p>
-        </div>
-        <div class="button-item">
-          <UiButton variant="primary" type="reset">Reset 타입</UiButton>
-          <p class="button-desc">폼 초기화 타입</p>
-        </div>
+        <UiButton nativeType="button">Button 타입</UiButton>
+        <UiButton nativeType="submit" variant="primary">Submit 타입</UiButton>
+        <UiButton nativeType="reset" variant="secondary-line">Reset 타입</UiButton>
       </div>
-    </section>
-
-    <section class="component-section">
-      <h2 class="section-title">이벤트 처리 예시</h2>
-      <div class="button-row">
-        <div class="button-item">
-          <UiButton variant="primary" @click="handleClick">클릭 이벤트</UiButton>
-          <p class="button-desc">클릭 시 콘솔에 메시지 출력</p>
-        </div>
-        <div class="button-item">
-          <UiButton variant="primary-line" :loading="isLoading" @click="handleLoadingClick">
-            로딩 상태 토글
-          </UiButton>
-          <p class="button-desc">클릭 시 로딩 상태 전환</p>
-        </div>
+      <div class="code-example">
+        <pre><code>&lt;UiButton nativeType="button"&gt;Button 타입&lt;/UiButton&gt;
+&lt;UiButton nativeType="submit" variant="primary"&gt;Submit 타입&lt;/UiButton&gt;
+&lt;UiButton nativeType="reset" variant="secondary-line"&gt;Reset 타입&lt;/UiButton&gt;</code></pre>
       </div>
     </section>
   </div>
 </template>
 
 <script setup>
-  import { ref } from 'vue'
-
-  // 기본 클릭 이벤트 핸들러
-  const handleClick = () => {
-    console.log('버튼이 클릭되었습니다')
-  }
-
-  // 로딩 상태 토글 예시
-  const isLoading = ref(false)
-  const handleLoadingClick = () => {
-    isLoading.value = true
-
-    // 2초 후 로딩 상태 해제
-    setTimeout(() => {
-      isLoading.value = false
-    }, 2000)
-  }
+  // 버튼 컴포넌트 사용 예시 페이지
 </script>
 
 <style lang="scss" scoped>
-  .components-page {
-    padding: 24px;
-    max-width: 1200px;
+  .button-examples {
+    padding: 20px;
+    max-width: 800px;
     margin: 0 auto;
-    background-color: #f5f5f5;
   }
 
   .page-title {
-    font-size: 28px;
-    font-weight: 600;
-    margin-bottom: 32px;
+    font-size: 24px;
+    margin-bottom: 24px;
     color: #333;
   }
 
-  .component-section {
+  .example-section {
     margin-bottom: 40px;
-    padding: 24px;
+    border: 1px solid #e6e8ea;
     border-radius: 8px;
+    padding: 20px;
     background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
 
   .section-title {
-    font-size: 20px;
-    font-weight: 500;
-    margin-bottom: 20px;
+    font-size: 18px;
+    margin-bottom: 16px;
     color: #333;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
-  }
-
-  .button-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 24px;
+    font-weight: 600;
   }
 
   .button-row {
     display: flex;
+    gap: 12px;
     flex-wrap: wrap;
-    gap: 24px;
+    margin-bottom: 16px;
   }
 
-  .button-item {
+  .button-block {
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 12px;
-    min-width: 150px;
+    margin-bottom: 16px;
   }
 
-  .button-desc {
-    font-size: 14px;
-    color: #666;
-    text-align: center;
-    margin: 0;
-  }
+  .code-example {
+    background-color: #f4f5f6;
+    border-radius: 4px;
+    padding: 16px;
+    margin-top: 16px;
 
-  @media (max-width: 768px) {
-    .components-page {
-      padding: 16px;
-    }
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
 
-    .component-section {
-      padding: 16px;
-    }
-
-    .button-grid {
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 16px;
-    }
-
-    .button-row {
-      gap: 16px;
+      code {
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        color: #333;
+      }
     }
   }
 </style>

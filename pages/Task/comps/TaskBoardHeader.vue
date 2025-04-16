@@ -5,9 +5,10 @@
         <div class="flex gap-5">
           <UiSearchableSelect placeholder="업무 보드명입니다" class="w-200" />
           <div>
-            <UiButton variant="secondary" icon="heroicons:plus" @click="openBoardAddModal">
-              보드 추가</UiButton
-            >
+            <UiButton variant="secondary" @click="openBoardAddModal">
+              <i class="icon icon-plus icon-md icon-white"></i>
+              <span>보드 추가</span>
+            </UiButton>
             <UiFilterModal v-model="isBoardAddModalOpen" title="보드 추가" :showFooter="true">
               <UiFormLayout>
                 <UiFormItem label="보드명">
@@ -21,12 +22,13 @@
               </template>
             </UiFilterModal>
           </div>
-          <UiButton variant="secondary" iconOnly>
-            <Icon name="heroicons:minus" size="24" />
+          <UiButton variant="secondary">
+            <i class="icon icon-minus icon-md icon-white"></i>
+            <span>보드 삭제</span>
           </UiButton>
           <div>
             <UiButton variant="white" iconOnly @click="openBoardEditModal">
-              <Icon name="heroicons:pencil" size="24" />
+              <i class="icon icon-pencil icon-xl"></i>
             </UiButton>
             <UiFilterModal v-model="isBoardEditModalOpen" title="보드 편집" :showFooter="true">
               <UiFormLayout>
@@ -72,14 +74,18 @@
               </template>
             </UiFilterModal>
           </div>
-          <UiButton variant="secondary" icon="heroicons:plus">중요업무</UiButton>
+          <UiButton variant="secondary">
+            <i class="icon icon-plus icon-md icon-white"></i>
+            <span>중요업무</span>
+          </UiButton>
         </div>
       </article>
       <article class="right-section">
         <div>
-          <UiButton variant="secondary" icon="heroicons:plus" @click="openCollaborationModal"
-            >협업</UiButton
-          >
+          <UiButton variant="secondary" @click="openCollaborationModal">
+            <i class="icon icon-plus icon-md icon-white"></i>
+            <span>협업</span>
+          </UiButton>
           <UiFilterModal
             v-model="isCollaborationModalOpen"
             title="협업"
@@ -138,8 +144,14 @@
           </UiFilterModal>
         </div>
 
-        <UiButton variant="secondary" icon="heroicons:plus">공유</UiButton>
-        <UiButton variant="secondary" icon="heroicons:plus">전달</UiButton>
+        <UiButton variant="secondary">
+          <i class="icon icon-plus icon-md icon-white"></i>
+          <span>공유</span>
+        </UiButton>
+        <UiButton variant="secondary">
+          <i class="icon icon-plus icon-md icon-white"></i>
+          <span>전달</span>
+        </UiButton>
       </article>
     </section>
   </header>

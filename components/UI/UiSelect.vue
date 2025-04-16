@@ -2,60 +2,61 @@
   <div
     class="ui-select"
     :class="[
-      `size-${size}`,
+      `ui-select--${size}`,
       {
-        'is-open': isOpen,
-        'is-selected': selectedValue,
-        'is-error': error,
-        'is-disabled': disabled,
-        'is-view': viewOnly
+        'ui-select--open': isOpen,
+        'ui-select--selected': selectedValue,
+        'ui-select--error': error,
+        'ui-select--disabled': disabled,
+        'ui-select--view': viewOnly
       }
     ]"
+    :style="{ width }"
   >
     <!-- 셀렉트 헤더 부분 (선택된 값 표시) -->
     <div
-      class="select-header"
+      class="ui-select__header"
       @click="toggleDropdown"
       :tabindex="disabled || viewOnly ? -1 : 0"
-      @keydown.enter="toggleDropdown"
-      @keydown.space.prevent="toggleDropdown"
       role="combobox"
       aria-haspopup="listbox"
       :aria-expanded="isOpen"
     >
-      <div class="select-value">
-        <span v-if="selectedOption" class="selected-text">{{ selectedOption.label }}</span>
-        <span v-else class="placeholder">{{ placeholder }}</span>
+      <div class="ui-select__value">
+        <span v-if="selectedOption" class="ui-select__selected-text">{{
+          selectedOption.label
+        }}</span>
+        <span v-else class="ui-select__placeholder">{{ placeholder }}</span>
       </div>
-      <i :class="['select-icon', { 'select-icon-up': isOpen }]"></i>
+      <i class="ui-select__icon" :class="{ 'ui-select__icon--up': isOpen }"></i>
     </div>
 
     <!-- 드롭다운 부분 (옵션 목록) -->
-    <div v-show="isOpen" class="select-dropdown">
-      <!-- 옵션 목록 -->
-      <div class="options-container" role="listbox">
+    <div v-show="isOpen" class="ui-select__dropdown">
+      <div class="ui-select__options" role="listbox">
         <div
           v-for="option in options"
           :key="option.value"
-          class="option-item"
-          :class="{ 'is-selected': selectedValue === option.value }"
+          class="ui-select__option"
+          :class="{ 'ui-select__option--selected': selectedValue === option.value }"
           role="option"
           :aria-selected="selectedValue === option.value"
           @click="selectOption(option)"
         >
           {{ option.label }}
         </div>
-        <div v-if="options.length === 0" class="no-results">옵션이 없습니다</div>
+        <div v-if="options.length === 0" class="ui-select__no-results">옵션이 없습니다</div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-  import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
+  import { ref, computed, onMounted, onUnmounted } from 'vue'
 
   // 전역 이벤트 버스 생성 (다른 셀렉트 컴포넌트와 통신하기 위함)
   const SELECT_EVENT_KEY = 'select-dropdown-toggle'
+  const uniqueId = ref(`select-${Math.random().toString(36).substr(2, 9)}`)
 
   const props = defineProps({
     placeholder: {
@@ -64,13 +65,7 @@
     },
     options: {
       type: Array,
-      default: () => [
-        { value: '1', label: '옵션 1' },
-        { value: '2', label: '옵션 2' },
-        { value: '3', label: '옵션 3' },
-        { value: '4', label: '옵션 4' },
-        { value: '5', label: '옵션 5' }
-      ]
+      default: () => []
     },
     modelValue: {
       type: [String, Number],
@@ -91,27 +86,26 @@
     size: {
       type: String,
       default: 'medium',
-      validator: value => ['small', 'medium', 'large'].includes(value)
+      validator: value => ['small', 'medium', 'large', 'xlarge'].includes(value)
     },
     width: {
       type: [String, Number],
-      default: '150px'
+      default: '100%'
     }
   })
 
   const emit = defineEmits(['update:modelValue', 'change'])
 
-  // 상태 관리
+  // 상태 관리 (퍼블리싱 데모용)
   const isOpen = ref(false)
   const selectedValue = ref(props.modelValue)
-  const uniqueId = ref(`select-${Math.random().toString(36).substr(2, 9)}`)
 
-  // 선택된 옵션 객체
+  // 선택된 옵션 객체 (퍼블리싱 데모용)
   const selectedOption = computed(() => {
     return props.options.find(option => option.value === selectedValue.value)
   })
 
-  // 드롭다운 토글
+  // 드롭다운 토글 (퍼블리싱 데모용)
   const toggleDropdown = () => {
     if (props.disabled || props.viewOnly) return
 
@@ -127,13 +121,11 @@
     isOpen.value = !isOpen.value
   }
 
-  // 옵션 선택
+  // 옵션 선택 (퍼블리싱 데모용)
   const selectOption = option => {
     if (props.disabled || props.viewOnly) return
-
     selectedValue.value = option.value
     emit('update:modelValue', option.value)
-    emit('change', option)
     isOpen.value = false
   }
 
@@ -144,37 +136,17 @@
     }
   }
 
-  // 외부 클릭 감지
-  const handleClickOutside = event => {
-    const select = event.target.closest('.ui-select')
-    if (!select && isOpen.value) {
-      isOpen.value = false
-    }
-  }
-
   // 이벤트 리스너 등록 및 해제
   onMounted(() => {
-    document.addEventListener('click', handleClickOutside)
     window.addEventListener(SELECT_EVENT_KEY, handleOtherSelectOpen)
   })
 
   onUnmounted(() => {
-    document.removeEventListener('click', handleClickOutside)
     window.removeEventListener(SELECT_EVENT_KEY, handleOtherSelectOpen)
   })
-
-  // modelValue 변경 감지
-  watch(
-    () => props.modelValue,
-    newValue => {
-      selectedValue.value = newValue
-    }
-  )
 </script>
 
 <style lang="scss" scoped>
-  @use 'sass:color';
-
   // 애니메이션 키프레임
   @keyframes dropdownFadeIn {
     from {
@@ -187,205 +159,241 @@
     }
   }
 
-  // 기본 컴포넌트 스타일
-
-  .select-icon {
-    width: 12px !important;
-    height: 8px !important;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M11 1.5L6 6.5L1 1.5' stroke='%23464C53' stroke-width='2'/%3E%3C/svg%3E");
-    transition: transform 0.2s ease;
-  }
-
-  .select-icon-up {
-    transform: rotate(180deg);
-  }
-
   .ui-select {
     position: relative;
-    width: v-bind('width');
-    font-family: Pretendard;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%; /* 24px */
-    border-radius: 4px;
+    font-family: $font-family;
+    border-radius: $border-radius-sm;
     border: 1px solid var(--color-gray-40, #8a949e);
     background: var(--color-gray-0, #fff);
     color: var(--color-gray-40, #8a949e);
+    transition: all $transition-normal ease;
+    box-sizing: border-box;
 
-    // 사이즈별 스타일
-    &.size-small {
-      .select-header {
-        display: flex;
-        width: 100%;
-        padding: 3px 8px;
-        justify-content: space-between;
-        align-items: center;
-      }
+    // 아이콘 스타일
+    &__icon {
+      width: 12px;
+      height: 8px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M11 1.5L6 6.5L1 1.5' stroke='%23464C53' stroke-width='2'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      transition: transform 0.2s ease;
 
-      .option-item {
-        padding: 3px 8px;
-        font-size: 14px;
-      }
-    }
-
-    &.size-medium {
-      .select-header {
-        display: flex;
-        width: 100%;
-        height: 30px;
-        padding: 4px 8px;
-        justify-content: space-between;
-        align-items: center;
-        flex-shrink: 0;
-      }
-
-      .option-item {
-        padding: 4px 8px;
-        font-size: 16px;
+      &--up {
+        transform: rotate(180deg);
       }
     }
 
-    &.size-large {
-      .select-header {
-        display: flex;
-        width: 100%;
-        padding: 8px;
-        justify-content: space-between;
-        align-items: center;
-      }
+    // 헤더 스타일
+    &__header {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      box-sizing: border-box;
 
-      .select-icon {
-        width: 18px;
-        height: 18px;
-      }
-
-      .option-item {
-        padding: 8px;
-        font-size: 16px;
+      &:focus {
+        outline: none;
       }
     }
 
-    // 상태별 스타일
-    &.is-selected {
-      border: 1px solid var(--color-gray-60, #58616a);
+    // 값 스타일
+    &__value {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &__placeholder {
+      color: var(--color-gray-40, #8a949e);
+    }
+
+    &__selected-text {
       color: var(--color-gray-70, #464c53);
     }
 
-    &.is-open {
+    // 드롭다운 스타일
+    &__dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      background: #fff;
+      border: 1px solid var(--color-gray-20, #cdd1d5);
+      border-radius: 4px;
+      margin-top: 4px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      animation: dropdownFadeIn 0.2s ease;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    // 옵션 스타일
+    &__options {
+      width: 100%;
+    }
+
+    &__option {
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: var(--color-gray-10, #e6e8ea);
+      }
+
+      &--selected {
+        background-color: var(--color-gray-10, #e6e8ea);
+        color: var(--color-system-b30, #0084ff);
+        font-weight: 500;
+      }
+    }
+
+    &__no-results {
+      padding: 8px;
+      text-align: center;
+      color: var(--color-gray-40, #8a949e);
+    }
+
+    // 크기 변형 - Small
+    &--small {
+      .ui-select__header {
+        height: 26px;
+        padding: 3px 9px;
+      }
+
+      .ui-select__option {
+        padding: 3px 9px;
+        font-size: $font-size-xs;
+      }
+
+      .ui-select__selected-text,
+      .ui-select__placeholder {
+        @include font-style($body-xsmall-bold);
+      }
+    }
+
+    // 크기 변형 - Medium
+    &--medium {
+      .ui-select__header {
+        height: 28px;
+        padding: 5px 12px;
+      }
+
+      .ui-select__option {
+        padding: 5px 12px;
+        font-size: $font-size-sm;
+      }
+
+      .ui-select__selected-text,
+      .ui-select__placeholder {
+        position: relative;
+        top: -1px;
+        @include font-style($body-small);
+      }
+    }
+
+    // 크기 변형 - Large
+    &--large {
+      .ui-select__header {
+        height: 30px;
+        padding: 3px 12px;
+      }
+
+      .ui-select__option {
+        padding: 6px 12px;
+        font-size: $font-size-md;
+      }
+
+      .ui-select__selected-text,
+      .ui-select__placeholder {
+        @include font-style($body-large-bold);
+      }
+    }
+
+    // 크기 변형 - XLarge
+    &--xlarge {
+      .ui-select__header {
+        height: 32px;
+        padding: 4px 16px;
+        border-radius: 4px;
+      }
+
+      .ui-select__option {
+        padding: 8px 16px;
+        font-size: $font-size-lg;
+      }
+
+      .ui-select__selected-text,
+      .ui-select__placeholder {
+        @include font-style($body-large-bold);
+        font-size: $font-size-xxl;
+      }
+    }
+
+    // 상태 변형
+    &--open {
       border: 1px solid var(--color-system-b30, #0084ff);
       color: var(--color-gray-70, #464c53);
     }
 
-    &.is-error {
+    &--selected {
+      border: 1px solid var(--color-gray-60, #58616a);
+      color: var(--color-gray-70, #464c53);
+    }
+
+    &--error {
       border: 1px solid var(--color-system-r30, #f30);
       color: var(--color-gray-70, #464c53);
     }
 
-    &.is-disabled {
+    &--disabled {
       border: 1px solid var(--color-gray-20, #cdd1d5);
       background: var(--color-gray-10, #e6e8ea);
       color: var(--color-gray-30, #b1b8be);
       cursor: not-allowed;
 
-      .select-header {
+      .ui-select__header {
         pointer-events: none;
       }
     }
 
-    &.is-view {
+    &--view {
       border: 1px solid var(--color-gray-20, #cdd1d5);
       background: var(--color-gray-10, #e6e8ea);
       color: var(--color-gray-70, #464c53);
       cursor: default;
 
-      .select-header {
+      .ui-select__header {
         pointer-events: none;
       }
     }
-  }
 
-  // 셀렉트 헤더 스타일
-  .select-header {
-    cursor: pointer;
-    position: relative;
-    transition: all 0.2s ease;
+    // 반응형 스타일
+    @media (max-width: 768px) {
+      &--small {
+        .ui-select__header {
+          padding: 5px 10px;
+        }
+      }
 
-    &:focus {
-      outline: none;
-      border-color: var(--color-system-b30, #0084ff);
-    }
-  }
+      &--medium {
+        .ui-select__header {
+          padding: 6px 12px;
+        }
+      }
 
-  // 선택된 값 및 플레이스홀더 스타일
-  .select-value {
-    flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+      &--large {
+        .ui-select__header {
+          padding: 8px 14px;
+        }
+      }
 
-  .placeholder {
-    color: var(--color-gray-40, #8a949e);
-    font-size: $font-size-md;
-  }
-
-  .selected-text {
-    color: var(--color-gray-70, #464c53);
-    font-size: $font-size-md;
-  }
-
-  // 드롭다운 스타일
-  .select-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    z-index: 100;
-    background: #fff;
-    border: 1px solid var(--color-gray-20, #cdd1d5);
-    border-radius: 4px;
-    margin-top: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    animation: dropdownFadeIn 0.2s ease;
-    max-height: 200px;
-    overflow-y: auto;
-  }
-
-  // 옵션 컨테이너 스타일
-  .options-container {
-    width: 100%;
-  }
-
-  // 옵션 아이템 스타일
-  .option-item {
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-
-    &:hover {
-      background-color: var(--color-gray-10, #e6e8ea);
-    }
-
-    &.is-selected {
-      background-color: var(--color-gray-10, #e6e8ea);
-      color: var(--color-system-b30, #0084ff);
-      font-weight: 500;
-    }
-  }
-
-  // 결과 없음 메시지 스타일
-  .no-results {
-    padding: 8px;
-    text-align: center;
-    color: var(--color-gray-40, #8a949e);
-  }
-
-  // 모바일 스타일 최적화
-  @media (hover: none) {
-    .ui-select {
-      .option-item {
-        padding: 12px;
-        min-height: 44px;
+      &--xlarge {
+        .ui-select__header {
+          padding: 10px 16px;
+        }
       }
     }
   }

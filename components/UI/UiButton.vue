@@ -2,205 +2,158 @@
   <button
     class="ui-button"
     :class="[
-      `ui-button--${variant}`,
       `ui-button--${size}`,
-      { 'ui-button--block': block, 'ui-button--icon-only': iconOnly, 'ui-button--radius0': radius0 }
+      `ui-button--${variant}`,
+      {
+        'ui-button--disabled': disabled,
+        'ui-button--block': block,
+        'ui-button--with-icon': icon,
+        'ui-button--icon-only': iconOnly
+      }
     ]"
-    :disabled="disabled || loading"
-    :type="type"
+    :disabled="disabled"
+    :type="nativeType"
     @click="$emit('click', $event)"
   >
-    <div class="ui-button__content" :class="{ 'ui-button__content--loading': loading }">
-      <Icon
-        v-if="icon && iconPosition === 'left'"
-        :name="icon"
-        class="ui-button__icon ui-button__icon--left"
-      />
-      <span v-if="!iconOnly" class="ui-button__text"><slot></slot></span>
-      <span v-if="iconOnly" class="ui-button__icon-only">
-        <slot></slot>
-      </span>
-      <Icon
-        v-if="icon && iconPosition === 'right'"
-        :name="icon"
-        class="ui-button__icon ui-button__icon--right"
-      />
-    </div>
-    <div v-if="loading" class="ui-button__loader">
-      <span class="ui-button__loader-dot"></span>
-      <span class="ui-button__loader-dot"></span>
-      <span class="ui-button__loader-dot"></span>
-    </div>
+    <Icon v-if="icon" :name="icon" class="ui-button__icon" />
+    <span v-if="$slots.default" class="ui-button__text">
+      <slot />
+    </span>
   </button>
 </template>
 
 <script setup>
+  import { defineProps, defineEmits } from 'vue'
+
+  // 버튼 컴포넌트의 속성 정의
   defineProps({
-    variant: {
-      type: String,
-      default: 'primary',
-      validator: value =>
-        [
-          'primary',
-          'secondary',
-          'primary-line',
-          'secondary-line',
-          'tertiary',
-          'danger',
-          'ghost',
-          'white',
-          'info'
-        ].includes(value)
-    },
+    // 버튼 크기 (small, medium, large, xlarge)
     size: {
       type: String,
       default: 'medium',
       validator: value => ['small', 'medium', 'large', 'xlarge'].includes(value)
     },
+    // 버튼 스타일 변형 (primary, secondary, primary-line, secondary-line)
+    variant: {
+      type: String,
+      default: 'primary',
+      validator: value => ['primary', 'secondary', 'primary-line', 'secondary-line'].includes(value)
+    },
+    // 버튼에 표시할 아이콘 이름
     icon: {
       type: String,
       default: ''
     },
-    iconPosition: {
-      type: String,
-      default: 'left',
-      validator: value => ['left', 'right'].includes(value)
-    },
+    // 아이콘만 표시할지 여부
     iconOnly: {
       type: Boolean,
       default: false
     },
+    // 버튼 비활성화 여부
     disabled: {
       type: Boolean,
       default: false
     },
-    loading: {
-      type: Boolean,
-      default: false
-    },
+    // 버튼을 블록 레벨 요소로 표시할지 여부
     block: {
       type: Boolean,
       default: false
     },
-    radius0: {
-      type: Boolean,
-      default: false
-    },
-    type: {
+    // 버튼의 HTML type 속성 (button, submit, reset)
+    nativeType: {
       type: String,
       default: 'button',
       validator: value => ['button', 'submit', 'reset'].includes(value)
     }
   })
 
+  // 클릭 이벤트 발생 시 상위 컴포넌트에 전달
   defineEmits(['click'])
 </script>
-<style lang="scss" scoped>
-  @use 'sass:color';
 
+<style lang="scss" scoped>
   .ui-button {
-    position: relative;
     display: inline-flex;
-    align-items: center;
     justify-content: center;
-    border-radius: 4px;
-    font-weight: 400;
-    cursor: pointer;
+    align-items: center;
+    gap: 2px;
+    border-radius: $border-radius-sm;
     transition: all $transition-normal ease;
+    cursor: pointer;
     border: none;
     outline: none;
-    overflow: hidden;
-    color: $text-light-color;
+    flex-shrink: 0;
 
-    &__text {
-      white-space: nowrap;
-      display: flex;
-      gap: 7px;
-      align-items: center;
+    &:focus {
+      outline: none;
     }
 
-    &__content {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: opacity $transition-normal;
-
-      &--loading {
-        opacity: 0;
-      }
-    }
-
-    &__icon-only {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
+    // 아이콘 스타일
     &__icon {
-      flex-shrink: 0;
-
-      &--left {
-        margin-right: $spacing-sm;
-      }
-
-      &--right {
-        margin-left: $spacing-sm;
-      }
-    }
-
-    &__loader {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: $spacing-xs;
     }
 
-    &__loader-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background-color: currentColor;
-      opacity: 0.7;
-      animation: loader-dot 1s infinite ease-in-out;
-
-      &:nth-child(1) {
-        animation-delay: 0s;
-      }
-
-      &:nth-child(2) {
-        animation-delay: 0.2s;
-      }
-
-      &:nth-child(3) {
-        animation-delay: 0.4s;
-      }
+    // 텍스트 스타일
+    &__text {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
     }
 
-    // Variants
-    &--white {
-      background-color: white;
-      border: 1px solid #555;
-      color: #555;
+    // 크기 변형
+    &--small {
+      height: 28px;
+      display: inline-flex;
+      padding: 3px 9px;
+      justify-content: center;
+      align-items: center;
+      gap: 2px;
+      @include font-style($body-xsmall-bold);
+    }
 
-      &:hover:not(:disabled) {
-        background-color: #555;
-        color: white;
-      }
+    &--medium {
+      height: 30px;
+      padding: 5px 12px;
+      justify-content: center;
+      align-items: center;
+      gap: 2px;
+      flex-shrink: 0;
+      @include font-style($body-small-bold);
+    }
 
-      &:active:not(:disabled) {
-        background-color: #555;
-        color: white;
+    &--icon-only {
+      &.ui-button--medium {
+        padding: 0 6px;
       }
     }
 
+    &--large {
+      height: 32px;
+      padding: 3px 12px;
+      justify-content: center;
+      align-items: center;
+      gap: 2px;
+      @include font-style($body-large-bold);
+    }
+
+    &--xlarge {
+      height: 42px;
+      border-radius: 4px;
+      padding: 4px 16px;
+      justify-content: center;
+      align-items: center;
+      gap: 2px;
+      @include font-style($body-large-bold);
+      font-size: $font-size-xxl;
+    }
+
+    // 색상 변형
     &--primary {
       background-color: #00aaff;
-      color: $text-light-color;
+      color: #fff;
 
       &:hover:not(:disabled) {
         background-color: #0088cc;
@@ -209,11 +162,17 @@
       &:active:not(:disabled) {
         background-color: #006699;
       }
+
+      &:disabled {
+        background-color: #e6e8ea;
+        color: var(--color-gray-40, #8a949e);
+        cursor: not-allowed;
+      }
     }
 
     &--secondary {
       background-color: #58616a;
-      color: $text-light-color;
+      color: #fff;
 
       &:hover:not(:disabled) {
         background-color: #464c53;
@@ -222,182 +181,92 @@
       &:active:not(:disabled) {
         background-color: #33363d;
       }
+
+      &:disabled {
+        background-color: #e6e8ea;
+        color: var(--color-gray-40, #8a949e);
+        cursor: not-allowed;
+      }
     }
 
     &--primary-line {
-      background-color: #fff;
-      border: 1px solid #00aaff;
-      color: #00aaff;
+      border: 1px solid var(--color-primary-50, #00aaff);
+      background: var(--color-gray-0, #fff);
+      color: var(--color-primary-50, #00aaff);
 
       &:hover:not(:disabled) {
-        background-color: #e5f6ff;
+        border: 1px solid var(--color-primary-50, #00aaff);
+        background: var(--color-primary-5, #e5f6ff);
       }
 
       &:active:not(:disabled) {
-        background-color: #cceeff;
+        border: 1px solid var(--color-primary-50, #00aaff);
+        background: var(--color-primary-10, #cceeff);
+      }
+
+      &:disabled {
+        border: 1px solid var(--color-gray-20, #cdd1d5);
+        background: var(--color-gray-0, #fff);
+        color: var(--color-gray-40, #8a949e);
+        cursor: not-allowed;
       }
     }
 
     &--secondary-line {
-      background-color: #fff;
-      border: 1px solid #58616a;
-      color: #58616a;
+      border: 1px solid var(--color-gray-60, #58616a);
+      background: var(--color-gray-0, #fff);
+      color: var(--color-gray-60, #58616a);
 
       &:hover:not(:disabled) {
-        background-color: #f4f5f6;
+        border: 1px solid var(--color-gray-60, #58616a);
+        background: var(--color-gray-5, #f4f5f6);
       }
 
       &:active:not(:disabled) {
-        background-color: #e6e8ea;
+        border: 1px solid var(--color-gray-60, #58616a);
+        background: var(--color-gray-10, #e6e8ea);
+      }
+
+      &:disabled {
+        border: 1px solid var(--color-gray-20, #cdd1d5);
+        background: var(--color-gray-0, #fff);
+        color: var(--color-gray-40, #8a949e);
+        cursor: not-allowed;
       }
     }
 
-    &--tertiary {
-      background-color: $tertiary-color;
-      color: #000;
-
-      &:hover:not(:disabled) {
-        background-color: $tertiary-hover-color;
-      }
-
-      &:active:not(:disabled) {
-        background-color: $tertiary-active-color;
-      }
-    }
-
-    &--danger {
-      background-color: $danger-color;
-      color: $text-light-color;
-
-      &:hover:not(:disabled) {
-        background-color: $danger-hover-color;
-      }
-
-      &:active:not(:disabled) {
-        background-color: $danger-active-color;
-      }
-    }
-
-    &--ghost {
-      background-color: transparent;
-      color: $text-color;
-
-      &:hover:not(:disabled) {
-        background-color: $ghost-hover-color;
-      }
-
-      &:active:not(:disabled) {
-        background-color: $ghost-active-color;
-      }
-    }
-
-    // Sizes
-    &--small {
-      display: inline-flex;
-      height: 28px;
-      padding: 3px 9px;
-      justify-content: center;
-      align-items: center;
-      @include font-style($body-xsmall-bold);
-
-      &.ui-button--icon-only {
-        width: 28px;
-        padding: 3px;
-      }
-    }
-
-    &--medium {
-      display: inline-flex;
-      height: 32px;
-      padding: 5px 12px;
-      justify-content: center;
-      align-items: center;
-      flex-shrink: 0;
-      @include font-style($body-small-bold);
-
-      &.ui-button--icon-only {
-        width: 32px;
-        padding: 5px;
-      }
-    }
-
-    &--large {
-      display: inline-flex;
-      height: 34px;
-      padding: 3px 12px;
-      justify-content: center;
-      align-items: center;
-      @include font-style($body-small-bold);
-
-      &.ui-button--icon-only {
-        width: 34px;
-        padding: 3px;
-      }
-    }
-
-    &--xlarge {
-      display: inline-flex;
-      height: 44px;
-      padding: 4px 16px;
-      justify-content: center;
-      align-items: center;
-      @include font-style($head-xxsmall);
-
-      &.ui-button--icon-only {
-        width: 44px;
-        padding: 4px;
-      }
-    }
-
-    // Block
+    // 수정자
     &--block {
       display: flex;
       width: 100%;
     }
 
-    // Radius0
-    &--radius0 {
-      border-radius: 0;
+    // 아이콘만 버튼
+    &--icon-only {
+      .ui-button__icon {
+        margin-right: 0;
+      }
     }
 
-    // Disabled state
-    &:disabled {
-      background-color: #e6e8ea;
-      color: #a0a4a8;
-      border-color: #cdd1d5;
-      cursor: not-allowed;
-      opacity: 1;
-    }
-  }
-
-  @keyframes loader-dot {
-    0%,
-    80%,
-    100% {
-      transform: scale(0);
-    }
-    40% {
-      transform: scale(1);
-    }
-  }
-
-  @media (max-width: 768px) {
-    .ui-button {
+    // 반응형 스타일
+    @media (max-width: 768px) {
       &--small {
-        padding: 4px 10px;
+        padding: 5px 10px;
       }
 
       &--medium {
         height: 32px;
-        padding: 6px 14px;
+        padding: 6px 12px;
       }
 
       &--large {
-        padding: 4px 14px;
+        height: 38px;
+        padding: 8px 16px;
       }
 
       &--xlarge {
-        padding: 5px 18px;
+        height: 44px;
+        padding: 10px 20px;
       }
     }
   }
