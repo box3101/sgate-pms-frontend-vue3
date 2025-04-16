@@ -1,203 +1,301 @@
 <template>
   <div class="guide-container">
-    <h1 class="guide-title">SGATE 가이드</h1>
-
+    <h1 class="guide-title">SGATE 퍼블리싱 가이드</h1>
     <div class="guide-content">
-      <div class="task-check-section">
-        <h2>내 업무 체크리스트</h2>
-        <div class="task-list">
-          <!-- 업무 카테고리 -->
-          <div
-            v-for="(category, catIndex) in taskCategories"
-            :key="'cat-' + catIndex"
-            class="task-category"
-          >
-            <div class="category-header" @click="toggleCategory(catIndex)">
-              <div class="category-icon">
-                <Icon
-                  :name="category.expanded ? 'mdi:chevron-down' : 'mdi:chevron-right'"
-                  size="18"
-                />
-              </div>
-              <h3 class="category-title">{{ category.title }}</h3>
-              <span class="task-count"
-                >{{ getCompletedTaskCount(category.tasks) }}/{{ category.tasks.length }}</span
-              >
-            </div>
-
-            <!-- 카테고리 내 업무 목록 -->
-            <div v-if="category.expanded" class="category-tasks">
+      <div class="guide-row">
+        <!-- 업무 체크리스트 섹션 -->
+        <div class="guide-column">
+          <div class="guide-table task-check-section">
+            <h2>내 업무 체크리스트</h2>
+            <div class="task-list">
+              <!-- 업무 카테고리 -->
               <div
-                v-for="(task, taskIndex) in category.tasks"
-                :key="'task-' + catIndex + '-' + taskIndex"
-                class="task-item"
+                v-for="(category, catIndex) in taskCategories"
+                :key="'cat-' + catIndex"
+                class="task-category"
               >
-                <input
-                  type="checkbox"
-                  :id="'task-' + catIndex + '-' + taskIndex"
-                  v-model="task.completed"
-                  @change="saveTaskState"
-                />
-                <label :for="'task-' + catIndex + '-' + taskIndex">{{ task.title }}</label>
-                <div class="task-actions">
-                  <button
-                    class="delete-btn"
-                    @click.stop="deleteTask(catIndex, taskIndex)"
-                    title="삭제"
-                  >
-                    <Icon name="mdi:delete-outline" size="16" />
-                  </button>
-                </div>
-              </div>
-
-              <!-- 하위 업무 그룹 -->
-              <div
-                v-for="(subgroup, subIndex) in category.subgroups"
-                :key="'sub-' + catIndex + '-' + subIndex"
-                class="task-subgroup"
-              >
-                <div class="subgroup-header" @click="toggleSubgroup(catIndex, subIndex)">
-                  <div class="subgroup-icon">
+                <div class="category-header" @click="toggleCategory(catIndex)">
+                  <div class="category-icon">
                     <Icon
-                      :name="subgroup.expanded ? 'mdi:chevron-down' : 'mdi:chevron-right'"
-                      size="16"
+                      :name="category.expanded ? 'mdi:chevron-down' : 'mdi:chevron-right'"
+                      size="18"
                     />
                   </div>
-                  <h4 class="subgroup-title">{{ subgroup.title }}</h4>
+                  <h3 class="category-title">{{ category.title }}</h3>
                   <span class="task-count"
-                    >{{ getCompletedTaskCount(subgroup.tasks) }}/{{ subgroup.tasks.length }}</span
+                    >{{ getCompletedTaskCount(category.tasks) }}/{{ category.tasks.length }}</span
                   >
                 </div>
 
-                <!-- 하위 그룹 내 업무 목록 -->
-                <div v-if="subgroup.expanded" class="subgroup-tasks">
+                <!-- 카테고리 내 업무 목록 -->
+                <div v-if="category.expanded" class="category-tasks">
                   <div
-                    v-for="(subtask, subtaskIndex) in subgroup.tasks"
-                    :key="'subtask-' + catIndex + '-' + subIndex + '-' + subtaskIndex"
-                    class="subtask-item"
+                    v-for="(task, taskIndex) in category.tasks"
+                    :key="'task-' + catIndex + '-' + taskIndex"
+                    class="task-item"
                   >
                     <input
                       type="checkbox"
-                      :id="'subtask-' + catIndex + '-' + subIndex + '-' + subtaskIndex"
-                      v-model="subtask.completed"
+                      :id="'task-' + catIndex + '-' + taskIndex"
+                      v-model="task.completed"
                       @change="saveTaskState"
                     />
-                    <label :for="'subtask-' + catIndex + '-' + subIndex + '-' + subtaskIndex">{{
-                      subtask.title
-                    }}</label>
+                    <label :for="'task-' + catIndex + '-' + taskIndex">{{ task.title }}</label>
                     <div class="task-actions">
                       <button
                         class="delete-btn"
-                        @click.stop="deleteSubtask(catIndex, subIndex, subtaskIndex)"
+                        @click.stop="deleteTask(catIndex, taskIndex)"
                         title="삭제"
                       >
                         <Icon name="mdi:delete-outline" size="16" />
                       </button>
                     </div>
                   </div>
+
+                  <!-- 하위 업무 그룹 -->
+                  <div
+                    v-for="(subgroup, subIndex) in category.subgroups"
+                    :key="'sub-' + catIndex + '-' + subIndex"
+                    class="task-subgroup"
+                  >
+                    <div class="subgroup-header" @click="toggleSubgroup(catIndex, subIndex)">
+                      <div class="subgroup-icon">
+                        <Icon
+                          :name="subgroup.expanded ? 'mdi:chevron-down' : 'mdi:chevron-right'"
+                          size="16"
+                        />
+                      </div>
+                      <h4 class="subgroup-title">{{ subgroup.title }}</h4>
+                      <span class="task-count"
+                        >{{ getCompletedTaskCount(subgroup.tasks) }}/{{
+                          subgroup.tasks.length
+                        }}</span
+                      >
+                    </div>
+
+                    <!-- 하위 그룹 내 업무 목록 -->
+                    <div v-if="subgroup.expanded" class="subgroup-tasks">
+                      <div
+                        v-for="(subtask, subtaskIndex) in subgroup.tasks"
+                        :key="'subtask-' + catIndex + '-' + subIndex + '-' + subtaskIndex"
+                        class="subtask-item"
+                      >
+                        <input
+                          type="checkbox"
+                          :id="'subtask-' + catIndex + '-' + subIndex + '-' + subtaskIndex"
+                          v-model="subtask.completed"
+                          @change="saveTaskState"
+                        />
+                        <label :for="'subtask-' + catIndex + '-' + subIndex + '-' + subtaskIndex">{{
+                          subtask.title
+                        }}</label>
+                        <div class="task-actions">
+                          <button
+                            class="delete-btn"
+                            @click.stop="deleteSubtask(catIndex, subIndex, subtaskIndex)"
+                            title="삭제"
+                          >
+                            <Icon name="mdi:delete-outline" size="16" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          <!-- 새 업무 추가 -->
-          <div class="add-task">
-            <input
-              type="text"
-              v-model="newTask"
-              placeholder="새 업무 추가"
-              @keyup.enter="addTask"
-            />
-            <select v-model="selectedCategory" class="category-select">
-              <option v-for="(category, index) in taskCategories" :key="index" :value="index">
-                {{ category.title }}
-              </option>
-            </select>
-            <button @click="addTask" class="add-btn">추가</button>
+              <!-- 새 업무 추가 -->
+              <div class="add-task">
+                <input
+                  type="text"
+                  v-model="newTask"
+                  placeholder="새 업무 추가"
+                  @keyup.enter="addTask"
+                />
+                <select v-model="selectedCategory" class="category-select">
+                  <option v-for="(category, index) in taskCategories" :key="index" :value="index">
+                    {{ category.title }}
+                  </option>
+                </select>
+                <button @click="addTask" class="add-btn">추가</button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="guide-table">
-        <h2>SGATE 퍼블리싱 진척도</h2>
-        <div class="guide-categories">
-          <!-- 1단계: 메인 카테고리 -->
-          <div v-for="category in guideData.categories" :key="category.id" class="guide-category">
-            <div class="category-header" @click="toggleGuideCategory(category.id)">
-              <div class="category-icon">
-                <Icon
-                  :name="expandedCategories[category.id] ? 'mdi:chevron-down' : 'mdi:chevron-right'"
-                  size="20"
-                />
-              </div>
-              <h3>{{ category.title }}</h3>
-              <div class="status-badges">
-                <div class="status-badge" :style="getStatusBadgeStyle(category.status)">
-                  {{ statusInfo[category.status].label }}
+        <!-- UI 컴포넌트 섹션 -->
+        <div class="guide-column">
+          <div class="guide-table component-section">
+            <h2>UI 컴포넌트</h2>
+            <p class="section-description">
+              SGATE에서 사용되는 UI 컴포넌트 목록입니다. 각 컴포넌트를 클릭하면 상세 페이지로
+              이동합니다.
+            </p>
+
+            <div class="component-grid">
+              <NuxtLink to="/components/Button" class="component-card">
+                <div class="component-icon">
+                  <Icon name="mdi:button-cursor" size="24" />
                 </div>
-                <div class="category-progress">
-                  {{ calculateCategoryStatus(category).completed }}/{{
-                    calculateCategoryStatus(category).total
-                  }}
+                <div class="component-info">
+                  <h3 class="component-title">버튼</h3>
+                  <p class="component-desc">다양한 스타일과 크기의 버튼 컴포넌트</p>
                 </div>
-              </div>
+              </NuxtLink>
+
+              <NuxtLink to="/components/Input" class="component-card">
+                <div class="component-icon">
+                  <Icon name="mdi:form-textbox" size="24" />
+                </div>
+                <div class="component-info">
+                  <h3 class="component-title">인풋</h3>
+                  <p class="component-desc">텍스트 입력을 위한 인풋 컴포넌트</p>
+                </div>
+              </NuxtLink>
+
+              <NuxtLink to="/components/Select" class="component-card">
+                <div class="component-icon">
+                  <Icon name="mdi:form-dropdown" size="24" />
+                </div>
+                <div class="component-info">
+                  <h3 class="component-title">셀렉트</h3>
+                  <p class="component-desc">드롭다운 선택 컴포넌트</p>
+                </div>
+              </NuxtLink>
+
+              <NuxtLink to="/components/Textarea" class="component-card">
+                <div class="component-icon">
+                  <Icon name="mdi:form-textarea" size="24" />
+                </div>
+                <div class="component-info">
+                  <h3 class="component-title">텍스트영역</h3>
+                  <p class="component-desc">여러 줄 텍스트 입력 컴포넌트</p>
+                </div>
+              </NuxtLink>
+
+              <NuxtLink to="/components/DatePicker" class="component-card">
+                <div class="component-icon">
+                  <Icon name="mdi:calendar" size="24" />
+                </div>
+                <div class="component-info">
+                  <h3 class="component-title">날짜 선택기</h3>
+                  <p class="component-desc">날짜 및 기간 선택 컴포넌트</p>
+                </div>
+              </NuxtLink>
+
+              <NuxtLink to="/components/Popup" class="component-card">
+                <div class="component-icon">
+                  <Icon name="mdi:window-maximize" size="24" />
+                </div>
+                <div class="component-info">
+                  <h3 class="component-title">팝업</h3>
+                  <p class="component-desc">모달 및 팝업 컴포넌트</p>
+                </div>
+              </NuxtLink>
+
+              <NuxtLink to="/components/Layout" class="component-card">
+                <div class="component-icon">
+                  <Icon name="mdi:view-grid-plus" size="24" />
+                </div>
+                <div class="component-info">
+                  <h3 class="component-title">레이아웃</h3>
+                  <p class="component-desc">레이아웃 및 그리드 시스템</p>
+                </div>
+              </NuxtLink>
             </div>
+          </div>
+        </div>
 
-            <!-- 2단계: 서브 카테고리 -->
-            <div v-if="expandedCategories[category.id]" class="subcategories">
+        <!-- 퍼블리싱 진척도 섹션 -->
+        <div class="guide-column">
+          <div class="guide-table">
+            <h2>SGATE 퍼블리싱 진척도</h2>
+            <div class="guide-categories">
+              <!-- 1단계: 메인 카테고리 -->
               <div
-                v-for="subcategory in category.subcategories"
-                :key="subcategory.id"
-                class="subcategory"
+                v-for="category in guideData.categories"
+                :key="category.id"
+                class="guide-category"
               >
-                <div
-                  class="subcategory-header"
-                  @click="toggleGuideSubcategory(category.id, subcategory.id)"
-                >
-                  <div class="subcategory-icon">
+                <div class="category-header" @click="toggleGuideCategory(category.id)">
+                  <div class="category-icon">
                     <Icon
                       :name="
-                        getSubcategoryExpandedState(category.id, subcategory.id)
-                          ? 'mdi:chevron-down'
-                          : 'mdi:chevron-right'
+                        expandedCategories[category.id] ? 'mdi:chevron-down' : 'mdi:chevron-right'
                       "
-                      size="18"
+                      size="20"
                     />
                   </div>
-                  <h4>{{ subcategory.title }}</h4>
-                  <div class="status-badge" :style="getStatusBadgeStyle(subcategory.status)">
-                    {{ statusInfo[subcategory.status].label }}
+                  <h3>{{ category.title }}</h3>
+                  <div class="status-badges">
+                    <div class="status-badge" :style="getStatusBadgeStyle(category.status)">
+                      {{ statusInfo[category.status].label }}
+                    </div>
+                    <div class="category-progress">
+                      {{ calculateCategoryStatus(category).completed }}/{{
+                        calculateCategoryStatus(category).total
+                      }}
+                    </div>
                   </div>
                 </div>
 
-                <!-- 3단계: 세부 항목 -->
-                <div
-                  v-if="getSubcategoryExpandedState(category.id, subcategory.id)"
-                  class="guide-items"
-                >
-                  <a
-                    v-for="item in subcategory.items"
-                    :key="item.id"
-                    :href="item.url"
-                    class="guide-item"
-                    target="_blank"
+                <!-- 2단계: 서브 카테고리 -->
+                <div v-if="expandedCategories[category.id]" class="subcategories">
+                  <div
+                    v-for="subcategory in category.subcategories"
+                    :key="subcategory.id"
+                    class="subcategory"
                   >
-                    <div class="item-icon">
-                      <Icon :name="item.icon" size="16" />
-                    </div>
-                    <div class="item-content">
-                      <div class="item-title">{{ item.title }}</div>
-                      <div class="item-description">{{ item.description }}</div>
-                    </div>
-                    <div class="item-status">
-                      <div class="status-badge" :style="getStatusBadgeStyle(item.status)">
-                        {{ statusInfo[item.status].label }}
+                    <div
+                      class="subcategory-header"
+                      @click="toggleGuideSubcategory(category.id, subcategory.id)"
+                    >
+                      <div class="subcategory-icon">
+                        <Icon
+                          :name="
+                            getSubcategoryExpandedState(category.id, subcategory.id)
+                              ? 'mdi:chevron-down'
+                              : 'mdi:chevron-right'
+                          "
+                          size="18"
+                        />
                       </div>
-                      <div class="item-action">
-                        <Icon name="mdi:arrow-right" size="16" />
+                      <h4>{{ subcategory.title }}</h4>
+                      <div class="status-badge" :style="getStatusBadgeStyle(subcategory.status)">
+                        {{ statusInfo[subcategory.status].label }}
                       </div>
                     </div>
-                  </a>
+
+                    <!-- 3단계: 세부 항목 -->
+                    <div
+                      v-if="getSubcategoryExpandedState(category.id, subcategory.id)"
+                      class="guide-items"
+                    >
+                      <a
+                        v-for="item in subcategory.items"
+                        :key="item.id"
+                        :href="item.url"
+                        class="guide-item"
+                        target="_blank"
+                      >
+                        <div class="item-icon">
+                          <Icon :name="item.icon" size="16" />
+                        </div>
+                        <div class="item-content">
+                          <div class="item-title">{{ item.title }}</div>
+                          <div class="item-description">{{ item.description }}</div>
+                        </div>
+                        <div class="item-status">
+                          <div class="status-badge" :style="getStatusBadgeStyle(item.status)">
+                            {{ statusInfo[item.status].label }}
+                          </div>
+                          <div class="item-action">
+                            <Icon name="mdi:arrow-right" size="16" />
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -713,7 +811,7 @@
 
 <style lang="scss" scoped>
   .guide-container {
-    max-width: 1200px;
+    max-width: 100%;
     margin: 0 auto;
     padding: 40px 20px;
     background-color: #f5f7fa;
@@ -729,21 +827,32 @@
   }
 
   .guide-content {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 30px;
+    margin-top: 30px;
+  }
 
-    @media (max-width: 768px) {
-      grid-template-columns: 1fr;
-    }
+  .guide-row {
+    display: flex;
+    margin: -10px;
+    width: calc(100% + 20px);
+    align-items: flex-start;
+  }
+
+  .guide-column {
+    flex: 1 1 100%;
+    min-width: 300px;
+    margin: 10px;
+  }
+
+  .guide-table {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    margin-bottom: 20px;
+    overflow: auto;
   }
 
   .task-check-section {
-    background-color: #fff;
-    border-radius: 12px;
-    padding: 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-
     h2 {
       font-size: 20px;
       font-weight: 600;
@@ -945,158 +1054,215 @@
     }
   }
 
-  .guide-table {
-    background-color: #fff;
-    border-radius: 12px;
-    padding: 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  .section-description {
+    color: var(--color-gray-60, #58616a);
+    margin-bottom: 24px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
 
-    h2 {
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 20px;
-      color: #333;
-      border-bottom: 2px solid #eaeaea;
-      padding-bottom: 10px;
+  .component-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .component-card {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid var(--color-gray-20, #cdd1d5);
+    background-color: var(--color-gray-5, #f5f6f7);
+    transition: all 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+
+    &:hover {
+      border-color: var(--color-system-b30, #0084ff);
+      box-shadow: 0 2px 8px rgba(0, 132, 255, 0.1);
+      transform: translateY(-2px);
+    }
+  }
+
+  .component-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    background-color: var(--color-system-b10, #e6f2ff);
+    color: var(--color-system-b30, #0084ff);
+    margin-right: 16px;
+    flex-shrink: 0;
+  }
+
+  .component-info {
+    flex: 1;
+  }
+
+  .component-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 4px;
+    color: var(--color-gray-80, #2c3137);
+  }
+
+  .component-desc {
+    font-size: 14px;
+    color: var(--color-gray-60, #58616a);
+    margin: 0;
+  }
+
+  @media (max-width: 1200px) {
+    .guide-column {
+      flex: 1 1 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .guide-column {
+      flex: 1 1 100%;
     }
 
-    .guide-categories {
-      .guide-category {
-        margin-bottom: 16px;
-        border: 1px solid #eaeaea;
-        border-radius: 8px;
-        overflow: hidden;
+    .component-grid {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+  }
 
-        .category-header {
-          display: flex;
-          align-items: center;
-          padding: 16px;
-          background-color: #f8fafc;
-          cursor: pointer;
+  .guide-categories {
+    .guide-category {
+      margin-bottom: 16px;
+      border: 1px solid #eaeaea;
+      border-radius: 8px;
+      overflow: hidden;
 
-          &:hover {
-            background-color: #edf2ff;
-          }
+      .category-header {
+        display: flex;
+        align-items: center;
+        padding: 16px;
+        background-color: #f8fafc;
+        cursor: pointer;
 
-          .category-icon {
-            margin-right: 12px;
-            display: flex;
-            align-items: center;
-            color: #3b82f6;
-          }
-
-          h3 {
-            flex: 1;
-            margin: 0;
-            font-size: 18px;
-            font-weight: 600;
-            color: #333;
-          }
-
-          .status-badges {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-          }
-
-          .category-progress {
-            font-size: 14px;
-            color: #666;
-          }
+        &:hover {
+          background-color: #edf2ff;
         }
 
-        .subcategories {
-          .subcategory {
-            border-bottom: 1px solid #eaeaea;
+        .category-icon {
+          margin-right: 12px;
+          display: flex;
+          align-items: center;
+          color: #3b82f6;
+        }
 
-            &:last-child {
-              border-bottom: none;
+        h3 {
+          flex: 1;
+          margin: 0;
+          font-size: 18px;
+          font-weight: 600;
+          color: #333;
+        }
+
+        .status-badges {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .category-progress {
+          font-size: 14px;
+          color: #666;
+        }
+      }
+
+      .subcategories {
+        .subcategory {
+          border-bottom: 1px solid #eaeaea;
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          .subcategory-header {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px 12px 32px;
+            cursor: pointer;
+
+            &:hover {
+              background-color: #f5f7fa;
             }
 
-            .subcategory-header {
+            .subcategory-icon {
+              margin-right: 8px;
               display: flex;
               align-items: center;
-              padding: 12px 16px 12px 32px;
-              cursor: pointer;
+              color: #6b7280;
+            }
+
+            h4 {
+              margin: 0;
+              font-size: 16px;
+              font-weight: 500;
+              color: #4b5563;
+              flex: 1;
+            }
+          }
+
+          .guide-items {
+            .guide-item {
+              display: flex;
+              align-items: center;
+              padding: 12px 16px 12px 56px;
+              text-decoration: none;
+              color: #333;
+              transition: background-color 0.2s;
 
               &:hover {
                 background-color: #f5f7fa;
               }
 
-              .subcategory-icon {
-                margin-right: 8px;
-                display: flex;
-                align-items: center;
+              .item-icon {
+                margin-right: 12px;
                 color: #6b7280;
-              }
-
-              h4 {
-                margin: 0;
-                font-size: 16px;
-                font-weight: 500;
-                color: #4b5563;
-              }
-            }
-
-            .guide-items {
-              .guide-item {
                 display: flex;
                 align-items: center;
-                padding: 12px 16px 12px 56px;
-                text-decoration: none;
-                color: #333;
-                transition: background-color 0.2s;
+              }
 
-                &:hover {
-                  background-color: #f5f7fa;
+              .item-content {
+                flex: 1;
+
+                .item-title {
+                  font-size: 14px;
+                  font-weight: 500;
+                  color: #333;
+                  margin-bottom: 2px;
                 }
 
-                .item-icon {
-                  margin-right: 12px;
+                .item-description {
+                  font-size: 12px;
                   color: #6b7280;
-                  display: flex;
-                  align-items: center;
                 }
+              }
 
-                .item-content {
-                  flex: 1;
+              .item-status {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+              }
 
-                  .item-title {
-                    font-size: 14px;
-                    font-weight: 500;
-                    color: #333;
-                    margin-bottom: 2px;
-                  }
-
-                  .item-description {
-                    font-size: 12px;
-                    color: #6b7280;
-                  }
-                }
-
-                .item-status {
-                  display: flex;
-                  align-items: center;
-                  gap: 12px;
-                }
-
-                .item-action {
-                  color: #9ca3af;
-                }
+              .item-action {
+                color: #9ca3af;
               }
             }
           }
         }
       }
     }
-  }
-
-  .status-badge {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: bold;
-    margin-left: 10px;
   }
 </style>
