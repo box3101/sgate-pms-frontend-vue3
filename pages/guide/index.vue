@@ -193,6 +193,26 @@
                 </div>
               </NuxtLink>
 
+              <NuxtLink to="/components/Checkbox" class="component-card">
+                <div class="component-icon">
+                  <Icon name="mdi:checkbox-marked" size="24" />
+                </div>
+                <div class="component-info">
+                  <h3 class="component-title">체크박스</h3>
+                  <p class="component-desc">모달 및 팝업 컴포넌트</p>
+                </div>
+              </NuxtLink>
+
+              <NuxtLink to="/components/Radio" class="component-card">
+                <div class="component-icon">
+                  <Icon name="mdi:radio-button-checked" size="24" />
+                </div>
+                <div class="component-info">
+                  <h3 class="component-title">라디오</h3>
+                  <p class="component-desc">라디오 컴포넌트</p>
+                </div>
+              </NuxtLink>
+
               <NuxtLink to="/components/Layout" class="component-card">
                 <div class="component-icon">
                   <Icon name="mdi:view-grid-plus" size="24" />

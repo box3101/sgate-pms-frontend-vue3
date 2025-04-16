@@ -12,6 +12,7 @@
       }
     ]"
     :style="{ width }"
+    ref="selectRef"
   >
     <!-- 셀렉트 헤더 부분 (선택된 값 표시) -->
     <div
@@ -57,6 +58,7 @@
   // 전역 이벤트 버스 생성 (다른 셀렉트 컴포넌트와 통신하기 위함)
   const SELECT_EVENT_KEY = 'select-dropdown-toggle'
   const uniqueId = ref(`select-${Math.random().toString(36).substr(2, 9)}`)
+  const selectRef = ref(null)
 
   const props = defineProps({
     placeholder: {
@@ -126,6 +128,7 @@
     if (props.disabled || props.viewOnly) return
     selectedValue.value = option.value
     emit('update:modelValue', option.value)
+    emit('change', option.value)
     isOpen.value = false
   }
 
@@ -136,13 +139,23 @@
     }
   }
 
+  // 문서 클릭 이벤트 핸들러 - 셀렉트 외부 클릭 시 드롭다운 닫기
+  const handleDocumentClick = event => {
+    // 셀렉트가 열려있고, 클릭된 요소가 현재 셀렉트 컴포넌트의 하위 요소가 아닌 경우
+    if (isOpen.value && selectRef.value && !selectRef.value.contains(event.target)) {
+      isOpen.value = false
+    }
+  }
+
   // 이벤트 리스너 등록 및 해제
   onMounted(() => {
     window.addEventListener(SELECT_EVENT_KEY, handleOtherSelectOpen)
+    document.addEventListener('click', handleDocumentClick)
   })
 
   onUnmounted(() => {
     window.removeEventListener(SELECT_EVENT_KEY, handleOtherSelectOpen)
+    document.removeEventListener('click', handleDocumentClick)
   })
 </script>
 
@@ -283,7 +296,7 @@
 
       .ui-select__option {
         padding: 5px 12px;
-        font-size: $font-size-sm;
+        font-size: $font-size-md;
       }
 
       .ui-select__selected-text,

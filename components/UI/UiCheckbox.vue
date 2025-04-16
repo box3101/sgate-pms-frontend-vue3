@@ -65,10 +65,10 @@
       }
 
       .ui-checkbox__input:checked::after {
-        left: 3px;
+        left: 4px;
         top: 1px;
-        width: 3px;
-        height: 6px;
+        width: 5px;
+        height: 8px;
       }
     }
 
@@ -116,13 +116,13 @@
       transition: all 0.2s ease;
 
       &:checked {
-        background-color: $primary-color;
-        border-color: $primary-color;
+        background-color: #fff;
+        border-color: #58616a;
 
         &::after {
           content: '';
           position: absolute;
-          border: solid white;
+          border: solid $primary-color;
           border-width: 0 2px 2px 0;
           transform: rotate(45deg);
         }
