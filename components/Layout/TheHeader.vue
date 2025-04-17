@@ -1125,20 +1125,21 @@
     display: flex;
     align-items: center;
     padding: 0 16px;
-    color: #aaa;
+    color: #b1b8be;
     text-decoration: none;
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 700;
     position: relative;
     transition: color 0.2s;
   }
 
   .tab:hover {
-    color: #333;
+    background: var(--color-primary-5, #e5f6ff);
+    color: #464c53;
   }
 
   .tab.active {
-    color: $primary-color;
+    color: #1e2124;
     font-weight: 800;
   }
 

@@ -1,5 +1,6 @@
 // 변수 정의
 @use 'sass:color';
+@use 'sass:map';
 
 // 기본 색상 변수
 $primary-color: #00aaff;
@@ -200,8 +201,8 @@ $transition-slow: 0.3s;
 
 // 폰트 믹스인
 @mixin font-style($style-map) {
-  font-family: map-get($style-map, 'font-family');
-  font-size: map-get($style-map, 'font-size');
-  font-weight: map-get($style-map, 'font-weight');
-  line-height: map-get($style-map, 'line-height');
+  font-family: map.get($style-map, 'font-family');
+  font-size: map.get($style-map, 'font-size');
+  font-weight: map.get($style-map, 'font-weight');
+  line-height: map.get($style-map, 'line-height');
 }
