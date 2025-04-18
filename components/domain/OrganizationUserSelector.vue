@@ -50,22 +50,93 @@
                     class="icon icon-sm org-toggle-icon"
                     :class="isExpanded('org1-2') ? 'icon-chevron-down' : 'icon-chevron-right'"
                   ></i>
-                  <span class="org-name">이즈파크 팀장</span>
+                  <span class="org-name">개발본부</span>
                 </div>
 
                 <!-- 3DEPTH: 하위 조직 -->
                 <div class="sub-organizations" v-if="isExpanded('org1-2')">
                   <div class="org-item-wrapper">
-                    <div class="org-item">
-                      <span class="org-name">이즈파크 팀장서브</span>
+                    <div
+                      class="org-item hasChild"
+                      :class="{ expanded: isExpanded('org1-2-1') }"
+                      @click="toggleOrg('org1-2-1')"
+                    >
+                      <i
+                        class="icon icon-sm org-toggle-icon"
+                        :class="isExpanded('org1-2-1') ? 'icon-chevron-down' : 'icon-chevron-right'"
+                      ></i>
+                      <span class="org-name">프론트엔드팀</span>
+                    </div>
+
+                    <!-- 4DEPTH: 하위 조직 -->
+                    <div class="sub-organizations" v-if="isExpanded('org1-2-1')">
+                      <div class="org-item-wrapper">
+                        <div class="org-item">
+                          <span class="org-name">UI개발파트</span>
+                        </div>
+                      </div>
+                      <div class="org-item-wrapper">
+                        <div class="org-item">
+                          <span class="org-name">React파트</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="org-item-wrapper">
+                    <div
+                      class="org-item hasChild"
+                      :class="{ expanded: isExpanded('org1-2-2') }"
+                      @click="toggleOrg('org1-2-2')"
+                    >
+                      <i
+                        class="icon icon-sm org-toggle-icon"
+                        :class="isExpanded('org1-2-2') ? 'icon-chevron-down' : 'icon-chevron-right'"
+                      ></i>
+                      <span class="org-name">백엔드팀</span>
+                    </div>
+
+                    <!-- 4DEPTH: 하위 조직 -->
+                    <div class="sub-organizations" v-if="isExpanded('org1-2-2')">
+                      <div class="org-item-wrapper">
+                        <div class="org-item">
+                          <span class="org-name">API파트</span>
+                        </div>
+                      </div>
+                      <div class="org-item-wrapper">
+                        <div class="org-item">
+                          <span class="org-name">데이터베이스파트</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div class="org-item-wrapper">
-                <div class="org-item">
-                  <span class="org-name">이즈파크 팀원</span>
+                <div
+                  class="org-item hasChild"
+                  :class="{ expanded: isExpanded('org1-3') }"
+                  @click="toggleOrg('org1-3')"
+                >
+                  <i
+                    class="icon icon-sm org-toggle-icon"
+                    :class="isExpanded('org1-3') ? 'icon-chevron-down' : 'icon-chevron-right'"
+                  ></i>
+                  <span class="org-name">경영지원본부</span>
+                </div>
+
+                <div class="sub-organizations" v-if="isExpanded('org1-3')">
+                  <div class="org-item-wrapper">
+                    <div class="org-item">
+                      <span class="org-name">인사팀</span>
+                    </div>
+                  </div>
+                  <div class="org-item-wrapper">
+                    <div class="org-item">
+                      <span class="org-name">총무팀</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -110,10 +181,10 @@
       <div class="transfer-buttons-column">
         <div class="transfer-buttons">
           <button class="transfer-btn transfer-right">
-            <i class="icon icon-arrow-right">›</i>
+            <i class="icon icon-md icon-arrow-right"></i>
           </button>
           <button class="transfer-btn transfer-left">
-            <i class="icon icon-arrow-left">‹</i>
+            <i class="icon icon-md icon-arrow-left"></i>
           </button>
         </div>
       </div>
@@ -159,7 +230,7 @@
 
   // 모든 조직 펼치기
   const expandAllOrgs = () => {
-    expandedOrgs.value = ['org1', 'org1-2']
+    expandedOrgs.value = ['org1', 'org1-2', 'org1-2-1', 'org1-2-2', 'org1-3']
   }
 
   // 모든 조직 접기
@@ -174,7 +245,6 @@
     flex-direction: column;
     width: 100%;
     height: 100%;
-    min-height: 400px;
     border: 1px solid #e0e0e0;
     border-radius: 4px;
     overflow: hidden;
@@ -184,6 +254,7 @@
     display: flex;
     width: 100%;
     height: 100%;
+    min-height: 400px;
   }
 
   .column {
@@ -218,7 +289,7 @@
   .tree-action-btn {
     display: flex;
     align-items: center;
-    padding: 4px 8px;
+    padding: 8\4px;
     font-size: 12px;
     background-color: transparent;
     border: none;
@@ -250,6 +321,11 @@
     padding: 8px;
     border-radius: 4px;
     cursor: pointer;
+    font-size: $font-size-md;
+
+    .org-name {
+      font-weight: 500;
+    }
 
     &:hover {
       background-color: #f0f0f0;
@@ -260,7 +336,7 @@
     }
 
     &.expanded {
-      background-color: #f0f0f0;
+      background-color: rgba(#00aaff, 0.1);
     }
   }
 
@@ -272,6 +348,15 @@
   .sub-organizations {
     margin-left: 24px;
     margin-top: 4px;
+
+    .org-item:not(.hasChild) {
+      &::before {
+        content: '- ';
+        display: inline-block;
+        margin-right: 4px;
+        color: #666;
+      }
+    }
   }
 
   .user-list {
@@ -287,6 +372,7 @@
     padding: 8px 12px;
     border-radius: 4px;
     margin-bottom: 4px;
+    font-size: $font-size-md;
     cursor: pointer;
 
     &:hover {

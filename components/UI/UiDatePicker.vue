@@ -692,6 +692,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    max-width: 250px;
 
     &__label {
       font-size: 14px;

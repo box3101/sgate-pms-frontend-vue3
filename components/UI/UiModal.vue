@@ -12,7 +12,8 @@
         { 'ui-popup--centered': centered && !isFullscreen },
         { 'ui-popup--right': position === 'right' && !isFullscreen },
         { 'ui-popup--no-dim': noDim },
-        { 'ui-popup--fullscreen': isFullscreen }
+        { 'ui-popup--fullscreen': isFullscreen },
+        { 'ui-popup--no-scroll': isScroll }
       ]"
       :style="modalStyle"
     >
@@ -118,6 +119,10 @@
       default: false
     },
     showFooter: {
+      type: Boolean,
+      default: false
+    },
+    isScroll: {
       type: Boolean,
       default: false
     }
@@ -407,6 +412,12 @@
       animation: scale-in $transition-normal forwards;
       overflow-y: auto; /* 전체화면 모드에서 스크롤 가능하도록 */
       -webkit-overflow-scrolling: touch; /* 모바일 스크롤 개선 */
+    }
+
+    &--no-scroll {
+      .ui-popup__body {
+        overflow: initial;
+      }
     }
   }
 

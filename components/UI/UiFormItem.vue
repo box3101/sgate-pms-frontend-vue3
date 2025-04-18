@@ -1,6 +1,8 @@
 <template>
   <li class="ui-form-item">
-    <div v-if="label" class="ui-form-item__label" :class="{ [minWidth]: true }">{{ label }}</div>
+    <div v-if="label" class="ui-form-item__label" :class="{ [minWidth]: true }">
+      <span v-html="label"></span>
+    </div>
     <div class="ui-form-item__content">
       <slot></slot>
     </div>
@@ -36,7 +38,7 @@
 
     &__label {
       flex-shrink: 0;
-      font-size: $font-size-md;
+      font-size: $font-size-lg;
       font-weight: 500;
       margin-right: 10px;
       flex: 0.2;

@@ -4,6 +4,9 @@
     <UiButton @click="openCardDetail">카드 상세</UiButton>
     <UiButton @click="openAttachmentModal">첨부파일</UiButton>
     <UiButton @click="openOrganizationUserSelector">직원 찾기</UiButton>
+    <UiButton @click="openReportConfigModal">보고서 설정</UiButton>
+    <UiButton @click="openAiReportModal">AI 취업 보고서 생성</UiButton>
+    <UiButton @click="openReportMergeModal">취합 대상 보고서 선택</UiButton>
   </div>
   <div>
     <!-- ================== 카드 추가 모달 ================== -->
@@ -214,12 +217,277 @@
     <UiModal
       v-model="isOrganizationUserSelectorOpen"
       title="직원 찾기"
-      size="xlarge"
+      size="large"
       :show-footer="true"
     >
       <OrganizationUserSelector />
       <template #footerActions>
-        <UiButton>저장</UiButton>
+        <UiButton variant="primary">저장</UiButton>
+      </template>
+    </UiModal>
+
+    <!-- ================== 보고서 설정 모달 ================== -->
+    <UiModal title="보고서 설정" v-model="reportConfigModal" :size="'large'" :isScroll="true">
+      <template #headerActions-right>
+        <UiButton variant="primary" @click="reportCreateModal = true">
+          <i class="icon icon-md icon-create icon-white"></i>
+          <span>보고서생성</span>
+        </UiButton>
+      </template>
+
+      <UiFormLayout>
+        <UiFormItem label="보고서명">
+          <div class="flex gap-10 align-center">
+            <UiSelect
+              class="w-150"
+              placeholder="일간보고"
+              :options="[
+                { value: '일간보고', label: '일간보고' },
+                { value: '주간보고', label: '주간보고' }
+              ]"
+            />
+            <UiDatePicker class="w-150" />
+          </div>
+        </UiFormItem>
+        <UiFormItem label="표시할내용">
+          <div class="flex flex-col gap-15">
+            <div class="flex gap-10 items-center">
+              <UiCheckbox class="w-60" size="large" label="KPI" />
+              <UiSelect
+                class="w-150"
+                placeholder="2025"
+                :options="[
+                  { value: '2025', label: '2025' },
+                  { value: '2024', label: '2024' }
+                ]"
+              >
+              </UiSelect>
+            </div>
+            <div class="flex gap-10 items-center">
+              <UiCheckbox class="w-60" size="large" label="OKR" />
+              <UiSelect
+                class="w-150"
+                placeholder="2025"
+                :options="[
+                  { value: '2025', label: '2025' },
+                  { value: '2024', label: '2024' }
+                ]"
+              >
+              </UiSelect>
+              <UiSelect
+                class="w-150"
+                placeholder="1분기"
+                :options="[
+                  { value: '1분기', label: '1분기' },
+                  { value: '2분기', label: '2분기' },
+                  { value: '3분기', label: '3분기' },
+                  { value: '4분기', label: '4분기' }
+                ]"
+              >
+              </UiSelect>
+            </div>
+          </div>
+        </UiFormItem>
+        <UiFormItem label="실적작성방법">
+          <div class="flex flex-col gap-15">
+            <div class="flex gap-10 align-center">
+              <UiRadio name="reportType" label="활동" />
+              <div class="flex gap-10 is-border">
+                <UiRadio name="reportType2" label="활동일" />
+                <UiRadio name="reportType2" label="작성일" />
+              </div>
+              <div class="is-border">
+                <UiCheckbox label="나의 활동만 가져오기" />
+              </div>
+              <div class="is-border">
+                <UiCheckbox label="피드백도 포함해서 가져오기" />
+              </div>
+            </div>
+            <UiRadio name="reportType" label="직접입력" />
+          </div>
+        </UiFormItem>
+        <UiFormItem label="Project <br> 실적작성방법">
+          <div class="flex flex-col gap-15">
+            <div class="flex gap-10 align-center">
+              <UiRadio name="reportType" label="활동" />
+              <div class="flex gap-10 is-border">
+                <UiRadio name="reportType2" label="활동일" />
+                <UiRadio name="reportType2" label="작성일" />
+              </div>
+              <div class="is-border">
+                <UiCheckbox label="나의 활동만 가져오기" />
+              </div>
+              <div class="is-border">
+                <UiCheckbox label="피드백도 포함해서 가져오기" />
+              </div>
+            </div>
+            <UiRadio name="reportType" label="직접입력" />
+          </div>
+        </UiFormItem>
+      </UiFormLayout>
+    </UiModal>
+
+    <!-- ================== AI 취업 보고서 생성 ================== -->
+    <UiModal title="AI 취업 보고서 생성" v-model="aiReportModal" :size="'mlarge'">
+      <template #headerActions-left>
+        <img src="@/assets/images/ico_avatar_sai.svg" alt="sai" />
+      </template>
+
+      <template #headerActions-right>
+        <UiButton @click="reportMergeModal = true">
+          <i class="icon icon-sm icon-create icon-white"></i>
+          취합 대상 보고서 선택
+        </UiButton>
+      </template>
+
+      <UiFormLayout>
+        <UiFormItem label="보고서 명">
+          <div class="flex gap-10 items-center">
+            <UiSelect
+              class="w-150"
+              placeholder="주간보고"
+              :options="[
+                { value: '주간보고', label: '주간보고' },
+                { value: '일간보고', label: '일간보고' }
+              ]"
+            >
+            </UiSelect>
+            <UiDatePicker isRange></UiDatePicker>
+          </div>
+        </UiFormItem>
+        <UiFormItem label="표시할내용">
+          <div class="flex flex-col gap-15">
+            <div class="flex gap-10 items-center">
+              <UiCheckbox class="w-60" label="KPI" />
+              <UiSelect
+                class="w-150"
+                placeholder="2025"
+                :options="[
+                  { value: '2025', label: '2025' },
+                  { value: '2024', label: '2024' }
+                ]"
+              >
+              </UiSelect>
+            </div>
+            <div class="flex gap-10 items-center">
+              <UiCheckbox class="w-60" label="OKR" />
+              <UiSelect
+                class="w-150"
+                placeholder="2025"
+                :options="[
+                  { value: '2025', label: '2025' },
+                  { value: '2024', label: '2024' }
+                ]"
+              >
+              </UiSelect>
+              <UiSelect
+                class="w-150"
+                placeholder="1분기"
+                :options="[
+                  { value: '1분기', label: '1분기' },
+                  { value: '2분기', label: '2분기' },
+                  { value: '3분기', label: '3분기' },
+                  { value: '4분기', label: '4분기' }
+                ]"
+              >
+              </UiSelect>
+            </div>
+          </div>
+        </UiFormItem>
+        <UiFormItem label="실적작성방법">
+          <div class="flex gap-10">
+            <UiRadio name="reportType" label="내 활동도 같이 요약하기"> </UiRadio>
+            <div class="flex gap-10 is-border">
+              <UiRadio name="reportType" label="활동일"> </UiRadio>
+              <UiRadio name="reportType" label="작성일"> </UiRadio>
+            </div>
+            <div class="flex gap-10 is-border">
+              <UiCheckbox label="나의 활동만 가져오기" />
+            </div>
+            <div class="flex gap-10 is-border">
+              <UiCheckbox label="피드백도 포함해서 가져오기" />
+            </div>
+          </div>
+          <UiRadio name="reportType" label="내 활동도 같이 요약하기"> </UiRadio>
+        </UiFormItem>
+
+        <div class="notice">
+          <ul>
+            <li class="notice-item mb-5">
+              <i class="icon icon-md icon-info"></i>
+              선택한 기간동안 나에게 제출된 보고서들을 선택하여 내가 최근에 제출한 보고서의 형태로
+              요약합니다.
+            </li>
+            <li class="notice-item">
+              <i class="icon icon-md icon-info"></i>
+              보고서 취합 시 내 활동을 포함하여 요약하고자 하는 경우 내활동 같이 요약하기를
+              선택합니다.
+            </li>
+          </ul>
+        </div>
+      </UiFormLayout>
+    </UiModal>
+
+    <!-- ==================  취합 대상 보고서 선택 ======================-->
+    <UiModal
+      title="취합 대상 보고서 선택"
+      v-model="reportMergeModal"
+      size="xmedium"
+      :show-footer="true"
+    >
+      <div class="report-selection-container">
+        <div class="w-400 body-bg p-4">
+          <h3 class="text-lg font-semibold">제출 기간 : 2023.03.19 ~ 2023.04.03</h3>
+
+          <div class="mt-4 mb-4">
+            <UiCheckbox
+              v-model="selectAllReports"
+              label="전체 보고서 선택"
+              size="large"
+              class="mt-10"
+              @update:modelValue="updateAllReports"
+            />
+            <div class="sub-checkboxes">
+              <div class="report-submitter">
+                <div class="submitter-header">
+                  <UiCheckbox
+                    v-model="selectAllTerms"
+                    label="이찬용 선임(UI/UX)"
+                    size="large"
+                    @update:modelValue="updateSelectAll"
+                  />
+                </div>
+                <div class="report-submitter-list flex flex-col gap-10">
+                  <UiCheckbox
+                    v-model="termsCheckboxes.service"
+                    label="이찬용 선임(UI/UX) - 2025.03.19"
+                    size="medium"
+                    @update:modelValue="updateSelectAll"
+                  />
+                  <UiCheckbox
+                    v-model="termsCheckboxes.privacy"
+                    label="이찬용 선임(UI/UX) - 2025.03.20"
+                    size="medium"
+                    @update:modelValue="updateSelectAll"
+                  />
+                  <UiCheckbox
+                    v-model="termsCheckboxes.terms"
+                    label="이찬용 선임(UI/UX) - 2025.03.21"
+                    size="medium"
+                    @update:modelValue="updateSelectAll"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <template #footerActions>
+        <UiButton variant="primary">
+          <i class="icon icon-md icon-create icon-white"></i>
+          보고서 생성
+        </UiButton>
       </template>
     </UiModal>
   </div>
@@ -245,6 +513,10 @@
   const isAttachmentModalOpen = ref(false)
   const isOrganizationUserSelectorOpen = ref(false)
   const selectedCard = ref(null)
+  const reportConfigModal = ref(false)
+  const aiReportModal = ref(false)
+  const reportMergeModal = ref(false)
+
   // 이벤트 emit
   const emit = defineEmits(['save-card'])
 
@@ -291,6 +563,39 @@
   // 첨부파일
   const uploadedFiles = ref([])
   const googleDriveFiles = ref([])
+
+  // 체크박스 상태 관리
+  const selectAllTerms = ref(false)
+  const selectAllReports = ref(false)
+  const termsCheckboxes = ref({
+    service: false,
+    privacy: false,
+    terms: false
+  })
+
+  // 전체 선택/해제 함수
+  function updateAllTerms(value) {
+    Object.keys(termsCheckboxes.value).forEach(key => {
+      termsCheckboxes.value[key] = value
+    })
+  }
+
+  // 개별 체크박스 변경 시 전체 선택 상태 업데이트
+  function updateSelectAll() {
+    selectAllTerms.value = Object.values(termsCheckboxes.value).every(val => val === true)
+    updateAllReportsState()
+  }
+
+  // 전체 보고서 선택 업데이트
+  function updateAllReports(value) {
+    selectAllTerms.value = value
+    updateAllTerms(value)
+  }
+
+  // 전체 보고서 상태 확인
+  function updateAllReportsState() {
+    selectAllReports.value = selectAllTerms.value
+  }
 
   // ================== 함수 ==================
   // 카드 추가 모달 열기
@@ -344,6 +649,21 @@
   // 첨부파일 저장
   function saveAttachments() {
     isAttachmentModalOpen.value = false
+  }
+
+  // 보고서 설정 모달 열기
+  function openReportConfigModal() {
+    reportConfigModal.value = true
+  }
+
+  // 보고서 생성 모달 열기
+  function openAiReportModal() {
+    aiReportModal.value = true
+  }
+
+  // 취합 대상 보고서 선택 모달 열기
+  function openReportMergeModal() {
+    reportMergeModal.value = true
   }
 
   // 외부에서 접근 가능하도록 노출
