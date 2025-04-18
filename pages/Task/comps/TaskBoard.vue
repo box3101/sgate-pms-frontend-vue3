@@ -105,6 +105,7 @@
   const modalRef = ref(null)
 
   // ================== 함수 ==================
+
   // 새 카테고리 추가
   function addNewCategory() {
     categories.value.push({
@@ -148,7 +149,6 @@
 </script>
 
 <style lang="scss" scoped>
-  // style-guide.scss, utilities.scss 등에서 공통 스타일 활용 권장
   :deep(.modal-buttons) {
     display: none !important;
   }

@@ -212,6 +212,15 @@
                   <p class="component-desc">라디오 컴포넌트</p>
                 </div>
               </NuxtLink>
+              <NuxtLink to="/components/Accordion" class="component-card">
+                <div class="component-icon">
+                  <Icon name="mdi:radio-button-checked" size="24" />
+                </div>
+                <div class="component-info">
+                  <h3 class="component-title">아코디언언</h3>
+                  <p class="component-desc">아코디언언 컴포넌트</p>
+                </div>
+              </NuxtLink>
 
               <NuxtLink to="/components/Layout" class="component-card">
                 <div class="component-icon">
