@@ -10,7 +10,7 @@
           <div class="filter-row">
             <div class="search-container">
               <UiInput placeholder="이찬용" v-model="searchKeyword" class="search-input w-226" />
-              <UiButton icon-only variant="tertiary" @click="showUserSelectModal = true">
+              <UiButton icon-only variant="secondary" @click="showUserSelectModal = true">
                 <i class="icon icon-xl icon-search"></i>
               </UiButton>
             </div>
@@ -61,7 +61,7 @@
             </UiButton>
           </div>
           <div v-else>
-            <UiButton variant="tertiary" size="small" @click="toggleSelectAll">
+            <UiButton variant="secondary" size="small" @click="toggleSelectAll">
               <i class="icon icon-md icon-check"></i>
               전체선택
             </UiButton>
@@ -120,7 +120,7 @@
             v-model="recipientSearchKeyword"
             class="recipient-search-input"
           />
-          <UiButton icon-only variant="tertiary" @click="showUserSelectModal = true">
+          <UiButton icon-only variant="secondary" @click="showUserSelectModal = true">
             <i class="icon icon-xl icon-search"></i>
           </UiButton>
         </div>
@@ -175,7 +175,7 @@
     <!-- 푸터 영역: 확인/취소 버튼 -->
     <template #footerActions>
       <div class="modal-footer-actions">
-        <UiButton variant="tertiary" @click="closeUserSelectModal">취소</UiButton>
+        <UiButton variant="secondary" @click="closeUserSelectModal">취소</UiButton>
         <UiButton variant="primary" @click="confirmUserSelection">확인</UiButton>
       </div>
     </template>

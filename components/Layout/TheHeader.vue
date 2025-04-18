@@ -58,7 +58,7 @@
                 />
               </UiFormItem>
               <UiFormItem label="메인페이지">
-                <UiButton variant="tertiary" icon="heroicons:arrow-right" icon-position="right"
+                <UiButton variant="secondary" icon="heroicons:arrow-right" icon-position="right"
                   >부진사유/대책</UiButton
                 >
               </UiFormItem>

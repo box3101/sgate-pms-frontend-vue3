@@ -5,7 +5,7 @@
       <div class="header flex gap-10 items-center">
         <h2 class="section-title text-xl font-semibold mb-4">나의 보드</h2>
         <div>
-          <UiButton @click="isFilterModalOpen = true" variant="tertiary" icon-only title="필터">
+          <UiButton @click="isFilterModalOpen = true" variant="secondary" icon-only title="필터">
             <Icon name="heroicons:magnifying-glass" size="20" />
           </UiButton>
           <UiFilterModal
@@ -24,7 +24,7 @@
               <p>선택된 부서: {{ selectedDepartments.join(', ') }}</p>
             </div>
             <template #footerActions>
-              <UiButton variant="tertiary" @click="isFilterModalOpen = false">닫기</UiButton>
+              <UiButton variant="secondary" @click="isFilterModalOpen = false">닫기</UiButton>
               <UiButton variant="primary" @click="isFilterModalOpen = false">저장</UiButton>
             </template>
           </UiFilterModal>
@@ -38,7 +38,7 @@
               <h3 class="task-title">
                 {{ ['마케팅', '생산', '인사', '재무', '연구개발', '영업', '기획'][index - 1] }}
               </h3>
-              <UiButton variant="tertiary" size="small" icon-only class="shortcut-btn">
+              <UiButton variant="secondary" size="small" icon-only class="shortcut-btn">
                 <Icon name="heroicons:arrow-right" size="18" />
               </UiButton>
             </div>
@@ -152,7 +152,7 @@
             </div>
             <div class="search-wrapper flex items-center gap-5">
               <UiInput v-model="searchKeyword" placeholder="검색어를 입력하세요" />
-              <UiButton variant="tertiary" icon-only title="검색">
+              <UiButton variant="secondary" icon-only title="검색">
                 <i class="icon icon-md icon-search"></i>
               </UiButton>
             </div>

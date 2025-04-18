@@ -27,7 +27,7 @@
             <span>보드 삭제</span>
           </UiButton>
           <div>
-            <UiButton variant="white" iconOnly @click="openBoardEditModal">
+            <UiButton variant="primary" iconOnly @click="openBoardEditModal">
               <i class="icon icon-pencil icon-xl"></i>
             </UiButton>
             <UiFilterModal v-model="isBoardEditModalOpen" title="보드 편집" :showFooter="true">

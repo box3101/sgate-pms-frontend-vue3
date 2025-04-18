@@ -5,7 +5,7 @@
       <div class="category-actions">
         <UiButton
           v-if="showAddButton"
-          variant="tertiary"
+          variant="secondary"
           size="small"
           icon="heroicons:plus"
           @click="$emit('add-board')"
@@ -29,7 +29,7 @@
                 <UiSelect placeholder="제조공정" />
                 <UiButton
                   class="mt-5"
-                  variant="tertiary"
+                  variant="secondary"
                   icon="heroicons:arrow-right"
                   icon-position="right"
                   block
@@ -41,11 +41,11 @@
               <template #content-3>
                 <div class="flex gap-5">
                   <UiInput placeholder="조회 및 선택하세요" icon="heroicons:magnifying-glass" />
-                  <UiButton variant="tertiary" icon-only>
+                  <UiButton variant="secondary" icon-only>
                     <Icon name="heroicons:magnifying-glass" size="20" />
                   </UiButton>
                 </div>
-                <UiButton class="mt-5" variant="tertiary" block> 전달 </UiButton>
+                <UiButton class="mt-5" variant="secondary" block> 전달 </UiButton>
               </template>
 
               <template #content-4>
@@ -54,7 +54,7 @@
                   <UiFormItem label="협업" minWidth="min-w-10">
                     <div class="flex gap-5">
                       <UiInput placeholder="조회 및 선택하세요" />
-                      <UiButton variant="tertiary" icon-only>
+                      <UiButton variant="secondary" icon-only>
                         <Icon name="heroicons:magnifying-glass" size="20" />
                       </UiButton>
                     </div>
@@ -62,7 +62,7 @@
                   <UiFormItem label="공유" minWidth="min-w-10">
                     <div class="flex gap-5">
                       <UiInput placeholder="조회 및 선택하세요" />
-                      <UiButton variant="tertiary" icon-only>
+                      <UiButton variant="secondary" icon-only>
                         <Icon name="heroicons:magnifying-glass" size="20" />
                       </UiButton>
                     </div>

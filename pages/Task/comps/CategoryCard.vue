@@ -35,7 +35,7 @@
                 <UiSelect class="mt-5" placeholder="업무유형" />
                 <UiButton
                   class="mt-5"
-                  variant="tertiary"
+                  variant="secondary"
                   icon="heroicons:arrow-right"
                   icon-position="right"
                   block
@@ -50,11 +50,11 @@
               <div @click.stop>
                 <div class="flex gap-5">
                   <UiInput placeholder="조회 및 선택하세요" icon="heroicons:magnifying-glass" />
-                  <UiButton variant="tertiary" icon-only @click.stop>
+                  <UiButton variant="secondary" icon-only @click.stop>
                     <Icon name="heroicons:magnifying-glass" size="20" />
                   </UiButton>
                 </div>
-                <UiButton class="mt-5" variant="tertiary" block @click.stop> 전달 </UiButton>
+                <UiButton class="mt-5" variant="secondary" block @click.stop> 전달 </UiButton>
               </div>
             </template>
 
@@ -64,7 +64,7 @@
                 <UiSelect placeholder="업무" />
                 <UiSelect class="mt-5" placeholder="업무2" />
                 <UiSelect class="mt-5" placeholder="업무3" />
-                <UiButton class="mt-5" variant="tertiary" block @click.stop> 합치기 </UiButton>
+                <UiButton class="mt-5" variant="secondary" block @click.stop> 합치기 </UiButton>
               </div>
             </template>
           </UiAccordionMenu>
