@@ -103,34 +103,95 @@
     <!-- ================== 카드 상세 모달 ================== -->
     <UiModal v-model="isCardDetailOpen" position="right" title="카드 상세" size="medium">
       <template #headerActions>
-        <button class="detach-modal-btn" @click="detachCardModal(selectedCard)">
-          <Icon name="mdi:arrow-expand" size="16" />
+        <button class="edit-title-btn">
+          <Icon name="mdi:pencil" size="16" />
         </button>
       </template>
-      <div v-if="selectedCard" class="card-detail">
-        <div class="card-detail-header">
-          <h2 class="card-detail-title">{{ selectedCard.title }}</h2>
-          <div class="card-detail-tags">
-            <UiTag v-for="(tag, index) in selectedCard.tags" :key="index" :text="tag" />
+      <UiAccordionMenu :menuItems="menuItems">
+        <!-- 카드 기본 정보 -->
+        <template #content-1>
+          <UiFormLayout :showFooter="true">
+            <UiFormItem label="카테고리" minWidth="min-w-10">
+              <UiSelect placeholder="업무 보드명입니다." v-model="selectedCategoryId" />
+            </UiFormItem>
+            <UiFormItem label="실행기간" minWidth="min-w-10">
+              <UiDatePicker isRange v-model="executePeriod" />
+            </UiFormItem>
+            <UiFormItem label="협업" minWidth="min-w-10">
+              <div class="flex gap-5">
+                <UiMultiSelect
+                  placeholder="협업자 이름을 입력해주세요"
+                  :options="departmentOptions"
+                  v-model="selectedCooperators"
+                />
+                <UiButton variant="secondary" icon-only @click="openOrganizationUserSelector">
+                  <Icon name="heroicons:user" size="20" />
+                </UiButton>
+                <UiButton variant="secondary" icon-only>
+                  <Icon name="heroicons:magnifying-glass" size="20" />
+                </UiButton>
+              </div>
+            </UiFormItem>
+            <UiFormItem label="공유" minWidth="min-w-10">
+              <div class="flex gap-5">
+                <UiMultiSelect
+                  placeholder="공유자 이름을 입력해주세요"
+                  :options="departmentOptions"
+                  v-model="selectedSharers"
+                />
+                <UiButton variant="secondary" icon-only>
+                  <Icon name="heroicons:user" size="20" />
+                </UiButton>
+                <UiButton variant="secondary" icon-only>
+                  <Icon name="heroicons:magnifying-glass" size="20" />
+                </UiButton>
+              </div>
+            </UiFormItem>
+            <UiFormItem label="내용" minWidth="min-w-10">
+              <UiTextarea
+                placeholder="업무에 대한 구체적인 내용을 입력해주세요."
+                v-model="cardContent"
+              />
+            </UiFormItem>
+            <template #footerActions>
+              <div class="flex gap-5 justify-end">
+                <UiButton @click="saveCard">등록</UiButton>
+                <UiButton variant="secondary" @click="isCardModalOpen = false">취소</UiButton>
+              </div>
+            </template>
+          </UiFormLayout>
+        </template>
+        <!-- 활동 내용 -->
+        <template #content-2>
+          <div class="activity-content">
+            <div class="flex justify-between gap-5 mb-4">
+              <div class="flex gap-10 items-center">
+                <p class="flex-none">일자</p>
+                <UiDatePicker placeholder="날짜 선택" v-model="activityDate" />
+              </div>
+              <div class="flex gap-20 items-center">
+                <p class="flex-none">업무상태</p>
+                <UiSelect placeholder="선택하세요" class="w-200" v-model="activityStatus" />
+                <p class="flex-none">진행만족도</p>
+                <UiSelect placeholder="선택하세요" class="w-200" v-model="activitySatisfaction" />
+              </div>
+            </div>
+            <div
+              class="editor-container mt-10 my-4"
+              style="height: 200px; border: 1px solid #141212"
+            ></div>
+            <div
+              class="flex justify-between items-center mt-20 pt-10"
+              style="border-top: 1px solid #eee"
+            >
+              <button class="attachment-btn" @click="openAttachmentModal">
+                <Icon name="heroicons:paper-clip" size="20" />
+              </button>
+              <UiButton variant="primary" @click="saveCard">저장</UiButton>
+            </div>
           </div>
-        </div>
-        <div class="card-detail-content">
-          <div class="card-detail-info">
-            <div class="info-item">
-              <span class="info-label">기간</span>
-              <span class="info-value">{{ selectedCard.date }}</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">댓글</span>
-              <span class="info-value">{{ selectedCard.comments }}</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">첨부파일</span>
-              <span class="info-value">{{ selectedCard.attachments }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
+        </template>
+      </UiAccordionMenu>
     </UiModal>
 
     <!-- ================== 첨부파일 모달 ================== -->
@@ -175,7 +236,6 @@
   import UiMultiSelect from '@/components/UI/UiMultiSelect.vue'
   import UiTextarea from '@/components/UI/UiTextarea.vue'
   import UiDatePicker from '@/components/UI/UiDatePicker.vue'
-  import UiTag from '@/components/UI/UiTag.vue'
   import UiAttachmentAccordion from '@/components/UI/UiAttachment.vue'
   import OrganizationUserSelector from '@/components/domain/OrganizationUserSelector.vue'
 
@@ -284,11 +344,6 @@
   // 첨부파일 저장
   function saveAttachments() {
     isAttachmentModalOpen.value = false
-  }
-
-  // 카드 상세 모달 분리
-  function detachCardModal(card) {
-    isCardDetailOpen.value = false
   }
 
   // 외부에서 접근 가능하도록 노출

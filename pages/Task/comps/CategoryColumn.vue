@@ -14,7 +14,7 @@
         </UiButton>
         <div>
           <button class="category-menu-btn" @click="openCategoryModal">
-            <Icon name="mdi:dots-vertical" size="16" />
+            <i class="icon icon-sm icon-dots-vertical"></i>
           </button>
           <!-- 카테고리 모달 -->
           <UiFilterModal
