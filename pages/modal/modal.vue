@@ -20,6 +20,7 @@
     <div class="modal-buttons flex gap-5">
       <UiButton @click="openReferenceKpiModal">참고 KPI</UiButton>
       <UiButton @click="openKpiModal">KPI</UiButton>
+      <UiButton @click="openOrganizationUserSelector">직원 찾기</UiButton>
     </div>
   </div>
   <div>
@@ -785,7 +786,7 @@
     </UiModal>
 
     <!-- ================== kpi 모달================== -->
-    <UiModal title="KPI" v-model="kpiModal" :size="'medium'">
+    <UiModal title="KPI" v-model="kpiModal" :size="'medium'" :show-footer="true">
       <div class="kpi-modal-content">
         <UiTable bordered horizontal size="small">
           <template #colgroup>
@@ -967,6 +968,12 @@
           </template>
         </UiTable>
       </div>
+      <template #footerActions>
+        <div class="modal-footer-actions">
+          <UiButton variant="secondary" @click="closeKpiModal">취소</UiButton>
+          <UiButton variant="primary" @click="confirmKpi">저장</UiButton>
+        </div>
+      </template>
     </UiModal>
   </div>
 </template>
@@ -1002,7 +1009,7 @@
 
   // 개인성과 모달
   const isReferenceKpiModalOpen = ref(false)
-  const kpiModal = ref(true)
+  const kpiModal = ref(false)
 
   // 이벤트 emit
   const emit = defineEmits(['save-card'])

@@ -1,5 +1,16 @@
 <template>
   <div class="organization-user-selector">
+    <UiFormLayout>
+      <UiFormItem label="직원">
+        <div class="flex items-center gap-5">
+          <UiInput placeholder="직원 이름을 입력하세요" v-model="employeeName" class="w-180" />
+          <UiButton variant="secondary" icon-only>
+            <i class="icon icon-sm icon-search icon-white"></i>
+          </UiButton>
+        </div>
+      </UiFormItem>
+    </UiFormLayout>
+
     <!-- 3컬럼 레이아웃 -->
     <div class="selector-columns">
       <!-- 첫 번째 컬럼: 조직 트리 -->
