@@ -440,6 +440,7 @@
           <h3 class="text-lg font-semibold">제출 기간 : 2023.03.19 ~ 2023.04.03</h3>
 
           <div class="mt-4 mb-4">
+            <!-- 전체 보고서 선택 체크박스 -->
             <UiCheckbox
               v-model="selectAllReports"
               label="전체 보고서 선택"
@@ -447,34 +448,68 @@
               class="mt-10"
               @update:modelValue="updateAllReports"
             />
+
+            <!-- 첫 번째 팀 -->
             <div class="sub-checkboxes">
               <div class="report-submitter">
+                <!-- 팀 체크박스 -->
                 <div class="submitter-header">
                   <UiCheckbox
-                    v-model="selectAllTerms"
+                    v-model="submitters.submitter1.selectAll"
                     label="이찬용 선임(UI/UX)"
                     size="large"
-                    @update:modelValue="updateSelectAll"
+                    @update:modelValue="value => updateAllTerms('submitter1', value)"
                   />
                 </div>
+                <!-- 개별 보고서 체크박스들 -->
                 <div class="report-submitter-list flex flex-col gap-10">
                   <UiCheckbox
-                    v-model="termsCheckboxes.service"
+                    v-model="submitters.submitter1.reports.report1"
                     label="이찬용 선임(UI/UX) - 2025.03.19"
                     size="medium"
-                    @update:modelValue="updateSelectAll"
+                    @update:modelValue="() => updateSelectAll('submitter1')"
                   />
                   <UiCheckbox
-                    v-model="termsCheckboxes.privacy"
-                    label="이찬용 선임(UI/UX) - 2025.03.20"
+                    v-model="submitters.submitter1.reports.report2"
+                    label="이찬용 선임2(UI/UX) - 2025.03.19"
                     size="medium"
-                    @update:modelValue="updateSelectAll"
+                    @update:modelValue="() => updateSelectAll('submitter1')"
                   />
                   <UiCheckbox
-                    v-model="termsCheckboxes.terms"
-                    label="이찬용 선임(UI/UX) - 2025.03.21"
+                    v-model="submitters.submitter1.reports.report3"
+                    label="이찬용 선임3(UI/UX) - 2025.03.19"
                     size="medium"
-                    @update:modelValue="updateSelectAll"
+                    @update:modelValue="() => updateSelectAll('submitter1')"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- 두 번째 팀 -->
+            <div class="sub-checkboxes">
+              <div class="report-submitter">
+                <!-- 팀 체크박스 -->
+                <div class="submitter-header">
+                  <UiCheckbox
+                    v-model="submitters.submitter2.selectAll"
+                    label="이찬용 선임(UI/UX)"
+                    size="large"
+                    @update:modelValue="value => updateAllTerms('submitter2', value)"
+                  />
+                </div>
+                <!-- 개별 보고서 체크박스들 -->
+                <div class="report-submitter-list flex flex-col gap-10">
+                  <UiCheckbox
+                    v-model="submitters.submitter2.reports.report1"
+                    label="이찬용 선임2(UI/UX) - 2025.03.19"
+                    size="medium"
+                    @update:modelValue="() => updateSelectAll('submitter2')"
+                  />
+                  <UiCheckbox
+                    v-model="submitters.submitter2.reports.report2"
+                    label="이찬용 선임3(UI/UX) - 2025.03.19"
+                    size="medium"
+                    @update:modelValue="() => updateSelectAll('submitter2')"
                   />
                 </div>
               </div>
@@ -515,7 +550,7 @@
   const selectedCard = ref(null)
   const reportConfigModal = ref(false)
   const aiReportModal = ref(false)
-  const reportMergeModal = ref(false)
+  const reportMergeModal = ref(true)
 
   // 이벤트 emit
   const emit = defineEmits(['save-card'])
@@ -564,37 +599,98 @@
   const uploadedFiles = ref([])
   const googleDriveFiles = ref([])
 
-  // 체크박스 상태 관리
-  const selectAllTerms = ref(false)
-  const selectAllReports = ref(false)
-  const termsCheckboxes = ref({
-    service: false,
-    privacy: false,
-    terms: false
+  const selectAllReports = ref(false) // 전체 보고서 선택 상태
+  const submitters = ref({
+    submitter1: {
+      selectAll: false, // 첫 번째 팀의 전체 선택 상태
+      reports: {
+        report1: false, // 개별 보고서 선택 상태
+        report2: false,
+        report3: false
+      }
+    },
+    submitter2: {
+      selectAll: false, // 두 번째 팀의 전체 선택 상태
+      reports: {
+        report1: false,
+        report2: false
+      }
+    }
   })
-
-  // 전체 선택/해제 함수
-  function updateAllTerms(value) {
-    Object.keys(termsCheckboxes.value).forEach(key => {
-      termsCheckboxes.value[key] = value
-    })
+  /**
+   * 특정 팀의 모든 보고서 선택/해제하는 함수
+   *
+   * @param {string} submitterId - 팀 식별자
+   * @param {boolean} value - 체크박스 설정 값(true/false)
+   */
+  function updateAllTerms(submitterId, value) {
+    // 해당 팀의 모든 개별 보고서 체크박스를 value 값으로 설정
+    for (const key in submitters.value[submitterId].reports) {
+      submitters.value[submitterId].reports[key] = value
+    }
   }
 
-  // 개별 체크박스 변경 시 전체 선택 상태 업데이트
-  function updateSelectAll() {
-    selectAllTerms.value = Object.values(termsCheckboxes.value).every(val => val === true)
+  /**
+   * 특정 팀의 개별 보고서 체크박스 변경 시 팀 체크박스 상태 업데이트
+   * [동작 3] 팀 내 모든 개별 체크박스가 체크되면 팀 체크박스도 체크됨
+   *
+   * @param {string} submitterId - 팀 식별자
+   */
+  function updateSelectAll(submitterId) {
+    let allChecked = true
+
+    // 해당 팀의 모든 보고서가 체크되었는지 확인
+    for (const reportKey in submitters.value[submitterId].reports) {
+      if (submitters.value[submitterId].reports[reportKey] === false) {
+        allChecked = false
+        break
+      }
+    }
+
+    // 팀 체크박스 상태 업데이트
+    submitters.value[submitterId].selectAll = allChecked
+
+    // 전체 보고서 선택 상태도 업데이트
     updateAllReportsState()
   }
 
-  // 전체 보고서 선택 업데이트
-  function updateAllReports(value) {
-    selectAllTerms.value = value
-    updateAllTerms(value)
+  /**
+   * 전체 보고서 선택 상태 업데이트
+   * 모든 팀 체크박스가 체크되면 전체 보고서 체크박스도 체크됨
+   */
+  function updateAllReportsState() {
+    let allSubmittersChecked = true
+
+    // 모든 팀이 체크되었는지 확인
+    for (const submitterId in submitters.value) {
+      if (submitters.value[submitterId].selectAll === false) {
+        allSubmittersChecked = false
+        break
+      }
+    }
+
+    // 전체 보고서 체크박스 상태 업데이트
+    selectAllReports.value = allSubmittersChecked
   }
 
-  // 전체 보고서 상태 확인
-  function updateAllReportsState() {
-    selectAllReports.value = selectAllTerms.value
+  /**
+   * 전체 보고서 선택/해제 함수
+   * [동작 1] 전체 보고서 체크박스 클릭 시 모든 팀과 개별 보고서가 체크됨
+   *
+   * @param {boolean} value - 체크박스 설정 값(true/false)
+   */
+  function updateAllReports(value) {
+    // 전체 보고서 선택 상태 업데이트
+    selectAllReports.value = value
+
+    // 모든 팀과 개별 보고서 체크박스 업데이트
+    for (const submitterId in submitters.value) {
+      // 팀 체크박스 업데이트
+      submitters.value[submitterId].selectAll = value
+
+      // [동작 2] 팀 내 모든 개별 보고서 체크박스 업데이트
+      updateAllTerms(submitterId, value)
+    }
   }
 
   // ================== 함수 ==================
