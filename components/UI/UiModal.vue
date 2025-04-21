@@ -336,7 +336,6 @@
     }
 
     &__footer {
-      margin-top: $spacing-lg;
       padding: $spacing-lg;
       border-top: 1px solid $border-color;
       display: flex;

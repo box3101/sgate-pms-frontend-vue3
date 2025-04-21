@@ -134,7 +134,7 @@
       color: #333;
       cursor: pointer;
       user-select: none;
-      font-size: $font-size-lg;
+      font-size: $font-size-md;
     }
 
     // 비활성화 상태일 때 커서 스타일 변경

@@ -21,6 +21,7 @@
       <UiButton @click="openReferenceKpiModal">참고 KPI</UiButton>
       <UiButton @click="openKpiModal">KPI</UiButton>
       <UiButton @click="openOrganizationUserSelector">직원 찾기</UiButton>
+      <UiButton @click="openKpiModal2">KPI2</UiButton>
     </div>
   </div>
   <div>
@@ -788,9 +789,9 @@
     <!-- ================== kpi 모달================== -->
     <UiModal title="KPI" v-model="kpiModal" :size="'medium'" :show-footer="true">
       <div class="kpi-modal-content">
-        <UiTable bordered horizontal size="small">
+        <UiTable bordered horizontal size="small" isThLeft="true">
           <template #colgroup>
-            <col style="width: 20%" />
+            <col style="width: 25%" />
             <col style="width: auto" />
           </template>
           <template #body>
@@ -975,6 +976,147 @@
         </div>
       </template>
     </UiModal>
+
+    <!-- ================== kpi 모달2================== -->
+    <UiModal title="KPI" v-model="kpiModal2" :size="'medium'" :show-footer="true">
+      <div class="kpi-modal-content">
+        <UiTable bordered horizontal size="small" :isThLeft="true">
+          <template #colgroup>
+            <col style="width: 25%" />
+            <col style="width: auto" />
+          </template>
+          <template #body>
+            <tr>
+              <th>KPI명</th>
+              <td>
+                <UiInput v-model="kpiName" placeholder="KPI명을 입력하세요" />
+              </td>
+            </tr>
+            <tr>
+              <th>상위</th>
+              <td>
+                <UiSelect
+                  v-model="selectedParent"
+                  :options="parentOptions"
+                  placeholder="선택하세요"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>KPI 구분</th>
+              <td>
+                <div class="flex gap-10">
+                  <UiRadio
+                    v-model="kpiCategory"
+                    name="kpi-category"
+                    value="individual"
+                    label="개인"
+                  />
+                  <UiRadio
+                    v-model="kpiCategory"
+                    name="kpi-category"
+                    value="department"
+                    label="부서"
+                  />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>KPI 유형</th>
+              <td>
+                <div class="flex gap-10">
+                  <UiRadio v-model="kpiType" name="kpi-type" value="quantitative" label="계량" />
+                  <UiRadio v-model="kpiType" name="kpi-type" value="qualitative" label="비계량" />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>상세실적</th>
+              <td>
+                <div class="flex gap-10">
+                  <UiRadio
+                    v-model="detailPerformance"
+                    name="detail-performance"
+                    value="occasional"
+                    label="수시성과"
+                  />
+                  <UiRadio
+                    v-model="detailPerformance"
+                    name="detail-performance"
+                    value="task"
+                    label="업무"
+                  />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>배포대상</th>
+              <td>
+                <UiMultiSelect
+                  v-model="distributionTargets"
+                  :options="[
+                    { value: 'all', label: '전체 구성원' },
+                    { value: 'department', label: '부서 구성원' },
+                    { value: 'team', label: '팀 구성원' },
+                    { value: 'manager', label: '관리자' },
+                    { value: 'leader', label: '리더' },
+                    { value: 'staff', label: '일반 직원' },
+                    { value: 'newEmployee', label: '신입 사원' },
+                    { value: 'contract', label: '계약직' },
+                    { value: 'remote', label: '원격 근무자' },
+                    { value: 'custom', label: '사용자 지정' }
+                  ]"
+                  placeholder="배포 대상을 선택하세요"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>설명</th>
+              <td>
+                <UiInput v-model="description" placeholder="설명을 입력하세요" />
+              </td>
+            </tr>
+            <tr>
+              <th>가중치</th>
+              <td>
+                <UiInput v-model="weight" placeholder="10" />
+              </td>
+            </tr>
+            <tr>
+              <th>년목표</th>
+              <td>
+                <UiTextarea v-model="yearTarget" placeholder="년목표를 입력하세요" />
+              </td>
+            </tr>
+            <tr>
+              <th>평가대상여부</th>
+              <td>
+                <div class="flex gap-10">
+                  <UiRadio
+                    v-model="evaluationTarget"
+                    name="evaluation-target"
+                    value="included"
+                    label="평가대상"
+                  />
+                  <UiRadio
+                    v-model="evaluationTarget"
+                    name="evaluation-target"
+                    value="excluded"
+                    label="미대상"
+                  />
+                </div>
+              </td>
+            </tr>
+          </template>
+        </UiTable>
+      </div>
+      <template #footerActions>
+        <div class="modal-footer-actions">
+          <UiButton variant="secondary" @click="closeKpiModal">취소</UiButton>
+          <UiButton variant="primary" @click="confirmKpi">저장</UiButton>
+        </div>
+      </template>
+    </UiModal>
   </div>
 </template>
 
@@ -1010,6 +1152,7 @@
   // 개인성과 모달
   const isReferenceKpiModalOpen = ref(false)
   const kpiModal = ref(false)
+  const kpiModal2 = ref(false)
 
   // 이벤트 emit
   const emit = defineEmits(['save-card'])
@@ -1264,6 +1407,11 @@
     kpiModal.value = true
   }
 
+  // KPI2 모달 열기
+  function openKpiModal2() {
+    kpiModal2.value = true
+  }
+
   // 외부에서 접근 가능하도록 노출
   defineExpose({
     openCardModal,
@@ -1274,7 +1422,10 @@
     isCardDetailOpen,
     isAttachmentModalOpen,
     isOrganizationUserSelectorOpen,
-    selectedCard
+    selectedCard,
+    openReferenceKpiModal,
+    openKpiModal,
+    openKpiModal2
   })
 </script>
 

@@ -3,7 +3,7 @@
     class="ui-table-wrapper"
     :class="[bordered && 'bordered', striped && 'striped', hover && 'hover', size, layout]"
   >
-    <table class="ui-table">
+    <table class="ui-table" :class="{ 'th-left': isThLeft }">
       <colgroup v-if="$slots.colgroup">
         <slot name="colgroup"></slot>
       </colgroup>
@@ -60,6 +60,10 @@
       type: String,
       default: 'vertical',
       validator: value => ['vertical', 'horizontal'].includes(value)
+    },
+    isThLeft: {
+      type: Boolean,
+      default: false
     }
   })
 </script>
@@ -68,7 +72,6 @@
   .ui-table-wrapper {
     width: 100%;
     overflow-x: auto;
-    margin-bottom: 1.5rem;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     transition: all 0.2s ease;
@@ -204,6 +207,12 @@
 
     thead tr:first-child th:last-child {
       border-top-right-radius: 6px;
+    }
+
+    &.th-left {
+      th {
+        text-align: left;
+      }
     }
   }
 </style>
