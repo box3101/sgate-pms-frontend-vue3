@@ -245,7 +245,6 @@
     flex-direction: column;
     width: 100%;
     height: 100%;
-    border: 1px solid #e0e0e0;
     border-radius: 4px;
     overflow: hidden;
   }
@@ -261,8 +260,9 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: auto;
     overflow: hidden;
+    border: 1px solid #e0e0e0;
   }
 
   .column-header {
@@ -402,8 +402,6 @@
     justify-content: center;
     align-items: center;
     width: 60px;
-    border-left: 1px solid #e0e0e0;
-    border-right: 1px solid #e0e0e0;
   }
 
   .transfer-buttons {

@@ -903,7 +903,22 @@
             <tr>
               <th>배포대상</th>
               <td>
-                <UiMultiSelect v-model="distributionTargets" :options="distributionOptions" />
+                <UiMultiSelect
+                  v-model="distributionTargets"
+                  :options="[
+                    { value: 'all', label: '전체 구성원' },
+                    { value: 'department', label: '부서 구성원' },
+                    { value: 'team', label: '팀 구성원' },
+                    { value: 'manager', label: '관리자' },
+                    { value: 'leader', label: '리더' },
+                    { value: 'staff', label: '일반 직원' },
+                    { value: 'newEmployee', label: '신입 사원' },
+                    { value: 'contract', label: '계약직' },
+                    { value: 'remote', label: '원격 근무자' },
+                    { value: 'custom', label: '사용자 지정' }
+                  ]"
+                  placeholder="배포 대상을 선택하세요"
+                />
               </td>
             </tr>
             <tr>

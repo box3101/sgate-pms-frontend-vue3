@@ -74,17 +74,18 @@
 
     // 크기 변형
     &--small {
-      font-size: $font-size-xs;
+      font-size: $font-size-sm;
       padding: 2px 6px;
 
       .ui-tag__close {
-        font-size: 14px;
-        margin-left: 2px;
+        font-size: 18px;
+        margin-left: 4px;
+        color: var(--color-gray-50, #58616a);
       }
     }
 
     &--medium {
-      font-size: $font-size-xs;
+      font-size: $font-size-md;
       padding: 4px 8px;
 
       .ui-tag__close {

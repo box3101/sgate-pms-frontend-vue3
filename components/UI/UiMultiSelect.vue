@@ -222,6 +222,7 @@
     color: var(--color-gray-40, #8a949e);
     transition: all $transition-normal ease;
     box-sizing: border-box;
+    height: max-content;
 
     // 아이콘 스타일
     &__icon {
@@ -365,7 +366,7 @@
     // 크기 변형 - Small
     &--small {
       .ui-multi-select__header {
-        height: 26px;
+        min-height: 26px;
         padding: 3px 9px;
       }
 
@@ -382,13 +383,13 @@
     // 크기 변형 - Medium
     &--medium {
       .ui-multi-select__header {
-        height: 28px;
-        padding: 5px 12px;
+        min-height: 28px;
+        padding: 3px 12px;
       }
 
       .ui-multi-select__option {
-        padding: 5px 12px;
-        font-size: $font-size-sm;
+        padding: 3px 12px;
+        font-size: $font-size-md;
       }
 
       .ui-multi-select__placeholder {
@@ -401,7 +402,7 @@
     // 크기 변형 - Large
     &--large {
       .ui-multi-select__header {
-        height: 30px;
+        min-height: 30px;
         padding: 3px 12px;
       }
 
@@ -477,7 +478,7 @@
     @media (max-width: 768px) {
       &--small {
         .ui-multi-select__header {
-          padding: 5px 10px;
+          padding: 3px 10px;
         }
       }
 
