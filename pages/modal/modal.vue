@@ -461,7 +461,10 @@
 
             <!-- 첫 번째 팀 -->
             <div class="sub-checkboxes">
-              <div class="report-submitter">
+              <div
+                :class="['report-submitter', { 'is-active': submitters.submitter1.toggleOrg }]"
+                @click="toggleOrg('submitter1')"
+              >
                 <!-- 팀 체크박스 -->
                 <div class="submitter-header">
                   <UiCheckbox
@@ -469,6 +472,7 @@
                     label="이찬용 선임(UI/UX)"
                     size="large"
                     @update:modelValue="value => updateAllTerms('submitter1', value)"
+                    @click.stop
                   />
                 </div>
                 <!-- 개별 보고서 체크박스들 -->
@@ -496,8 +500,11 @@
             </div>
 
             <!-- 두 번째 팀 -->
-            <div class="sub-checkboxes">
-              <div class="report-submitter">
+            <div class="sub-checkboxes" @click="toogleOrg">
+              <div
+                :class="['report-submitter', { 'is-active': submitters.submitter2.toggleOrg }]"
+                @click="toggleOrg('submitter2')"
+              >
                 <!-- 팀 체크박스 -->
                 <div class="submitter-header">
                   <UiCheckbox
@@ -505,6 +512,7 @@
                     label="이찬용 선임(UI/UX)"
                     size="large"
                     @update:modelValue="value => updateAllTerms('submitter2', value)"
+                    @click.stop
                   />
                 </div>
                 <!-- 개별 보고서 체크박스들 -->
@@ -739,7 +747,7 @@
   const selectedCard = ref(null)
   const reportConfigModal = ref(false)
   const aiReportModal = ref(false)
-  const reportMergeModal = ref(false)
+  const reportMergeModal = ref(true)
   const addActivityPopup = ref(false)
   const reportCreateModal = ref(false)
   const aiSummaryModal = ref(false)
@@ -800,14 +808,16 @@
         report1: false, // 개별 보고서 선택 상태
         report2: false,
         report3: false
-      }
+      },
+      toggleOrg: false
     },
     submitter2: {
       selectAll: false, // 두 번째 팀의 전체 선택 상태
       reports: {
         report1: false,
         report2: false
-      }
+      },
+      toggleOrg: false
     }
   })
 
@@ -885,6 +895,14 @@
       // [동작 2] 팀 내 모든 개별 보고서 체크박스 업데이트
       updateAllTerms(submitterId, value)
     }
+  }
+
+  /**
+   * 체크 박스 토글 이벤트
+   */
+  function toggleOrg(team) {
+    // console.log(submitters.value[team].toggleOrg)
+    submitters.value[team].toggleOrg = !submitters.value[team].toggleOrg
   }
 
   // ================== 함수 ==================

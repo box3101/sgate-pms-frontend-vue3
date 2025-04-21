@@ -1345,6 +1345,40 @@
   margin-bottom: 10px;
   margin-top: 10px;
 
+  .report-submitter-list {
+    display: none !important;
+    padding: 15px 25px;
+  }
+  .submitter-header {
+    &::after {
+      content: '';
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-right: 1px solid #6b7180;
+      border-bottom: 1px solid #6b7280;
+      transform: rotate(45deg);
+      transition: transform 0.2s ease;
+      margin-left: 8px;
+      position: relative;
+      top: -3px;
+    }
+  }
+  &.is-active {
+    .report-submitter-list {
+      display: flex !important;
+    }
+    .submitter-header {
+      &::after {
+        transform: rotate(225deg);
+        top: 0px;
+      }
+    }
+  }
+  &.is-open {
+    display: block;
+  }
+
   .submitter-header {
     display: flex;
     justify-content: space-between;
@@ -1357,10 +1391,6 @@
     &:hover {
       background-color: #f3f4f6;
     }
-  }
-
-  .report-submitter-list {
-    padding: 15px 25px;
   }
 
   .icon {
