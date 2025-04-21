@@ -86,7 +86,7 @@
   import CategoryColumn from './CategoryColumn.vue'
   import CategoryCard from './CategoryCard.vue'
   import UiButton from '@/components/UI/UiButton.vue'
-  import CommonModal from '~/pages/modal/task/modal.vue' // 공통 모달 매니저 import
+  import CommonModal from '~/pages/modal/modal.vue' // 공통 모달 매니저 import
 
   // ================== 상태 변수 ==================
   // 카테고리 목록 데이터 (예시)

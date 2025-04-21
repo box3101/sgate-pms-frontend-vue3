@@ -1,12 +1,22 @@
 <template>
-  <div class="modal-buttons flex gap-5" style="display: none">
-    <UiButton @click="openCardModal">카드 추가</UiButton>
-    <UiButton @click="openCardDetail">카드 상세</UiButton>
-    <UiButton @click="openAttachmentModal">첨부파일</UiButton>
-    <UiButton @click="openOrganizationUserSelector">직원 찾기</UiButton>
-    <UiButton @click="openReportConfigModal">보고서 설정</UiButton>
-    <UiButton @click="openAiReportModal">AI 취업 보고서 생성</UiButton>
-    <UiButton @click="openReportMergeModal">취합 대상 보고서 선택</UiButton>
+  <div>
+    <h1>업무</h1>
+    <div class="modal-buttons flex gap-5" style="display: none">
+      <UiButton @click="openCardModal">카드 추가</UiButton>
+      <UiButton @click="openCardDetail">카드 상세</UiButton>
+      <UiButton @click="openAttachmentModal">첨부파일</UiButton>
+      <UiButton @click="openOrganizationUserSelector">직원 찾기</UiButton>
+      <UiButton @click="openReportConfigModal">보고서 설정</UiButton>
+      <UiButton @click="openAiReportModal">AI 취업 보고서 생성</UiButton>
+      <UiButton @click="openReportMergeModal">취합 대상 보고서 선택</UiButton>
+      <UiButton @click="openReportCreateModal">보고서 생성</UiButton>
+      <UiButton @click="openAddActivityPopup">활동추가</UiButton>
+      <UiButton @click="openAiSummaryModal">AI 요약 전후 비교</UiButton>
+      <UiButton @click="openUserSelectModal">담당자 선택</UiButton>
+    </div>
+  </div>
+  <div class="mt-30">
+    <h1>인사평가</h1>
   </div>
   <div>
     <!-- ================== 카드 추가 모달 ================== -->
@@ -525,6 +535,184 @@
         </UiButton>
       </template>
     </UiModal>
+
+    <!-- ================== 보고서 생성 팝업 ======================-->
+    <UiModal title="보고서 작성" v-model="reportCreateModal" :size="'xlarge'">
+      <template #headerActions-right>
+        <UiButton variant="primary" @click="isFilterModalOpen = false">제출</UiButton>
+      </template>
+      <UiFormLayout>
+        <UiFormItem label="">
+          <div class="flex gap-10 align-center">
+            <div class="user-label gap-5">
+              <i class="icon icon-md icon-user"></i>
+              <div class="user-name">김윤기</div>
+            </div>
+            <div>
+              <ul class="daily-report">
+                <li>일간보고</li>
+                <li>2025.04.04 제출</li>
+              </ul>
+            </div>
+            <UiMultiSelect
+              class="w-400"
+              placeholder="협업자 이름을 입력해주세요"
+              :options="[
+                { value: 'value', label: '형광민[기업]' },
+                { value: 'value', label: '땡땡땡[기업]' }
+              ]"
+            />
+            <UiButton variant="secondary" @click="aiSummaryModal = true">
+              <img src="@/assets/images/ico_avatar_sai.svg" alt="sai" class="icon-md" />
+              <span>AI 요약</span>
+            </UiButton>
+            <UiButton variant="secondary">
+              <span>직접입력</span>
+            </UiButton>
+            <UiButton variant="secondary">
+              <span>활동재생성</span>
+            </UiButton>
+            <UiButton variant="secondary" @click="addActivityPopup = true">
+              <span>업무 활동 추가</span>
+            </UiButton>
+          </div>
+        </UiFormItem>
+      </UiFormLayout>
+      <UiReportTable />
+    </UiModal>
+
+    <!-- ================== 활동추가 팝업 ================== -->
+    <UiModal title="활동추가" v-model="addActivityPopup" size="xlarge">
+      <template #headerActions-right>
+        <UiButton variant="primary">
+          <i class="icon icon-md icon-create icon-white"></i>
+          추가
+        </UiButton>
+      </template>
+
+      <div class="activity-header flex gap-30 items-center">
+        <div class="activity-header__date-section">
+          <div class="activity-header__date-picker">
+            <UiDatePicker isRange />
+          </div>
+        </div>
+
+        <div class="activity-header__radio-section">
+          <div class="activity-header__radio-group flex gap-10">
+            <UiRadio label="활동일" name="a1"></UiRadio>
+            <UiRadio label="작성일" name="a1"></UiRadio>
+          </div>
+        </div>
+
+        <div class="activity-header__checkbox-section flex gap-10">
+          <UiCheckbox id="a1">나의 활동만 가져오기</UiCheckbox>
+          <UiCheckbox id="a2">피드백도 포함해서 가져오기</UiCheckbox>
+        </div>
+      </div>
+
+      <div class="activity-content mt-20">
+        <UiTable>
+          <template #colgroup>
+            <col width="40px" />
+            <col width="100px" />
+            <col width="100px" />
+            <col width="150px" />
+            <col width="120px" />
+            <col width="*" />
+            <col width="100px" />
+            <col width="120px" />
+          </template>
+          <template #header>
+            <tr>
+              <th><UiCheckbox /></th>
+              <th>목적</th>
+              <th>보드</th>
+              <th>업무</th>
+              <th>활동일자</th>
+              <th>활동내용</th>
+              <th>작성자</th>
+              <th>작성일자</th>
+            </tr>
+          </template>
+          <template #body>
+            <tr v-for="i in 50" :key="i">
+              <td><UiCheckbox /></td>
+              <td class="text-center">목적 {{ i }}</td>
+              <td class="text-center">보드 {{ i }}</td>
+              <td class="text-center">업무 {{ i }}</td>
+              <td class="text-center">2023.04.{{ i + 10 }}</td>
+              <td>
+                글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트.
+              </td>
+              <td class="text-center">홍길동</td>
+              <td class="text-center">2023.04.{{ i + 12 }}</td>
+            </tr>
+          </template>
+        </UiTable>
+      </div>
+    </UiModal>
+
+    <!-- ================== AI 요약 전후 비교 ================== -->
+    <UiModal title="AI 요약 전후 비교" v-model="aiSummaryModal" :size="'mlarge'">
+      <UiFormLayout>
+        <div class="flex flex-col">
+          <ul class="flex flex-wrap w-full fx-header">
+            <li class="flex justify-center items-center w-half"><span>금일실적</span></li>
+            <li class="flex justify-center items-center w-half"><span>AI 요약 금일 실적</span></li>
+          </ul>
+          <ul class="flex flex-wrap w-full h-100p fx-body">
+            <li class="flex justify-center w-half border-right">
+              1-left 현 프로세스 분석 및 문제점 파악, 개선안 초안 작성현 프로세스 분석 및 문제점
+              파악, 개선안 초안 작성현 프로세스 분석 및 문제점 파악, 개선안 초안 작성현 프로세스
+              분석 및 문제점 파악, 개선안 초안 작성
+            </li>
+            <li class="flex justify-center w-half">
+              2-right 현 프로세스 분석 및 문제점 파악, 개선안 초안 작성현 프로세스 분석 및 문제점
+              파악, 개선안 초안 작성현 프로세스 분석 및 문제점 파악, 개선안 초안 작성현 프로세스
+              분석 및 문제점 파악, 개선안 초안 작성현 프로세스 분석 및 문제점 파악, 개선안 초안
+              작성현 프로세스 분석 및 문제점 파악, 개선안 초안 작성현 프로세스 분석 및 문제점 파악,
+              개선안 초안 작성현 프로세스 분석 및 문제점 파악, 개선안 초안 작
+            </li>
+          </ul>
+        </div>
+      </UiFormLayout>
+    </UiModal>
+
+    <!-- ================== 담당자 선택 팝업 ================== -->
+    <UiModal v-model="showUserSelectModal" title="담당자 선택" size="large" :show-footer="true">
+      <!-- 상단 영역: 검색 필터 -->
+      <div class="user-select-filters">
+        <div class="filter-row">
+          <UiInput placeholder="이름" v-model="userNameFilter" class="filter-input" />
+          <UiSelect
+            placeholder="직위"
+            v-model="userPositionFilter"
+            :options="positionOptions"
+            class="filter-select"
+          />
+          <UiSelect
+            placeholder="직급"
+            v-model="userRankFilter"
+            :options="rankOptions"
+            class="filter-select"
+          />
+          <UiButton type="primary" size="medium">
+            <i class="icon icon-sm icon-search icon-white"></i>
+            검색
+          </UiButton>
+        </div>
+      </div>
+
+      <DepartmentUserSelector />
+
+      <!-- 푸터 영역: 확인/취소 버튼 -->
+      <template #footerActions>
+        <div class="modal-footer-actions">
+          <UiButton variant="secondary" @click="closeUserSelectModal">취소</UiButton>
+          <UiButton variant="primary" @click="confirmUserSelection">확인</UiButton>
+        </div>
+      </template>
+    </UiModal>
   </div>
 </template>
 
@@ -541,6 +729,7 @@
   import UiDatePicker from '@/components/UI/UiDatePicker.vue'
   import UiAttachmentAccordion from '@/components/UI/UiAttachment.vue'
   import OrganizationUserSelector from '@/components/domain/OrganizationUserSelector.vue'
+  import DepartmentUserSelector from '@/components/domain/DepartmentUserSelector.vue'
 
   // ================== 상태 변수 ==================
   const isCardModalOpen = ref(false)
@@ -550,7 +739,11 @@
   const selectedCard = ref(null)
   const reportConfigModal = ref(false)
   const aiReportModal = ref(false)
-  const reportMergeModal = ref(true)
+  const reportMergeModal = ref(false)
+  const addActivityPopup = ref(false)
+  const reportCreateModal = ref(false)
+  const aiSummaryModal = ref(false)
+  const showUserSelectModal = ref(false)
 
   // 이벤트 emit
   const emit = defineEmits(['save-card'])
@@ -617,6 +810,7 @@
       }
     }
   })
+
   /**
    * 특정 팀의 모든 보고서 선택/해제하는 함수
    *
@@ -762,6 +956,26 @@
     reportMergeModal.value = true
   }
 
+  // 보고서 생성 모달 열기
+  function openReportCreateModal() {
+    reportCreateModal.value = true
+  }
+
+  // 활동추가 모달 열기
+  function openAddActivityPopup() {
+    addActivityPopup.value = true
+  }
+
+  // AI 요약 전후 비교 모달 열기
+  function openAiSummaryModal() {
+    aiSummaryModal.value = true
+  }
+
+  // 담당자 선택 모달 열기
+  function openUserSelectModal() {
+    showUserSelectModal.value = true
+  }
+
   // 외부에서 접근 가능하도록 노출
   defineExpose({
     openCardModal,
@@ -776,4 +990,12 @@
   })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+  h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #222222;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+</style>

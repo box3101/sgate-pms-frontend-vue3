@@ -1406,3 +1406,308 @@
     }
   }
 }
+
+.task-handover-container {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+
+.task-handover-layout {
+  display: flex;
+  gap: 20px;
+  height: 100%;
+}
+
+// 왼쪽 패널: 업무선택 영역
+.task-selection-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  overflow: hidden;
+}
+
+.filter-section {
+  margin-bottom: 20px;
+
+  .search-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+
+    .search-input {
+      flex: 1;
+    }
+  }
+
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+
+.selection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  .selection-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+}
+
+.task-card-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.task-card {
+  display: flex;
+  padding: 16px;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #bdbdbd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  &.selected {
+    border-color: #2196f3;
+    background-color: rgba(33, 150, 243, 0.05);
+  }
+
+  .task-card-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+    min-width: 60px;
+
+    .profile-image {
+      border-radius: 50%;
+      overflow: hidden;
+      margin-bottom: 8px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .assignee-name {
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+    }
+  }
+
+  .task-card-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .task-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+
+    .task-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .task-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 12px;
+      color: #757575;
+
+      .comment-count,
+      .share-count {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+    }
+  }
+
+  .task-card-right {
+    display: flex;
+    align-items: center;
+
+    .task-date {
+      font-size: 12px;
+      color: #757575;
+      white-space: nowrap;
+    }
+  }
+}
+
+// 오른쪽 패널: 업무전달 영역
+.task-handover-panel {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+}
+
+.search-section {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+
+  .recipient-search-input {
+    flex: 1;
+  }
+}
+
+.handover-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  .handover-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+}
+
+.handover-guide {
+  margin-top: auto;
+
+  .guide-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+
+    .guide-item {
+      position: relative;
+      padding-left: 16px;
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: #666;
+
+      &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 8px;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background-color: #666;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+// 패널 타이틀 스타일
+.panel-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 16px 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.filter-section {
+  margin-bottom: 20px;
+
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+
+    .search-container {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .filter-select {
+      flex: 1;
+      min-width: 180px;
+    }
+  }
+}
+
+.user-select-filters {
+  margin-bottom: 16px;
+
+  .filter-row {
+    display: flex;
+    gap: 12px;
+
+    .filter-input,
+    .filter-select {
+      flex: 1;
+    }
+  }
+}
+
+.user-select-filters {
+  margin-bottom: 16px;
+
+  .filter-row {
+    display: flex;
+    gap: 12px;
+
+    .filter-input,
+    .filter-select {
+      flex: 1;
+    }
+  }
+}
+
+.modal-footer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.wp100 {
+  width: 100%;
+}
+
+.modal-footer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.wp100 {
+  width: 100%;
+}
