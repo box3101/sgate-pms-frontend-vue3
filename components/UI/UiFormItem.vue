@@ -43,6 +43,7 @@
       margin-right: 10px;
       flex: 0.2;
       min-width: 80px;
+      flex: none;
     }
 
     &__content {

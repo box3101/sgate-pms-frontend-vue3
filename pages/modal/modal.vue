@@ -16,7 +16,8 @@
     </div>
   </div>
   <div class="mt-30">
-    <h1>인사평가</h1>
+    <h1>개인성과</h1>
+    <UiButton @click="openReferenceKpiModal">참고 KPI</UiButton>
   </div>
   <div>
     <!-- ================== 카드 추가 모달 ================== -->
@@ -30,13 +31,13 @@
         <!-- 카드 기본 정보 -->
         <template #content-1>
           <UiFormLayout :showFooter="true">
-            <UiFormItem label="카테고리" minWidth="min-w-10">
+            <UiFormItem label="카테고리">
               <UiSelect placeholder="업무 보드명입니다." v-model="selectedCategoryId" />
             </UiFormItem>
-            <UiFormItem label="실행기간" minWidth="min-w-10">
+            <UiFormItem label="실행기간">
               <UiDatePicker isRange v-model="executePeriod" />
             </UiFormItem>
-            <UiFormItem label="협업" minWidth="min-w-10">
+            <UiFormItem label="협업">
               <div class="flex gap-5">
                 <UiMultiSelect
                   placeholder="협업자 이름을 입력해주세요"
@@ -51,7 +52,7 @@
                 </UiButton>
               </div>
             </UiFormItem>
-            <UiFormItem label="공유" minWidth="min-w-10">
+            <UiFormItem label="공유">
               <div class="flex gap-5">
                 <UiMultiSelect
                   placeholder="공유자 이름을 입력해주세요"
@@ -66,7 +67,7 @@
                 </UiButton>
               </div>
             </UiFormItem>
-            <UiFormItem label="내용" minWidth="min-w-10">
+            <UiFormItem label="내용">
               <UiTextarea
                 placeholder="업무에 대한 구체적인 내용을 입력해주세요."
                 v-model="cardContent"
@@ -124,13 +125,13 @@
         <!-- 카드 기본 정보 -->
         <template #content-1>
           <UiFormLayout :showFooter="true">
-            <UiFormItem label="카테고리" minWidth="min-w-10">
+            <UiFormItem label="카테고리">
               <UiSelect placeholder="업무 보드명입니다." v-model="selectedCategoryId" />
             </UiFormItem>
-            <UiFormItem label="실행기간" minWidth="min-w-10">
+            <UiFormItem label="실행기간">
               <UiDatePicker isRange v-model="executePeriod" />
             </UiFormItem>
-            <UiFormItem label="협업" minWidth="min-w-10">
+            <UiFormItem label="협업">
               <div class="flex gap-5">
                 <UiMultiSelect
                   placeholder="협업자 이름을 입력해주세요"
@@ -145,7 +146,7 @@
                 </UiButton>
               </div>
             </UiFormItem>
-            <UiFormItem label="공유" minWidth="min-w-10">
+            <UiFormItem label="공유">
               <div class="flex gap-5">
                 <UiMultiSelect
                   placeholder="공유자 이름을 입력해주세요"
@@ -160,7 +161,7 @@
                 </UiButton>
               </div>
             </UiFormItem>
-            <UiFormItem label="내용" minWidth="min-w-10">
+            <UiFormItem label="내용">
               <UiTextarea
                 placeholder="업무에 대한 구체적인 내용을 입력해주세요."
                 v-model="cardContent"
@@ -721,6 +722,63 @@
         </div>
       </template>
     </UiModal>
+
+    <!-- ================== 참고 kpi 모달================== -->
+    <UiModal title="참고 KPI" v-model="isReferenceKpiModalOpen" size="xlarge">
+      <div class="reference-kpi-container">
+        <!-- 여기에 참고 KPI 내용 추가 -->
+        <div class="reference-kpi-header">
+          <UiFormLayout :listClass="'flex gap-20'">
+            <UiFormItem label="부문">
+              <UiSelect
+                placeholder="기획부문"
+                v-model="selectedDepartment"
+                :options="departmentOptions"
+              />
+            </UiFormItem>
+            <UiFormItem label="성과지표(KPI)">
+              <div class="search-container flex items-center gap-10">
+                <UiInput
+                  v-model="kpiSearchKeyword"
+                  placeholder="성과지표를 입력하세요"
+                  class="flex-1"
+                />
+                <UiButton variant="primary" size="medium">
+                  <i class="icon icon-sm icon-search icon-white"></i>
+                  검색
+                </UiButton>
+              </div>
+            </UiFormItem>
+          </UiFormLayout>
+        </div>
+        <div class="reference-kpi-cnt">
+          <UiTable bordered hover size="small">
+            <template #colgroup>
+              <col style="width: 20%" />
+              <col style="width: 30%" />
+              <col style="width: 30%" />
+              <col style="width: 20%" />
+            </template>
+            <template #header>
+              <tr>
+                <th>부문</th>
+                <th>성과지표(KPI)</th>
+                <th>정의</th>
+                <th>산출식</th>
+              </tr>
+            </template>
+            <template #body>
+              <tr v-for="i in 20" :key="i">
+                <td>기획부문</td>
+                <td>매출달성률(%)</td>
+                <td>목표매출액에 대한 실적매출액의 달성도</td>
+                <td>실적매출액/계획매출액*100</td>
+              </tr>
+            </template>
+          </UiTable>
+        </div>
+      </div>
+    </UiModal>
   </div>
 </template>
 
@@ -747,11 +805,14 @@
   const selectedCard = ref(null)
   const reportConfigModal = ref(false)
   const aiReportModal = ref(false)
-  const reportMergeModal = ref(true)
+  const reportMergeModal = ref(false)
   const addActivityPopup = ref(false)
   const reportCreateModal = ref(false)
   const aiSummaryModal = ref(false)
   const showUserSelectModal = ref(false)
+
+  // 개인성과 모달
+  const isReferenceKpiModalOpen = ref(true)
 
   // 이벤트 emit
   const emit = defineEmits(['save-card'])
@@ -992,6 +1053,11 @@
   // 담당자 선택 모달 열기
   function openUserSelectModal() {
     showUserSelectModal.value = true
+  }
+
+  // 참고 KPI 모달 열기
+  function openReferenceKpiModal() {
+    isReferenceKpiModalOpen.value = true
   }
 
   // 외부에서 접근 가능하도록 노출

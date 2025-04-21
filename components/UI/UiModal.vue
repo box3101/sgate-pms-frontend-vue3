@@ -494,4 +494,17 @@
       }
     }
   }
+
+  /* ui-popup--right가 아닌 팝업에 대한 스타일 */
+  .ui-popup__content:not(.ui-popup--right) :deep(.ui-form-item__label) {
+    min-width: auto !important;
+  }
+
+  .ui-popup__content:not(.ui-popup--right) :deep(.ui-select),
+  .ui-popup__content:not(.ui-popup--right) :deep(.ui-input) {
+    width: 170px !important;
+    max-width: 170px !important;
+    min-width: 170px !important;
+    flex: 0 0 170px !important;
+  }
 </style>
