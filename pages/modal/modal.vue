@@ -17,7 +17,10 @@
   </div>
   <div class="mt-30">
     <h1>개인성과</h1>
-    <UiButton @click="openReferenceKpiModal">참고 KPI</UiButton>
+    <div class="modal-buttons flex gap-5">
+      <UiButton @click="openReferenceKpiModal">참고 KPI</UiButton>
+      <UiButton @click="openKpiModal">KPI</UiButton>
+    </div>
   </div>
   <div>
     <!-- ================== 카드 추가 모달 ================== -->
@@ -734,6 +737,7 @@
                 placeholder="기획부문"
                 v-model="selectedDepartment"
                 :options="departmentOptions"
+                class="w-180"
               />
             </UiFormItem>
             <UiFormItem label="성과지표(KPI)">
@@ -779,6 +783,176 @@
         </div>
       </div>
     </UiModal>
+
+    <!-- ================== kpi 모달================== -->
+    <UiModal title="KPI" v-model="kpiModal" :size="'medium'">
+      <div class="kpi-modal-content">
+        <UiTable bordered horizontal size="small">
+          <template #colgroup>
+            <col style="width: 20%" />
+            <col style="width: auto" />
+          </template>
+          <template #body>
+            <tr>
+              <th>KPI명</th>
+              <td>
+                <UiInput v-model="kpiName" placeholder="KPI명을 입력하세요" />
+              </td>
+            </tr>
+            <tr>
+              <th>상위</th>
+              <td>
+                <UiSelect
+                  v-model="selectedParent"
+                  :options="parentOptions"
+                  placeholder="상위 항목 선택"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>KPI 구분</th>
+              <td>
+                <div class="flex gap-10">
+                  <UiRadio
+                    v-model="kpiCategory"
+                    name="kpi-category"
+                    value="individual"
+                    label="개인"
+                  />
+                  <UiRadio
+                    v-model="kpiCategory"
+                    name="kpi-category"
+                    value="department"
+                    label="부서"
+                  />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>KPI 유형</th>
+              <td>
+                <div class="flex gap-10">
+                  <UiRadio v-model="kpiType" name="kpi-type" value="quantitative" label="계량" />
+                  <UiRadio v-model="kpiType" name="kpi-type" value="qualitative" label="비계량" />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>실적누적방법</th>
+              <td>
+                <div class="flex gap-10">
+                  <UiRadio
+                    v-model="accumulationMethod"
+                    name="accumulation-method"
+                    value="sum"
+                    label="합산"
+                  />
+                  <UiRadio
+                    v-model="accumulationMethod"
+                    name="accumulation-method"
+                    value="average"
+                    label="평균"
+                  />
+                  <UiRadio
+                    v-model="accumulationMethod"
+                    name="accumulation-method"
+                    value="current"
+                    label="당월실적 반영"
+                  />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>달성률계산방법</th>
+              <td>
+                <div class="flex gap-10">
+                  <UiRadio
+                    v-model="achievementMethod"
+                    name="achievement-method"
+                    value="formula"
+                    label="실적/목표*100"
+                  />
+                  <UiRadio
+                    v-model="achievementMethod"
+                    name="achievement-method"
+                    value="direct"
+                    label="직접입력"
+                  />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>상세실적</th>
+              <td>
+                <div class="flex gap-10">
+                  <UiRadio
+                    v-model="detailPerformance"
+                    name="detail-performance"
+                    value="occasional"
+                    label="수시성과"
+                  />
+                  <UiRadio
+                    v-model="detailPerformance"
+                    name="detail-performance"
+                    value="task"
+                    label="업무"
+                  />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>배포대상</th>
+              <td>
+                <UiMultiSelect v-model="distributionTargets" :options="distributionOptions" />
+              </td>
+            </tr>
+            <tr>
+              <th>산식(설명)</th>
+              <td>
+                <UiInput v-model="formula" placeholder="산식을 입력하세요" />
+              </td>
+            </tr>
+            <tr>
+              <th>가중치</th>
+              <td>
+                <UiInput v-model="weight" placeholder="10" />
+              </td>
+            </tr>
+            <tr>
+              <th>년목표</th>
+              <td>
+                <UiInput v-model="yearTarget" placeholder="200" />
+              </td>
+            </tr>
+            <tr>
+              <th>단위</th>
+              <td>
+                <UiInput v-model="unit" placeholder="단위 입력" suffix="억" />
+              </td>
+            </tr>
+            <tr>
+              <th>평가대상여부</th>
+              <td>
+                <div class="flex gap-10">
+                  <UiRadio
+                    v-model="evaluationTarget"
+                    name="evaluation-target"
+                    value="included"
+                    label="평가대상"
+                  />
+                  <UiRadio
+                    v-model="evaluationTarget"
+                    name="evaluation-target"
+                    value="excluded"
+                    label="미대상"
+                  />
+                </div>
+              </td>
+            </tr>
+          </template>
+        </UiTable>
+      </div>
+    </UiModal>
   </div>
 </template>
 
@@ -812,7 +986,8 @@
   const showUserSelectModal = ref(false)
 
   // 개인성과 모달
-  const isReferenceKpiModalOpen = ref(true)
+  const isReferenceKpiModalOpen = ref(false)
+  const kpiModal = ref(true)
 
   // 이벤트 emit
   const emit = defineEmits(['save-card'])
@@ -1055,9 +1230,16 @@
     showUserSelectModal.value = true
   }
 
+  // ================== kpi 모달 ==================
+
   // 참고 KPI 모달 열기
   function openReferenceKpiModal() {
     isReferenceKpiModalOpen.value = true
+  }
+
+  // KPI 모달 열기
+  function openKpiModal() {
+    kpiModal.value = true
   }
 
   // 외부에서 접근 가능하도록 노출

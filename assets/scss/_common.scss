@@ -77,6 +77,48 @@ body {
   min-height: 100% !important;
 }
 
+/* 폼 요소 포커스 스타일 */
+textarea:focus,
+button:focus,
+[role='button']:focus,
+[contenteditable='true']:focus,
+.form-control:focus,
+.ui-input__wrapper:focus,
+.ui-textarea__field:focus,
+.ui-searchable-select__field:focus,
+.ui-date-picker__field:focus,
+.ui-multi-select__field:focus,
+.ui-multi-select__header:focus,
+.ui-select__header:focus {
+  outline: none;
+  border: 1px solid var(--color-system-b30, #0084ff) !important;
+  box-shadow: 0 0 0 2px rgba(0, 132, 255, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+/* 체크박스와 라디오 버튼 포커스 스타일 */
+.ui-checkbox__input:focus + .ui-checkbox__label::before,
+.ui-radio__input:focus + .ui-radio__label::before,
+.checkbox input:focus + label::before,
+.radio input:focus + label::before {
+  border: 1px solid var(--color-system-b30, #0084ff) !important;
+  box-shadow: 0 0 0 2px rgba(0, 132, 255, 0.1);
+}
+
+/* 체크박스와 라디오 버튼의 경우 키보드 포커스 시 라벨에 포커스 표시 */
+.ui-checkbox__input:focus-visible + .ui-checkbox__label,
+.ui-radio__input:focus-visible + .ui-radio__label,
+.checkbox input:focus-visible + label,
+.radio input:focus-visible + label {
+  outline: 1px solid var(--color-system-b30, #0084ff);
+  outline-offset: 2px;
+}
+
+/* 포커스는 있지만 키보드 포커스가 아닌 경우 (마우스 클릭) 아웃라인 숨김 */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
 @media screen and (max-width: 768px) {
   html,
   body {
