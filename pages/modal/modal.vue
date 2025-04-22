@@ -22,6 +22,7 @@
       <UiButton @click="openKpiModal">KPI</UiButton>
       <UiButton @click="openOrganizationUserSelector">직원 찾기</UiButton>
       <UiButton @click="openKpiModal2">KPI2</UiButton>
+      <UiButton @click="openActivitySearchModal">활동 돋보기</UiButton>
     </div>
   </div>
   <div>
@@ -1117,6 +1118,98 @@
         </div>
       </template>
     </UiModal>
+
+    <!-- ================== 활동 돋보기 ================== -->
+    <UiModal title="활동" v-model="activitySearchModal" :size="'medium'" :show-footer="true">
+      <div class="activity-search-modal">
+        <UiInput v-model="searchQuery" placeholder="업무명을 검색해주세요." />
+
+        <div class="activity-search-tree mt-4">
+          <div class="activity-search-header flex items-center mb-2">
+            <UiCheckbox
+              v-model="selectAllActivities"
+              @update:modelValue="updateAllActivities"
+              label="전체 선택"
+            />
+          </div>
+
+          <!-- 계층적 체크박스 구조 -->
+          <div class="activity-tree-container">
+            <!-- 1depth: 보드 -->
+            <div
+              v-for="(board, boardIndex) in activityBoards"
+              :key="`board-${boardIndex}`"
+              class="activity-board"
+            >
+              <div class="activity-board-header flex items-center" @click="toggleBoard(boardIndex)">
+                <Icon
+                  :name="board.isOpen ? 'heroicons:chevron-down' : 'heroicons:chevron-right'"
+                  size="16"
+                  class="mr-2"
+                />
+                <UiCheckbox
+                  v-model="board.selected"
+                  @update:modelValue="value => updateBoardSelection(boardIndex, value)"
+                  @click.stop
+                  :label="`[보드] ${board.name}`"
+                />
+              </div>
+
+              <!-- 2depth: 카테고리 -->
+              <div v-if="board.isOpen" class="activity-categories pl-6 mt-2">
+                <div
+                  v-for="(category, catIndex) in board.categories"
+                  :key="`cat-${boardIndex}-${catIndex}`"
+                  class="activity-category"
+                >
+                  <div
+                    class="activity-category-header flex items-center"
+                    @click="toggleCategory(boardIndex, catIndex)"
+                  >
+                    <Icon
+                      :name="category.isOpen ? 'heroicons:chevron-down' : 'heroicons:chevron-right'"
+                      size="16"
+                      class="mr-2"
+                    />
+                    <UiCheckbox
+                      v-model="category.selected"
+                      @update:modelValue="
+                        value => updateCategorySelection(boardIndex, catIndex, value)
+                      "
+                      @click.stop
+                      :label="`[카테고리] ${category.name}`"
+                    />
+                  </div>
+
+                  <!-- 3depth: 메뉴 항목 -->
+                  <div v-if="category.isOpen" class="activity-items pl-6 mt-2">
+                    <div
+                      v-for="(item, itemIndex) in category.items"
+                      :key="`item-${boardIndex}-${catIndex}-${itemIndex}`"
+                      class="activity-item flex items-center"
+                    >
+                      <UiCheckbox
+                        v-model="item.selected"
+                        @update:modelValue="
+                          value => updateItemSelection(boardIndex, catIndex, itemIndex, value)
+                        "
+                        :label="`[카테고리] ${item.name}`"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template #footerActions>
+        <div class="modal-footer-actions">
+          <UiButton variant="secondary" @click="closeActivitySearchModal">취소</UiButton>
+          <UiButton variant="primary" @click="confirmActivitySearch">저장</UiButton>
+        </div>
+      </template>
+    </UiModal>
   </div>
 </template>
 
@@ -1153,6 +1246,73 @@
   const isReferenceKpiModalOpen = ref(false)
   const kpiModal = ref(false)
   const kpiModal2 = ref(false)
+  const activitySearchModal = ref(false)
+
+  // 활동 돋보기 모달 관련 변수
+  const searchQuery = ref('')
+  const selectAllActivities = ref(false)
+
+  // 활동 보드 데이터 구조
+  const activityBoards = ref([
+    {
+      name: '영업',
+      selected: false,
+      isOpen: false,
+      categories: [
+        {
+          name: '메뉴 2',
+          selected: false,
+          isOpen: false,
+          items: [
+            { name: '메뉴 3-1', selected: false },
+            { name: '메뉴 3-2', selected: false },
+            { name: '메뉴 3-3', selected: false }
+          ]
+        }
+      ]
+    },
+    {
+      name: '제조공정',
+      selected: false,
+      isOpen: false,
+      categories: [
+        {
+          name: '메뉴 2',
+          selected: false,
+          isOpen: false,
+          items: [
+            { name: '메뉴 3-1', selected: false },
+            { name: '메뉴 3-2', selected: false }
+          ]
+        },
+        {
+          name: '메뉴 2-2',
+          selected: false,
+          isOpen: false,
+          items: [
+            { name: '메뉴 3-1', selected: false },
+            { name: '메뉴 3-2', selected: false }
+          ]
+        }
+      ]
+    },
+    {
+      name: '인사',
+      selected: false,
+      isOpen: false,
+      categories: [
+        {
+          name: '메뉴 2',
+          selected: false,
+          isOpen: false,
+          items: [
+            { name: '메뉴 3-1', selected: false },
+            { name: '메뉴 3-2', selected: false }
+          ]
+        }
+      ]
+    }
+  ])
 
   // 이벤트 emit
   const emit = defineEmits(['save-card'])
@@ -1222,6 +1382,52 @@
     }
   })
 
+  // ================== 아코디언 관련 함수 ==================
+  /**
+   * 보드 아코디언 토글 함수
+   *
+   * @param {number} boardIndex - 보드 인덱스
+   */
+  function toggleBoard(boardIndex) {
+    activityBoards.value[boardIndex].isOpen = !activityBoards.value[boardIndex].isOpen
+  }
+
+  /**
+   * 카테고리 아코디언 토글 함수
+   *
+   * @param {number} boardIndex - 보드 인덱스
+   * @param {number} catIndex - 카테고리 인덱스
+   */
+  function toggleCategory(boardIndex, catIndex) {
+    activityBoards.value[boardIndex].categories[catIndex].isOpen =
+      !activityBoards.value[boardIndex].categories[catIndex].isOpen
+  }
+
+  /**
+   * 체크 박스 토글 이벤트 (팀 토글)
+   *
+   * @param {string} team - 팀 식별자
+   */
+  function toggleOrg(team) {
+    submitters.value[team].toggleOrg = !submitters.value[team].toggleOrg
+  }
+
+  // ================== 보고서 선택 관련 함수 ==================
+  /**
+   * 전체 보고서 선택/해제 함수
+   * [동작 1] 전체 보고서 체크박스 클릭 시 모든 팀과 개별 보고서가 체크됨
+   *
+   * @param {boolean} value - 체크박스 설정 값(true/false)
+   */
+  function updateAllReports(value) {
+    selectAllReports.value = value
+
+    for (const submitterId in submitters.value) {
+      submitters.value[submitterId].selectAll = value
+      updateAllTerms(submitterId, value)
+    }
+  }
+
   /**
    * 특정 팀의 모든 보고서 선택/해제하는 함수
    *
@@ -1278,32 +1484,137 @@
     selectAllReports.value = allSubmittersChecked
   }
 
+  // ================== 활동 돋보기 관련 함수 ==================
   /**
-   * 전체 보고서 선택/해제 함수
-   * [동작 1] 전체 보고서 체크박스 클릭 시 모든 팀과 개별 보고서가 체크됨
+   * 보드 전체 선택/해제 함수
    *
+   * @param {number} boardIndex - 보드 인덱스
    * @param {boolean} value - 체크박스 설정 값(true/false)
    */
-  function updateAllReports(value) {
-    // 전체 보고서 선택 상태 업데이트
-    selectAllReports.value = value
+  function updateBoardSelection(boardIndex, value) {
+    activityBoards.value[boardIndex].selected = value
 
-    // 모든 팀과 개별 보고서 체크박스 업데이트
-    for (const submitterId in submitters.value) {
-      // 팀 체크박스 업데이트
-      submitters.value[submitterId].selectAll = value
+    // 해당 보드의 모든 카테고리와 아이템을 동일한 값으로 설정
+    activityBoards.value[boardIndex].categories.forEach((category, catIndex) => {
+      category.selected = value
+      category.items.forEach((item, itemIndex) => {
+        item.selected = value
+      })
+    })
 
-      // [동작 2] 팀 내 모든 개별 보고서 체크박스 업데이트
-      updateAllTerms(submitterId, value)
-    }
+    // 전체 선택 상태 업데이트
+    updateSelectAllActivitiesState()
   }
 
   /**
-   * 체크 박스 토글 이벤트
+   * 카테고리 전체 선택/해제 함수
+   *
+   * @param {number} boardIndex - 보드 인덱스
+   * @param {number} catIndex - 카테고리 인덱스
+   * @param {boolean} value - 체크박스 설정 값(true/false)
    */
-  function toggleOrg(team) {
-    // console.log(submitters.value[team].toggleOrg)
-    submitters.value[team].toggleOrg = !submitters.value[team].toggleOrg
+  function updateCategorySelection(boardIndex, catIndex, value) {
+    activityBoards.value[boardIndex].categories[catIndex].selected = value
+
+    // 해당 카테고리의 모든 아이템을 동일한 값으로 설정
+    activityBoards.value[boardIndex].categories[catIndex].items.forEach((item, itemIndex) => {
+      item.selected = value
+    })
+
+    // 보드 선택 상태 업데이트
+    updateBoardSelectionState(boardIndex)
+
+    // 전체 선택 상태 업데이트
+    updateSelectAllActivitiesState()
+  }
+
+  /**
+   * 개별 아이템 선택/해제 함수
+   *
+   * @param {number} boardIndex - 보드 인덱스
+   * @param {number} catIndex - 카테고리 인덱스
+   * @param {number} itemIndex - 아이템 인덱스
+   * @param {boolean} value - 체크박스 설정 값(true/false)
+   */
+  function updateItemSelection(boardIndex, catIndex, itemIndex, value) {
+    activityBoards.value[boardIndex].categories[catIndex].items[itemIndex].selected = value
+
+    // 카테고리 선택 상태 업데이트
+    updateCategorySelectionState(boardIndex, catIndex)
+
+    // 보드 선택 상태 업데이트
+    updateBoardSelectionState(boardIndex)
+
+    // 전체 선택 상태 업데이트
+    updateSelectAllActivitiesState()
+  }
+
+  /**
+   * 카테고리 선택 상태 업데이트 함수
+   * 모든 아이템이 선택되면 카테고리도 선택됨
+   *
+   * @param {number} boardIndex - 보드 인덱스
+   * @param {number} catIndex - 카테고리 인덱스
+   */
+  function updateCategorySelectionState(boardIndex, catIndex) {
+    const category = activityBoards.value[boardIndex].categories[catIndex]
+    const allItemsSelected = category.items.every(item => item.selected)
+    category.selected = allItemsSelected
+  }
+
+  /**
+   * 보드 선택 상태 업데이트 함수
+   * 모든 카테고리가 선택되면 보드도 선택됨
+   *
+   * @param {number} boardIndex - 보드 인덱스
+   */
+  function updateBoardSelectionState(boardIndex) {
+    const board = activityBoards.value[boardIndex]
+    const allCategoriesSelected = board.categories.every(category => category.selected)
+    board.selected = allCategoriesSelected
+  }
+
+  /**
+   * 전체 활동 선택 상태 업데이트 함수
+   * 모든 보드가 선택되면 전체 활동 체크박스도 선택됨
+   */
+  function updateSelectAllActivitiesState() {
+    const allBoardsSelected = activityBoards.value.every(board => board.selected)
+    selectAllActivities.value = allBoardsSelected
+  }
+
+  /**
+   * 전체 활동 선택/해제 함수
+   *
+   * @param {boolean} value - 체크박스 설정 값(true/false)
+   */
+  function updateAllActivities(value) {
+    selectAllActivities.value = value
+
+    // 모든 보드, 카테고리, 아이템을 동일한 값으로 설정
+    activityBoards.value.forEach((board, boardIndex) => {
+      board.selected = value
+      board.categories.forEach((category, catIndex) => {
+        category.selected = value
+        category.items.forEach((item, itemIndex) => {
+          item.selected = value
+        })
+      })
+    })
+  }
+
+  /**
+   * 활동 검색 모달 닫기
+   */
+  function closeActivitySearchModal() {
+    activitySearchModal.value = false
+  }
+
+  /**
+   * 활동 검색 확인
+   */
+  function confirmActivitySearch() {
+    activitySearchModal.value = false
   }
 
   // ================== 함수 ==================
@@ -1331,7 +1642,6 @@
 
   // 카드 저장
   function saveCard() {
-    // 저장할 데이터 준비 - 실제 입력된 모든 필드 포함
     const dataToSave = {
       categoryId: selectedCategoryId.value,
       title: selectedCard.value?.title || '새 카드', // 기본 제목
@@ -1348,10 +1658,8 @@
       comments: selectedCard.value?.comments || 0
     }
 
-    // 모달 닫기
     isCardModalOpen.value = false
 
-    // 상위 컴포넌트로 이벤트 발생 - 데이터 포함
     emit('save-card', dataToSave)
   }
 
@@ -1410,6 +1718,11 @@
   // KPI2 모달 열기
   function openKpiModal2() {
     kpiModal2.value = true
+  }
+
+  // 활동 돋보기
+  function openActivitySearchModal() {
+    activitySearchModal.value = true
   }
 
   // 외부에서 접근 가능하도록 노출

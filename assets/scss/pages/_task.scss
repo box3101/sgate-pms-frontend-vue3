@@ -1741,3 +1741,53 @@
 .wp100 {
   width: 100%;
 }
+.activity-search-modal {
+  padding: 16px;
+
+  .activity-search-tree {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .activity-board {
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .activity-board-header,
+  .activity-category-header {
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: #f3f4f6;
+    }
+  }
+
+  .activity-categories,
+  .activity-items {
+    margin-left: 20px;
+  }
+
+  .activity-category {
+    margin-bottom: 8px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .activity-item {
+    padding: 4px 20px;
+    margin-bottom: 4px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
