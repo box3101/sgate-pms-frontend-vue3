@@ -1055,7 +1055,7 @@
 <style lang="scss" scoped>
   .header {
     width: 100%;
-    height: 70px;
+    height: 56px;
     background-color: white;
     border-bottom: 1px solid #aaa;
     position: fixed;
@@ -1087,6 +1087,7 @@
       margin: 0 14px;
       font-size: $font-size-xxl;
       font-weight: 700;
+      color: #1e2124;
     }
   }
 
@@ -1113,6 +1114,8 @@
     flex: 1;
     display: flex;
     height: 100%;
+    max-height: 50px;
+    align-self: end;
   }
 
   .tabs {
@@ -1510,7 +1513,7 @@
     transition: all $transition-normal ease;
     border: 1px solid $border-color;
     border-radius: 30px;
-    padding: 10px 20px;
+    padding: 5px 20px;
     background-color: #eee;
     color: $text-color;
 
