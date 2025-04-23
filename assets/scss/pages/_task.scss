@@ -424,7 +424,7 @@
 
   .left-section {
     display: flex;
-    gap: 100px;
+    gap: 16px;
   }
 
   .right-section {
@@ -461,6 +461,7 @@
 
       .user-list {
         max-height: 400px;
+        width: 100%;
 
         .user-item {
           display: flex;
@@ -509,7 +510,6 @@
   gap: 16px;
   width: 100%;
   min-height: calc(100vh - 200px);
-  overflow-x: auto;
   padding-bottom: 50px;
 }
 
@@ -534,13 +534,18 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 32px;
-      background-color: #f9fafb;
+      padding: 58px 154px;
       border-radius: 8px;
-      border: 1px dashed #dadce0;
-      margin: 20px auto;
-      max-width: 400px;
-      min-width: 400px;
+      border: 1px solid var(--color-gray-20, #cdd1d5);
+      background: var(--color-gray-0, #fff);
+      /* basic */
+      box-shadow: 4px 4px 8px 0px rgba(0, 0, 0, 0.15);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 6px 6px 12px 0px rgba(0, 0, 0, 0.2);
+      }
 
       p {
         margin-bottom: 8px;
@@ -570,6 +575,10 @@
     width: 100%;
     p {
       text-align: center;
+      font-family: Pretendard;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 150%; /* 24px */
     }
   }
 
@@ -582,10 +591,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 32px;
-    height: 32px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    background-color: #e8f0fe;
     margin-bottom: 8px;
   }
 
@@ -959,8 +967,8 @@
 //카테고리 컨테이너 스타일
 .category {
   &-column {
-    min-width: 350px;
-    width: 350px;
+    min-width: 400px;
+    width: 400px;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
@@ -972,19 +980,23 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #e0e0e0;
-    background-color: #f1f3f4;
+    background: var(--color-gray-5, #f4f5f6);
     width: 100%;
+    border-radius: 8px;
+    margin-bottom: 9px;
   }
 
   &-title {
-    margin: 0;
-    font-size: 14px;
-    font-weight: 600;
-    color: #3c4043;
+    color: var(--color-gray-90, #1e2124);
+    /* head/small */
+    font-family: Pretendard;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 150%; /* 30px */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 200px;
   }
 
   &-actions {
@@ -1662,6 +1674,7 @@
     }
   }
 }
+
 // 패널 타이틀 스타일
 .panel-title {
   font-size: 20px;
@@ -1738,9 +1751,6 @@
   gap: 5px;
 }
 
-.wp100 {
-  width: 100%;
-}
 .activity-search-modal {
   padding: 16px;
 
@@ -1789,5 +1799,28 @@
     &:last-child {
       margin-bottom: 0;
     }
+  }
+}
+
+// 버튼 뱃지
+.button-with-badge {
+  position: relative;
+  display: inline-block;
+
+  .badge {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background-color: $primary-color;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 1;
   }
 }

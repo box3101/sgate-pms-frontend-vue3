@@ -60,23 +60,6 @@
   margin-bottom: 10px;
 }
 
-/* 모바일 화면에서 하단 빈 여백 제거를 위한 스타일 */
-html {
-  height: 100% !important;
-}
-
-body {
-  min-height: 100% !important;
-  overflow-x: hidden;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-#__nuxt,
-#__layout {
-  min-height: 100% !important;
-}
-
 /* 폼 요소 포커스 스타일 */
 textarea:focus,
 button:focus,

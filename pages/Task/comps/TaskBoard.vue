@@ -7,15 +7,16 @@
     <section class="board-content">
       <ul class="categories-container">
         <!-- 카테고리 없는 경우 -->
-        <div v-if="categories.length === 0" class="empty-category full">
+        <div v-if="isFirstVisit" class="empty-category full">
           <div class="welcome-message">
             <p>환영합니다.</p>
             <p>업무등록을 위한 보드를 생성해보세요.</p>
-            <UiButton variant="primary" class="create-board-btn" @click="addNewCategory">
+            <UiButton variant="primary" class="create-board-btn" @click="isFirstVisit = false">
               업무 보드 생성하기
             </UiButton>
           </div>
         </div>
+
         <!-- 카테고리 있는 경우 -->
         <CategoryColumn
           v-for="category in categories"
@@ -43,7 +44,7 @@
             <div class="empty-category">
               <div class="add-card-placeholder" @click="handleAddCard(category.id)">
                 <div class="add-placeholder-icon">
-                  <Icon name="mdi:plus" size="24" />
+                  <Icon name="mdi:plus" size="50" />
                 </div>
                 <p>
                   해당 카테고리의 <br />
@@ -55,11 +56,12 @@
         </CategoryColumn>
 
         <!-- 카테고리 추가 버튼 (카테고리가 1개 이상일 때만) -->
-        <li class="category-column" v-if="categories.length > 0">
+        <li class="category-column" v-if="!isFirstVisit">
           <div class="category-header">
-            <div class="category-actions">
-              <UiButton variant="secondary" icon="heroicons:plus" @click="addNewCategory">
-                카테고리 추가
+            <div class="category-actions w-full gap-24">
+              <UiInput class="w-full" placeholder="카테고리명을 입력하세요." />
+              <UiButton variant="ghost" icon-only="" @click="addNewCategory">
+                <i class="icon icon-md icon-plus"></i>
               </UiButton>
             </div>
           </div>
@@ -69,7 +71,7 @@
 
     <!-- ================== 공통 모달 매니저 ================== -->
     <!-- 카드 추가/상세/첨부/직원찾기 팝업 모두 포함 -->
-    <CommonModal ref="modalRef" @save-card="handleSaveCard" />
+    <!-- <CommonModal ref="modalRef" @save-card="handleSaveCard" /> -->
   </div>
 </template>
 
@@ -80,7 +82,7 @@
    * - 공통 모달 매니저([pages/common/modal.vue])를 import하여 모든 모달을 통합 관리
    * - 퍼블리셔 중심 상세 주석 및 SCSS 구조
    */
-  import { ref, reactive } from 'vue'
+  import { ref } from 'vue'
   // UI 및 도메인 컴포넌트 import
   import TaskBoardHeader from './TaskBoardHeader.vue'
   import CategoryColumn from './CategoryColumn.vue'
@@ -90,6 +92,7 @@
 
   // ================== 상태 변수 ==================
   // 카테고리 목록 데이터 (예시)
+  const isFirstVisit = ref(true)
   const categories = ref([
     // 예시 데이터: 실제로는 API 연동 또는 상위에서 관리
     // {
@@ -100,6 +103,8 @@
     //   ]
     // }
   ])
+  // 라이프 사이클 변화때 마다 보고싶어
+  console.log('카테고리 상태 변화:', categories.value)
 
   // 공통 모달 매니저 ref
   const modalRef = ref(null)
@@ -191,6 +196,9 @@
     cursor: pointer;
     padding: 32px 0;
     color: #bbb;
+    border-radius: 4px;
+    border: 1px solid var(--color-gray-20, #cdd1d5);
+    background: var(--color-gray-0, #fff);
     .add-placeholder-icon {
       margin-bottom: 8px;
     }

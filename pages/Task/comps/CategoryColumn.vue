@@ -3,18 +3,13 @@
     <div class="category-header">
       <h3 class="category-title">{{ title }}</h3>
       <div class="category-actions">
-        <UiButton
-          v-if="showAddButton"
-          variant="secondary"
-          size="small"
-          icon="heroicons:plus"
-          @click="$emit('add-board')"
-        >
+        <UiButton v-if="showAddButton" variant="primary" size="small" @click="$emit('add-board')">
+          <i class="icon icon-plus icon-md icon-white"></i>
           카드 추가
         </UiButton>
         <div>
           <button class="category-menu-btn" @click="openCategoryModal">
-            <i class="icon icon-sm icon-dots-vertical"></i>
+            <i class="icon icon-md icon-dots-vertical"></i>
           </button>
           <!-- 카테고리 모달 -->
           <UiFilterModal

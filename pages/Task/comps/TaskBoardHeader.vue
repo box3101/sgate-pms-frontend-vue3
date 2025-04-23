@@ -3,9 +3,9 @@
     <section class="header-container">
       <article class="left-section">
         <div class="flex gap-5">
-          <UiSearchableSelect placeholder="업무 보드명입니다" class="w-200" />
+          <UiSearchableSelect placeholder="보드를 선택하세요" class="w-200" />
           <div>
-            <UiButton variant="secondary" @click="openBoardAddModal">
+            <UiButton variant="primary" @click="openBoardAddModal">
               <i class="icon icon-plus icon-md icon-white"></i>
               <span>보드 추가</span>
             </UiButton>
@@ -22,13 +22,10 @@
               </template>
             </UiFilterModal>
           </div>
-          <UiButton variant="secondary">
-            <i class="icon icon-minus icon-md icon-white"></i>
-            <span>보드 삭제</span>
-          </UiButton>
+
           <div>
-            <UiButton variant="primary" iconOnly @click="openBoardEditModal">
-              <i class="icon icon-pencil icon-xl"></i>
+            <UiButton variant="secondary" iconOnly @click="openBoardEditModal">
+              <i class="icon icon-pencil icon-sm icon-white"></i>
             </UiButton>
             <UiFilterModal v-model="isBoardEditModalOpen" title="보드 편집" :showFooter="true">
               <UiFormLayout>
@@ -43,10 +40,18 @@
               </template>
             </UiFilterModal>
           </div>
+
+          <UiButton variant="secondary-line" iconOnly>
+            <i class="icon icon-delete icon-sm"></i>
+          </UiButton>
         </div>
+
         <div class="flex gap-5">
           <div>
-            <UiButton variant="secondary" @click="openFilterModal">검색필터</UiButton>
+            <UiButton variant="secondary-line" @click="openFilterModal">
+              <i class="icon icon-filter icon-sm"></i>
+              <span>검색필터</span>
+            </UiButton>
             <UiFilterModal
               v-model="isFilterModalOpen"
               :targetRef="filterButton"
@@ -74,18 +79,21 @@
               </template>
             </UiFilterModal>
           </div>
-          <UiButton variant="secondary">
-            <i class="icon icon-plus icon-md icon-white"></i>
+          <UiButton variant="secondary-line">
+            <i class="icon icon-star icon-md"></i>
             <span>중요업무</span>
           </UiButton>
         </div>
       </article>
       <article class="right-section">
         <div>
-          <UiButton variant="secondary" @click="openCollaborationModal">
-            <i class="icon icon-plus icon-md icon-white"></i>
-            <span>협업</span>
-          </UiButton>
+          <div class="button-with-badge">
+            <span class="badge">3</span>
+            <UiButton variant="secondary" @click="openCollaborationModal">
+              <i class="icon icon-plus icon-md icon-white"></i>
+              <span>협업</span>
+            </UiButton>
+          </div>
           <UiFilterModal
             v-model="isCollaborationModalOpen"
             title="협업"
@@ -209,3 +217,5 @@
     isActive.value = value
   }
 </script>
+
+<style lang="scss" scoped></style>

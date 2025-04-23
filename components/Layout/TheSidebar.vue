@@ -768,7 +768,7 @@
 
 <style lang="scss" scoped>
   .sidebar {
-    margin-top: 72px;
+    margin-top: 56px;
     width: 60px;
     height: 100vh;
     background-color: #ffff;

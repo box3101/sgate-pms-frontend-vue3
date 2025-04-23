@@ -37,7 +37,8 @@
     variant: {
       type: String,
       default: 'primary',
-      validator: value => ['primary', 'secondary', 'primary-line', 'secondary-line'].includes(value)
+      validator: value =>
+        ['primary', 'secondary', 'primary-line', 'secondary-line', 'ghost'].includes(value)
     },
     // 버튼에 표시할 아이콘 이름
     icon: {
@@ -230,6 +231,30 @@
       &:disabled {
         border: 1px solid var(--color-gray-20, #cdd1d5);
         background: var(--color-gray-0, #fff);
+        color: var(--color-gray-40, #8a949e);
+        cursor: not-allowed;
+      }
+    }
+
+    &--ghost {
+      background: transparent;
+      color: var(--color-gray-60, #58616a);
+      transition: all 0.2s ease-in-out;
+
+      &:hover:not(:disabled) {
+        background: var(--color-gray-10, #e6e8ea); // 더 진한 회색으로 변경
+        color: var(--color-gray-60, #58616a);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // 음영 효과 추가
+      }
+
+      &:active:not(:disabled) {
+        background: var(--color-gray-15, #d9dbde); // 활성 상태 색상 조정
+        color: var(--color-gray-60, #58616a);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); // 눌렀을 때 약간 작아지는 효과
+      }
+
+      &:disabled {
+        background: transparent;
         color: var(--color-gray-40, #8a949e);
         cursor: not-allowed;
       }
