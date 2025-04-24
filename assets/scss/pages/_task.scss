@@ -819,16 +819,18 @@
 // task-card
 .task-card-wrapper {
   position: relative;
+  margin-top: 10px;
 
   .task-card {
-    margin-top: 10px;
     padding: 16px;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--color-gray-20, #cdd1d5);
     background-color: #fff;
     position: relative;
     cursor: pointer;
     transition: box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
 
     &:hover {
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -967,8 +969,8 @@
 //카테고리 컨테이너 스타일
 .category {
   &-column {
-    min-width: 400px;
-    width: 400px;
+    min-width: 370px;
+    width: 370px;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
@@ -977,6 +979,7 @@
 
   &-header {
     padding: 12px 16px;
+    padding-left: 25px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -984,6 +987,32 @@
     width: 100%;
     border-radius: 8px;
     margin-bottom: 9px;
+    position: relative;
+    cursor: pointer;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 15px;
+      height: 100%;
+      background-color: #e0e0e0;
+      border-radius: 4px 0px 0px 4px;
+      background: var(--color-gray-30, #b1b8be);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: -4px;
+      background: url('/public/images/meatball-menu-icon.svg') no-repeat center;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+    }
   }
 
   &-title {

@@ -35,7 +35,7 @@
 
               <template #content-3>
                 <div class="flex gap-5">
-                  <UiInput placeholder="조회 및 선택하세요" icon="heroicons:magnifying-glass" />
+                  <UiInput placeholder="조회 및 선택하세요" />
                   <UiButton variant="secondary" icon-only>
                     <Icon name="heroicons:magnifying-glass" size="20" />
                   </UiButton>
@@ -96,7 +96,7 @@
   })
 
   // 이벤트 정의
-  defineEmits(['add-board', 'add-card', 'open-menu'])
+  defineEmits(['add-board'])
 
   // 카테고리 아코디언 메뉴
   const menuItems = [

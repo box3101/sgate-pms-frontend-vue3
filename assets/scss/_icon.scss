@@ -34,6 +34,11 @@
   background-image: svg-icon-user('#808080');
 }
 
+.icon-user-border {
+  @extend .icon;
+  background-image: svg-icon-user('#808080');
+}
+
 // 우측 화살표 아이콘 (두 번째)
 .icon-arrow-right {
   @extend .icon;
