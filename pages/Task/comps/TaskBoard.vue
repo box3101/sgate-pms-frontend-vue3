@@ -262,6 +262,10 @@
               class="editor-container mt-10 my-4"
               style="height: 200px; border: 1px solid #141212"
             ></div>
+
+            <!-- 활동 카드 및 댓글 시스템 -->
+            <ActivitySection />
+
             <div
               class="flex justify-between items-center mt-20 pt-10"
               style="border-top: 1px solid #eee"
@@ -295,6 +299,7 @@
   import CategoryColumn from './CategoryColumn.vue'
   import CategoryCard from './CategoryCard.vue'
   import UiButton from '@/components/UI/UiButton.vue'
+  import ActivitySection from '@/components/domain/ActivitySection.vue'
 
   // ================== 상태 변수 ==================
   // 카테고리 목록 데이터 (예시)
