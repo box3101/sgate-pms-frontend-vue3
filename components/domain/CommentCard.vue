@@ -5,9 +5,9 @@
         <div class="comment-date">{{ comment.date }}</div>
         <div class="comment-user">
           <span class="company">{{ comment.user.company }}</span>
-          <span class="separator">|</span>
+          <span class="separator">></span>
           <span class="team">{{ comment.user.team }}</span>
-          <span class="separator">|</span>
+          &nbsp;
           <span class="user-name">{{ comment.user.name }}</span>
         </div>
       </div>
@@ -82,6 +82,8 @@
       justify-content: space-between;
       align-items: flex-start;
       margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--color-gray-30, #b1b8be);
 
       .comment-info {
         .comment-date {
@@ -100,11 +102,17 @@
           }
 
           .team {
-            font-weight: 500;
+            color: var(--color-gray-70, #464c53);
+            font-size: 14px;
+            line-height: 150%; /* 21px */
           }
 
           .user-name {
-            font-weight: 600;
+            color: var(--color-gray-70, #464c53);
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 140%; /* 19.6px */
           }
         }
       }

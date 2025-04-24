@@ -1860,22 +1860,18 @@
   .activity-type {
     &--in-progress {
       color: #3b82f6;
-      background-color: rgba(59, 130, 246, 0.1);
     }
 
     &--completed {
       color: #10b981;
-      background-color: rgba(16, 185, 129, 0.1);
     }
 
     &--pending {
       color: #6b7280;
-      background-color: rgba(107, 114, 128, 0.1);
     }
 
     &--cancelled {
       color: #ef4444;
-      background-color: rgba(239, 68, 68, 0.1);
     }
   }
 
@@ -1883,14 +1879,14 @@
     margin-top: 24px;
 
     .comment-card {
-      background-color: #f9f9f9;
       border-radius: 8px;
+      border: 1px solid var(--color-gray-20, #cdd1d5);
+      background: var(--color-gray-0, #fff);
       padding: 16px;
-      margin-bottom: 16px;
+      margin-bottom: 5px;
     }
 
     .reply-card {
-      background-color: #f5f5f5;
       border-radius: 6px;
       padding: 14px;
       margin-bottom: 12px;

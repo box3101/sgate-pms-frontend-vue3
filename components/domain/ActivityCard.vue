@@ -14,7 +14,7 @@
           <span class="company">{{ activity.user.company }}</span>
           <span class="separator">></span>
           <span class="team">{{ activity.user.team }}</span>
-          <span class="separator">></span>
+          &nbsp;
           <span class="user-name">{{ activity.user.name }}</span>
         </div>
       </div>
@@ -115,27 +115,79 @@
             display: inline-block;
             padding: 4px 8px;
             border-radius: 4px;
-            font-size: 12px;
-            font-weight: 600;
-
+            color: var(--color-primary-50, #0af);
+            font-size: 14px;
+            font-weight: 700;
             &--in-progress {
-              color: #3b82f6;
-              background-color: rgba(59, 130, 246, 0.1);
+              color: $primary-color;
+              position: relative;
+              padding-left: 20px;
+
+              &:before {
+                content: '';
+                position: absolute;
+                left: 5px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: $primary-color;
+              }
             }
 
             &--completed {
               color: #10b981;
-              background-color: rgba(16, 185, 129, 0.1);
+              position: relative;
+              padding-left: 20px;
+
+              &:before {
+                content: '';
+                position: absolute;
+                left: 5px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: #10b981;
+              }
             }
 
             &--pending {
               color: #6b7280;
-              background-color: rgba(107, 114, 128, 0.1);
+              position: relative;
+              padding-left: 20px;
+
+              &:before {
+                content: '';
+                position: absolute;
+                left: 5px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: #6b7280;
+              }
             }
 
             &--cancelled {
               color: #ef4444;
-              background-color: rgba(239, 68, 68, 0.1);
+              position: relative;
+              padding-left: 20px;
+
+              &:before {
+                content: '';
+                position: absolute;
+                left: 5px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: #ef4444;
+              }
             }
           }
 
@@ -156,11 +208,17 @@
           }
 
           .team {
-            font-weight: 500;
+            color: var(--color-gray-70, #464c53);
+            font-size: 14px;
+            line-height: 150%; /* 21px */
           }
 
           .user-name {
-            font-weight: 600;
+            color: var(--color-gray-70, #464c53);
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 140%; /* 19.6px */
           }
         }
       }
