@@ -83,7 +83,7 @@
   })
 
   // 이벤트 정의
-  defineEmits(['edit', 'delete'])
+  defineEmits(['edit', 'delete', 'reply'])
 </script>
 
 <style lang="scss" scoped>

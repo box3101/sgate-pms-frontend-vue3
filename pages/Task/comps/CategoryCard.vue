@@ -73,14 +73,15 @@
         </UiFilterModal>
 
         <div class="card-tags">
-          <UiTag
-            v-for="(tag, index) in ['중요', '긴급', '협업', '공지']"
-            :key="index"
-            :text="tag"
-            variant="default"
-            size="small"
-            :closable="false"
-          />
+          <div class="tags-group">
+            <UiTag
+              size="small"
+              v-for="tag in tags"
+              :key="tag.id"
+              :variant="tag.type"
+              :text="tag.text"
+            />
+          </div>
         </div>
       </div>
 

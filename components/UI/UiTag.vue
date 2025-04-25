@@ -35,7 +35,16 @@
       type: String,
       default: 'default',
       validator: value =>
-        ['default', 'primary', 'success', 'warning', 'danger', 'info', 'custom'].includes(value)
+        [
+          'default',
+          'primary',
+          'collaboration',
+          'shared',
+          'name',
+          'completed',
+          'deadline',
+          'custom'
+        ].includes(value)
     },
     size: {
       type: String,
@@ -64,6 +73,10 @@
 </script>
 
 <style lang="scss">
+  .tags-group {
+    display: flex;
+    gap: 4px;
+  }
   .ui-tag {
     display: inline-flex;
     align-items: center;
@@ -74,11 +87,12 @@
 
     // 크기 변형
     &--small {
-      font-size: $font-size-sm;
-      padding: 2px 6px;
+      color: var(--color-gray-0, #fff);
+      font-size: 10px;
+      padding: 3px 4px;
 
       .ui-tag__close {
-        font-size: 18px;
+        font-size: 10px;
         margin-left: 4px;
         color: var(--color-gray-50, #58616a);
       }
@@ -112,33 +126,32 @@
     }
 
     &--primary {
-      background-color: rgba($primary-color, 0.1);
-      color: $primary-color;
-      border: 1px solid rgba($primary-color, 0.2);
+      background: var(--color-primary-50, #0af);
     }
 
-    &--success {
-      background-color: rgba($success-color, 0.1);
-      color: $success-color;
-      border: 1px solid rgba($success-color, 0.2);
+    // 협업, 공유 등의 특수 태그
+    &--collaboration {
+      background: var(--color-primary-70, #069);
     }
 
-    &--warning {
-      background-color: rgba($warning-color, 0.1);
-      color: $warning-color;
-      border: 1px solid rgba($warning-color, 0.2);
+    // 공유
+    &--shared {
+      background: var(--color-primary-90, #023);
     }
 
-    &--danger {
-      background-color: rgba($error-color, 0.1);
-      color: $error-color;
-      border: 1px solid rgba($error-color, 0.2);
+    // 이름
+    &--name {
+      background: var(--color-system-g40, #008033);
     }
 
-    &--info {
-      background-color: rgba($info-color, 0.1);
-      color: $info-color;
-      border: 1px solid rgba($info-color, 0.2);
+    // 완료
+    &--completed {
+      background: var(--color-system-b30, #0084ff);
+    }
+
+    // 마감
+    &--deadline {
+      background: var(--color-gray-30, #b1b8be);
     }
 
     // 닫기 버튼

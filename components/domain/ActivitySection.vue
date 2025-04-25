@@ -1,12 +1,16 @@
 <template>
   <div class="activity-section">
-    <!-- 활동 카드 -->
-    <ActivityCard
-      :activity="activity"
-      @edit="handleEditActivity"
-      @delete="handleDeleteActivity"
-      @reply="handleReplyToActivity"
-    />
+    <!-- 활동 카드 목록을 v-for로 반복 -->
+    <div v-if="activities.length > 0" class="activity-cards">
+      <ActivityCard
+        v-for="activity in activities"
+        :key="activity.id"
+        :activity="activity"
+        @edit="handleEditActivity"
+        @delete="handleDeleteActivity"
+        @reply="handleReplyToActivity"
+      />
+    </div>
 
     <!-- 댓글 섹션 -->
     <div class="comments-section">
@@ -52,63 +56,16 @@
   import ActivityCard from './ActivityCard.vue'
   import CommentCard from './CommentCard.vue'
 
-  // 활동 데이터
-  const activity = ref({
-    id: '1',
-    type: '진행중', // '진행중', '완료', '대기중', '취소됨' 중 하나의 값
-    createdDate: '2022.07.12 | 14:45:57',
-    items: [
-      `
-      활동종류 : 서비스 기획 및 디자인<br>
-      활동내용<br>
-      - Sgate 화면 분석 및 기능 분석<br>
-      - 와이어프레임으로 프로세스 제작<br>
-      - 와이어프레임에 UI 디자인 적용<br>
-      `
-    ],
-    user: {
-      company: 'ABC 회사',
-      team: '개발팀',
-      name: '홍길동'
+  // props 정의
+  const props = defineProps({
+    activities: {
+      type: Array,
+      required: true
     }
   })
 
   // 댓글 데이터
-  const comments = ref([
-    {
-      id: '1',
-      content: '업무 완료 처리했습니다. 리뷰 부탁드립니다.',
-      date: '2025-04-22',
-      user: {
-        company: 'ABC 회사',
-        team: '개발팀',
-        name: '홍길동'
-      },
-      replies: [
-        {
-          id: '1-1',
-          content: '리뷰 완료했습니다. 수고하셨습니다!',
-          date: '2025-04-23',
-          user: {
-            company: 'ABC 회사',
-            team: '기획팀',
-            name: '김철수'
-          }
-        }
-      ]
-    },
-    {
-      id: '2',
-      content: '마감일 연장에 대한 이유를 추가로 기록해주세요.',
-      date: '2025-04-23',
-      user: {
-        company: 'ABC 회사',
-        team: '기획팀',
-        name: '김철수'
-      },
-      replies: []
-    }
-  ])
+  const comments = ref([])
 
   // 새 댓글 입력
   const newComment = ref('')
@@ -126,7 +83,18 @@
         team: '개발팀',
         name: '홍길동'
       },
-      replies: []
+      replies: [
+        {
+          id: `${comments.value.length + 1}`,
+          content: newComment.value,
+          date: new Date().toISOString().split('T')[0],
+          user: {
+            company: 'ABC 회사',
+            team: '개발팀',
+            name: '홍길동'
+          }
+        }
+      ]
     }
 
     comments.value.push(comment)

@@ -4,10 +4,10 @@
     <TaskBoardHeader />
 
     <!-- 카테고리 및 카드 목록 -->
-    <section class="board-content">
+    <section class="board-content fixed-body">
       <ul class="categories-container">
         <!-- 카테고리 없는 경우 -->
-        <div v-if="isFirstVisit" class="empty-category full">
+        <div v-if="isFirstVisit && categories.length === 0" class="empty-category full">
           <div class="welcome-message">
             <p>환영합니다.</p>
             <p>업무등록을 위한 보드를 생성해보세요.</p>
@@ -55,7 +55,7 @@
         </CategoryColumn>
 
         <!-- 카테고리 추가 버튼 (카테고리가 1개 이상일 때만) -->
-        <li class="category-column" v-if="!isFirstVisit">
+        <li class="category-column" v-if="!isFirstVisit || categories.length > 0">
           <div class="category-header">
             <div class="category-actions w-full gap-24">
               <UiInput class="w-full" placeholder="카테고리명을 입력하세요." />
@@ -135,19 +135,37 @@
             <div class="flex justify-between gap-5 mb-4">
               <div class="flex gap-10 items-center">
                 <p class="flex-none">일자</p>
-                <UiDatePicker placeholder="날짜 선택" v-model="activityDate" />
+                <UiDatePicker placeholder="날짜 선택" />
               </div>
               <div class="flex gap-20 items-center">
                 <p class="flex-none">업무상태</p>
-                <UiSelect placeholder="선택하세요" class="w-200" v-model="activityStatus" />
+                <UiSelect
+                  placeholder="선택하세요"
+                  class="w-200"
+                  :options="[
+                    { label: '시작 전', value: 'not_started' },
+                    { label: '진행 중', value: 'in_progress' },
+                    { label: '완료', value: 'completed' }
+                  ]"
+                />
                 <p class="flex-none">진행만족도</p>
-                <UiSelect placeholder="선택하세요" class="w-200" v-model="activitySatisfaction" />
+                <UiSelect
+                  placeholder="선택하세요"
+                  class="w-200"
+                  :options="[
+                    { label: '매우 만족', value: 'very_satisfied' },
+                    { label: '만족', value: 'satisfied' },
+                    { label: '보통', value: 'neutral' },
+                    { label: '불만족', value: 'dissatisfied' }
+                  ]"
+                />
               </div>
             </div>
             <div
               class="editor-container mt-10 my-4"
               style="height: 200px; border: 1px solid #141212"
             ></div>
+
             <div
               class="flex justify-between items-center mt-20 pt-10"
               style="border-top: 1px solid #eee"
@@ -157,6 +175,9 @@
               </button>
               <UiButton variant="primary" @click="saveCard">저장</UiButton>
             </div>
+
+            <!-- 활동 카드 및 댓글 시스템 -->
+            <ActivitySection :activities="activities" />
           </div>
         </template>
       </UiAccordionMenu>
@@ -258,13 +279,15 @@
                 />
               </div>
             </div>
-            <div
+            <!-- <div
               class="editor-container mt-10 my-4"
               style="height: 200px; border: 1px solid #141212"
-            ></div>
-
-            <!-- 활동 카드 및 댓글 시스템 -->
-            <ActivitySection />
+            ></div> -->
+            <UiTextarea
+              placeholder="업무에 대한 구체적인 내용을 입력해주세요."
+              size="xlarge"
+              class="mt-10 my-4"
+            />
 
             <div
               class="flex justify-between items-center mt-20 pt-10"
@@ -273,8 +296,11 @@
               <button class="attachment-btn" @click="openAttachmentModal">
                 <Icon name="heroicons:paper-clip" size="20" />
               </button>
-              <UiButton variant="primary" @click="saveCard">저장</UiButton>
+              <UiButton variant="primary" @click="addActivityItem">저장</UiButton>
             </div>
+
+            <!-- 활동 카드 및 댓글 시스템 -->
+            <ActivitySection :activities="activities" />
           </div>
         </template>
       </UiAccordionMenu>
@@ -308,14 +334,187 @@
   const isCardDetailOpen = ref(false)
   const selectedCategoryId = ref(0)
   const categories = ref([
-    // 예시 데이터: 실제로는 API 연동 또는 상위에서 관리
-    // {
-    //   id: 1,
-    //   title: '예시 카테고리',
-    //   cards: [
-    //     { id: 1, title: '카드1', tags: ['중요'], date: '2025-04-17', comments: 2, attachments: 1 }
-    //   ]
-    // }
+    // 더 많은 데이터 예시
+    {
+      id: 1,
+      title: '기획',
+      cards: [
+        {
+          id: 101,
+          title: '사용자 요구사항 분석',
+          date: '2023-06-15',
+          assignee: '김기획',
+          tags: [
+            { type: 'primary', text: '분석' },
+            { type: 'collaboration', text: '협업' }
+          ]
+        },
+        {
+          id: 102,
+          title: '화면 설계',
+          date: '2023-06-20',
+          assignee: '박디자인',
+          tags: [
+            { type: 'shared', text: '공유' },
+            { type: 'deadline', text: '마감임박' }
+          ]
+        }
+      ]
+    },
+    {
+      id: 2,
+      title: '개발',
+      cards: [
+        {
+          id: 201,
+          title: '로그인 기능 구현',
+          date: '2023-06-25',
+          assignee: '이개발',
+          tags: [
+            { type: 'primary', text: '프론트엔드' },
+            { type: 'name', text: '이개발' }
+          ]
+        },
+        {
+          id: 202,
+          title: 'API 연동',
+          date: '2023-06-30',
+          assignee: '최백엔드',
+          tags: [
+            { type: 'collaboration', text: '협업' },
+            { type: 'deadline', text: '마감임박' }
+          ]
+        },
+        {
+          id: 203,
+          title: '클라우드 서버 마이그레이션',
+          date: '2023-07-01',
+          assignee: '김클라우드',
+          tags: [
+            { type: 'primary', text: '클라우드' },
+            { type: 'warning', text: '긴급' }
+          ]
+        }
+      ]
+    },
+    {
+      id: 3,
+      title: '테스트',
+      cards: [
+        {
+          id: 301,
+          title: '단위 테스트',
+          date: '2023-07-05',
+          assignee: '정테스터',
+          tags: [
+            { type: 'primary', text: 'QA' },
+            { type: 'shared', text: '공유' }
+          ]
+        },
+        {
+          id: 302,
+          title: '통합 테스트',
+          date: '2023-07-10',
+          assignee: '한품질',
+          tags: [
+            { type: 'name', text: '한품질' },
+            { type: 'deadline', text: '마감임박' }
+          ]
+        }
+      ]
+    },
+    {
+      id: 4,
+      title: '배포',
+      cards: [
+        {
+          id: 401,
+          title: '베타 배포',
+          date: '2023-07-15',
+          assignee: '조운영',
+          tags: [
+            { type: 'completed', text: '완료' },
+            { type: 'shared', text: '공유' }
+          ]
+        },
+        {
+          id: 402,
+          title: '정식 배포',
+          date: '2023-07-20',
+          assignee: '강인프라',
+          tags: [
+            { type: 'collaboration', text: '협업' },
+            { type: 'primary', text: '릴리즈' }
+          ]
+        }
+      ]
+    },
+    {
+      id: 5,
+      title: '유지보수',
+      cards: [
+        {
+          id: 501,
+          title: '버그 수정',
+          date: '2023-07-25',
+          assignee: '임개발',
+          tags: [
+            { type: 'deadline', text: '마감임박' },
+            { type: 'completed', text: '완료' }
+          ]
+        },
+        {
+          id: 502,
+          title: '보안 취약점 패치',
+          date: '2023-07-28',
+          assignee: '박보안',
+          tags: [
+            { type: 'warning', text: '긴급' },
+            { type: 'primary', text: '보안' }
+          ]
+        }
+      ]
+    },
+    {
+      id: 6,
+      title: '피드백',
+      cards: [
+        {
+          id: 601,
+          title: '사용자 피드백 수집',
+          date: '2023-08-01',
+          assignee: '최분석',
+          tags: [
+            { type: 'primary', text: '분석' },
+            { type: 'shared', text: '공유' }
+          ]
+        }
+      ]
+    }
+  ])
+
+  // 활동 데이터 배열
+  const activities = ref([
+    {
+      id: '1',
+      status: '완료', // 진행중, 완료, 진행전, 취소/보류
+      evaluation: '우수', // 우수, 보통, 미흡
+      createdDate: '2022.07.12 | 14:45:57',
+      items: [
+        `
+      활동종류 : 서비스 기획 및 디자인<br>
+      활동내용<br>
+      - Sgate 화면 분석 및 기능 분석<br>
+      - 와이어프레임으로 프로세스 제작<br>
+      - 와이어프레임에 UI 디자인 적용<br>
+      `
+      ],
+      user: {
+        company: 'ABC 회사',
+        team: '개발팀',
+        name: '홍길동'
+      }
+    }
   ])
 
   // 아코디언 메뉴
@@ -357,8 +556,7 @@
   function saveCard() {
     categories.value[selectedCategoryId.value].cards.push({
       id: categories.value[selectedCategoryId.value].cards.length + 1,
-      title:
-        '글자테스트트글자테스트트글자테스트트글자테스트트글자테스트트글자테스트트글자테스트트글자테스트트글자테스트트글자테스트트',
+      title: '글자테스트트글',
       tags: ['중요'],
       date: '2025-04-17',
       comments: 2,
@@ -371,6 +569,30 @@
   function openCardDetail() {
     isCardDetailOpen.value = true
   }
+
+  // addActivityItem
+  function addActivityItem() {
+    activities.value.push({
+      id: activities.value.length + 1,
+      status: '진행중', // 진행중, 완료, 진행전, 취소/보류
+      evaluation: '보통', // 우수, 보통, 미흡
+      createdDate: '2022.07.12 | 14:45:57',
+      items: [
+        `
+        활동종류 : 서비스 기획 및 디자인<br>
+        활동내용<br>
+        - Sgate 화면 분석 및 기능 분석<br>
+        - 와이어프레임으로 프로세스 제작<br>
+        - 와이어프레임에 UI 디자인 적용<br>
+        `
+      ],
+      user: {
+        company: 'ABC 회사',
+        team: '개발팀',
+        name: '홍길동'
+      }
+    })
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -378,7 +600,7 @@
     display: none !important;
   }
   .task-board-page {
-    min-height: calc(100vh - 132px);
+    overflow: auto;
   }
   .board-content {
     margin-top: 24px;
@@ -388,6 +610,7 @@
     gap: 16px;
     list-style: none;
     padding: 0;
+    min-height: calc(100vh - 172px);
   }
   .empty-category.full {
     width: 100%;
@@ -414,13 +637,13 @@
     flex-direction: column;
     align-items: center;
     cursor: pointer;
-    padding: 16px 0;
+    padding: 6px 0;
     color: #bbb;
     border-radius: 4px;
     border: 1px solid var(--color-gray-20, #cdd1d5);
     background: var(--color-gray-0, #fff);
     .add-placeholder-icon {
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
     &:hover {
       color: #333;

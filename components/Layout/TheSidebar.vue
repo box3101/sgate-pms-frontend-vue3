@@ -776,7 +776,7 @@
     position: fixed;
     left: 0;
     top: 0;
-    z-index: 50;
+    z-index: 10;
     transition: width 0.3s;
     overflow: hidden;
     border-right: 1px solid #aaa;

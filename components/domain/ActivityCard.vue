@@ -3,9 +3,13 @@
     <div class="activity-header">
       <div class="activity-info">
         <div class="activity-date flex gap-5 items-center">
-          <div :class="['activity-type', `activity-type--${getTypeClass(activity.type)}`]">
-            {{ activity.type }}
+          <!-- 진행 상태 표시 -->
+          <div
+            :class="['activity-type', `activity-type--${getEvaluationClass(activity.evaluation)}`]"
+          >
+            {{ activity.status || '상태 없음' }}
           </div>
+
           <span class="current-date">{{ currentDate }}</span>
         </div>
         <div class="activity-user">
@@ -51,22 +55,18 @@
     return now.toISOString().split('T')[0]
   })
 
-  // 활동 타입에 따른 클래스 반환
-  const getTypeClass = type => {
-    switch (type) {
-      case '진행중':
-        return 'in-progress'
-      case '완료':
-        return 'completed'
-      case '대기중':
-        return 'pending'
-      case '취소됨':
-        return 'cancelled'
+  function getEvaluationClass(evaluation) {
+    switch (evaluation) {
+      case '우수':
+        return 'excellent'
+      case '보통':
+        return 'average'
+      case '미흡':
+        return 'poor'
       default:
-        return ''
+        return 'default'
     }
   }
-
   // props 정의
   const props = defineProps({
     activity: {
@@ -74,7 +74,8 @@
       required: true,
       default: () => ({
         id: '',
-        type: '',
+        status: '', // 진행중, 완료, 진행전, 취소/보류
+        evaluation: '', // 우수, 보통, 미흡
         createdDate: '',
         items: [],
         user: {
@@ -116,11 +117,10 @@
             display: inline-block;
             padding: 4px 8px;
             border-radius: 4px;
-            color: var(--color-primary-50, #0af);
             font-size: 14px;
             font-weight: 700;
-            &--in-progress {
-              color: $primary-color;
+            &--excellent {
+              color: #0084ff;
               position: relative;
               padding-left: 20px;
 
@@ -155,8 +155,8 @@
               }
             }
 
-            &--pending {
-              color: #6b7280;
+            &--average {
+              color: #ff9500;
               position: relative;
               padding-left: 20px;
 
@@ -169,11 +169,11 @@
                 width: 10px;
                 height: 10px;
                 border-radius: 50%;
-                background-color: #6b7280;
+                background-color: #ff9500;
               }
             }
 
-            &--cancelled {
+            &--poor {
               color: #ef4444;
               position: relative;
               padding-left: 20px;

@@ -74,7 +74,7 @@ button:focus,
 .ui-multi-select__header:focus,
 .ui-select__header:focus {
   outline: none;
-  border: 1px solid var(--color-system-b30, #0084ff) !important;
+  outline: 1px solid var(--color-system-b30, #0084ff) !important;
   box-shadow: 0 0 0 2px rgba(0, 132, 255, 0.1);
   transition: all 0.2s ease-in-out;
 }
@@ -84,7 +84,7 @@ button:focus,
 .ui-radio__input:focus + .ui-radio__label::before,
 .checkbox input:focus + label::before,
 .radio input:focus + label::before {
-  border: 1px solid var(--color-system-b30, #0084ff) !important;
+  outline: 1px solid var(--color-system-b30, #0084ff) !important;
   box-shadow: 0 0 0 2px rgba(0, 132, 255, 0.1);
 }
 

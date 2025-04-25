@@ -1,5 +1,5 @@
 <template>
-  <header class="task-board-header">
+  <header class="task-board-header fixed-top">
     <section class="header-container">
       <article class="left-section">
         <div class="flex gap-5">
