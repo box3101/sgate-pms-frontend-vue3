@@ -335,10 +335,9 @@
   const isCardDetailOpen = ref(false)
   const selectedCategoryId = ref(0)
   const categories = ref([
-    // 더 많은 데이터 예시
     {
       id: 1,
-      title: '기획',
+      title: 'Cloud',
       cards: [
         {
           id: 101,
@@ -399,7 +398,7 @@
     },
     {
       id: 2,
-      title: '개발',
+      title: 'Customize',
       cards: [
         {
           id: 201,
@@ -482,7 +481,7 @@
     },
     {
       id: 3,
-      title: '테스트',
+      title: 'My Run',
       cards: [
         {
           id: 301,
@@ -543,7 +542,7 @@
     },
     {
       id: 4,
-      title: '배포',
+      title: 'RPA',
       cards: [
         {
           id: 401,
@@ -604,7 +603,7 @@
     },
     {
       id: 5,
-      title: '유지보수',
+      title: 'Data Collection',
       cards: [
         {
           id: 501,
