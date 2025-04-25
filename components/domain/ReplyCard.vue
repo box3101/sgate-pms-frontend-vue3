@@ -5,9 +5,9 @@
         <div class="reply-date">{{ reply.date }}</div>
         <div class="reply-user">
           <span class="company">{{ reply.user.company }}</span>
-          <span class="separator">|</span>
+          <span class="separator">></span>
           <span class="team">{{ reply.user.team }}</span>
-          <span class="separator">|</span>
+          &nbsp;
           <span class="user-name">{{ reply.user.name }}</span>
         </div>
       </div>
@@ -18,10 +18,25 @@
         <button class="action-btn delete-btn" @click.stop="$emit('delete', reply.id)">
           <Icon name="mdi:delete" size="16" />
         </button>
+        <button class="action-btn reply-btn" @click.stop="$emit('reply', reply.id)">
+          <Icon name="mdi:reply" size="16" />
+        </button>
       </div>
     </div>
     <div class="reply-reference">
-      {{ truncatedParentContent }}
+      <div class="reply-info">
+        <div class="reply-date">{{ reply.date }}</div>
+        <div class="reply-user">
+          <span class="company">{{ reply.user.company }}</span>
+          <span class="separator">></span>
+          <span class="team">{{ reply.user.team }}</span>
+          &nbsp;
+          <span class="user-name">{{ reply.user.name }}</span>
+        </div>
+      </div>
+      <div class="reply-reference-content">
+        {{ truncatedParentContent }}
+      </div>
     </div>
     <div class="reply-content">
       {{ reply.content }}
@@ -78,37 +93,46 @@
     padding: 14px;
     margin-bottom: 12px;
 
+    .reply-reference-content {
+      margin-top: 8px;
+      font-size: 13px;
+      line-height: 1.4;
+      color: #555;
+      border-top: 1px solid #aaa;
+      padding-top: 8px;
+    }
+
+    .reply-info {
+      .reply-date {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 3px;
+      }
+
+      .reply-user {
+        font-size: 14px;
+        color: #333;
+
+        .separator {
+          margin: 0 5px;
+          color: #ccc;
+        }
+
+        .team {
+          font-weight: 500;
+        }
+
+        .user-name {
+          font-weight: 600;
+        }
+      }
+    }
+
     .reply-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
       margin-bottom: 10px;
-
-      .reply-info {
-        .reply-date {
-          font-size: 13px;
-          color: #666;
-          margin-bottom: 3px;
-        }
-
-        .reply-user {
-          font-size: 13px;
-          color: #333;
-
-          .separator {
-            margin: 0 5px;
-            color: #ccc;
-          }
-
-          .team {
-            font-weight: 500;
-          }
-
-          .user-name {
-            font-weight: 600;
-          }
-        }
-      }
 
       .reply-actions {
         display: flex;
@@ -150,9 +174,10 @@
     }
 
     .reply-content {
-      font-size: 13px;
-      line-height: 1.5;
-      color: #333;
+      color: var(--color-gray-70, #464c53);
+
+      font-size: 16px;
+      line-height: 150%; /* 24px */
     }
   }
 </style>

@@ -394,6 +394,7 @@
       .ui-select__selected-text,
       .ui-select__placeholder {
         font-size: 16px;
+        font-weight: 300;
       }
 
       .ui-select__search-input {

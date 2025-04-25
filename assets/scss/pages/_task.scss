@@ -821,6 +821,10 @@
   position: relative;
   margin-top: 10px;
 
+  &:first-of-type {
+    margin-top: 0;
+  }
+
   .task-card {
     padding: 16px;
     border-radius: 4px;
@@ -831,6 +835,7 @@
     transition: box-shadow 0.2s ease;
     display: flex;
     flex-direction: column;
+    height: 140px;
 
     &:hover {
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -842,7 +847,6 @@
       top: 8px;
       right: 8px;
       display: flex;
-      gap: 4px;
       z-index: 99;
 
       .action-btn {
@@ -895,9 +899,16 @@
     }
 
     .card-title {
-      font-weight: 500;
-      margin: 8px 0;
-      line-height: 1.4;
+      color: var(--color-gray-90, #1e2124);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 150%; /* 24px */
+      height: 48px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .card-footer {
@@ -975,15 +986,27 @@
     display: flex;
     flex-direction: column;
     max-height: 100%;
+
+    &:last-of-type {
+      .category-header {
+        background: var(--color-gray-5, #f4f5f6);
+        &::before {
+          background: var(--color-gray-10, #e6e8ea);
+        }
+        &::after {
+          background: url('/public/images/meatball-menu-icon-default.svg') no-repeat center;
+        }
+      }
+    }
   }
 
   &-header {
-    padding: 12px 16px;
+    padding: 9px 16px;
     padding-left: 25px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: var(--color-gray-5, #f4f5f6);
+    background: var(--color-gray-20, #cdd1d5);
     width: 100%;
     border-radius: 8px;
     margin-bottom: 9px;
@@ -1887,17 +1910,17 @@
     }
 
     .reply-card {
-      border-radius: 6px;
-      padding: 14px;
-      margin-bottom: 12px;
-      margin-left: 24px;
+      border-radius: 8px;
+      border: 1px solid var(--color-gray-20, #cdd1d5);
+      background: var(--color-gray-0, #fff);
+      padding: 16px;
+      margin-bottom: 5px;
 
       .reply-reference {
-        background-color: #e6f2ff;
-        border-left: 3px solid #2196f3;
-        padding: 8px 12px;
-        margin-bottom: 10px;
-        border-radius: 0 4px 4px 0;
+        padding: 16px;
+        border-radius: 8px;
+        border: 1px solid var(--color-gray-20, #cdd1d5);
+        background: var(--color-primary-5, #e5f6ff);
       }
     }
   }

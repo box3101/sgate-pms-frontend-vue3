@@ -10,12 +10,12 @@
           <button class="action-btn favorite-btn" @click.stop="toggleFavorite">
             <Icon
               :name="isFavorite ? 'mdi:star' : 'mdi:star-outline'"
-              size="16"
+              size="20"
               :class="{ 'star-active': isFavorite }"
             />
           </button>
           <button class="action-btn filter-btn" @click.stop="openFilterModal">
-            <Icon name="mdi:dots-vertical" size="16" />
+            <Icon name="mdi:dots-vertical" size="20" />
           </button>
         </div>
 

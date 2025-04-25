@@ -6,9 +6,7 @@
           <div :class="['activity-type', `activity-type--${getTypeClass(activity.type)}`]">
             {{ activity.type }}
           </div>
-
           <span class="current-date">{{ currentDate }}</span>
-          <span class="created-date">(생성: {{ activity.createdDate }})</span>
         </div>
         <div class="activity-user">
           <span class="company">{{ activity.user.company }}</span>
@@ -18,16 +16,19 @@
           <span class="user-name">{{ activity.user.name }}</span>
         </div>
       </div>
-      <div class="activity-actions">
-        <button class="action-btn edit-btn" @click.stop="$emit('edit', activity.id)">
-          <Icon name="mdi:pencil" size="16" />
-        </button>
-        <button class="action-btn delete-btn" @click.stop="$emit('delete', activity.id)">
-          <Icon name="mdi:delete" size="16" />
-        </button>
-        <button class="action-btn reply-btn" @click.stop="$emit('reply', activity.id)">
-          <Icon name="mdi:reply" size="16" />
-        </button>
+      <div class="activity-actions flex flex-col gap-5">
+        <span class="created-date">(생성: {{ activity.createdDate }})</span>
+        <div class="action-buttons flex gap-5 items-center justify-end">
+          <button class="action-btn edit-btn" @click.stop="$emit('edit', activity.id)">
+            <Icon name="mdi:pencil" size="16" />
+          </button>
+          <button class="action-btn delete-btn" @click.stop="$emit('delete', activity.id)">
+            <Icon name="mdi:delete" size="16" />
+          </button>
+          <button class="action-btn reply-btn" @click.stop="$emit('reply', activity.id)">
+            <Icon name="mdi:reply" size="16" />
+          </button>
+        </div>
       </div>
     </div>
     <div class="activity-content">
@@ -191,10 +192,12 @@
             }
           }
 
-          .created-date {
-            margin-left: 6px;
-            font-size: 12px;
-            color: #999;
+          .current-date {
+            color: var(--color-gray-50, #6d7882);
+            text-align: right;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 150%; /* 21px */
           }
         }
 
@@ -226,6 +229,14 @@
       .activity-actions {
         display: flex;
         gap: 8px;
+
+        .created-date {
+          color: var(--color-gray-50, #6d7882);
+          text-align: right;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 150%; /* 21px */
+        }
 
         .action-btn {
           background: none;

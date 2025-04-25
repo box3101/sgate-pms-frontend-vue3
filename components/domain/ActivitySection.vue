@@ -51,7 +51,6 @@
   import { ref } from 'vue'
   import ActivityCard from './ActivityCard.vue'
   import CommentCard from './CommentCard.vue'
-  import ReplyCard from './ReplyCard.vue'
 
   // 활동 데이터
   const activity = ref({
@@ -188,21 +187,6 @@
       }
     })
   }
-
-  const getTypeClass = type => {
-    switch (type) {
-      case '진행중':
-        return 'in-progress'
-      case '완료':
-        return 'completed'
-      case '대기중':
-        return 'pending'
-      case '취소됨':
-        return 'cancelled'
-      default:
-        return ''
-    }
-  }
 </script>
 
 <style lang="scss" scoped>
@@ -221,6 +205,7 @@
 
       .comments-list {
         margin-bottom: 20px;
+        margin-left: 16px;
       }
 
       .comment-input-area {

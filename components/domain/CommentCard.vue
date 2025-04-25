@@ -26,22 +26,23 @@
     <div class="comment-content">
       {{ comment.content }}
     </div>
+  </div>
 
-    <!-- 대댓글 목록 -->
-    <div v-if="comment.replies && comment.replies.length > 0" class="replies-list">
-      <ReplyCard
-        v-for="(reply, index) in comment.replies"
-        :key="index"
-        :reply="reply"
-        :parent-content="comment.content"
-        @edit="$emit('edit-reply', reply.id)"
-        @delete="$emit('delete-reply', reply.id)"
-      />
-    </div>
+  <!-- 대댓글 목록 -->
+  <div v-if="comment.replies && comment.replies.length > 0" class="replies-list">
+    <ReplyCard
+      v-for="(reply, index) in comment.replies"
+      :key="index"
+      :reply="reply"
+      :parent-content="comment.content"
+      @edit="$emit('edit-reply', reply.id)"
+      @delete="$emit('delete-reply', reply.id)"
+    />
   </div>
 </template>
 
 <script setup>
+  import ReplyCard from './ReplyCard.vue'
   /**
    * 댓글 카드 컴포넌트
    * 댓글 정보를 표시하는 카드 컴포넌트
@@ -150,10 +151,9 @@
     }
 
     .comment-content {
-      font-size: 14px;
-      line-height: 1.5;
-      color: #333;
-      margin-bottom: 12px;
+      color: var(--color-gray-70, #464c53);
+      font-size: 16px;
+      line-height: 150%; /* 24px */
     }
 
     .replies-list {

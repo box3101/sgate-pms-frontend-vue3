@@ -79,8 +79,11 @@
               </template>
             </UiFilterModal>
           </div>
-          <UiButton variant="secondary-line">
-            <i class="icon icon-star icon-md"></i>
+          <UiButton
+            :variant="isImportantTaskActive ? 'secondary' : 'secondary-line'"
+            @click="toggleImportantTask"
+          >
+            <i class="icon icon-star icon-md" :class="{ 'icon-white': isImportantTaskActive }"></i>
             <span>중요업무</span>
           </UiButton>
         </div>
@@ -180,6 +183,14 @@
   const filterButton = ref(null)
   const isFilterModalOpen = ref(false)
   const dateRange = ref([null, null])
+
+  // 중요업무 버튼 상태 관리
+  const isImportantTaskActive = ref(false)
+
+  // 중요업무 버튼 토글 함수
+  function toggleImportantTask() {
+    isImportantTaskActive.value = !isImportantTaskActive.value
+  }
 
   // 협업 토글
   const isActive = ref(false)

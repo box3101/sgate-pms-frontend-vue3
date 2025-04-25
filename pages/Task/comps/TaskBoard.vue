@@ -59,8 +59,8 @@
           <div class="category-header">
             <div class="category-actions w-full gap-24">
               <UiInput class="w-full" placeholder="카테고리명을 입력하세요." />
-              <UiButton variant="ghost" icon-only="" @click="addNewCategory">
-                <i class="icon icon-md icon-plus"></i>
+              <UiButton variant="primary" @click="addNewCategory">
+                <i class="icon icon-md icon-plus icon-white"></i>등록
               </UiButton>
             </div>
           </div>
@@ -358,7 +358,7 @@
     categories.value[selectedCategoryId.value].cards.push({
       id: categories.value[selectedCategoryId.value].cards.length + 1,
       title:
-        '테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자테스트글자',
+        '글자테스트트글자테스트트글자테스트트글자테스트트글자테스트트글자테스트트글자테스트트글자테스트트글자테스트트글자테스트트',
       tags: ['중요'],
       date: '2025-04-17',
       comments: 2,
@@ -385,7 +385,7 @@
   }
   .categories-container {
     display: flex;
-    gap: 24px;
+    gap: 16px;
     list-style: none;
     padding: 0;
   }
@@ -414,7 +414,7 @@
     flex-direction: column;
     align-items: center;
     cursor: pointer;
-    padding: 32px 0;
+    padding: 16px 0;
     color: #bbb;
     border-radius: 4px;
     border: 1px solid var(--color-gray-20, #cdd1d5);
