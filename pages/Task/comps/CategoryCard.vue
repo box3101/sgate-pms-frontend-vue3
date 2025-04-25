@@ -4,6 +4,14 @@
     <div v-if="showFilterMenu" class="dim-background" @click.stop="closeFilterMenu"></div>
 
     <div class="task-card" @click="handleCardClick">
+      <div
+        class="task-card-bar"
+        :class="{
+          high: evaluation === '우수',
+          medium: evaluation === '보통',
+          low: evaluation === '미흡'
+        }"
+      ></div>
       <div class="task-card-header">
         <!-- 카드 상단 액션 버튼 영역 추가 -->
         <div class="card-actions">
@@ -138,6 +146,12 @@
     favorite: {
       type: Boolean,
       default: false
+    },
+    // 평가 상태 prop 추가
+    evaluation: {
+      type: String,
+      default: '보통',
+      validator: value => ['우수', '보통', '미흡'].includes(value)
     }
   })
 

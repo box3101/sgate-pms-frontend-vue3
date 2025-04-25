@@ -120,7 +120,7 @@
             font-size: 14px;
             font-weight: 700;
             &--excellent {
-              color: #0084ff;
+              color: $system-blue;
               position: relative;
               padding-left: 20px;
 
@@ -138,7 +138,7 @@
             }
 
             &--completed {
-              color: #10b981;
+              color: $system-green;
               position: relative;
               padding-left: 20px;
 
@@ -156,7 +156,7 @@
             }
 
             &--average {
-              color: #ff9500;
+              color: $system-yellow;
               position: relative;
               padding-left: 20px;
 
@@ -174,7 +174,7 @@
             }
 
             &--poor {
-              color: #ef4444;
+              color: $system-red;
               position: relative;
               padding-left: 20px;
 

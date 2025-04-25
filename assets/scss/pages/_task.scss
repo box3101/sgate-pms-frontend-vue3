@@ -854,6 +854,26 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
+    .task-card-bar {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 4px;
+      height: 100%;
+      background-color: none;
+      &.high {
+        background-color: $system-blue; // system-blue for 우수
+      }
+
+      &.medium {
+        background-color: $system-yellow; // 보통 (medium) - amber/orange color
+      }
+
+      &.low {
+        background-color: $system-red; // 미습 (low) - red color
+      }
+    }
+
     // 카드 액션 버튼 스타일
     .card-actions {
       position: absolute;

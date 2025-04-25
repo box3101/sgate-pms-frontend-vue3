@@ -8,11 +8,11 @@ $secondary-color: #58616a;
 $success-color: #4caf50;
 $tertiary-color: #ddd;
 $danger-color: #f44336;
-$warning-color: #ff9800;
-$info-color: #1976d2;
-$light-color: #f8f9fa;
-$dark-color: #343a40;
-$error-color: #f44336;
+
+$system-blue: #0084ff;
+$system-red: #f30;
+$system-yellow: #ff9500;
+$system-green: #00b248;
 
 // 중립 색상
 $text-color: #333;
@@ -30,7 +30,6 @@ $selected-background: #e3f2fd;
 // 그림자 효과
 $shadow-color: rgba(0, 0, 0, 0.15);
 $primary-shadow: rgba($primary-color, 0.2);
-$error-shadow: rgba($danger-color, 0.2);
 $scrollbar-color: #ccc;
 
 // 폰트
