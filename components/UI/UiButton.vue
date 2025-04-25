@@ -85,10 +85,6 @@
     outline: none;
     flex-shrink: 0;
 
-    &:focus {
-      outline: none;
-    }
-
     // 아이콘 스타일
     &__icon {
       display: flex;

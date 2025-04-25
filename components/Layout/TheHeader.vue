@@ -58,9 +58,10 @@
                 />
               </UiFormItem>
               <UiFormItem label="메인페이지">
-                <UiButton variant="secondary" icon="heroicons:arrow-right" icon-position="right"
-                  >부진사유/대책</UiButton
-                >
+                <UiButton variant="secondary">
+                  <i class="icon icon-arrow-right icon-sm icon-white"></i>
+                  <span>부진사유/대책</span>
+                </UiButton>
               </UiFormItem>
               <UiFormItem label="이메일 알림">
                 <UiSegment
