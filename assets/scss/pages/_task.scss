@@ -415,7 +415,6 @@
   margin-bottom: 30px;
   width: 100%;
   position: relative;
-
   .header-container {
     display: flex;
     justify-content: space-between;
@@ -506,10 +505,9 @@
 
 // fixed-top
 .fixed-top {
-  position: fixed;
+  position: absolute;
   top: 68px;
   width: calc(100% - 105px);
-  z-index: 10;
 }
 
 .fixed-body {
