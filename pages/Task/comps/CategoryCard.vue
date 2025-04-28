@@ -22,63 +22,70 @@
               :class="{ 'star-active': isFavorite }"
             />
           </button>
-          <button class="action-btn filter-btn" @click.stop="openFilterModal">
-            <Icon name="mdi:dots-vertical" size="20" />
-          </button>
-        </div>
+          <div>
+            <button class="action-btn filter-btn" @click.stop="openFilterModal">
+              <Icon name="mdi:dots-vertical" size="20" />
+            </button>
 
-        <!-- 필터 모달 -->
-        <UiFilterModal
-          v-model="showFilterMenu"
-          position="right"
-          size="small"
-          title="업무 메뉴"
-          :hideHeader="true"
-          @click.stop
-        >
-          <div @click.stop>
-            <UiAccordionMenu :menuItems="menuItems">
-              <template #content-1>
-                <div @click.stop>
-                  <UiSelect placeholder="제조공정" />
-                  <UiSelect class="mt-5" placeholder="업무유형" />
-                  <UiButton
-                    class="mt-5"
-                    variant="secondary"
-                    icon="heroicons:arrow-right"
-                    icon-position="right"
-                    block
-                    @click.stop
-                  >
-                    이동
-                  </UiButton>
-                </div>
-              </template>
+            <!-- 필터 모달 -->
+            <UiFilterModal
+              v-model="showFilterMenu"
+              position="right"
+              size="small"
+              title="업무 메뉴"
+              :hideHeader="true"
+              @click.stop
+            >
+              <div @click.stop>
+                <UiAccordionMenu :menuItems="menuItems">
+                  <template #content-1>
+                    <div @click.stop>
+                      <UiSelect placeholder="제조공정" />
+                      <UiSelect class="mt-5" placeholder="업무유형" />
+                      <UiButton
+                        class="mt-5"
+                        variant="secondary"
+                        icon="heroicons:arrow-right"
+                        icon-position="right"
+                        block
+                        @click.stop
+                      >
+                        이동
+                      </UiButton>
+                    </div>
+                  </template>
 
-              <template #content-2>
-                <div @click.stop>
-                  <div class="flex gap-5">
-                    <UiInput placeholder="조회 및 선택하세요" icon="heroicons:magnifying-glass" />
-                    <UiButton variant="secondary" icon-only @click.stop>
-                      <Icon name="heroicons:magnifying-glass" size="20" />
-                    </UiButton>
-                  </div>
-                  <UiButton class="mt-5" variant="secondary" block @click.stop> 전달 </UiButton>
-                </div>
-              </template>
+                  <template #content-2>
+                    <div @click.stop>
+                      <div class="flex gap-5">
+                        <UiInput
+                          placeholder="조회 및 선택하세요"
+                          icon="heroicons:magnifying-glass"
+                        />
+                        <UiButton variant="secondary" icon-only @click.stop>
+                          <Icon name="heroicons:magnifying-glass" size="20" />
+                        </UiButton>
+                      </div>
+                      <UiButton class="mt-5" variant="secondary" block @click.stop> 전달 </UiButton>
+                    </div>
+                  </template>
 
-              <template #content-3>
-                <div @click.stop>
-                  <p class="mb-9">업무 합치기 대상 선택</p>
-                  <UiSelect placeholder="업무" />
-                  <UiSelect class="mt-5" placeholder="업무2" />
-                  <UiSelect class="mt-5" placeholder="업무3" />
-                  <UiButton class="mt-5" variant="secondary" block @click.stop> 합치기 </UiButton>
-                </div>
-              </template>
-            </UiAccordionMenu>
+                  <template #content-3>
+                    <div @click.stop>
+                      <p class="mb-9">업무 합치기 대상 선택</p>
+                      <UiSelect placeholder="업무" />
+                      <UiSelect class="mt-5" placeholder="업무2" />
+                      <UiSelect class="mt-5" placeholder="업무3" />
+                      <UiButton class="mt-5" variant="secondary" block @click.stop>
+                        합치기
+                      </UiButton>
+                    </div>
+                  </template>
+                </UiAccordionMenu>
+              </div>
+            </UiFilterModal>
           </div>
-        </UiFilterModal>
+        </div>
 
         <div class="card-tags">
           <div class="tags-group">
