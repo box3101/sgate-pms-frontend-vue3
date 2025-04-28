@@ -80,10 +80,13 @@
             </UiFilterModal>
           </div>
           <UiButton
-            :variant="isImportantTaskActive ? 'secondary' : 'secondary-line'"
+            :variant="isImportantTaskActive ? 'secondary-line' : 'secondary-line'"
             @click="toggleImportantTask"
           >
-            <i class="icon icon-star icon-md" :class="{ 'icon-white': isImportantTaskActive }"></i>
+            <i
+              class="icon icon-star icon-md"
+              :class="{ 'icon-star-yellow': isImportantTaskActive }"
+            ></i>
             <span>중요업무</span>
           </UiButton>
         </div>

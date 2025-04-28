@@ -8,54 +8,82 @@
             class="menu-item"
             :class="{
               'has-submenu':
-                section.items.length > 0 || (section.submenus && section.submenus.length > 0)
+                section.items.length > 0 || (section.submenus && section.submenus.length > 0),
+              'active-menu': pinnedIndex === index
             }"
+            @mouseenter="hoverMenu(index)"
+            @mouseleave="pinnedIndex === null ? (hoveringIndex = null) : null"
+            @click="clickMenu(index)"
           >
             <!-- 메인 메뉴 아이템 -->
             <div
               class="menu-link"
-              :class="{ active: activeIndex === index }"
-              @click="activateMenu(index)"
-              @mouseover="hoveringIndex = index"
-              @mouseleave="hoveringIndex = null"
+              :class="{ active: activeIndex === index || pinnedIndex === index }"
             >
-              <div class="menu-icon">
-                <img
-                  :src="
-                    hoveringIndex === index || activeIndex === index
-                      ? `/ispark-sgate/images/${section.icon}-hover.svg`
-                      : `/ispark-sgate/images/${section.icon}.svg`
-                  "
-                  alt="icon"
-                />
-              </div>
-              <div class="menu-text">{{ section.title }}</div>
-              <div
-                class="menu-arrow"
-                v-if="section.items.length > 0 || (section.submenus && section.submenus.length > 0)"
-              >
-                <Icon
-                  :name="section.expanded ? 'heroicons:chevron-up' : 'heroicons:chevron-down'"
-                  size="16"
-                />
+              <div class="menu-icon-container">
+                <div class="menu-icon">
+                  <img
+                    :src="
+                      hoveringIndex === index || activeIndex === index || pinnedIndex === index
+                        ? `/ispark-sgate/images/${section.icon}-hover.svg`
+                        : `/ispark-sgate/images/${section.icon}.svg`
+                    "
+                    alt="icon"
+                  />
+                </div>
+                <div class="menu-text">{{ section.title }}</div>
               </div>
             </div>
 
-            <!-- 1단계 서브메뉴 - 직접 메뉴 아이템 -->
-            <ul v-if="section.expanded && section.items.length > 0" class="submenu">
-              <li v-for="(item, itemIndex) in section.items" :key="itemIndex" class="submenu-item">
-                <NuxtLink :to="item.path" class="submenu-link">
-                  <span class="submenu-bullet">•</span>
-                  <div class="menu-text">{{ item.name }}</div>
-                </NuxtLink>
-              </li>
-            </ul>
-
-            <!-- 2단계 서브메뉴 - 서브메뉴 섹션 -->
+            <!-- 통합 서브메뉴 섹션 -->
             <div
-              v-if="section.expanded && section.submenus && section.submenus.length > 0"
+              v-show="hoveringIndex === index || pinnedIndex === index"
               class="submenu-sections"
+              :class="{ 'pinned-submenu': pinnedIndex === index }"
             >
+              <!-- 핀 아이콘 -->
+              <div
+                class="pin-icon"
+                @click="togglePin(index, $event)"
+                :class="{ pinned: pinnedIndex === index }"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M12 2L12 22"></path>
+                  <path d="M5 5L19 19"></path>
+                </svg>
+              </div>
+
+              <!-- 직접 메뉴 아이템 -->
+              <div v-if="section.items.length > 0" class="submenu-section">
+                <div class="submenu-section-title">
+                  <span class="section-indicator">›</span>
+                  {{ section.title }}
+                </div>
+                <ul class="nested-submenu">
+                  <li
+                    v-for="(item, itemIndex) in section.items"
+                    :key="itemIndex"
+                    class="nested-submenu-item"
+                  >
+                    <NuxtLink :to="item.path" class="nested-submenu-link">
+                      <span class="nested-submenu-bullet">•</span>
+                      <div class="menu-text">{{ item.name }}</div>
+                    </NuxtLink>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- 기존 서브메뉴 섹션 -->
               <div
                 v-for="(submenu, submenuIndex) in section.submenus"
                 :key="submenuIndex"
@@ -86,7 +114,7 @@
   </aside>
 </template>
 <script setup>
-  import { ref, reactive, onMounted } from 'vue'
+  import { ref, reactive, onMounted, computed, provide, inject, watch } from 'vue'
   import { useRoute } from 'vue-router'
 
   const route = useRoute()
@@ -95,11 +123,126 @@
   const activeIndex = ref(null)
   // 호버 상태 추적
   const hoveringIndex = ref(null)
+  // 핀 고정 상태 추적
+  const pinnedIndex = ref(null)
+  // 사이드바 확장 상태
+  const isExpanded = ref(false)
 
-  // 메뉴 활성화 및 토글 함수
-  function activateMenu(index) {
+  // 레이아웃에서 확장 상태 공유
+  const layoutIsExpanded = inject('isExpanded', ref(false))
+
+  // 메뉴 호버 함수
+  function hoverMenu(index) {
+    // 핀이 고정되어 있지 않은 경우에만 호버 효과 적용
+    if (pinnedIndex.value === null) {
+      hoveringIndex.value = index
+    }
+  }
+
+  // 메뉴 클릭 함수 - 핀 고정 상태에서 메뉴 전환
+  function clickMenu(index) {
+    // 활성화된 메뉴 인덱스 설정
     activeIndex.value = index
-    toggleSubmenu(index)
+
+    // 이미 고정된 메뉴를 다시 클릭한 경우 핀 해제
+    if (pinnedIndex.value === index) {
+      pinnedIndex.value = null
+      isExpanded.value = false
+      layoutIsExpanded.value = false
+      // localStorage에서 핀 고정 상태 제거
+      localStorage.removeItem('pinnedMenuIndex')
+    } else {
+      // 다른 메뉴를 클릭한 경우 해당 메뉴로 핀 이동
+      pinnedIndex.value = index
+      isExpanded.value = true
+      layoutIsExpanded.value = true
+      // localStorage에 핀 고정 상태 저장
+      localStorage.setItem('pinnedMenuIndex', index)
+    }
+  }
+
+  // 핀 토글 함수
+  function togglePin(index, event) {
+    // 이벤트 전파 중지
+    event.stopPropagation()
+
+    // 이미 고정된 핀이면 해제
+    if (pinnedIndex.value === index) {
+      pinnedIndex.value = null
+      isExpanded.value = false
+      layoutIsExpanded.value = false
+      // localStorage에서 핀 고정 상태 제거
+      localStorage.removeItem('pinnedMenuIndex')
+    } else {
+      // 새로운 핀 고정
+      pinnedIndex.value = index
+      isExpanded.value = true
+      layoutIsExpanded.value = true
+      // localStorage에 핀 고정 상태 저장
+      localStorage.setItem('pinnedMenuIndex', index)
+    }
+  }
+
+  // 현재 경로에 따라 활성화된 메뉴 자동 설정
+  const initActiveMenu = () => {
+    const currentPath = route.path
+
+    menuSections.forEach((section, index) => {
+      // 메인 아이템 확인
+      const mainItemMatch =
+        section.items && section.items.some(item => currentPath.startsWith(item.path))
+
+      // 서브메뉴 아이템 확인
+      const submenuItemMatch =
+        section.submenus &&
+        section.submenus.some(submenu =>
+          submenu.items.some(item => currentPath.startsWith(item.path))
+        )
+
+      if (mainItemMatch || submenuItemMatch) {
+        activeIndex.value = index
+      }
+    })
+  }
+
+  // 라우트 변경 감지 - 메뉴 이동 시에도 고정된 서브메뉴 유지
+  watch(
+    () => route.path,
+    newPath => {
+      // 활성 메뉴 업데이트 (핀 고정 상태는 유지)
+      const savedPinnedIndex = localStorage.getItem('pinnedMenuIndex')
+
+      // 활성 메뉴 업데이트
+      initActiveMenu()
+
+      // 핀 고정 상태 복원 (라우트 변경으로 인해 초기화되지 않도록)
+      if (savedPinnedIndex !== null) {
+        const index = parseInt(savedPinnedIndex)
+        pinnedIndex.value = index
+        isExpanded.value = true
+        layoutIsExpanded.value = true
+      }
+    }
+  )
+
+  // 컴포넌트 마운트 시 활성 메뉴 초기화 및 핀 고정 상태 복원
+  onMounted(() => {
+    // 활성 메뉴 초기화
+    initActiveMenu()
+
+    // localStorage에서 핀 고정 상태 불러오기
+    const savedPinnedIndex = localStorage.getItem('pinnedMenuIndex')
+    if (savedPinnedIndex !== null) {
+      const index = parseInt(savedPinnedIndex)
+      pinnedIndex.value = index
+      isExpanded.value = true
+      layoutIsExpanded.value = true
+    }
+  })
+
+  // 모든 메뉴 닫기 함수
+  const closeAllMenus = () => {
+    hoveringIndex.value = null
   }
 
   // 메뉴 섹션 정의
@@ -609,98 +752,6 @@
       ]
     },
     {
-      title: '커뮤니티',
-      icon: 'forum-icon',
-      expanded: false,
-      items: [],
-      submenus: [
-        {
-          title: '공지및자료실',
-          items: [
-            {
-              name: '공지사항',
-              path: '/community/notices',
-              icon: 'mdi:bullhorn-outline'
-            },
-            {
-              name: '게시판',
-              path: '/community/board',
-              icon: 'mdi:clipboard-text-outline'
-            },
-            {
-              name: 'Q & A',
-              path: '/community/qna',
-              icon: 'mdi:help-circle-outline'
-            },
-            {
-              name: '자료실',
-              path: '/community/resources',
-              icon: 'mdi:folder-open-outline'
-            }
-          ]
-        }
-      ]
-    },
-    {
-      title: '설정관리',
-      icon: 'cog-icon',
-      expanded: false,
-      items: [
-        { name: '목표/활동설정', path: '/settings/goals', icon: 'mdi:target' },
-        {
-          name: '조직성과설정',
-          path: '/settings/org-performance',
-          icon: 'mdi:domain'
-        },
-        {
-          name: '회사정보관리',
-          path: '/settings/company-info',
-          icon: 'mdi:office-building-outline'
-        },
-        { name: '코드관리', path: '/settings/codes', icon: 'mdi:code-tags' }
-      ],
-      submenus: [
-        {
-          title: '메뉴및권한',
-          items: [
-            {
-              name: '직원권한관리',
-              path: '/settings/employee-permissions',
-              icon: 'mdi:account-key-outline'
-            },
-            {
-              name: '메뉴권한관리',
-              path: '/settings/menu-permissions',
-              icon: 'mdi:menu'
-            }
-          ]
-        },
-        {
-          title: '패스워드 변경',
-          items: [
-            {
-              name: '비밀번호변경',
-              path: '/settings/change-password',
-              icon: 'mdi:lock-outline'
-            }
-          ]
-        }
-      ]
-    },
-    {
-      title: '고객지원',
-      icon: 'headset-icon',
-      expanded: false,
-      items: [
-        {
-          name: '문의하기',
-          path: '/support/inquiry',
-          icon: 'mdi:message-question-outline'
-        }
-      ],
-      submenus: []
-    },
-    {
       title: '가이드',
       icon: 'book-open-icon',
       expanded: false,
@@ -714,77 +765,25 @@
       submenus: []
     }
   ])
-
-  // 메뉴 토글 함수
-  const toggleSubmenu = index => {
-    menuSections[index].expanded = !menuSections[index].expanded
-  }
-
-  const toggleNestedSubmenu = (parentIndex, childIndex) => {
-    menuSections[parentIndex].children[childIndex].expanded =
-      !menuSections[parentIndex].children[childIndex].expanded
-  }
-
-  const closeAllMenus = () => {
-    menuSections.forEach(section => {
-      section.expanded = false
-      if (section.children) {
-        section.children.forEach(child => {
-          if (child.children) {
-            child.expanded = false
-          }
-        })
-      }
-    })
-  }
-
-  // 현재 경로에 따라 활성화된 메뉴 자동 확장
-  const initActiveMenu = () => {
-    const currentPath = route.path
-
-    menuSections.forEach((section, index) => {
-      // 메인 아이템 확인
-      const mainItemMatch =
-        section.items && section.items.some(item => currentPath.startsWith(item.path))
-
-      // 서브메뉴 아이템 확인
-      const submenuItemMatch =
-        section.submenus &&
-        section.submenus.some(submenu =>
-          submenu.items.some(item => currentPath.startsWith(item.path))
-        )
-
-      if (mainItemMatch || submenuItemMatch) {
-        section.expanded = true
-      }
-    })
-  }
-
-  // 컴포넌트 마운트 시 활성 메뉴 초기화
-  onMounted(() => {
-    initActiveMenu()
-  })
 </script>
 
 <style lang="scss" scoped>
   .sidebar {
     margin-top: 56px;
-    width: 60px;
+    width: 80px; /* 기본 너비 */
     height: 100vh;
     background-color: #ffff;
     color: white;
+    transition: width 0.2s;
     position: fixed;
-    left: 0;
     top: 0;
+    left: 0;
     z-index: 10;
-    transition: width 0.3s;
-    overflow: hidden;
-    border-right: 1px solid #aaa;
+    border-right: 1px solid #eaeaea;
   }
 
   .sidebar:hover {
-    width: 240px;
-    overflow-y: auto;
+    width: 80px; /* hover 시에도 너비 유지 */
   }
 
   .sidebar-container {
@@ -792,6 +791,7 @@
     flex-direction: column;
     height: 100%;
     border: 1px solid #fff;
+    position: relative; /* 서브메뉴의 기준점으로 설정 */
   }
 
   .menu-list {
@@ -801,177 +801,203 @@
     width: 100%;
   }
 
+  /* 메인 메뉴 아이템 스타일 */
   .menu-item {
     width: 100%;
     border-bottom: 1px solid #fff;
+    z-index: 15; /* 서브메뉴가 다른 메뉴 아이템 위에 표시되도록 z-index 설정 */
+    &:first-of-type {
+      .menu-link {
+        padding-top: 16px;
+      }
+    }
+
+    /* 활성화된 메뉴 스타일 */
+    &.active-menu {
+      .menu-link {
+        background-color: #e6f7ff;
+        color: $primary-color;
+        border-left: 2px solid $primary-color;
+
+        .menu-text {
+          color: $primary-color;
+        }
+      }
+    }
   }
 
   .menu-link {
     display: flex;
     align-items: center;
-    padding: 12px 16px;
+    justify-content: center; /* 중앙 정렬로 변경 */
+    padding: 8px 0; /* 좌우 패딩 제거 */
+    padding-top: 12px;
     text-decoration: none;
-    color: $text-color;
+    color: #333;
     white-space: nowrap;
     transition: all 0.2s;
     border-left: 2px solid #fff;
     cursor: pointer;
-  }
-  .menu-link:hover {
-    background-color: #e6f7ff; // 매우 연한 하늘색 배경
-    color: #00aaff; // 텍스트도 동일한 #00AAFF 색상으로
-    border-left: 2px solid #00aaff; // 왼쪽 테두리 강조
-    span {
-      background: #00aaff;
+
+    &.active {
+      background-color: #e6f7ff;
+      color: $primary-color;
+      border-left: 2px solid $primary-color;
+
+      .menu-text {
+        color: $primary-color;
+      }
     }
   }
 
+  .menu-icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* 컨테이너 너비 100%로 설정 */
+  }
+
   .menu-icon {
-    min-width: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 16px;
+    margin-bottom: 4px;
     img {
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
     }
   }
 
   .menu-text {
-    flex: 1;
-    font-size: 14px;
+    color: var(--color-gray-30, #b1b8be);
+    text-align: center;
+    font-family: Pretendard;
+    font-size: var(--font_size-font_S, 14px);
+    font-weight: 700;
+    letter-spacing: -1.4px;
   }
 
   .menu-arrow {
-    margin-left: 8px;
+    display: none; /* 화살표 숨김 */
   }
 
-  .submenu {
-    list-style-type: none;
-    padding: 0;
-    margin: 0 0 0 40px;
-    overflow: hidden;
+  /* 서브메뉴 스타일 - 통합된 형태로 변경 */
+  .submenu-sections {
+    padding: 8px; /* 패딩 증가 */
+    margin: 0;
+    background-color: #fff;
+    position: absolute;
+    left: 75px; /* 사이드바 너비와 동일하게 설정 */
+    top: -1px; /* 사이드바 컨테이너 상단 기준 */
+    min-width: 200px; /* 너비 증가 */
+    z-index: 100;
+    border: 1px solid #eaeaea;
+    height: 100vh;
+    overflow-y: auto; /* 내용이 많을 경우 스크롤 가능하도록 */
+
+    /* 핀 고정 상태일 때 스타일 */
+    &.pinned-submenu {
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-left: 2px solid $primary-color;
+    }
   }
 
-  .submenu-item {
-    margin-bottom: 4px;
-  }
-
-  .submenu-link {
+  /* 핀 아이콘 스타일 */
+  .pin-icon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
-    padding: 4px 16px;
-    text-decoration: none;
-    color: $text-color;
-    white-space: nowrap;
+    justify-content: center;
+    cursor: pointer;
+    color: #b1b8be;
+    border-radius: 50%;
     transition: all 0.2s;
-    border-radius: 4px;
-    position: relative;
-  }
 
-  .submenu-bullet {
-    display: inline-block;
-    margin-right: 8px;
-    font-size: 18px;
-    color: $primary-color;
-    line-height: 1;
-  }
-
-  .submenu-link:hover {
-    background-color: rgba($primary-color, 0.1);
-    color: $primary-color;
-
-    .submenu-bullet {
+    &:hover {
+      background-color: #f0f0f0;
       color: $primary-color;
+    }
+
+    &.pinned {
+      color: $primary-color;
+      transform: rotate(45deg);
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
     }
   }
 
-  .submenu-link.router-link-active {
-    background-color: rgba($primary-color, 0.1);
-    color: $primary-color;
-    font-weight: 500;
-
-    .submenu-bullet {
-      color: $primary-color;
-    }
-  }
-
-  .submenu-sections {
-    margin-left: 40px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-  }
-
+  /* 서브메뉴 섹션 스타일 */
   .submenu-section {
-    margin-bottom: 12px;
+    margin-bottom: 20px; /* 여백 증가 */
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   .submenu-section-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: $text-color;
-    padding: 4px 16px;
-    text-transform: uppercase;
+    font-weight: 600; /* 굵기 증가 */
+    color: #333;
+    padding: 8px 10px; /* 패딩 증가 */
     display: flex;
     align-items: center;
-    margin-bottom: 4px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px; /* 여백 증가 */
+    font-size: 16px; /* 글자 크기 증가 */
   }
 
   .section-indicator {
     color: $primary-color;
-    margin-right: 6px;
-    font-size: 16px;
-    font-weight: bold;
+    margin-right: 10px; /* 여백 증가 */
+    font-size: 18px; /* 크기 증가 */
   }
 
+  /* 중첩된 서브메뉴 스타일 */
   .nested-submenu {
     list-style-type: none;
     padding: 0;
-    margin: 0;
+    margin: 0 0 0 20px; /* 왼쪽 여백 증가 */
   }
 
   .nested-submenu-item {
-    margin-bottom: 2px;
+    margin-bottom: 4px; /* 여백 증가 */
   }
 
   .nested-submenu-link {
     display: flex;
     align-items: center;
-    padding: 6px 16px 6px 24px;
+    padding: 10px 14px; /* 패딩 증가 */
     text-decoration: none;
-    color: $text-color;
+    color: #333;
     white-space: nowrap;
     transition: all 0.2s;
     border-radius: 4px;
-    font-size: 13px;
-    position: relative;
+  }
+
+  .nested-submenu-link .menu-text {
+    font-size: 15px; /* 글자 크기 증가 */
+    text-align: left; /* 왼쪽 정렬로 변경 */
+    width: auto; /* 자동 너비로 변경 */
   }
 
   .nested-submenu-bullet {
     display: inline-block;
-    margin-right: 8px;
-    color: #666;
-    font-size: 16px;
-    line-height: 1;
+    margin-right: 10px; /* 여백 증가 */
+    font-size: 15px; /* 크기 증가 */
+    color: $primary-color;
   }
 
   .nested-submenu-link:hover {
-    background-color: rgba($primary-color, 0.1);
+    background-color: #e6f7ff;
     color: $primary-color;
-
-    .nested-submenu-bullet {
-      color: $primary-color;
-    }
-  }
-
-  .nested-submenu-link.router-link-active {
-    background-color: rgba($primary-color, 0.1);
-    color: $primary-color;
-    font-weight: 500;
-
-    .nested-submenu-bullet {
-      color: $primary-color;
-    }
+    font-weight: 500; /* 호버 시 글자 굵기 증가 */
   }
 </style>
