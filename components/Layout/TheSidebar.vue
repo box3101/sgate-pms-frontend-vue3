@@ -133,10 +133,8 @@
 
   // 메뉴 호버 함수
   function hoverMenu(index) {
-    // 핀이 고정되어 있지 않은 경우에만 호버 효과 적용
-    if (pinnedIndex.value === null) {
-      hoveringIndex.value = index
-    }
+    // 핀이 고정되어 있어도 호버 효과 적용
+    hoveringIndex.value = index
   }
 
   // 메뉴 클릭 함수 - 핀 고정 상태에서 메뉴 전환
