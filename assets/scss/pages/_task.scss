@@ -508,6 +508,7 @@
   position: absolute;
   top: 68px;
   width: calc(100% - 105px);
+  max-width: -webkit-fill-available;
 }
 
 .fixed-body {
