@@ -76,9 +76,9 @@
       font-size: 14px;
 
       .ui-checkbox__input {
-        width: 18px;
-        height: 18px;
-        margin-right: 8px;
+        width: 16px;
+        height: 16px;
+        margin-right: 4px;
       }
 
       .ui-checkbox__input:checked::after {

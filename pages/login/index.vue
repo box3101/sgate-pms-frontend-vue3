@@ -33,8 +33,13 @@
           <!-- 로그인 옵션 -->
           <div class="login-options">
             <div class="remember-me flex items-center justify-between w-full">
-              <UiCheckbox v-model="rememberMe" label="로그인정보 저장" size="large" />
-              <a href="#" class="forgot-password flex align-center gap-3" @click="toggleModal">
+              <UiCheckbox
+                class="flex items-center"
+                v-model="rememberMe"
+                label="로그인정보 저장"
+                size="medium"
+              />
+              <a href="#" class="forgot-password flex items-center gap-3" @click="toggleModal">
                 <span> 비밀번호 찾기</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -604,7 +609,8 @@
 
   :deep(.ui-checkbox__label) {
     color: var(--color-gray-30, #b1b8be);
-
+    position: relative;
+    top: 1px;
     font-size: 14px;
     font-weight: 700;
     line-height: 140%; /* 19.6px */
