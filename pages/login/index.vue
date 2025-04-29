@@ -36,7 +36,7 @@
               <UiCheckbox
                 class="flex items-center"
                 v-model="rememberMe"
-                label="로그인정보 저장"
+                label="로그인 정보 저장"
                 size="medium"
               />
               <a href="#" class="forgot-password flex items-center gap-3" @click="toggleModal">
