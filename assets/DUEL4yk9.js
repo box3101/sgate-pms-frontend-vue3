@@ -1,1 +1,0 @@
-import{_ as n,c as o,a as r,o as t}from"./B7EGV42O.js";const s={};function a(c,e){return t(),o("div",null,e[0]||(e[0]=[r("h1",null," 홈페이지 메인 입니다.",-1)]))}const _=n(s,[["render",a]]);export{_ as default};
