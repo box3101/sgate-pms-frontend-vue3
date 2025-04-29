@@ -235,7 +235,7 @@
   }
 
   const handleLogin = () => {
-    navigateTo('/task')
+    navigateTo('/task/collaboration/home')
   }
 </script>
 <style scoped lang="scss">
