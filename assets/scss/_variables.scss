@@ -42,6 +42,60 @@ $font-size-lg: 16px;
 $font-size-xl: 18px;
 $font-size-xxl: 20px;
 
+// 스페이싱
+$spacing-xxs: 4px;
+$spacing-xs: 8px;
+$spacing-sm: 12px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-xxl: 40px;
+
+// 헤딩 폰트 크기
+$heading-xs: 16px;
+$heading-sm: 18px;
+$heading-md: 20px;
+$heading-lg: 24px;
+$heading-xl: 28px;
+$heading-xxl: 32px;
+
+// 헤딩 스타일
+$heading-1: (
+  'font-size': $heading-xxl,
+  'font-weight': 700,
+  'line-height': 130%
+);
+
+$heading-2: (
+  'font-size': $heading-xl,
+  'font-weight': 700,
+  'line-height': 130%
+);
+
+$heading-3: (
+  'font-size': $heading-lg,
+  'font-weight': 700,
+  'line-height': 130%
+);
+
+$heading-4: (
+  'font-size': $heading-md,
+  'font-weight': 700,
+  'line-height': 130%
+);
+
+$heading-5: (
+  'font-size': $heading-sm,
+  'font-weight': 700,
+  'line-height': 130%
+);
+
+$heading-6: (
+  'font-size': $heading-xs,
+  'font-weight': 700,
+  'line-height': 130%
+);
+
 // 텍스트 색상
 $text-default-color: #464c53; // var(--color-gray-70)
 $text-light-color: #fff; // var(--color-gray-0)
@@ -205,4 +259,27 @@ $transition-slow: 0.3s;
   font-size: map.get($style-map, 'font-size');
   font-weight: map.get($style-map, 'font-weight');
   line-height: map.get($style-map, 'line-height');
+}
+
+@mixin heading($level) {
+  $heading-map: $heading-1;
+
+  @if $level == 1 {
+    $heading-map: $heading-1;
+  } @else if $level == 2 {
+    $heading-map: $heading-2;
+  } @else if $level == 3 {
+    $heading-map: $heading-3;
+  } @else if $level == 4 {
+    $heading-map: $heading-4;
+  } @else if $level == 5 {
+    $heading-map: $heading-5;
+  } @else if $level == 6 {
+    $heading-map: $heading-6;
+  }
+
+  font-family: map-get($heading-map, 'font-family');
+  font-size: map-get($heading-map, 'font-size');
+  font-weight: map-get($heading-map, 'font-weight');
+  line-height: map-get($heading-map, 'line-height');
 }

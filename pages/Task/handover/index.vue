@@ -424,24 +424,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @use 'sass:color';
-
-  // 변수 정의
-  $primary-color: #2196f3;
-  $primary-hover-color: color.adjust($primary-color, $lightness: -5%);
-  $primary-active-color: color.adjust($primary-color, $lightness: -10%);
-  $secondary-color: #f5f5f5;
-  $border-color: #e0e0e0;
-  $text-primary: #333;
-  $text-secondary: #666;
-  $text-tertiary: #757575;
-  $card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  $card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  $panel-radius: 12px;
-  $card-radius: 8px;
-  $transition-normal: all 0.2s ease;
-  $transition-slow: all 0.3s ease;
-
   // 페이지 컨테이너
   .task-handover-container {
     width: 100%;
@@ -452,15 +434,11 @@
       margin-bottom: 24px;
 
       .page-title {
-        font-size: 28px;
-        font-weight: 700;
-        color: $text-primary;
         margin: 0 0 8px 0;
       }
 
       .page-description {
-        font-size: 16px;
-        color: $text-secondary;
+        color: $text-default-color;
         margin: 0;
       }
     }
@@ -480,7 +458,7 @@
       .task-selection-panel,
       .task-handover-panel {
         background-color: #fff;
-        border-radius: $panel-radius;
+        border-radius: 6px;
         border: 1px solid var(--color-gray-20, #cdd1d5);
         padding: 24px;
         display: flex;
@@ -490,12 +468,10 @@
           margin-bottom: 20px;
 
           .panel-title {
-            font-size: 22px;
-            font-weight: 600;
-            color: $text-primary;
             margin: 0;
             padding-bottom: 12px;
             border-bottom: 1px solid $border-color;
+            @include heading(4);
           }
         }
       }
@@ -551,10 +527,8 @@
           margin-bottom: 16px;
 
           .selection-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: $text-primary;
             margin: 0;
+            @include heading(5);
           }
 
           .selection-actions {
@@ -597,7 +571,7 @@
             align-items: center;
             justify-content: center;
             padding: 40px 0;
-            color: $text-tertiary;
+            color: $text-default-color;
 
             i {
               margin-bottom: 16px;
@@ -614,15 +588,15 @@
           .task-card {
             display: flex;
             padding: 16px;
-            border-radius: $card-radius;
-            border: 1px solid $border-color;
+            border-radius: 6px;
+            border: 1px solid var(--color-gray-20, #cdd1d5);
             background-color: #fff;
             cursor: pointer;
             transition: $transition-normal;
 
             &:hover {
               background-color: rgba($primary-color, 0.03);
-              box-shadow: $card-hover-shadow;
+              box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
               transform: translateY(-2px);
               border-color: rgba($primary-color, 0.3);
             }
@@ -683,11 +657,11 @@
                   align-items: center;
                   gap: 4px;
                   font-size: 12px;
-                  color: $text-tertiary;
+                  color: $text-default-color;
                   white-space: nowrap;
 
                   i {
-                    color: $text-tertiary;
+                    color: $text-default-color;
                   }
                 }
               }
@@ -696,7 +670,7 @@
               .task-title {
                 font-size: 16px;
                 font-weight: 500;
-                color: $text-primary;
+                color: $text-default-color;
                 margin-bottom: 12px;
                 line-height: 1.4;
               }
@@ -711,7 +685,7 @@
                   display: flex;
                   gap: 16px;
                   font-size: 12px;
-                  color: $text-tertiary;
+                  color: $text-default-color;
 
                   .comment-count,
                   .share-count {
@@ -778,7 +752,7 @@
             display: flex;
             align-items: center;
             padding: 14px;
-            border-radius: $card-radius;
+            border-radius: 6px;
             border: 1px solid $border-color;
             background-color: rgba($primary-color, 0.03);
             transition: $transition-normal;
@@ -811,13 +785,13 @@
               .recipient-name {
                 font-size: 16px;
                 font-weight: 500;
-                color: $text-primary;
+                color: $text-default-color;
                 margin-bottom: 4px;
               }
 
               .recipient-position {
                 font-size: 13px;
-                color: $text-tertiary;
+                color: $text-default-color;
               }
             }
           }
@@ -831,9 +805,6 @@
           margin-bottom: 20px;
 
           .handover-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: $text-primary;
             margin: 0;
           }
         }
@@ -842,7 +813,7 @@
         .selected-tasks-summary {
           margin-bottom: 24px;
           padding: 16px;
-          border-radius: $card-radius;
+          border-radius: 6px;
           border: 1px solid $border-color;
           background-color: #fafafa;
 
@@ -860,7 +831,7 @@
 
             .count-label {
               font-size: 14px;
-              color: $text-secondary;
+              color: $text-default-color;
             }
           }
 
@@ -875,7 +846,7 @@
               background-color: #fff;
               border: 1px solid $border-color;
               font-size: 13px;
-              color: $text-primary;
+              color: $text-default-color;
               transition: $transition-normal;
 
               &:hover {
@@ -890,7 +861,7 @@
               background-color: #fff;
               border: 1px solid $border-color;
               font-size: 13px;
-              color: $text-tertiary;
+              color: $text-default-color;
               text-align: center;
             }
           }
@@ -898,7 +869,7 @@
           .summary-empty {
             padding: 20px 0;
             font-size: 14px;
-            color: $text-tertiary;
+            color: $text-default-color;
             text-align: center;
           }
         }
@@ -911,8 +882,9 @@
           .guide-title {
             font-size: 16px;
             font-weight: 600;
-            color: $text-primary;
+            color: $text-default-color;
             margin: 0 0 12px 0;
+            @include heading(6);
           }
 
           .guide-list {
@@ -925,7 +897,7 @@
               padding-left: 18px;
               margin-bottom: 12px;
               font-size: 14px;
-              color: $text-secondary;
+              color: $text-default-color;
               line-height: 1.5;
 
               &:before {

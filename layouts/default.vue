@@ -65,6 +65,7 @@
     min-width: 1200px;
     animation: fade-in 0.3s ease-out;
     overflow-y: auto;
+    overflow-x: auto;
     height: calc(100vh);
 
     &.expanded {
