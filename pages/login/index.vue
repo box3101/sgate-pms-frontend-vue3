@@ -200,14 +200,11 @@
   const notices = ref([{ title: '시스템 업데이트 안내', date: '2025.03.31' }])
   const selectedNotice = ref({
     title: '시스템 업데이트 안내',
-    date: '20225.03.31',
-    content:
-      '길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트',
+    date: '2025.03.31',
+    content: '시스템 업데이트 안내입니다. 자세한 내용은 첨부파일을 참고해주세요.',
     attachments: [
       { name: '업데이트 상세내역.pdf', url: '#' },
-      { name: '4개까지', url: '#' },
-      { name: '4개까지', url: '#' },
-      { name: '4개까지.pdf', url: '#' }
+      { name: '사용자 매뉴얼.pdf', url: '#' }
     ]
   })
 
@@ -220,6 +217,14 @@
   // 다시 보지 않기 체크박스
   const doNotShowAgain = ref(false)
 
+  // 로그인 관련 상태
+  const username = ref('')
+  const password = ref('')
+  const email = ref('')
+  const rememberMe = ref(false)
+  const loginFormTop = ref('0px')
+
+  // AOS 초기화
   AOS.init({
     duration: 800,
     once: true
@@ -234,11 +239,20 @@
     showModal.value = !showModal.value
   }
 
+  // 로그인 처리
   const handleLogin = () => {
     navigateTo('/task/collaboration/home')
   }
+
+  // 비밀번호 찾기 처리
+  const handleFindPassword = () => {
+    // 비밀번호 찾기 로직 구현
+    showModal.value = false
+  }
 </script>
 <style scoped lang="scss">
+  @use 'sass:color';
+
   .login-page {
     display: flex;
     justify-content: center;
@@ -253,14 +267,20 @@
       justify-content: center;
       align-items: center;
     }
+  }
 
-    .login-container .login-left {
+  .login-container {
+    .login-left {
       padding: 24px 40px;
       padding-bottom: 60px;
       width: 428px;
+      border-radius: 8px 0 0 8px;
+      background: var(--color-gray-0, #fff);
+      box-shadow: 8px 8px 16px 0px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
     }
 
-    .login-container .login-right {
+    .login-right {
       width: 592px;
       height: 100%;
       border-radius: 0 8px 8px 0;
@@ -271,34 +291,24 @@
         height: 673px;
       }
     }
+  }
+
+  .login-logo {
+    text-align: center;
+    padding: 24px;
 
     h1 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
+
       img {
         display: inline-block;
         height: 50px;
         margin-bottom: 5px;
       }
     }
-  }
-
-  .login-container .login-left {
-    width: 480px;
-    border-radius: 8px 0 0 8px;
-    background: var(--color-gray-0, #fff);
-    box-shadow: 8px 8px 16px 0px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-  }
-
-  .login-logo {
-    text-align: center;
-    padding: 24px;
-  }
-
-  .login-logo h1 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
   .login-form {
@@ -323,19 +333,13 @@
     align-items: center;
   }
 
-  .remember-me input {
-    margin-right: 8px;
-  }
-
   .forgot-password {
     display: flex;
     align-items: center;
     color: var(--color-primary-50, #0af);
-
-    font-family: Pretendard;
     font-size: 13px;
     font-weight: 700;
-    line-height: 150%; /* 18px */
+    line-height: 150%;
   }
 
   .forgot-password:hover {
@@ -354,10 +358,10 @@
     cursor: pointer;
     transition: background-color 0.2s ease;
     margin-top: 5px;
-  }
 
-  .login-button:hover {
-    background-color: #1765cc;
+    &:hover {
+      background-color: #1765cc;
+    }
   }
 
   .divider {
@@ -367,13 +371,6 @@
 
   .notice-section {
     padding: 15px 0px;
-  }
-
-  .notice-section h3 {
-    font-size: $font-size-lg;
-    font-weight: 600;
-    color: #202124;
-    margin-bottom: 12px;
   }
 
   .notice-list {
@@ -391,18 +388,18 @@
     color: var(--color-primary-50, #0af);
     font-size: 14px;
     font-weight: 700;
-    line-height: 140%; /* 19.6px */
-  }
+    line-height: 140%;
 
-  .notice-title:hover {
-    color: $primary-color;
+    &:hover {
+      color: $primary-color;
+    }
   }
 
   .notice-date {
     color: var(--color-gray-30, #b1b8be);
     font-size: 14px;
     font-weight: 400;
-    line-height: 150%; /* 21px */
+    line-height: 150%;
   }
 
   .system-notice {
@@ -416,29 +413,23 @@
     background: var(--color-system-y10, #ffeacc);
     color: var(--color-system-y30, #ff9500);
     text-align: center;
-    font-family: Pretendard;
     font-size: 13px;
     font-weight: 700;
   }
 
   .login-footer {
     margin-top: 48px;
-  }
 
-  .footer-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    img {
-      height: 35px;
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+
+      img {
+        height: 35px;
+      }
     }
-  }
-
-  .logo-mdall {
-    font-size: 16px;
-    font-weight: 600;
-    color: $primary-color;
   }
 
   .privacy-policy {
@@ -447,10 +438,10 @@
     font-size: 13px;
     font-weight: 700;
     line-height: 18px;
-  }
 
-  .privacy-policy:hover {
-    text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   .modal-content .login-form {
@@ -469,12 +460,6 @@
     background-color: rgba($system-blue, 0.1);
     border-radius: 4px;
     border-left: 3px solid $system-blue;
-
-    i {
-      margin-right: 8px;
-      font-size: 20px;
-      background-color: rgba($system-green, 0.1);
-    }
   }
 
   .notice-modal-content {
@@ -559,12 +544,14 @@
     align-items: flex-start;
     border-radius: 8px;
     border: 1px solid var(--color-gray-20, #cdd1d5);
+
     li {
       flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+
       a {
         display: flex;
         flex-direction: column;
@@ -580,17 +567,18 @@
             color: $primary-color;
           }
         }
+
         img {
           width: 40px;
           height: 40px;
         }
+
         span {
           color: var(--color-gray-70, #464c53);
           text-align: center;
-          font-family: Pretendard;
           font-size: 13px;
           font-weight: 700;
-          line-height: 150%; /* 18px */
+          line-height: 150%;
         }
       }
     }
@@ -599,18 +587,10 @@
   :deep(.ui-input__label) {
     font-size: $font-size-md !important;
     font-weight: 600;
-    margin-bottom: 8px;
-    color: var(--color-gray-70, #464c53);
-  }
-
-  :deep(.ui-input__text) {
-    font-size: $font-size-md !important;
   }
 
   :deep(.ui-checkbox__label) {
     color: var(--color-gray-30, #b1b8be);
-    position: relative;
-    top: 1px;
     font-size: 14px;
     font-weight: 700;
     line-height: 140%; /* 19.6px */
