@@ -1672,3 +1672,14 @@
     }
   }
 }
+.user-select-filters {
+  .filter-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .filter-select {
+    flex: 1;
+  }
+}

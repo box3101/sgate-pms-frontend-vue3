@@ -267,6 +267,7 @@
       padding: 8px;
       text-align: center;
       color: var(--color-gray-40, #8a949e);
+      font-size: $font-size-sm;
     }
 
     // 크기 변형 - Small

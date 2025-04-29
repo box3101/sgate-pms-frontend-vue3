@@ -237,6 +237,41 @@
       </div>
     </div>
   </div>
+
+  <UiModal v-model="showUserSelectModal" title="담당자 선택" size="large" :show-footer="true">
+    <!-- 상단 영역: 검색 필터 -->
+    <div class="user-select-filters">
+      <div class="filter-row">
+        <UiInput placeholder="이름" v-model="userNameFilter" class="filter-input" />
+        <UiSelect
+          placeholder="직위"
+          v-model="userPositionFilter"
+          :options="positionOptions"
+          class="filter-select"
+        />
+        <UiSelect
+          placeholder="직급"
+          v-model="userRankFilter"
+          :options="rankOptions"
+          class="filter-select"
+        />
+        <UiButton type="primary" size="medium">
+          <i class="icon icon-sm icon-search icon-white"></i>
+          검색
+        </UiButton>
+      </div>
+    </div>
+
+    <DepartmentUserSelector />
+
+    <!-- 푸터 영역: 확인/취소 버튼 -->
+    <template #footerActions>
+      <div class="modal-footer-actions">
+        <UiButton variant="secondary" @click="closeUserSelectModal">취소</UiButton>
+        <UiButton variant="primary" @click="confirmUserSelection">확인</UiButton>
+      </div>
+    </template>
+  </UiModal>
 </template>
 
 <script setup>
