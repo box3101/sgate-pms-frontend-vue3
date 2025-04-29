@@ -1,104 +1,109 @@
 <template>
   <div class="login-page">
     <div class="login-container" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-      <!-- 로고 섹션 -->
-      <div class="login-logo">
-        <h1>
-          <img src="@/assets/images/s-gate_logo.svg" alt="SGate Logo" />
-        </h1>
-      </div>
-
-      <!-- 로그인 폼 섹션 -->
-      <div class="login-form" :style="{ top: loginFormTop }">
-        <!-- 아이디 입력 -->
-        <UiInput
-          v-model="username"
-          size="large"
-          prefixIcon="account"
-          block
-          placeholder="아이디를 입력하세요"
-        />
-
-        <!-- 비밀번호 입력 -->
-        <UiInput
-          v-model="password"
-          type="password"
-          size="large"
-          prefixIcon="lock"
-          block
-          placeholder="비밀번호를 입력하세요"
-        />
-
-        <!-- 로그인 옵션 -->
-        <div class="login-options">
-          <div class="remember-me flex items-center justify-between w-full">
-            <UiCheckbox v-model="rememberMe" label="로그인정보 저장" size="large" />
-            <a href="#" class="forgot-password flex align-center gap-3" @click="toggleModal">
-              <span> 비밀번호 찾기</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="12"
-                height="12"
-                viewBox="0 0 12 12"
-                fill="none"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M3.60268 9.86768C3.75046 10.0319 4.00338 10.0452 4.16758 9.89742L8.16758 6.29757C8.25187 6.22172 8.3 6.11365 8.3 6.00026C8.30001 5.88686 8.25188 5.7788 8.1676 5.70294L4.1676 2.10269C4.0034 1.95491 3.75048 1.96821 3.60269 2.13241C3.45491 2.29661 3.46821 2.54952 3.63241 2.69731L7.30207 6.00023L3.63242 9.30278C3.46822 9.45056 3.4549 9.70347 3.60268 9.86768Z"
-                  fill="#00AAFF"
-                />
-              </svg>
-            </a>
-          </div>
+      <div class="login-left">
+        <!-- 로고 섹션 -->
+        <div class="login-logo">
+          <h1>
+            <img src="@/assets/images/s-gate_logo.svg" alt="SGate Logo" />
+          </h1>
         </div>
 
-        <!-- 로그인 버튼 -->
-        <button class="login-button" @click="handleLogin">로그인</button>
-      </div>
+        <!-- 로그인 폼 섹션 -->
+        <div class="login-form" :style="{ top: loginFormTop }">
+          <!-- 아이디 입력 -->
+          <UiInput
+            v-model="username"
+            size="large"
+            prefixIcon="account"
+            block
+            placeholder="아이디를 입력하세요"
+          />
 
-      <!-- 구분선 -->
-      <div class="divider"></div>
+          <!-- 비밀번호 입력 -->
+          <UiInput
+            v-model="password"
+            type="password"
+            size="large"
+            prefixIcon="lock"
+            block
+            placeholder="비밀번호를 입력하세요"
+          />
 
-      <!-- 공지 섹션 -->
-      <div class="notice-section">
-        <ul class="notice-list">
-          <li v-for="(notice, index) in notices" :key="index" class="notice-item">
-            <a href="#none" class="notice-title">{{ notice.title }}</a>
-            <span class="notice-date">{{ notice.date }}</span>
+          <!-- 로그인 옵션 -->
+          <div class="login-options">
+            <div class="remember-me flex items-center justify-between w-full">
+              <UiCheckbox v-model="rememberMe" label="로그인정보 저장" size="large" />
+              <a href="#" class="forgot-password flex align-center gap-3" @click="toggleModal">
+                <span> 비밀번호 찾기</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M3.60268 9.86768C3.75046 10.0319 4.00338 10.0452 4.16758 9.89742L8.16758 6.29757C8.25187 6.22172 8.3 6.11365 8.3 6.00026C8.30001 5.88686 8.25188 5.7788 8.1676 5.70294L4.1676 2.10269C4.0034 1.95491 3.75048 1.96821 3.60269 2.13241C3.45491 2.29661 3.46821 2.54952 3.63241 2.69731L7.30207 6.00023L3.63242 9.30278C3.46822 9.45056 3.4549 9.70347 3.60268 9.86768Z"
+                    fill="#00AAFF"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 로그인 버튼 -->
+          <button class="login-button" @click="handleLogin">로그인</button>
+        </div>
+
+        <!-- 구분선 -->
+        <div class="divider"></div>
+
+        <!-- 공지 섹션 -->
+        <div class="notice-section">
+          <ul class="notice-list">
+            <li v-for="(notice, index) in notices" :key="index" class="notice-item">
+              <a href="#none" class="notice-title">{{ notice.title }}</a>
+              <span class="notice-date">{{ notice.date }}</span>
+            </li>
+          </ul>
+          <div class="system-notice">매주 목요일 22:00 ~ 24:00 시스템 점검이 있습니다.</div>
+        </div>
+
+        <!-- 업데이트/가이드/공지사항 -->
+        <ul class="bottom-links-wrp flex gap-4">
+          <li>
+            <a href="#" class="bottom-link">
+              <img src="/images/icon-login-patchnote.svg" alt="업데이트 노트" />
+              <span>업데이트 노트</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="bottom-link">
+              <img src="/images/icon-login-guide.svg" alt="사용 가이드" />
+              <span>사용 가이드</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="bottom-link" @click="showNoticeModal = true">
+              <img src="/images/icon-login-notice.svg" alt="공지사항" />
+              <span>공지사항</span>
+            </a>
           </li>
         </ul>
-        <div class="system-notice">매주 목요일 22:00 ~ 24:00 시스템 점검이 있습니다.</div>
-      </div>
 
-      <!-- 업데이트/가이드/공지사항 -->
-      <ul class="bottom-links-wrp flex gap-4">
-        <li>
-          <a href="#" class="bottom-link">
-            <img src="/images/icon-login-patchnote.svg" alt="업데이트 노트" />
-            <span>업데이트 노트</span>
-          </a>
-        </li>
-        <li>
-          <a href="#" class="bottom-link">
-            <img src="/images/icon-login-guide.svg" alt="사용 가이드" />
-            <span>사용 가이드</span>
-          </a>
-        </li>
-        <li>
-          <a href="#" class="bottom-link" @click="showNoticeModal = true">
-            <img src="/images/icon-login-notice.svg" alt="공지사항" />
-            <span>공지사항</span>
-          </a>
-        </li>
-      </ul>
-
-      <!-- 푸터 -->
-      <div class="login-footer">
-        <div class="footer-content">
-          <img src="@/assets/images/ispark_logo.svg" alt="ISPARK Logo" />
-          <a href="#" class="privacy-policy">개인정보처리방침</a>
+        <!-- 푸터 -->
+        <div class="login-footer">
+          <div class="footer-content">
+            <img src="@/assets/images/ispark_logo.svg" alt="ISPARK Logo" />
+            <a href="#" class="privacy-policy">개인정보처리방침</a>
+          </div>
         </div>
+      </div>
+      <div class="login-right">
+        <img src="/images/login-thumail.png" alt="Login Right" />
       </div>
     </div>
   </div>
@@ -239,9 +244,30 @@
     overflow-y: hidden;
 
     .login-container {
-      padding: 24px 40px;
-      max-width: 428px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
     }
+
+    .login-container .login-left {
+      padding: 24px 40px;
+      padding-bottom: 60px;
+      width: 428px;
+    }
+
+    .login-container .login-right {
+      width: 592px;
+      height: 100%;
+      border-radius: 0 8px 8px 0;
+      box-shadow: 8px 8px 16px 0px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+
+      img {
+        height: 660px;
+      }
+    }
+
     h1 {
       text-align: center;
       img {
@@ -252,9 +278,9 @@
     }
   }
 
-  .login-container {
+  .login-container .login-left {
     width: 480px;
-    border-radius: 8px;
+    border-radius: 8px 0 0 8px;
     background: var(--color-gray-0, #fff);
     box-shadow: 8px 8px 16px 0px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -272,7 +298,7 @@
   }
 
   .login-form {
-    padding: 20px 0px;
+    padding: 15px 0px;
     padding-top: 0;
     display: flex;
     flex-direction: column;
@@ -298,6 +324,8 @@
   }
 
   .forgot-password {
+    display: flex;
+    align-items: center;
     color: var(--color-primary-50, #0af);
 
     font-family: Pretendard;
@@ -321,7 +349,7 @@
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    margin-top: 16px;
+    margin-top: 5px;
   }
 
   .login-button:hover {
@@ -334,7 +362,7 @@
   }
 
   .notice-section {
-    padding: 20px 0px;
+    padding: 15px 0px;
   }
 
   .notice-section h3 {
@@ -390,7 +418,7 @@
   }
 
   .login-footer {
-    margin-top: 48px;
+    margin-top: 36px;
   }
 
   .footer-content {
