@@ -172,22 +172,6 @@
           </div>
         </div>
 
-        <!-- 선택된 대상 표시 영역 -->
-        <div class="selected-recipient" v-if="recipientSearchKeyword">
-          <div class="recipient-card">
-            <div class="recipient-avatar">
-              <i class="icon icon-md icon-user"></i>
-            </div>
-            <div class="recipient-info">
-              <div class="recipient-name">{{ recipientSearchKeyword }}</div>
-              <div class="recipient-position">직위 정보</div>
-            </div>
-            <UiButton icon-only variant="ghost" size="small" @click="recipientSearchKeyword = ''">
-              <i class="icon icon-sm icon-close"></i>
-            </UiButton>
-          </div>
-        </div>
-
         <!-- 중간 헤더 영역 -->
         <div class="handover-header">
           <h3 class="handover-title">선택한 업무를 선택한 대상에게 전달하세요</h3>
@@ -285,7 +269,6 @@
   logoText.value = '업무 인수인계'
 
   // 검색 키워드
-  const searchKeyword = ref('')
   const recipientSearchKeyword = ref('')
 
   // 필터 선택 값
