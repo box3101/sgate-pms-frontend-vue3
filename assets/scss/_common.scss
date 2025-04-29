@@ -146,3 +146,21 @@ button:focus,
   border-radius: 16px !important;
   border: 1px solid var(--color-gray-10, #e6e8ea) !important;
 }
+
+/* 컨테이너 */
+.container-large {
+  max-width: 1200px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.container-medium {
+  width: 896px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
