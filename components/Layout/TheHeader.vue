@@ -34,9 +34,13 @@
 
       <!-- 우측 아이콘 메뉴 -->
       <div class="icon-menu">
+        <button class="icon-button">
+          <img src="/images/icon-refresh.svg" alt="새로고침" />
+        </button>
+
         <div>
-          <button class="icon-button" @click="openFilter">
-            <Icon name="heroicons:user-circle" size="30" />
+          <button class="icon-button circle-btn" @click="openFilter">
+            <img src="/images/icon-gnb-my.svg" alt="My" />
           </button>
           <UiFilterModal
             v-model="isFilterModalOpen"
@@ -139,8 +143,8 @@
           </UiFilterModal>
         </div>
 
-        <button class="icon-button" @click="isNotificationModalOpen = true">
-          <Icon name="mdi:bell-outline" size="24" />
+        <button class="icon-button circle-btn" @click="isNotificationModalOpen = true">
+          <img src="/images/icon-gnb-alram.svg" alt="알림" />
         </button>
         <UiModal title="알림" v-model="isNotificationModalOpen" position="right" :size="'small'">
           <template #headerActions>
@@ -196,7 +200,7 @@
         </UiModal>
 
         <button class="icon-button" @click="isFullMenuModalOpen = true">
-          <i class="icon icon-eye icon-lg"></i>
+          <img src="/images/icon-allmenu.svg" alt="전체 메뉴" />
         </button>
 
         <UiModal v-model="isFullMenuModalOpen" :size="'full'">
@@ -1169,7 +1173,7 @@
     border: none;
     width: 32px;
     height: 32px;
-    margin-left: 8px;
+    margin-left: 16px;
     cursor: pointer;
     display: flex;
     align-items: center;
