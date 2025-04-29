@@ -247,7 +247,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 100%;
     }
 
     .login-container .login-left {
@@ -264,7 +263,7 @@
       overflow: hidden;
 
       img {
-        height: 660px;
+        height: 673px;
       }
     }
 
@@ -418,7 +417,7 @@
   }
 
   .login-footer {
-    margin-top: 36px;
+    margin-top: 48px;
   }
 
   .footer-content {
@@ -447,24 +446,6 @@
 
   .privacy-policy:hover {
     text-decoration: underline;
-  }
-
-  @media (max-width: 576px) {
-    .login-container {
-      width: 100%;
-    }
-
-    .login-form {
-      padding: 20px;
-    }
-
-    .notice-section {
-      padding: 20px;
-    }
-
-    .login-footer {
-      padding: 16px 20px;
-    }
   }
 
   .modal-content .login-form {
@@ -619,5 +600,13 @@
 
   :deep(.ui-input__text) {
     font-size: $font-size-md !important;
+  }
+
+  :deep(.ui-checkbox__label) {
+    color: var(--color-gray-30, #b1b8be);
+
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 140%; /* 19.6px */
   }
 </style>
