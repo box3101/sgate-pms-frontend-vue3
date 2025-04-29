@@ -51,7 +51,7 @@
 <style scoped lang="scss">
   .ui-checkbox {
     display: flex;
-    align-items: center;
+    align-items: end;
     cursor: pointer;
     width: fit-content;
 

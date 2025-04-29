@@ -231,7 +231,7 @@
     &__prefix-icon {
       color: var(--color-gray-40, #8a949e);
       font-size: $font-size-xl;
-      margin-right: 5px;
+      margin-right: 10px;
       filter: invert(91%) sepia(4%) saturate(129%) hue-rotate(184deg) brightness(94%) contrast(88%);
     }
 

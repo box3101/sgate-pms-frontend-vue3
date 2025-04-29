@@ -368,7 +368,7 @@
           assignee: '이매니저',
           tags: [
             { type: 'primary', text: '기획' },
-            { type: 'warning', text: '중요' }
+            { type: 'completed', text: '중요' }
           ],
           evaluation: '우수'
         },
@@ -429,7 +429,7 @@
           assignee: '김클라우드',
           tags: [
             { type: 'primary', text: '클라우드' },
-            { type: 'warning', text: '긴급' }
+            { type: 'completed', text: '긴급' }
           ],
           evaluation: '보통'
         },
@@ -451,7 +451,7 @@
           assignee: '정모바일',
           tags: [
             { type: 'primary', text: '모바일' },
-            { type: 'warning', text: '중요' }
+            { type: 'completed', text: '중요' }
           ],
           evaluation: '보통'
         },
@@ -462,7 +462,7 @@
           assignee: '최백엔드',
           tags: [
             { type: 'primary', text: '결제' },
-            { type: 'warning', text: '긴급' }
+            { type: 'completed', text: '긴급' }
           ],
           evaluation: '우수'
         },
@@ -512,7 +512,7 @@
           assignee: '임성능',
           tags: [
             { type: 'primary', text: '성능' },
-            { type: 'warning', text: '중요' }
+            { type: 'completed', text: '중요' }
           ],
           evaluation: '미흡'
         },
@@ -523,7 +523,7 @@
           assignee: '박보안',
           tags: [
             { type: 'primary', text: '보안' },
-            { type: 'warning', text: '긴급' }
+            { type: 'completed', text: '긴급' }
           ],
           evaluation: '우수'
         },
@@ -573,7 +573,7 @@
           assignee: '이인프라',
           tags: [
             { type: 'primary', text: '운영' },
-            { type: 'warning', text: '중요' }
+            { type: 'completed', text: '중요' }
           ],
           evaluation: '우수'
         },
@@ -584,7 +584,7 @@
           assignee: '강인프라',
           tags: [
             { type: 'primary', text: '안정성' },
-            { type: 'warning', text: '긴급' }
+            { type: 'completed', text: '긴급' }
           ],
           evaluation: '미흡'
         },
@@ -622,7 +622,7 @@
           date: '2023-07-28',
           assignee: '박보안',
           tags: [
-            { type: 'warning', text: '긴급' },
+            { type: 'completed', text: '긴급' },
             { type: 'primary', text: '보안' }
           ],
           evaluation: '우수'
@@ -656,7 +656,7 @@
           assignee: '강인프라',
           tags: [
             { type: 'primary', text: '인프라' },
-            { type: 'warning', text: '중요' }
+            { type: 'completed', text: '중요' }
           ],
           evaluation: '보통'
         }
@@ -706,7 +706,7 @@
           assignee: '최분석',
           tags: [
             { type: 'primary', text: '분석' },
-            { type: 'warning', text: '중요' }
+            { type: 'completed', text: '중요' }
           ],
           evaluation: '우수'
         }
@@ -734,7 +734,7 @@
           assignee: '김보안',
           tags: [
             { type: 'primary', text: '보안' },
-            { type: 'warning', text: '필수' }
+            { type: 'completed', text: '필수' }
           ],
           evaluation: '보통'
         },
@@ -784,7 +784,7 @@
           assignee: '한마케팅',
           tags: [
             { type: 'primary', text: '마케팅' },
-            { type: 'warning', text: '중요' }
+            { type: 'completed', text: '중요' }
           ],
           evaluation: '미흡'
         }

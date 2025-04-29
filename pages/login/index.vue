@@ -10,33 +10,46 @@
 
       <!-- 로그인 폼 섹션 -->
       <div class="login-form" :style="{ top: loginFormTop }">
-        <!-- 회사아이디 입력 -->
-        <UiInput
-          v-model="companyId"
-          label="회사아이디"
-          size="xlarge"
-          prefixIcon="office-building"
-          block
-        />
-
         <!-- 아이디 입력 -->
-        <UiInput v-model="username" label="아이디" size="xlarge" prefixIcon="account" block />
+        <UiInput
+          v-model="username"
+          size="large"
+          prefixIcon="account"
+          block
+          placeholder="아이디를 입력하세요"
+        />
 
         <!-- 비밀번호 입력 -->
         <UiInput
           v-model="password"
           type="password"
-          label="비밀번호"
-          size="xlarge"
+          size="large"
           prefixIcon="lock"
           block
+          placeholder="비밀번호를 입력하세요"
         />
 
         <!-- 로그인 옵션 -->
         <div class="login-options">
           <div class="remember-me flex items-center justify-between w-full">
             <UiCheckbox v-model="rememberMe" label="로그인정보 저장" size="large" />
-            <a href="#" class="forgot-password" @click="toggleModal">비밀번호 찾기</a>
+            <a href="#" class="forgot-password flex align-center gap-3" @click="toggleModal">
+              <span> 비밀번호 찾기</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                fill="none"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M3.60268 9.86768C3.75046 10.0319 4.00338 10.0452 4.16758 9.89742L8.16758 6.29757C8.25187 6.22172 8.3 6.11365 8.3 6.00026C8.30001 5.88686 8.25188 5.7788 8.1676 5.70294L4.1676 2.10269C4.0034 1.95491 3.75048 1.96821 3.60269 2.13241C3.45491 2.29661 3.46821 2.54952 3.63241 2.69731L7.30207 6.00023L3.63242 9.30278C3.46822 9.45056 3.4549 9.70347 3.60268 9.86768Z"
+                  fill="#00AAFF"
+                />
+              </svg>
+            </a>
           </div>
         </div>
 
@@ -49,21 +62,36 @@
 
       <!-- 공지 섹션 -->
       <div class="notice-section">
-        <h3 class="flex items-center gap-4">
-          <Icon name="mdi:bell" style="background-color: #777" />공지사항
-        </h3>
-
         <ul class="notice-list">
           <li v-for="(notice, index) in notices" :key="index" class="notice-item">
-            <a href="#none" @click="showNoticeModal = true" class="notice-title">{{
-              notice.title
-            }}</a>
+            <a href="#none" class="notice-title">{{ notice.title }}</a>
             <span class="notice-date">{{ notice.date }}</span>
           </li>
         </ul>
-
         <div class="system-notice">매주 목요일 22:00 ~ 24:00 시스템 점검이 있습니다.</div>
       </div>
+
+      <!-- 업데이트/가이드/공지사항 -->
+      <ul class="bottom-links-wrp flex gap-4">
+        <li>
+          <a href="#" class="bottom-link">
+            <img src="/images/icon-login-patchnote.svg" alt="업데이트 노트" />
+            <span>업데이트 노트</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="bottom-link">
+            <img src="/images/icon-login-guide.svg" alt="사용 가이드" />
+            <span>사용 가이드</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="bottom-link" @click="showNoticeModal = true">
+            <img src="/images/icon-login-notice.svg" alt="공지사항" />
+            <span>공지사항</span>
+          </a>
+        </li>
+      </ul>
 
       <!-- 푸터 -->
       <div class="login-footer">
@@ -79,27 +107,23 @@
   <UiModal v-model="showModal" title="비밀번호 찾기" size="xmedium" :showFooter="true">
     <div class="modal-content">
       <div class="login-form" :style="{ top: loginFormTop }">
-        <!-- 회사아이디 입력 -->
-        <UiInput
-          v-model="companyId"
-          label="회사아이디"
-          size="xlarge"
-          prefixIcon="office-building"
-          block
-        >
-        </UiInput>
-
         <!-- 아이디 입력 -->
-        <UiInput v-model="username" label="아이디" size="xlarge" prefixIcon="account" block />
+        <UiInput
+          v-model="username"
+          size="large"
+          prefixIcon="account"
+          block
+          placeholder="아이디를 입력하세요"
+        />
 
         <!-- 이메일 입력 -->
         <UiInput
           v-model="email"
           type="email"
-          label="이메일"
-          size="xlarge"
+          size="large"
           prefixIcon="lock"
           block
+          placeholder="이메일을 입력하세요"
         />
       </div>
 
@@ -163,14 +187,10 @@
   })
 
   // 공지사항
-  const notices = ref([
-    { title: '시스템 업데이트 안내', date: '25.03.31' },
-    { title: '성과평가 일정 변경 안내', date: '25.03.28' },
-    { title: '인사평가 시스템 개선 안내', date: '25.03.25' }
-  ])
+  const notices = ref([{ title: '시스템 업데이트 안내', date: '2025.03.31' }])
   const selectedNotice = ref({
     title: '시스템 업데이트 안내',
-    date: '25.03.31',
+    date: '20225.03.31',
     content:
       '길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트길이테스트',
     attachments: [
@@ -217,27 +237,32 @@
     background-color: #f5f5f5;
     padding: 15px;
     overflow-y: hidden;
+
+    .login-container {
+      padding: 24px 40px;
+      max-width: 428px;
+    }
     h1 {
       text-align: center;
       img {
         display: inline-block;
-        height: 35px;
+        height: 50px;
+        margin-bottom: 5px;
       }
     }
   }
 
   .login-container {
     width: 480px;
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    background: var(--color-gray-0, #fff);
+    box-shadow: 8px 8px 16px 0px rgba(0, 0, 0, 0.1);
     overflow: hidden;
   }
 
   .login-logo {
     text-align: center;
-    padding: 20px;
-    background-color: #f8fafc;
+    padding: 24px;
   }
 
   .login-logo h1 {
@@ -247,10 +272,11 @@
   }
 
   .login-form {
-    padding: 20px 35px;
+    padding: 20px 0px;
+    padding-top: 0;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 8px;
     transition: all 0.3s ease;
   }
 
@@ -272,9 +298,12 @@
   }
 
   .forgot-password {
-    color: $primary-color;
-    text-decoration: none;
-    font-size: $font-size-md;
+    color: var(--color-primary-50, #0af);
+
+    font-family: Pretendard;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 150%; /* 18px */
   }
 
   .forgot-password:hover {
@@ -283,7 +312,7 @@
 
   .login-button {
     width: 100%;
-    padding: 16px;
+    padding: 12px 16px;
     background-color: $primary-color;
     color: white;
     font-size: 16px;
@@ -301,12 +330,11 @@
 
   .divider {
     height: 1px;
-    background-color: #e8eaed;
-    margin: 0 35px;
+    background: var(--color-gray-30, #b1b8be);
   }
 
   .notice-section {
-    padding: 20px 35px;
+    padding: 20px 0px;
   }
 
   .notice-section h3 {
@@ -325,13 +353,13 @@
   .notice-item {
     display: flex;
     justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #f1f3f4;
   }
 
   .notice-title {
-    color: #202124;
+    color: var(--color-primary-50, #0af);
     font-size: 14px;
+    font-weight: 700;
+    line-height: 140%; /* 19.6px */
   }
 
   .notice-title:hover {
@@ -339,26 +367,35 @@
   }
 
   .notice-date {
-    color: #5f6368;
+    color: var(--color-gray-30, #b1b8be);
     font-size: 14px;
+    font-weight: 400;
+    line-height: 150%; /* 21px */
   }
 
   .system-notice {
-    background-color: #f8fafc;
-    border-radius: 6px;
-    padding: 10px 16px;
-    font-size: 14px;
-    color: #5f6368;
+    display: flex;
+    padding: 5px 0px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    border-radius: 4px;
+    background: var(--color-system-y10, #ffeacc);
+    color: var(--color-system-y30, #ff9500);
     text-align: center;
+    font-family: Pretendard;
+    font-size: 13px;
+    font-weight: 700;
   }
 
   .login-footer {
-    background-color: #f8fafc;
-    padding: 16px 35px;
+    margin-top: 48px;
   }
 
   .footer-content {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     img {
@@ -373,9 +410,11 @@
   }
 
   .privacy-policy {
-    font-size: 14px;
-    color: $primary-color;
-    text-decoration: none;
+    margin-top: 24px;
+    color: var(--color-gray-60, #58616a);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 18px;
   }
 
   .privacy-policy:hover {
@@ -407,20 +446,20 @@
   .error-message {
     display: flex;
     align-items: center;
-    color: $info-color;
+    color: $system-blue;
     font-size: 13px;
     margin-top: 12px;
     margin-right: 10px;
     margin-left: 10px;
     padding: 8px 12px;
-    background-color: rgba($info-color, 0.1);
+    background-color: rgba($system-blue, 0.1);
     border-radius: 4px;
-    border-left: 3px solid $info-color;
+    border-left: 3px solid $system-blue;
 
     i {
       margin-right: 8px;
       font-size: 20px;
-      background-color: rgba($info-color, 0.1);
+      background-color: rgba($system-green, 0.1);
     }
   }
 
@@ -496,6 +535,50 @@
       padding-top: 16px;
       display: flex;
       justify-content: flex-end;
+    }
+  }
+
+  .bottom-links-wrp {
+    display: flex;
+    padding: 8px 16px;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-radius: 8px;
+    border: 1px solid var(--color-gray-20, #cdd1d5);
+    li {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      a {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+
+        &:hover {
+          img {
+            filter: brightness(1.1);
+          }
+          span {
+            color: $primary-color;
+          }
+        }
+        img {
+          width: 40px;
+          height: 40px;
+        }
+        span {
+          color: var(--color-gray-70, #464c53);
+          text-align: center;
+          font-family: Pretendard;
+          font-size: 13px;
+          font-weight: 700;
+          line-height: 150%; /* 18px */
+        }
+      }
     }
   }
 
