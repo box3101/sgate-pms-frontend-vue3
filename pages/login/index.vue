@@ -288,7 +288,7 @@
       overflow: hidden;
 
       img {
-        height: 673px;
+        height: 669.5px;
       }
     }
   }
