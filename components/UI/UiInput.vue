@@ -299,7 +299,7 @@
     // 크기 변형 - Small
     &--small {
       .ui-input__wrapper {
-        height: 28px;
+        height: 30px;
         padding: 3px 9px;
       }
       .ui-input__field {

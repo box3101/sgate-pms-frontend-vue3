@@ -383,7 +383,7 @@
     // 크기 변형 - Medium
     &--medium {
       .ui-multi-select__header {
-        min-height: 28px;
+        min-height: 30px;
         padding: 3px 12px;
       }
 

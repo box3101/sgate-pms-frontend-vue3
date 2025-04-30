@@ -291,7 +291,7 @@
     // 크기 변형 - Medium
     &--medium {
       .ui-select__header {
-        height: 28px;
+        height: 30px;
         padding: 5px 12px;
       }
 

@@ -138,10 +138,9 @@
                 <p class="flex-none">일자</p>
                 <UiDatePicker placeholder="날짜 선택" />
               </div>
-              <div class="flex gap-20 items-center">
-                <p class="flex-none">업무상태</p>
+              <div class="flex gap-10 items-center">
                 <UiSelect
-                  placeholder="선택하세요"
+                  placeholder="업무상태"
                   class="w-200"
                   :options="[
                     { label: '시작 전', value: 'not_started' },
@@ -149,9 +148,8 @@
                     { label: '완료', value: 'completed' }
                   ]"
                 />
-                <p class="flex-none">진행만족도</p>
                 <UiSelect
-                  placeholder="선택하세요"
+                  placeholder="진행만족도"
                   class="w-200"
                   :options="[
                     { label: '매우 만족', value: 'very_satisfied' },
@@ -256,10 +254,9 @@
                 <p class="flex-none">일자</p>
                 <UiDatePicker placeholder="날짜 선택" />
               </div>
-              <div class="flex gap-20 items-center">
-                <p class="flex-none">업무상태</p>
+              <div class="flex gap-10 items-center">
                 <UiSelect
-                  placeholder="선택하세요"
+                  placeholder="업무상태"
                   class="w-200"
                   :options="[
                     { label: '시작 전', value: 'not_started' },
@@ -267,9 +264,8 @@
                     { label: '완료', value: 'completed' }
                   ]"
                 />
-                <p class="flex-none">진행만족도</p>
                 <UiSelect
-                  placeholder="선택하세요"
+                  placeholder="진행만족도"
                   class="w-200"
                   :options="[
                     { label: '매우 만족', value: 'very_satisfied' },

@@ -719,7 +719,7 @@
 
                   .profile-image {
                     width: 28px;
-                    height: 28px;
+                    height: 30px;
                     border-radius: 50%;
                     background-color: #eee;
                     display: flex;

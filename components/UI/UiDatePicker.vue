@@ -798,7 +798,7 @@
       align-items: center;
       justify-content: center;
       width: 28px;
-      height: 28px;
+      height: 30px;
       border: none;
       background: transparent;
       border-radius: 4px;
@@ -977,7 +977,7 @@
     &--small {
       .ui-datepicker__input,
       .ui-datepicker__range-input {
-        height: 28px;
+        height: 30px;
         padding: 3px 9px;
       }
       .ui-datepicker__text,

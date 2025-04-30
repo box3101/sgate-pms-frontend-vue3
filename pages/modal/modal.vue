@@ -96,10 +96,8 @@
                 <UiDatePicker placeholder="날짜 선택" v-model="activityDate" />
               </div>
               <div class="flex gap-20 items-center">
-                <p class="flex-none">업무상태</p>
-                <UiSelect placeholder="선택하세요" class="w-200" v-model="activityStatus" />
-                <p class="flex-none">진행만족도</p>
-                <UiSelect placeholder="선택하세요" class="w-200" v-model="activitySatisfaction" />
+                <UiSelect placeholder="업무상태" class="w-200" v-model="activityStatus" />
+                <UiSelect placeholder="진행만족도" class="w-200" v-model="activitySatisfaction" />
               </div>
             </div>
             <div

@@ -102,7 +102,7 @@
 
     // 크기 변형
     &--small {
-      height: 28px;
+      height: 30px;
       display: inline-flex;
       padding: 3px 9px;
       justify-content: center;
