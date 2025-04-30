@@ -7,6 +7,14 @@
   display: inline-block;
 }
 
+.close-button,
+.category-menu-btn,
+.action-btn,
+.ui-popup__close,
+.ui-popup__fullscreen {
+  border-radius: 50% !important;
+}
+
 // SVG 아이콘 함수 - fill 색상만 변경 가능하도록
 @function svg-icon-user($fill-color) {
   $encoded-fill: str-replace('#{$fill-color}', '#', '%23');

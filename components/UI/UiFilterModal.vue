@@ -15,7 +15,7 @@
     >
       <div v-if="!hideHeader" class="filter-header">
         <h3>{{ title }}</h3>
-        <div class="flex gap-25">
+        <div class="flex gap-25 items-center">
           <slot name="headerActions" />
           <button class="close-button" @click="closeFilterModal">
             <i class="icon icon-md icon-close"></i>
@@ -200,7 +200,12 @@
     display: flex;
     justify-content: space-between;
     padding: 12px 16px;
+    align-items: center;
     border-bottom: 1px solid #eee;
+    .close-button {
+      width: 20px;
+      height: 20px;
+    }
   }
 
   .filter-body {
