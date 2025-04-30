@@ -29,6 +29,19 @@ body {
   // overflow-y: hidden;
 }
 
+button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  border-radius: $border-radius-sm;
+  transition: all $transition-normal ease;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  flex-shrink: 0;
+}
+
 /* 모바일에서 하단 빈 여백 제거 */
 @media screen and (max-width: 768px) {
   body {

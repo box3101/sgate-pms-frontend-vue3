@@ -171,7 +171,7 @@
               class="flex justify-between items-center mt-20 pt-10"
               style="border-top: 1px solid #eee"
             >
-              <button class="attachment-btn" @click="openAttachmentModal">
+              <button class="attachment-btn action-btn" @click="openAttachmentModal">
                 <Icon name="heroicons:paper-clip" size="20" />
               </button>
               <UiButton variant="primary" @click="saveCard">저장</UiButton>
@@ -294,8 +294,8 @@
               class="flex justify-between items-center mt-20 pt-10"
               style="border-top: 1px solid #eee"
             >
-              <button class="attachment-btn" @click="openAttachmentModal">
-                <Icon name="heroicons:paper-clip" size="20" />
+              <button class="attachment-btn action-btn" @click="openAttachmentModal">
+                <i class="icon icon-md icon-paper-clip"></i>
               </button>
               <UiButton variant="primary" @click="addActivityItem">저장</UiButton>
             </div>
