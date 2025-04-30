@@ -73,7 +73,6 @@ button:focus,
 .ui-multi-select__field:focus,
 .ui-multi-select__header:focus,
 .ui-select__header:focus {
-  outline: none;
   outline: 1px solid var(--color-system-b30, #0084ff) !important;
   box-shadow: 0 0 0 2px rgba(0, 132, 255, 0.1);
   transition: all 0.2s ease-in-out;
@@ -99,7 +98,8 @@ button:focus,
 
 /* 포커스는 있지만 키보드 포커스가 아닌 경우 (마우스 클릭) 아웃라인 숨김 */
 *:focus:not(:focus-visible) {
-  outline: none;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 @media screen and (max-width: 768px) {
