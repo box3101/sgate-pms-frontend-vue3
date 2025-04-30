@@ -124,7 +124,7 @@
             </UiFormItem>
             <template #footerActions>
               <div class="flex gap-5 justify-end">
-                <UiButton @click="saveCard">등록</UiButton>
+                <UiButton @click="saveCard">저장장</UiButton>
                 <UiButton variant="secondary" @click="isCardModalOpen = false">취소</UiButton>
               </div>
             </template>
