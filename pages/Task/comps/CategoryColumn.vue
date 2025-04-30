@@ -19,7 +19,7 @@
             title="카테고리 메뉴"
             :hideHeader="true"
           >
-            <UiAccordionMenu :menuItems="menuItems">
+            <UiAccordionMenu size="small" :menuItems="menuItems">
               <template #content-1>
                 <UiSelect placeholder="제조공정" />
                 <UiButton

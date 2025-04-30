@@ -1,5 +1,5 @@
 <template>
-  <div class="ui-accordion" :class="{ 'is-active': modelValue }">
+  <div class="ui-accordion" :class="[{ 'is-active': modelValue }, `ui-accordion--${size}`]">
     <div class="accordion-header" @click="toggleAccordion">
       <div class="accordion-title">{{ title }}</div>
       <div class="accordion-icon" :class="{ 'accordion-icon--open': modelValue }">
@@ -21,6 +21,11 @@
     modelValue: {
       type: Boolean,
       default: false
+    },
+    size: {
+      type: String,
+      default: 'medium',
+      validator: value => ['small', 'medium', 'large'].includes(value)
     }
   })
 
@@ -31,12 +36,14 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .ui-accordion {
     border-radius: 8px;
     border: 2px solid var(--color-gray-20, #cdd1d5);
     background: var(--color-gray-0, #fff);
     margin-bottom: 8px;
+
+    // 활성화 상태 스타일
     &.is-active {
       .accordion-title {
         color: var(--color-primary-50, #00aaff);
@@ -47,6 +54,48 @@
         background-position: center;
       }
       border: 2px solid #9df;
+    }
+
+    // 사이즈별 스타일 정의
+    &--small {
+      .accordion-header {
+        padding: 8px 12px;
+      }
+
+      .accordion-title {
+        font-size: 14px;
+        line-height: 16px;
+      }
+
+      .accordion-content {
+        padding: 8px 12px;
+      }
+
+      .accordion-icon {
+        .iconify {
+          width: 14px;
+          height: 14px;
+        }
+      }
+    }
+
+    &--medium {
+      // 기본 스타일 유지
+    }
+
+    &--large {
+      .accordion-header {
+        padding: 16px 20px;
+      }
+
+      .accordion-title {
+        font-size: 22px;
+        line-height: 24px;
+      }
+
+      .accordion-content {
+        padding: 16px 20px;
+      }
     }
   }
 

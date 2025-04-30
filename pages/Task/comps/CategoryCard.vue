@@ -37,7 +37,7 @@
               @click.stop
             >
               <div @click.stop>
-                <UiAccordionMenu :menuItems="menuItems">
+                <UiAccordionMenu size="small" :menuItems="menuItems">
                   <template #content-1>
                     <div @click.stop>
                       <UiSelect placeholder="제조공정" />
