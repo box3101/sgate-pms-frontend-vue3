@@ -65,7 +65,7 @@
   }
 
   .accordion-title {
-    color: var(--color-primary-50, #00aaff);
+    color: var(--color-primary-50, #6d7882);
     font-size: var(--font_size-font_S-title, 20px);
     font-weight: 700;
     line-height: 20px;
