@@ -97,7 +97,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 4px;
     }
 
     // 크기 변형
@@ -108,7 +107,7 @@
       justify-content: center;
       align-items: center;
       gap: 2px;
-      @include font-style($body-xsmall-bold);
+      @include font-style($body-small-bold);
     }
 
     &--medium {

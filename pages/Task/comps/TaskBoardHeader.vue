@@ -7,7 +7,7 @@
           <div>
             <UiButton variant="primary" @click="openBoardAddModal">
               <i class="icon icon-plus icon-md icon-white"></i>
-              <span>보드 추가</span>
+              <span>보드</span>
             </UiButton>
             <UiFilterModal v-model="isBoardAddModalOpen" title="보드 추가" :showFooter="true">
               <UiFormLayout>

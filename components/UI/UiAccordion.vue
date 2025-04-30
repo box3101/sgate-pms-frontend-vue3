@@ -107,6 +107,56 @@
     cursor: pointer;
     user-select: none;
     border-radius: 8px;
+    position: relative;
+    padding-left: 28px !important;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-primary-50, #6d7882);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    // 기본 불릿 스타일 공통 속성
+    &.accordion-title-with-bullet {
+      position: relative;
+      padding-left: 28px; // 여유 공간 조금 더 확보
+
+      // 1. 기본 원형 불릿 (그라데이션 효과 추가)
+      &.bullet-circle::before {
+        content: '';
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--color-primary-50, #6d7882);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+    }
+
+    // 아코디언 활성화 상태에 따른 불릿 스타일 변화
+    &.active {
+      &.accordion-title-with-bullet {
+        &.bullet-circle::before {
+          background: linear-gradient(135deg, #34e89e, #0f3443);
+        }
+
+        &.bullet-arrow::before {
+          content: '⌄';
+          transform: translateY(-50%) rotate(0deg);
+          transition: transform 0.3s ease;
+        }
+      }
+    }
   }
 
   .accordion-header:hover {
