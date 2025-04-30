@@ -154,6 +154,7 @@
       color: var(--color-gray-70, #464c53);
       font-size: 16px;
       line-height: 150%; /* 24px */
+      word-break: break-word;
     }
 
     .replies-list {

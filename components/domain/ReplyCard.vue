@@ -175,7 +175,7 @@
 
     .reply-content {
       color: var(--color-gray-70, #464c53);
-
+      word-break: break-word;
       font-size: 16px;
       line-height: 150%; /* 24px */
     }

@@ -97,6 +97,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 4px;
     }
 
     // 크기 변형

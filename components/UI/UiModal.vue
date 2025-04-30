@@ -35,13 +35,40 @@
         <div class="ui-popup__header-actions">
           <slot name="headerActions-right"></slot>
           <div class="ui-popup__actions flex gap-5">
-            <button class="ui-popup__fullscreen" @click="toggleFullscreen">
+            <button
+              v-if="position === 'right'"
+              class="ui-popup__size-btn"
+              :class="{ active: sizeMode === 'default' && !isFullscreen }"
+              @click="changeSize('default')"
+              title="기본 크기 (1/3)"
+            >
+              <Icon name="heroicons:rectangle-stack" size="18" />
+            </button>
+
+            <button
+              v-if="position === 'right'"
+              class="ui-popup__size-btn"
+              :class="{ active: sizeMode === 'half' && !isFullscreen }"
+              @click="changeSize('half')"
+              title="절반 크기 (1/2)"
+            >
+              <Icon name="heroicons:rectangle-group" size="18" />
+            </button>
+
+            <button
+              class="ui-popup__fullscreen"
+              :class="{ active: isFullscreen }"
+              @click="toggleFullscreen"
+              title="전체화면"
+            >
               <Icon
                 :name="
                   isFullscreen ? 'heroicons:arrows-pointing-in' : 'heroicons:arrows-pointing-out'
                 "
+                size="18"
               />
             </button>
+
             <button
               v-if="showCloseButton"
               class="ui-popup__close"
@@ -132,11 +159,31 @@
 
   const isFullscreen = ref(false)
   const customWidth = ref(null)
+  const sizeMode = ref('default') // 'default', 'half', 'full'
+
+  const screenWidth = ref(window.innerWidth)
+
+  const handleResize = () => {
+    screenWidth.value = window.innerWidth
+  }
 
   const modalStyle = computed(() => {
-    if (customWidth.value && props.position === 'right' && !isFullscreen.value) {
+    if (isFullscreen.value) {
+      return {}
+    }
+
+    if (customWidth.value && props.position === 'right') {
       return { width: `${customWidth.value}px` }
     }
+
+    if (props.position === 'right') {
+      if (sizeMode.value === 'half') {
+        return { width: `${screenWidth.value / 2}px` }
+      } else if (sizeMode.value === 'default') {
+        return { width: `${screenWidth.value / 3}px` }
+      }
+    }
+
     return {}
   })
 
@@ -145,16 +192,13 @@
   let startWidth = 0
   let modalElement = null
 
-  // 모달 상태 변경 감시
   watch(
     () => props.modelValue,
     newValue => {
       if (newValue) {
-        // 모달이 열릴 때 body와 html에 overflow-y: hidden 적용
         document.documentElement.style.overflowY = 'hidden'
         document.body.style.overflowY = 'hidden'
       } else {
-        // 모달이 닫힐 때 body와 html의 overflow-y 스타일 제거
         document.documentElement.style.overflowY = ''
         document.body.style.overflowY = ''
       }
@@ -165,19 +209,24 @@
   onMounted(() => {
     document.addEventListener('mousemove', handleMouseMove)
     document.addEventListener('mouseup', handleMouseUp)
+    window.addEventListener('resize', handleResize)
 
-    // 컴포넌트가 마운트될 때 모달이 열려있으면 overflow 설정
     if (props.modelValue) {
       document.documentElement.style.overflowY = 'hidden'
       document.body.style.overflowY = 'hidden'
+    }
+
+    const savedSizeMode = localStorage.getItem('modalSizeMode')
+    if (savedSizeMode) {
+      sizeMode.value = savedSizeMode
     }
   })
 
   onUnmounted(() => {
     document.removeEventListener('mousemove', handleMouseMove)
     document.removeEventListener('mouseup', handleMouseUp)
+    window.removeEventListener('resize', handleResize)
 
-    // 컴포넌트가 언마운트될 때 overflow 스타일 제거
     document.documentElement.style.overflowY = ''
     document.body.style.overflowY = ''
   })
@@ -185,10 +234,29 @@
   function toggleFullscreen() {
     isFullscreen.value = !isFullscreen.value
 
-    // Reset custom width when entering fullscreen
     if (isFullscreen.value) {
       customWidth.value = null
+      sizeMode.value = 'full'
+      saveUserPreference()
+    } else {
+      sizeMode.value = 'default'
+      saveUserPreference()
     }
+  }
+
+  function changeSize(mode) {
+    if (isFullscreen.value && mode !== 'full') {
+      isFullscreen.value = false
+    }
+
+    sizeMode.value = mode
+    customWidth.value = null
+
+    saveUserPreference()
+  }
+
+  function saveUserPreference() {
+    localStorage.setItem('modalSizeMode', sizeMode.value)
   }
 
   function handleResizeStart(e) {
@@ -212,12 +280,17 @@
 
     if (width >= minWidth && width <= maxWidth) {
       customWidth.value = width
+      sizeMode.value = 'custom'
     }
   }
 
   function handleMouseUp() {
     isResizing = false
     document.body.style.cursor = ''
+
+    if (sizeMode.value === 'custom') {
+      saveUserPreference()
+    }
   }
 </script>
 
@@ -302,7 +375,8 @@
     }
 
     &__close,
-    &__fullscreen {
+    &__fullscreen,
+    &__size-btn {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -318,6 +392,11 @@
       &:hover {
         background-color: $hover-background;
         color: $text-color;
+      }
+
+      &.active {
+        background-color: $hover-background;
+        color: $primary-color;
       }
     }
 
@@ -377,6 +456,7 @@
     &--centered {
       margin: auto;
     }
+
     &--right {
       position: absolute;
       right: 0;
@@ -384,8 +464,8 @@
       bottom: 0;
       margin: 0;
       border-radius: 8px 0 0 8px;
-      max-width: 1000px;
-      min-width: 400px;
+      max-width: 1200px;
+      min-width: 700px;
       height: 100vh;
       max-height: 100vh;
       animation: slide-in-right $transition-normal forwards;
@@ -403,20 +483,16 @@
       right: 0;
       bottom: 0;
       margin: 0;
+      border-radius: 0;
       max-width: 100vw;
+      max-height: 100vh;
       width: 100vw;
       height: 100vh;
-      max-height: 100vh;
-      border-radius: 0;
-      animation: scale-in $transition-normal forwards;
-      overflow-y: auto; /* 전체화면 모드에서 스크롤 가능하도록 */
-      -webkit-overflow-scrolling: touch; /* 모바일 스크롤 개선 */
+      animation: fade-in $transition-normal forwards;
     }
 
     &--no-scroll {
-      .ui-popup__body {
-        overflow: initial;
-      }
+      overflow: hidden;
     }
   }
 
@@ -443,11 +519,9 @@
   @keyframes slide-in-right {
     from {
       transform: translateX(100%);
-      opacity: 0;
     }
     to {
       transform: translateX(0);
-      opacity: 1;
     }
   }
 
@@ -456,54 +530,12 @@
       &__content {
         margin: $spacing-md;
         max-height: calc(100vh - #{$spacing-md * 2});
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
       }
 
-      &--small,
-      &--medium,
-      &--large,
-      &--xlarge,
-      &--mlarge {
+      &--full {
         max-width: calc(100vw - #{$spacing-md * 2});
-        width: calc(100vw - #{$spacing-md * 2});
-      }
-
-      &--right {
-        max-width: 100vw;
-        width: 100vw;
-        margin: 0;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-
-      &--fullscreen {
-        width: 100vw;
-        height: 100vh;
-        max-width: 100vw;
-        max-height: 100vh;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-
-      &__body {
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        max-height: 70vh; /* 모바일에서 본문 영역 최대 높이 제한 */
+        height: calc(100vh - #{$spacing-md * 2});
       }
     }
   }
-
-  /* ui-popup--right가 아닌 팝업에 대한 스타일 */
-  .ui-popup__content:not(.ui-popup--right) :deep(.ui-form-item__label) {
-    min-width: auto !important;
-  }
-
-  // .ui-popup__content:not(.ui-popup--right) :deep(.ui-select),
-  // .ui-popup__content:not(.ui-popup--right) :deep(.ui-input) {
-  //   width: 170px !important;
-  //   max-width: 170px !important;
-  //   min-width: 170px !important;
-  //   flex: 0 0 170px !important;
-  // }
 </style>
