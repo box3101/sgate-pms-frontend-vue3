@@ -45,11 +45,11 @@
                       <UiButton
                         class="mt-5"
                         variant="secondary"
-                        icon="heroicons:arrow-right"
                         icon-position="right"
                         block
                         @click.stop
                       >
+                        <i class="icon icon-arrow-right icon-md icon-white"></i>
                         이동
                       </UiButton>
                     </div>
@@ -58,12 +58,9 @@
                   <template #content-2>
                     <div @click.stop>
                       <div class="flex gap-5">
-                        <UiInput
-                          placeholder="조회 및 선택하세요"
-                          icon="heroicons:magnifying-glass"
-                        />
+                        <UiInput placeholder="조회 및 선택하세요" />
                         <UiButton variant="secondary" icon-only @click.stop>
-                          <Icon name="heroicons:magnifying-glass" size="20" />
+                          <i class="icon icon-search icon-md"></i>
                         </UiButton>
                       </div>
                       <UiButton class="mt-5" variant="secondary" block @click.stop> 전달 </UiButton>

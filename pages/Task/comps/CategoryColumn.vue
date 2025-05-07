@@ -25,10 +25,11 @@
                 <UiButton
                   class="mt-5"
                   variant="secondary"
-                  icon="heroicons:arrow-right"
+                
                   icon-position="right"
                   block
                 >
+                  <i class="icon icon-arrow-right icon-md icon-white"></i>
                   이동
                 </UiButton>
               </template>
@@ -110,7 +111,7 @@
     {
       title: '카테고리 삭제',
       isAccordion: false,
-      icon: 'heroicons:trash',
+      icon: 'trash',
       action: () => {}
     },
     {

@@ -351,9 +351,11 @@
     }
 
     &__no-results {
-      padding: 8px;
+      padding: 12px;
       text-align: center;
       color: var(--color-gray-40, #8a949e);
+      font-size: 16px;
+      font-weight: 500;
     }
 
     // 크기 변형 - Small (32px)

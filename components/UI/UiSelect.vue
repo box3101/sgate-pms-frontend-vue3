@@ -264,10 +264,11 @@
     }
 
     &__no-results {
-      padding: 8px;
+      padding: 12px;
       text-align: center;
       color: var(--color-gray-40, #8a949e);
-      font-size: $font-size-sm;
+      font-size: $font-size-md;
+      font-weight: 500;
     }
 
     // 크기 변형 - Small (32px)

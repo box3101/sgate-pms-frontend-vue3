@@ -92,7 +92,7 @@
         </div>
       </article>
       <article class="right-section">
-        <div style="height: var(--ui-height-md, 36px)">
+        <div>
           <div class="button-with-badge">
             <span class="badge">3</span>
             <UiButton variant="secondary" @click="openCollaborationModal">

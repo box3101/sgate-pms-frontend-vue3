@@ -358,9 +358,11 @@
 
     // 결과 없음 메시지 스타일
     &__no-results {
-      padding: 8px;
+      padding: 12px;
       text-align: center;
       color: var(--color-gray-40, #8a949e);
+      font-size: $font-size-md;
+      font-weight: 500;
     }
 
     // 크기 변형 - Small (32px)
@@ -383,8 +385,9 @@
     // 크기 변형 - Medium (36px)
     &--medium {
       .ui-multi-select__header {
-        min-height: $ui-height-md; // 36px
+        height: $ui-height-md - 2px; // 36px
         padding: 3px 12px;
+        // box-sizing: border-box;
       }
 
       .ui-multi-select__option {
