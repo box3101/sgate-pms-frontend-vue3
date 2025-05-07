@@ -60,7 +60,7 @@
                       <div class="flex gap-5">
                         <UiInput placeholder="조회 및 선택하세요" />
                         <UiButton variant="secondary" icon-only @click.stop>
-                          <i class="icon icon-search icon-md"></i>
+                          <i class="icon icon-search icon-md icon-white"></i>
                         </UiButton>
                       </div>
                       <UiButton class="mt-5" variant="secondary" block @click.stop> 전달 </UiButton>
@@ -106,7 +106,7 @@
               {{ comments || 0 }}
             </span>
             <span class="card-attachments">
-              <i class="icon-user-border icon-md"></i>
+              <i class="icon-user-border icon-md icon-white"></i>
               {{ attachments || 0 }}
             </span>
           </div>

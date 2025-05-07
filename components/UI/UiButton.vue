@@ -123,7 +123,7 @@
 
     &--icon-only {
       &.ui-button--medium {
-        padding: 0 12px;
+        padding: 0 10px;
       }
     }
 

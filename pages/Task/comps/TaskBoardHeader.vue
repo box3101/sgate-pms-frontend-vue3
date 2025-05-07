@@ -5,9 +5,8 @@
         <div class="flex gap-5">
           <UiSearchableSelect placeholder="보드를 선택하세요" class="w-200" />
           <div>
-            <UiButton variant="primary" @click="openBoardAddModal">
+            <UiButton variant="primary" iconOnly @click="openBoardAddModal">
               <i class="icon icon-plus icon-md icon-white"></i>
-              <span>보드</span>
             </UiButton>
             <UiFilterModal v-model="isBoardAddModalOpen" title="보드 추가" :showFooter="true">
               <UiFormLayout>
@@ -25,7 +24,7 @@
 
           <div>
             <UiButton variant="secondary" iconOnly @click="openBoardEditModal">
-              <i class="icon icon-pencil icon-sm icon-white"></i>
+              <i class="icon icon-pencil icon-md icon-white"></i>
             </UiButton>
             <UiFilterModal v-model="isBoardEditModalOpen" title="보드 편집" :showFooter="true">
               <UiFormLayout>
@@ -42,14 +41,14 @@
           </div>
 
           <UiButton variant="secondary-line" iconOnly>
-            <i class="icon icon-delete icon-sm"></i>
+            <i class="icon icon-delete icon-md"></i>
           </UiButton>
         </div>
 
         <div class="flex gap-5">
           <div>
             <UiButton variant="secondary-line" @click="openFilterModal">
-              <i class="icon icon-filter icon-sm"></i>
+              <i class="icon icon-filter icon-md"></i>
               <span>검색필터</span>
             </UiButton>
             <UiFilterModal
