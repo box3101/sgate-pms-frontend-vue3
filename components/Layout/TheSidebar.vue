@@ -860,10 +860,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 4px;
     img {
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
     }
   }
 
@@ -871,7 +870,7 @@
     color: var(--color-gray-30, #b1b8be);
     text-align: center;
     font-family: Pretendard;
-    font-size: var(--font_size-font_S, 14px);
+    font-size: var(--font_size-font_S, 12px);
     font-weight: 700;
     letter-spacing: -1.4px;
   }
