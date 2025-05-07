@@ -314,10 +314,10 @@
       color: var(--color-gray-60, #58616a);
     }
 
-    // 크기 변형 - Small
+    // 크기 변형 - Small (32px)
     &--small {
       .ui-input-multiple__wrapper {
-        height: 30px;
+        height: $ui-height-sm; // 32px
         padding: 3px 9px;
       }
       .ui-input-multiple__field {
@@ -332,10 +332,10 @@
       }
     }
 
-    // 크기 변형 - Medium
+    // 크기 변형 - Medium (36px)
     &--medium {
       .ui-input-multiple__wrapper {
-        height: 30px;
+        height: $ui-height-md; // 36px
         padding: 5px 12px;
       }
       .ui-input-multiple__field {
@@ -350,10 +350,10 @@
       }
     }
 
-    // 크기 변형 - Large
+    // 크기 변형 - Large (40px)
     &--large {
       .ui-input-multiple__wrapper {
-        height: 32px;
+        height: $ui-height-lg; // 40px
         padding: 3px 12px;
       }
       .ui-input-multiple__field {
@@ -368,10 +368,10 @@
       }
     }
 
-    // 크기 변형 - XLarge
+    // 크기 변형 - XLarge (40px)
     &--xlarge {
       .ui-input-multiple__wrapper {
-        height: 34px;
+        height: $ui-height-lg; // 40px
         padding: 4px 16px;
         border-radius: 4px;
       }

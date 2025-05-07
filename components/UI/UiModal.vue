@@ -42,7 +42,7 @@
               @click="changeSize('default')"
               title="기본 크기 (1/3)"
             >
-              <Icon name="heroicons:rectangle-stack" size="18" />
+              <Icon name="heroicons:window" size="18" />
             </button>
 
             <button
@@ -50,9 +50,9 @@
               class="ui-popup__size-btn"
               :class="{ active: sizeMode === 'half' && !isFullscreen }"
               @click="changeSize('half')"
-              title="절반 크기 (1/2)"
+              title="넓은 크기 (1/2)"
             >
-              <Icon name="heroicons:rectangle-group" size="18" />
+              <Icon name="heroicons:view-columns" size="18" />
             </button>
 
             <button

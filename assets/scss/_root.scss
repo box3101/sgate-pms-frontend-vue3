@@ -1,0 +1,37 @@
+@use 'variables' as *;
+
+// CSS 변수 정의 (전역 스코프)
+:root {
+  // UI 컴포넌트 높이 규격
+  --ui-height-xs: #{$ui-height-xs}; // XSmall 사이즈 컴포넌트 높이 (28px)
+  --ui-height-sm: #{$ui-height-sm}; // Small 사이즈 컴포넌트 높이 (32px)
+  --ui-height-md: #{$ui-height-md}; // Medium 사이즈 컴포넌트 높이 (36px)
+  --ui-height-lg: #{$ui-height-lg}; // Large 사이즈 컴포넌트 높이 (40px)
+  
+  // 기본 색상 변수
+  --primary-color: #{$primary-color};
+  --secondary-color: #{$secondary-color};
+  --success-color: #{$success-color};
+  --tertiary-color: #{$tertiary-color};
+  --danger-color: #{$danger-color};
+  --info-color: #{$info-color};
+  
+  // 시스템 색상
+  --system-blue: #{$system-blue};
+  --system-red: #{$system-red};
+  --system-yellow: #{$system-yellow};
+  --system-green: #{$system-green};
+  
+  // 중립 색상
+  --text-color: #{$text-color};
+  --placeholder-color: #{$placeholder-color};
+  --icon-color: #{$icon-color};
+  --border-color: #{$border-color};
+  --border-hover-color: #{$border-hover-color};
+  
+  // 배경 색상
+  --background-color: #{$background-color};
+  --hover-background: #{$hover-background};
+  --active-background: #{$active-background};
+  --selected-background: #{$selected-background};
+}

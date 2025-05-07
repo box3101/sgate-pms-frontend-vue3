@@ -228,7 +228,7 @@
   }
 
   .ui-select {
-    height: 30px;
+    height: $ui-height-md; // 36px
     position: relative;
     font-family: Pretendard;
     border-radius: 4px;
@@ -356,10 +356,12 @@
       color: var(--color-gray-40, #8a949e);
     }
 
-    // 크기 변형 - Small
+    // 크기 변형 - Small (32px)
     &--small {
+      height: $ui-height-sm; // 32px
+      
       .ui-select__header {
-        height: 26px;
+        height: $ui-height-sm; // 32px
         padding: 3px 9px;
       }
 
@@ -379,10 +381,12 @@
       }
     }
 
-    // 크기 변형 - Medium
+    // 크기 변형 - Medium (36px)
     &--medium {
+      height: $ui-height-md; // 36px
+      
       .ui-select__header {
-        height: 30px;
+        height: $ui-height-md; // 36px
         padding: 5px 12px;
       }
 
@@ -403,10 +407,12 @@
       }
     }
 
-    // 크기 변형 - Large
+    // 크기 변형 - Large (40px)
     &--large {
+      height: $ui-height-lg; // 40px
+      
       .ui-select__header {
-        height: 30px;
+        height: $ui-height-lg; // 40px
         padding: 3px 12px;
       }
 
@@ -426,10 +432,12 @@
       }
     }
 
-    // 크기 변형 - XLarge
+    // 크기 변형 - XLarge (40px)
     &--xlarge {
+      height: $ui-height-lg; // 40px
+      
       .ui-select__header {
-        height: 32px;
+        height: $ui-height-lg; // 40px
         padding: 4px 16px;
         border-radius: 4px;
       }

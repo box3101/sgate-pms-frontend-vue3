@@ -363,10 +363,10 @@
       color: var(--color-gray-40, #8a949e);
     }
 
-    // 크기 변형 - Small
+    // 크기 변형 - Small (32px)
     &--small {
       .ui-multi-select__header {
-        min-height: 26px;
+        min-height: $ui-height-sm; // 32px
         padding: 3px 9px;
       }
 
@@ -380,10 +380,10 @@
       }
     }
 
-    // 크기 변형 - Medium
+    // 크기 변형 - Medium (36px)
     &--medium {
       .ui-multi-select__header {
-        min-height: 30px;
+        min-height: $ui-height-md; // 36px
         padding: 3px 12px;
       }
 
@@ -399,10 +399,10 @@
       }
     }
 
-    // 크기 변형 - Large
+    // 크기 변형 - Large (40px)
     &--large {
       .ui-multi-select__header {
-        min-height: 30px;
+        min-height: $ui-height-lg; // 40px
         padding: 3px 12px;
       }
 
@@ -416,10 +416,10 @@
       }
     }
 
-    // 크기 변형 - XLarge
+    // 크기 변형 - XLarge (40px)
     &--xlarge {
       .ui-multi-select__header {
-        height: 32px;
+        height: $ui-height-lg; // 40px
         padding: 4px 16px;
         border-radius: 4px;
       }

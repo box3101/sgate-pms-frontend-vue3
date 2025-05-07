@@ -973,11 +973,11 @@
       margin-top: 2px;
     }
 
-    // 크기 변형 - Small
+    // 크기 변형 - Small (32px)
     &--small {
       .ui-datepicker__input,
       .ui-datepicker__range-input {
-        height: 30px;
+        height: $ui-height-sm; // 32px
         padding: 3px 9px;
       }
       .ui-datepicker__text,
@@ -991,11 +991,11 @@
       }
     }
 
-    // 크기 변형 - Medium
+    // 크기 변형 - Medium (36px)
     &--medium {
       .ui-datepicker__input,
       .ui-datepicker__range-input {
-        height: 30px;
+        height: $ui-height-md; // 36px
         padding: 5px 6px;
       }
       .ui-datepicker__text,
@@ -1009,11 +1009,11 @@
       }
     }
 
-    // 크기 변형 - Large
+    // 크기 변형 - Large (40px)
     &--large {
       .ui-datepicker__input,
       .ui-datepicker__range-input {
-        height: 32px;
+        height: $ui-height-lg; // 40px
         padding: 3px 12px;
       }
       .ui-datepicker__text,
@@ -1027,11 +1027,11 @@
       }
     }
 
-    // 크기 변형 - XLarge
+    // 크기 변형 - XLarge (40px)
     &--xlarge {
       .ui-datepicker__input,
       .ui-datepicker__range-input {
-        height: 34px;
+        height: $ui-height-lg; // 40px
         padding: 4px 16px;
         border-radius: 4px;
       }

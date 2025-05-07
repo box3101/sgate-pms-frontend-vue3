@@ -88,13 +88,15 @@
     // 크기 변형
     &--small {
       color: var(--color-gray-0, #fff);
-      font-size: 10px;
-      padding: 3px 4px;
+      font-size: 12px;
+      padding: 4px 6px;
+      height: 22px;
+      line-height: 1;
 
       .ui-tag__close {
-        font-size: 10px;
+        font-size: 12px;
         margin-left: 4px;
-        color: var(--color-gray-50, #58616a);
+        color: var(--color-gray-0, #fff);
       }
     }
 
@@ -163,7 +165,7 @@
       border: none;
       cursor: pointer;
       padding: 0;
-      color: currentColor;
+      color: var(--color-gray-0, #fff);
       opacity: 0.7;
       line-height: 1;
 

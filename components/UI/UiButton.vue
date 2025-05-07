@@ -100,9 +100,9 @@
       gap: 4px;
     }
 
-    // 크기 변형
+    // 크기 변형 - _variables.scss에 정의된 높이 변수 사용
     &--small {
-      height: 30px;
+      height: $ui-height-sm; // 32px
       display: inline-flex;
       padding: 3px 9px;
       justify-content: center;
@@ -112,7 +112,7 @@
     }
 
     &--medium {
-      height: 30px;
+      height: $ui-height-md; // 36px
       padding: 5px 12px;
       justify-content: center;
       align-items: center;
@@ -123,12 +123,12 @@
 
     &--icon-only {
       &.ui-button--medium {
-        padding: 0 6px;
+        padding: 0 12px;
       }
     }
 
     &--large {
-      height: 32px;
+      height: $ui-height-lg; // 40px
       padding: 3px 12px;
       justify-content: center;
       align-items: center;
@@ -137,7 +137,7 @@
     }
 
     &--xlarge {
-      height: 42px;
+      height: $ui-height-lg; // 40px로 변경
       border-radius: 4px;
       padding: 4px 16px;
       justify-content: center;

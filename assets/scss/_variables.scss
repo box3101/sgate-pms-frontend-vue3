@@ -18,6 +18,13 @@ $system-green: #00b248;
 // 중립 색상
 $text-color: #333;
 $placeholder-color: #888;
+
+// UI 컴포넌트 높이 규격
+// 모든 UI 컴포넌트(버튼, 입력 필드, 셀렉트 등)에 일관되게 적용되는 높이 값
+$ui-height-xs: 28px; // XSmall 사이즈 컴포넌트 높이
+$ui-height-sm: 32px; // Small 사이즈 컴포넌트 높이
+$ui-height-md: 36px; // Medium 사이즈 컴포넌트 높이 (기본값)
+$ui-height-lg: 40px; // Large 사이즈 컴포넌트 높이
 $icon-color: #666;
 $border-color: #e0e0e0;
 $border-hover-color: #d0d0d0;
