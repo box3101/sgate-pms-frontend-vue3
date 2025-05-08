@@ -36,7 +36,7 @@
               :attachments="card.attachments"
               :cardId="card.id"
               :evaluation="getEvaluation(card)"
-              @click="openCardDetail"
+              @click="openCardDetail(card)"
             />
           </div>
           <!-- 카드가 없는 경우 -->
@@ -70,7 +70,13 @@
     </section>
 
     <!-- ================== 카드 추가 모달 ================== -->
-    <UiModal v-model="isCardModalOpen" position="right" title="카드 추가" :showSizeButtons="true" :allowBackgroundInteraction="true">
+    <UiModal
+      v-model="isCardModalOpen"
+      position="right"
+      title="카드 추가"
+      :showSizeButtons="true"
+      :allowBackgroundInteraction="true"
+    >
       <template #headerActions>
         <button class="edit-title-btn">
           <Icon name="mdi:pencil" size="16" />
@@ -183,7 +189,14 @@
     </UiModal>
 
     <!-- ================== 카드 상세 모달 ================== -->
-    <UiModal v-model="isCardDetailOpen" position="right" title="카드 상세" size="medium" :showSizeButtons="true" :allowBackgroundInteraction="true">
+    <UiModal
+      v-model="isCardDetailOpen"
+      position="right"
+      :title="selectedCard ? selectedCard.title : '카드 상세'"
+      size="medium"
+      :showSizeButtons="true"
+      :allowBackgroundInteraction="true"
+    >
       <template #headerActions>
         <button class="edit-title-btn">
           <Icon name="mdi:pencil" size="16" />
@@ -330,6 +343,7 @@
   const isCardModalOpen = ref(false)
   const isCardDetailOpen = ref(false)
   const selectedCategoryId = ref(0)
+  const selectedCard = ref(null) // 선택된 카드 정보 저장
   const categories = ref([
     {
       id: 1,
@@ -889,7 +903,8 @@
   }
 
   // 카드 상세 열기
-  function openCardDetail() {
+  function openCardDetail(card) {
+    selectedCard.value = card
     isCardDetailOpen.value = true
   }
 

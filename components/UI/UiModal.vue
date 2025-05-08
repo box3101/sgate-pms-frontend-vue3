@@ -462,7 +462,7 @@
     }
 
     &--medium {
-      max-width: 600px;
+      width: 640px;
     }
 
     &--large {
@@ -493,7 +493,7 @@
       bottom: 0;
       margin: 0;
       border-radius: 8px 0 0 8px;
-      max-width: 1200px;
+      max-width: 100vw !important;
       min-width: 700px;
       height: 100vh;
       max-height: 100vh;
