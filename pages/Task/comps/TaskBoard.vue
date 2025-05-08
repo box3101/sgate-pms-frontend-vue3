@@ -911,7 +911,6 @@
   }
 
   // 카드 상세 열기
-  // 카드 상세 열기
   function openCardDetail(card) {
     // 이미 열린 모달인지 확인
     const existingModalIndex = cardModals.value.findIndex(modal => modal.card.id === card.id)

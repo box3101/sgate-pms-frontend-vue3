@@ -65,26 +65,9 @@
         <div class="ui-popup__header-actions">
           <slot name="headerActions-right"></slot>
           <div class="ui-popup__actions flex gap-5">
-            <!-- 플로팅 모드일 때는 전체보기와 닫기 버튼만 표시 -->
-            <template v-if="isFloating">
+            <template v-if="true">
               <button class="ui-popup__fullscreen" @click="toggleFullscreen" title="전체화면">
                 <Icon name="heroicons:arrows-pointing-out" size="18" />
-              </button>
-              <button class="ui-popup__close" @click="$emit('update:modelValue', false)">
-                <Icon name="heroicons:x-mark" size="20" />
-              </button>
-            </template>
-
-            <!-- 플로팅 모드가 아닐 때는 모든 버튼 표시 -->
-            <template v-else>
-              <button
-                v-if="position === 'right' && showSizeButtons"
-                class="ui-popup__size-btn"
-                :class="{ active: sizeMode === 'default' && !isFullscreen }"
-                @click="changeSize('default')"
-                title="기본 크기 (1/3)"
-              >
-                <Icon name="heroicons:window" size="18" />
               </button>
               <button
                 v-if="position === 'right' && showSizeButtons"
@@ -93,10 +76,62 @@
                 @click="changeSize('half')"
                 title="넓은 크기 (1/2)"
               >
-                <Icon name="heroicons:view-columns" size="18" />
+                <!-- 사용자 정의 SVG - 2개로 분할된 화면, 왼쪽만 강조됨 -->
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect x="2" y="4" width="9" height="16" fill="currentColor" />
+                  <rect
+                    x="13"
+                    y="4"
+                    width="9"
+                    height="16"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  />
+                </svg>
               </button>
-              <button class="ui-popup__fullscreen" @click="toggleFullscreen" title="전체화면">
-                <Icon name="heroicons:arrows-pointing-out" size="18" />
+              <button
+                v-if="position === 'right' && showSizeButtons"
+                class="ui-popup__size-btn"
+                :class="{ active: sizeMode === 'default' && !isFullscreen }"
+                @click="changeSize('default')"
+                title="기본 크기 (1/3)"
+              >
+                <!-- 사용자 정의 SVG - 3개로 분할된 화면, 왼쪽만 채워짐, 회색 -->
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="text-gray-400"
+                >
+                  <rect x="2" y="4" width="6" height="16" fill="currentColor" />
+                  <rect
+                    x="10"
+                    y="4"
+                    width="6"
+                    height="16"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  />
+                  <rect
+                    x="18"
+                    y="4"
+                    width="4"
+                    height="16"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  />
+                </svg>
               </button>
               <button
                 v-if="showCloseButton || isFloating"
