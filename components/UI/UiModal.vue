@@ -1,5 +1,9 @@
 <template>
-  <div v-if="modelValue" class="ui-popup">
+  <div
+    v-if="modelValue"
+    class="ui-popup"
+    :class="{ 'ui-popup--content-only': allowBackgroundInteraction }"
+  >
     <div
       v-if="!noDim"
       class="ui-popup__backdrop"
@@ -156,6 +160,10 @@
     showSizeButtons: {
       type: Boolean,
       default: false
+    },
+    allowBackgroundInteraction: {
+      type: Boolean,
+      default: false
     }
   })
 
@@ -309,6 +317,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    &--content-only {
+      position: static;
+      top: auto;
+      left: auto;
+      right: auto;
+      bottom: auto;
+
+      .ui-popup__backdrop {
+        display: none;
+      }
+
+      .ui-popup__content {
+        position: fixed;
+        z-index: 1000;
+      }
+    }
 
     &::-webkit-scrollbar {
       display: none;
