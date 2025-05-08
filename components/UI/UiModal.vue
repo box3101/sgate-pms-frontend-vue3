@@ -135,7 +135,16 @@
 </template>
 
 <script setup>
-  import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
+  import { ref, onMounted, onUnmounted, computed, watch, inject, provide } from 'vue'
+
+  // 플로팅 팝업 카운터 관리 - 전역 상태로 사용하기 위해 기본값을 제공
+  const floatingPopupCount = inject('floatingPopupCount', ref(0))
+
+  // 현재 팝업이 플로팅 상태인지 추적
+  const isThisPopupFloating = ref(false)
+
+  // 현재 팝업의 플로팅 상태를 다른 컴포넌트에서 사용할 수 있도록 제공
+  provide('isModalFloating', isThisPopupFloating)
 
   const props = defineProps({
     modelValue: {
@@ -195,7 +204,7 @@
     }
   })
 
-  defineEmits(['update:modelValue'])
+  const emit = defineEmits(['update:modelValue', 'floating-changed'])
 
   const isFullscreen = ref(false)
   const customWidth = ref(null)
@@ -203,6 +212,12 @@
   const sizeMode = ref('default') // 'default', 'half', 'full'
   const isFloating = ref(false)
   const dragPosition = ref({ x: 0, y: 0 })
+
+  // isFloating watch 추가
+  watch(isFloating, newValue => {
+    isThisPopupFloating.value = newValue
+    emit('floating-changed', newValue)
+  })
 
   const screenWidth = ref(window.innerWidth)
 
@@ -478,6 +493,9 @@
       isDragging = false
       dragPosition.value = { x: 0, y: 0 } // 위치 초기화
 
+      // 이벤트 발생
+      emit('floating-changed', false)
+
       // 오른쪽 팝업으로 복귀
       sizeMode.value = 'default'
       customWidth.value = null
@@ -494,8 +512,12 @@
     // 플로팅 모드로 전환 (왼쪽으로 50px 이상 드래그 시)
     if (!isFloating.value && initialModalPosition.x - e.clientX > 50) {
       isFloating.value = true
+
+      // 이벤트 발생
+      emit('floating-changed', true)
     }
   }
+
   // 드래그 종료 핸들러
   function handleDragEnd() {
     isDragging = false
@@ -508,6 +530,9 @@
   function togglePinned() {
     isFloating.value = false
     dragPosition.value = { x: 0, y: 0 }
+
+    // 이벤트 발생
+    emit('floating-changed', false)
   }
 </script>
 

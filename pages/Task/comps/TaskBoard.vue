@@ -188,134 +188,136 @@
       </UiAccordionMenu>
     </UiModal>
 
-    <!-- ================== 카드 상세 모달 ================== -->
-    <UiModal
-      v-model="isCardDetailOpen"
-      position="right"
-      :title="selectedCard ? selectedCard.title : '카드 상세'"
-      size="medium"
-      :showSizeButtons="true"
-      :allowBackgroundInteraction="true"
-      :allowFloating="true"
-    >
-      <template #headerActions>
-        <button class="edit-title-btn">
-          <Icon name="mdi:pencil" size="16" />
-        </button>
-      </template>
-      <UiAccordionMenu :menuItems="menuItems">
-        <!-- 카드 기본 정보 -->
-        <template #content-1>
-          <UiFormLayout :showFooter="true">
-            <UiFormItem label="카테고리">
-              <UiSelect placeholder="업무 보드명입니다." />
-            </UiFormItem>
-            <UiFormItem label="실행기간">
-              <UiDatePicker isRange />
-            </UiFormItem>
-            <UiFormItem label="협업">
-              <div class="flex gap-5">
-                <UiMultiSelect
-                  placeholder="협업자 이름을 입력해주세요"
-                  :options="[
-                    { label: '마케팅팀', value: 'marketing' },
-                    { label: '개발팀', value: 'development' },
-                    { label: '디자인팀', value: 'design' }
-                  ]"
-                />
-                <UiButton variant="secondary" icon-only @click="openOrganizationUserSelector">
-                  <Icon name="heroicons:user" size="20" />
-                </UiButton>
-                <UiButton variant="secondary" icon-only>
-                  <Icon name="heroicons:magnifying-glass" size="20" />
-                </UiButton>
-              </div>
-            </UiFormItem>
-            <UiFormItem label="공유">
-              <div class="flex gap-5">
-                <UiMultiSelect
-                  placeholder="공유자 이름을 입력해주세요"
-                  :options="[
-                    { label: '마케팅팀', value: 'marketing' },
-                    { label: '개발팀', value: 'development' },
-                    { label: '디자인팀', value: 'design' }
-                  ]"
-                />
-                <UiButton variant="secondary" icon-only>
-                  <Icon name="heroicons:user" size="20" />
-                </UiButton>
-                <UiButton variant="secondary" icon-only>
-                  <Icon name="heroicons:magnifying-glass" size="20" />
-                </UiButton>
-              </div>
-            </UiFormItem>
-            <UiFormItem label="내용">
-              <UiTextarea placeholder="업무에 대한 구체적인 내용을 입력해주세요." />
-            </UiFormItem>
-            <template #footerActions>
-              <div class="flex gap-5 justify-end">
-                <UiButton @click="saveCard">등록</UiButton>
-                <UiButton variant="secondary" @click="isCardModalOpen = false">취소</UiButton>
-              </div>
-            </template>
-          </UiFormLayout>
+    <!-- 동적으로 생성되는 모달들 -->
+    <!-- 동적으로 생성되는 모달들 -->
+    <template v-for="modal in cardModals" :key="modal.id">
+      <UiModal
+        v-model="modal.isOpen"
+        position="right"
+        :title="modal.card.title"
+        size="medium"
+        :showSizeButtons="true"
+        :allowBackgroundInteraction="true"
+        :allowFloating="true"
+        :style="{ zIndex: modal.zIndex }"
+        @update:modelValue="val => !val && closeCardModal(modal.id)"
+        @floating-changed="isFloating => toggleModalFloating(modal.id, isFloating)"
+      >
+        <template #headerActions>
+          <button class="edit-title-btn">
+            <Icon name="mdi:pencil" size="16" />
+          </button>
         </template>
-        <!-- 활동 내용 -->
-        <template #content-2>
-          <div class="activity-content">
-            <div class="flex justify-between gap-5 mb-4">
-              <div class="flex gap-10 items-center">
-                <p class="flex-none">일자</p>
-                <UiDatePicker placeholder="날짜 선택" />
+        <UiAccordionMenu :menuItems="menuItems">
+          <!-- 카드 기본 정보 -->
+          <template #content-1>
+            <UiFormLayout :showFooter="true">
+              <UiFormItem label="카테고리">
+                <UiSelect placeholder="업무 보드명입니다." />
+              </UiFormItem>
+              <UiFormItem label="실행기간">
+                <UiDatePicker isRange />
+              </UiFormItem>
+              <UiFormItem label="협업">
+                <div class="flex gap-5">
+                  <UiMultiSelect
+                    placeholder="협업자 이름을 입력해주세요"
+                    :options="[
+                      { label: '마케팅팀', value: 'marketing' },
+                      { label: '개발팀', value: 'development' },
+                      { label: '디자인팀', value: 'design' }
+                    ]"
+                  />
+                  <UiButton variant="secondary" icon-only @click="openOrganizationUserSelector">
+                    <Icon name="heroicons:user" size="20" />
+                  </UiButton>
+                  <UiButton variant="secondary" icon-only>
+                    <Icon name="heroicons:magnifying-glass" size="20" />
+                  </UiButton>
+                </div>
+              </UiFormItem>
+              <UiFormItem label="공유">
+                <div class="flex gap-5">
+                  <UiMultiSelect
+                    placeholder="공유자 이름을 입력해주세요"
+                    :options="[
+                      { label: '마케팅팀', value: 'marketing' },
+                      { label: '개발팀', value: 'development' },
+                      { label: '디자인팀', value: 'design' }
+                    ]"
+                  />
+                  <UiButton variant="secondary" icon-only>
+                    <Icon name="heroicons:user" size="20" />
+                  </UiButton>
+                  <UiButton variant="secondary" icon-only>
+                    <Icon name="heroicons:magnifying-glass" size="20" />
+                  </UiButton>
+                </div>
+              </UiFormItem>
+              <UiFormItem label="내용">
+                <UiTextarea placeholder="업무에 대한 구체적인 내용을 입력해주세요." />
+              </UiFormItem>
+              <template #footerActions>
+                <div class="flex gap-5 justify-end">
+                  <UiButton @click="saveCard">등록</UiButton>
+                  <UiButton variant="secondary" @click="isCardModalOpen = false">취소</UiButton>
+                </div>
+              </template>
+            </UiFormLayout>
+          </template>
+          <!-- 활동 내용 -->
+          <template #content-2>
+            <div class="activity-content">
+              <div class="flex justify-between gap-5 mb-4">
+                <div class="flex gap-10 items-center">
+                  <p class="flex-none">일자</p>
+                  <UiDatePicker placeholder="날짜 선택" />
+                </div>
+                <div class="flex gap-10 items-center">
+                  <UiSelect
+                    placeholder="업무상태"
+                    class="w-200"
+                    :options="[
+                      { label: '시작 전', value: 'not_started' },
+                      { label: '진행 중', value: 'in_progress' },
+                      { label: '완료', value: 'completed' }
+                    ]"
+                  />
+                  <UiSelect
+                    placeholder="진행만족도"
+                    class="w-200"
+                    :options="[
+                      { label: '매우 만족', value: 'very_satisfied' },
+                      { label: '만족', value: 'satisfied' },
+                      { label: '보통', value: 'neutral' },
+                      { label: '불만족', value: 'dissatisfied' }
+                    ]"
+                  />
+                </div>
               </div>
-              <div class="flex gap-10 items-center">
-                <UiSelect
-                  placeholder="업무상태"
-                  class="w-200"
-                  :options="[
-                    { label: '시작 전', value: 'not_started' },
-                    { label: '진행 중', value: 'in_progress' },
-                    { label: '완료', value: 'completed' }
-                  ]"
-                />
-                <UiSelect
-                  placeholder="진행만족도"
-                  class="w-200"
-                  :options="[
-                    { label: '매우 만족', value: 'very_satisfied' },
-                    { label: '만족', value: 'satisfied' },
-                    { label: '보통', value: 'neutral' },
-                    { label: '불만족', value: 'dissatisfied' }
-                  ]"
-                />
+              <UiTextarea
+                placeholder="업무에 대한 구체적인 내용을 입력해주세요."
+                size="xlarge"
+                class="mt-10 my-4"
+              />
+
+              <div
+                class="flex justify-between items-center mt-20 pt-10"
+                style="border-top: 1px solid #eee"
+              >
+                <button class="attachment-btn action-btn" @click="openAttachmentModal">
+                  <i class="icon icon-md icon-paper-clip"></i>
+                </button>
+                <UiButton variant="primary" @click="addActivityItem">저장</UiButton>
               </div>
-            </div>
-            <!-- <div
-              class="editor-container mt-10 my-4"
-              style="height: 200px; border: 1px solid #141212"
-            ></div> -->
-            <UiTextarea
-              placeholder="업무에 대한 구체적인 내용을 입력해주세요."
-              size="xlarge"
-              class="mt-10 my-4"
-            />
 
-            <div
-              class="flex justify-between items-center mt-20 pt-10"
-              style="border-top: 1px solid #eee"
-            >
-              <button class="attachment-btn action-btn" @click="openAttachmentModal">
-                <i class="icon icon-md icon-paper-clip"></i>
-              </button>
-              <UiButton variant="primary" @click="addActivityItem">저장</UiButton>
+              <!-- 활동 카드 및 댓글 시스템 -->
+              <ActivitySection :activities="activities" />
             </div>
-
-            <!-- 활동 카드 및 댓글 시스템 -->
-            <ActivitySection :activities="activities" />
-          </div>
-        </template>
-      </UiAccordionMenu>
-    </UiModal>
+          </template>
+        </UiAccordionMenu>
+      </UiModal>
+    </template>
 
     <!-- ================== 공통 모달 매니저 ================== -->
     <!-- 카드 추가/상세/첨부/직원찾기 팝업 모두 포함 -->
@@ -328,9 +330,8 @@
    * TaskBoard 업무 보드 페이지
    * - 카테고리, 카드 목록 및 각종 모달(카드 추가/상세/첨부/직원찾기) 제어
    * - 공통 모달 매니저([pages/common/modal.vue])를 import하여 모든 모달을 통합 관리
-   * - 퍼블리셔 중심 상세 주석 및 SCSS 구조
    */
-  import { ref } from 'vue'
+  import { ref, provide, onMounted } from 'vue'
   // UI 및 도메인 컴포넌트 import
   import TaskBoardHeader from './TaskBoardHeader.vue'
   import CategoryColumn from './CategoryColumn.vue'
@@ -339,12 +340,17 @@
   import ActivitySection from '@/components/domain/ActivitySection.vue'
 
   // ================== 상태 변수 ==================
+
+  // 플로팅 팝업 카운터 - 전역 상태로 관리
+  const floatingPopupCount = ref(0)
+  provide('floatingPopupCount', floatingPopupCount)
+  // 다중 모달 관리를 위한 배열
+  const cardModals = ref([])
+
   // 카테고리 목록 데이터 (예시)
   const isFirstVisit = ref(true)
   const isCardModalOpen = ref(false)
-  const isCardDetailOpen = ref(false)
   const selectedCategoryId = ref(0)
-  const selectedCard = ref(null) // 선택된 카드 정보 저장
   const categories = ref([
     {
       id: 1,
@@ -904,12 +910,80 @@
   }
 
   // 카드 상세 열기
+  // 카드 상세 열기
   function openCardDetail(card) {
-    selectedCard.value = card
-    isCardDetailOpen.value = true
+    // 이미 열린 모달인지 확인
+    const existingModalIndex = cardModals.value.findIndex(modal => modal.card.id === card.id)
+
+    if (existingModalIndex >= 0) {
+      // 이미 열린 모달이면 활성화만 시킴 (z-index 조정 등)
+      const modal = cardModals.value[existingModalIndex]
+      // 해당 모달을 배열 맨 뒤로 이동하여 z-index가 가장 높게 설정되도록 함
+      cardModals.value.splice(existingModalIndex, 1)
+      cardModals.value.push(modal)
+      return
+    }
+
+    // 플로팅 모달이 있는 경우
+    if (floatingPopupCount.value > 0) {
+      // 기존 고정 모달 있는지 확인 (플로팅이 아닌 모달)
+      const fixedModalIndex = cardModals.value.findIndex(modal => !modal.isFloating)
+
+      // 기존 고정 모달이 있으면 제거
+      if (fixedModalIndex >= 0) {
+        // 카운터 업데이트는 모달 내부의 watch에서 처리됨
+        cardModals.value.splice(fixedModalIndex, 1)
+      }
+
+      // 새로운 모달 생성 (고정 모드로)
+      cardModals.value.push({
+        id: Date.now(), // 고유 ID
+        card: card,
+        isOpen: true,
+        isFloating: false, // 고정 모드로 시작
+        zIndex: 1000 + cardModals.value.length // 순차적으로 z-index 증가
+      })
+    } else {
+      // 플로팅 모달이 없는 경우 (일반적인 케이스)
+      cardModals.value.push({
+        id: Date.now(), // 고유 ID
+        card: card,
+        isOpen: true,
+        isFloating: false, // 기본적으로 고정 모드로 시작
+        zIndex: 1000 + cardModals.value.length // 순차적으로 z-index 증가
+      })
+    }
   }
 
-  // addActivityItem
+  // 모달 닫기
+  function closeCardModal(modalId) {
+    const modalIndex = cardModals.value.findIndex(modal => modal.id === modalId)
+    if (modalIndex >= 0) {
+      // 플로팅 모드 카운터 업데이트
+      if (cardModals.value[modalIndex].isFloating) {
+        floatingPopupCount.value--
+      }
+      // 모달 제거
+      cardModals.value.splice(modalIndex, 1)
+    }
+  }
+
+  // 모달 플로팅 모드 전환
+  function toggleModalFloating(modalId, isFloating) {
+    const modalIndex = cardModals.value.findIndex(modal => modal.id === modalId)
+    if (modalIndex >= 0) {
+      // 이전 상태와 다른 경우에만 카운터 업데이트
+      if (cardModals.value[modalIndex].isFloating !== isFloating) {
+        if (isFloating) {
+          floatingPopupCount.value++
+        } else {
+          floatingPopupCount.value--
+        }
+      }
+      cardModals.value[modalIndex].isFloating = isFloating
+    }
+  }
+
   function addActivityItem() {
     activities.value.push({
       id: activities.value.length + 1,
