@@ -26,7 +26,11 @@
         :class="`ui-popup__resize-handle`"
         @mousedown="handleResizeStart"
       ></div>
-      <div class="ui-popup__header">
+      <div
+        class="ui-popup__header"
+        :class="{ 'ui-popup__header--draggable': allowFloating }"
+        @mousedown="allowFloating && handleDragStart($event)"
+      >
         <div class="flex items-center gap-5">
           <slot name="headerActions-left"></slot>
           <h3 class="ui-popup__title">
@@ -39,6 +43,14 @@
         <div class="ui-popup__header-actions">
           <slot name="headerActions-right"></slot>
           <div class="ui-popup__actions flex gap-5">
+            <button
+              v-if="allowFloating && isFloating"
+              class="ui-popup__pin-btn"
+              @click="togglePinned"
+              title="고정 모드로 전환"
+            >
+              <Icon name="heroicons:map-pin" size="18" />
+            </button>
             <button
               v-if="position === 'right' && showSizeButtons"
               class="ui-popup__size-btn"
@@ -164,6 +176,10 @@
     allowBackgroundInteraction: {
       type: Boolean,
       default: false
+    },
+    allowFloating: {
+      type: Boolean,
+      default: false
     }
   })
 
@@ -172,6 +188,8 @@
   const isFullscreen = ref(false)
   const customWidth = ref(null)
   const sizeMode = ref('default') // 'default', 'half', 'full'
+  const isFloating = ref(false)
+  const dragPosition = ref({ x: 0, y: 0 })
 
   const screenWidth = ref(window.innerWidth)
 
@@ -182,6 +200,16 @@
   const modalStyle = computed(() => {
     if (isFullscreen.value) {
       return {}
+    }
+
+    if (isFloating.value) {
+      return {
+        position: 'fixed',
+        top: `${dragPosition.value.y}px`,
+        left: `${dragPosition.value.x}px`,
+        transform: 'none',
+        width: props.position === 'right' ? `${screenWidth.value / 3}px` : undefined
+      }
     }
 
     if (customWidth.value && props.position === 'right') {
@@ -298,11 +326,103 @@
 
   function handleMouseUp() {
     isResizing = false
+    document.removeEventListener('mousemove', handleMouseMove)
+    document.removeEventListener('mouseup', handleMouseUp)
     document.body.style.cursor = ''
 
     if (sizeMode.value === 'custom') {
       saveUserPreference()
     }
+  }
+  // 드래그 관련 변수
+  let isDragging = false
+  let startDragX = 0
+  let startDragY = 0
+  let offsetX = 0
+  let offsetY = 0
+  let initialModalPosition = { x: 0, y: 0 }
+
+  // 드래그 시작 핸들러
+  function handleDragStart(e) {
+    // 헤더의 버튼 클릭 시 드래그 방지
+    if (e.target.closest('.ui-popup__actions')) return
+
+    // 드래그 중 상태로 변경
+    isDragging = true
+
+    // 현재 모달의 위치 저장
+    const modalRect = e.currentTarget.getBoundingClientRect()
+    initialModalPosition = {
+      x: modalRect.left,
+      y: modalRect.top
+    }
+
+    // 마우스 포인터 위치와 모달 위치의 차이 계산 (오프셋)
+    offsetX = e.clientX - modalRect.left
+    offsetY = e.clientY - modalRect.top
+
+    // 이미 플로팅 모드인 경우
+    if (isFloating.value) {
+      // 현재 dragPosition을 기준으로 시작점 계산
+      startDragX = e.clientX - dragPosition.value.x
+      startDragY = e.clientY - dragPosition.value.y
+    } else {
+      // 고정 모드에서는 현재 모달 위치를 기준으로 시작점 계산
+      startDragX = e.clientX - initialModalPosition.x
+      startDragY = e.clientY - initialModalPosition.y
+    }
+
+    // 이벤트 리스너 등록
+    document.addEventListener('mousemove', handleDragMove)
+    document.addEventListener('mouseup', handleDragEnd)
+    document.body.style.cursor = 'move'
+  }
+
+  // 드래그 이동 핸들러
+  function handleDragMove(e) {
+    if (!isDragging) return
+
+    // 오프셋을 고려한 위치 계산
+    const newX = e.clientX - startDragX
+    const newY = e.clientY - startDragY
+
+    // 오른쪽 가장자리 근처로 드래그 시 고정 모드로 전환
+    if (newX > screenWidth.value - 700 && props.position === 'right') {
+      // 플로팅 모드 해제 및 오른쪽 팝업으로 복귀
+      isFloating.value = false
+      isDragging = false
+      dragPosition.value = { x: 0, y: 0 } // 위치 초기화
+
+      // 오른쪽 팝업으로 복귀
+      sizeMode.value = 'default'
+      customWidth.value = null
+
+      document.removeEventListener('mousemove', handleDragMove)
+      document.removeEventListener('mouseup', handleDragEnd)
+      document.body.style.cursor = ''
+      return
+    }
+
+    // 위치 업데이트
+    dragPosition.value = { x: newX, y: newY }
+
+    // 플로팅 모드로 전환 (왼쪽으로 50px 이상 드래그 시)
+    if (!isFloating.value && initialModalPosition.x - e.clientX > 50) {
+      isFloating.value = true
+    }
+  }
+  // 드래그 종료 핸들러
+  function handleDragEnd() {
+    isDragging = false
+    document.removeEventListener('mousemove', handleDragMove)
+    document.removeEventListener('mouseup', handleDragEnd)
+    document.body.style.cursor = ''
+  }
+
+  // 고정 모드 전환
+  function togglePinned() {
+    isFloating.value = false
+    dragPosition.value = { x: 0, y: 0 }
   }
 </script>
 
@@ -385,6 +505,24 @@
       align-items: center;
       padding: $spacing-lg;
       border-bottom: 1px solid $border-color;
+
+      &--draggable {
+        cursor: move;
+        position: relative;
+
+        &:hover::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 40px;
+          height: 4px;
+          background-color: #ddd;
+          border-radius: 2px;
+          opacity: 0.7;
+        }
+      }
     }
 
     &__header-actions {
@@ -405,7 +543,8 @@
 
     &__close,
     &__fullscreen,
-    &__size-btn {
+    &__size-btn,
+    &__pin-btn {
       display: flex;
       align-items: center;
       justify-content: center;

@@ -196,6 +196,7 @@
       size="medium"
       :showSizeButtons="true"
       :allowBackgroundInteraction="true"
+      :allowFloating="true"
     >
       <template #headerActions>
         <button class="edit-title-btn">
