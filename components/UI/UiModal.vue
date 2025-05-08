@@ -17,9 +17,11 @@
         { 'ui-popup--right': position === 'right' && !isFullscreen },
         { 'ui-popup--no-dim': noDim },
         { 'ui-popup--fullscreen': isFullscreen },
-        { 'ui-popup--no-scroll': isScroll }
+        { 'ui-popup--no-scroll': isScroll },
+        { 'ui-popup--floating': isFloating } // 플로팅 모달 전용 클래스 추가
       ]"
       :style="modalStyle"
+      @click="isFloating && emit('activate-modal')"
     >
       <!-- 왼쪽 리사이즈 핸들러 (오른쪽 고정 모드) -->
       <div
@@ -204,7 +206,7 @@
     }
   })
 
-  const emit = defineEmits(['update:modelValue', 'floating-changed'])
+  const emit = defineEmits(['update:modelValue', 'floating-changed', 'activate-modal'])
 
   const isFullscreen = ref(false)
   const customWidth = ref(null)
@@ -447,6 +449,10 @@
     // 헤더의 버튼 클릭 시 드래그 방지
     if (e.target.closest('.ui-popup__actions')) return
 
+    // 모달 활성화 이벤트 발생 (z-index 올리기 위해)
+    emit('activate-modal')
+
+    // 기존 코드는 그대로 유지
     // 드래그 중 상태로 변경
     isDragging = true
 
@@ -547,6 +553,24 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    &--floating {
+      animation: none !important; // 애니메이션 제거
+      transition: none !important; // 전환 효과 제거
+
+      // 플로팅 모달의 기본 스타일 설정
+      position: fixed !important;
+      z-index: 1100 !important;
+
+      // 고정 위치를 갖도록 설정
+      top: auto;
+      right: auto;
+      bottom: auto;
+      left: auto;
+
+      // 모서리 둥글게
+      border-radius: 8px !important;
+    }
 
     &--content-only {
       position: static;

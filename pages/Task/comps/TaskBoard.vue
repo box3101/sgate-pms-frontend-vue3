@@ -202,6 +202,7 @@
         :style="{ zIndex: modal.zIndex }"
         @update:modelValue="val => !val && closeCardModal(modal.id)"
         @floating-changed="isFloating => toggleModalFloating(modal.id, isFloating)"
+        @activate-modal="activateModal(modal.id)"
       >
         <template #headerActions>
           <button class="edit-title-btn">
@@ -917,10 +918,7 @@
 
     if (existingModalIndex >= 0) {
       // 이미 열린 모달이면 활성화만 시킴 (z-index 조정 등)
-      const modal = cardModals.value[existingModalIndex]
-      // 해당 모달을 배열 맨 뒤로 이동하여 z-index가 가장 높게 설정되도록 함
-      cardModals.value.splice(existingModalIndex, 1)
-      cardModals.value.push(modal)
+      activateModal(cardModals.value[existingModalIndex].id)
       return
     }
 
@@ -934,25 +932,23 @@
         // 카운터 업데이트는 모달 내부의 watch에서 처리됨
         cardModals.value.splice(fixedModalIndex, 1)
       }
-
-      // 새로운 모달 생성 (고정 모드로)
-      cardModals.value.push({
-        id: Date.now(), // 고유 ID
-        card: card,
-        isOpen: true,
-        isFloating: false, // 고정 모드로 시작
-        zIndex: 1000 + cardModals.value.length // 순차적으로 z-index 증가
-      })
     } else {
       // 플로팅 모달이 없는 경우 (일반적인 케이스)
-      cardModals.value.push({
-        id: Date.now(), // 고유 ID
-        card: card,
-        isOpen: true,
-        isFloating: false, // 기본적으로 고정 모드로 시작
-        zIndex: 1000 + cardModals.value.length // 순차적으로 z-index 증가
-      })
+      // 기존 모달이 있으면 모두 제거
+      if (cardModals.value.length > 0) {
+        // 모든 모달 제거
+        cardModals.value = []
+      }
     }
+
+    // 새로운 모달 생성
+    cardModals.value.push({
+      id: Date.now(), // 고유 ID
+      card: card,
+      isOpen: true,
+      isFloating: false, // 기본적으로 고정 모드로 시작
+      zIndex: 1000 + cardModals.value.length // 순차적으로 z-index 증가
+    })
   }
 
   // 모달 닫기
@@ -981,6 +977,30 @@
         }
       }
       cardModals.value[modalIndex].isFloating = isFloating
+    }
+  }
+
+  // 모달 활성화 (z-index 올리기)
+  function activateModal(modalId) {
+    const modalIndex = cardModals.value.findIndex(modal => modal.id === modalId)
+
+    if (modalIndex >= 0) {
+      // 모달이 이미 플로팅 상태인 경우에만 처리
+      if (cardModals.value[modalIndex].isFloating) {
+        // 해당 모달을 배열에서 제거했다가 다시 끝에 추가하여 렌더링 순서 변경
+        const modal = cardModals.value[modalIndex]
+        cardModals.value.splice(modalIndex, 1)
+
+        // z-index 값을 가장 큰 값으로 설정
+        const highestZIndex = cardModals.value.reduce(
+          (max, m) => Math.max(max, m.zIndex || 0),
+          1000
+        )
+        modal.zIndex = highestZIndex + 10
+
+        // 배열 맨 뒤에 추가 (Vue는 마지막 요소를 마지막에 렌더링하여 시각적으로 맨 위에 표시됨)
+        cardModals.value.push(modal)
+      }
     }
   }
 
