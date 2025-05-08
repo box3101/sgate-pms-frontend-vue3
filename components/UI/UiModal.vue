@@ -21,11 +21,31 @@
       ]"
       :style="modalStyle"
     >
+      <!-- 왼쪽 리사이즈 핸들러 (오른쪽 고정 모드) -->
       <div
-        v-if="position === 'right' && !isFullscreen"
-        :class="`ui-popup__resize-handle`"
-        @mousedown="handleResizeStart"
+        v-if="position === 'right' && !isFullscreen && !isFloating"
+        class="ui-popup__resize-handle ui-popup__resize-handle--left"
+        @mousedown="e => handleResizeStart('left', e)"
       ></div>
+
+      <!-- 플로팅 모드 리사이즈 핸들러들 -->
+      <template v-if="isFloating && !isFullscreen">
+        <!-- 오른쪽 리사이즈 핸들러 -->
+        <div
+          class="ui-popup__resize-handle ui-popup__resize-handle--right"
+          @mousedown="e => handleResizeStart('right', e)"
+        ></div>
+        <!-- 아래쪽 리사이즈 핸들러 -->
+        <div
+          class="ui-popup__resize-handle ui-popup__resize-handle--bottom"
+          @mousedown="e => handleResizeStart('bottom', e)"
+        ></div>
+        <!-- 오른쪽 아래 모서리 리사이즈 핸들러 -->
+        <div
+          class="ui-popup__resize-handle ui-popup__resize-handle--corner"
+          @mousedown="e => handleResizeStart('corner', e)"
+        ></div>
+      </template>
       <div
         class="ui-popup__header"
         :class="{ 'ui-popup__header--draggable': allowFloating }"
@@ -43,55 +63,47 @@
         <div class="ui-popup__header-actions">
           <slot name="headerActions-right"></slot>
           <div class="ui-popup__actions flex gap-5">
-            <button
-              v-if="allowFloating && isFloating"
-              class="ui-popup__pin-btn"
-              @click="togglePinned"
-              title="고정 모드로 전환"
-            >
-              <Icon name="heroicons:map-pin" size="18" />
-            </button>
-            <button
-              v-if="position === 'right' && showSizeButtons"
-              class="ui-popup__size-btn"
-              :class="{ active: sizeMode === 'default' && !isFullscreen }"
-              @click="changeSize('default')"
-              title="기본 크기 (1/3)"
-            >
-              <Icon name="heroicons:window" size="18" />
-            </button>
+            <!-- 플로팅 모드일 때는 전체보기와 닫기 버튼만 표시 -->
+            <template v-if="isFloating">
+              <button class="ui-popup__fullscreen" @click="toggleFullscreen" title="전체화면">
+                <Icon name="heroicons:arrows-pointing-out" size="18" />
+              </button>
+              <button class="ui-popup__close" @click="$emit('update:modelValue', false)">
+                <Icon name="heroicons:x-mark" size="20" />
+              </button>
+            </template>
 
-            <button
-              v-if="position === 'right' && showSizeButtons"
-              class="ui-popup__size-btn"
-              :class="{ active: sizeMode === 'half' && !isFullscreen }"
-              @click="changeSize('half')"
-              title="넓은 크기 (1/2)"
-            >
-              <Icon name="heroicons:view-columns" size="18" />
-            </button>
-
-            <button
-              class="ui-popup__fullscreen"
-              :class="{ active: isFullscreen }"
-              @click="toggleFullscreen"
-              title="전체화면"
-            >
-              <Icon
-                :name="
-                  isFullscreen ? 'heroicons:arrows-pointing-in' : 'heroicons:arrows-pointing-out'
-                "
-                size="18"
-              />
-            </button>
-
-            <button
-              v-if="showCloseButton"
-              class="ui-popup__close"
-              @click="$emit('update:modelValue', false)"
-            >
-              <Icon name="heroicons:x-mark" size="20" />
-            </button>
+            <!-- 플로팅 모드가 아닐 때는 모든 버튼 표시 -->
+            <template v-else>
+              <button
+                v-if="position === 'right' && showSizeButtons"
+                class="ui-popup__size-btn"
+                :class="{ active: sizeMode === 'default' && !isFullscreen }"
+                @click="changeSize('default')"
+                title="기본 크기 (1/3)"
+              >
+                <Icon name="heroicons:window" size="18" />
+              </button>
+              <button
+                v-if="position === 'right' && showSizeButtons"
+                class="ui-popup__size-btn"
+                :class="{ active: sizeMode === 'half' && !isFullscreen }"
+                @click="changeSize('half')"
+                title="넓은 크기 (1/2)"
+              >
+                <Icon name="heroicons:view-columns" size="18" />
+              </button>
+              <button class="ui-popup__fullscreen" @click="toggleFullscreen" title="전체화면">
+                <Icon name="heroicons:arrows-pointing-out" size="18" />
+              </button>
+              <button
+                v-if="showCloseButton || isFloating"
+                class="ui-popup__close"
+                @click="$emit('update:modelValue', false)"
+              >
+                <Icon name="heroicons:x-mark" size="20" />
+              </button>
+            </template>
           </div>
         </div>
       </div>
@@ -187,6 +199,7 @@
 
   const isFullscreen = ref(false)
   const customWidth = ref(null)
+  const customHeight = ref(null)
   const sizeMode = ref('default') // 'default', 'half', 'full'
   const isFloating = ref(false)
   const dragPosition = ref({ x: 0, y: 0 })
@@ -203,13 +216,29 @@
     }
 
     if (isFloating.value) {
-      return {
+      const style = {
         position: 'fixed',
         top: `${dragPosition.value.y}px`,
         left: `${dragPosition.value.x}px`,
         transform: 'none',
-        width: props.position === 'right' ? `${screenWidth.value / 3}px` : undefined
+        maxHeight: '600px', // 플로팅 팝업의 초기 최대 높이 설정
+        minWidth: 'auto'
       }
+
+      // 너비가 설정된 경우
+      if (customWidth.value) {
+        style.width = `${customWidth.value}px`
+      } else {
+        style.width = props.position === 'right' ? `${screenWidth.value / 3}px` : undefined
+      }
+
+      // 높이가 설정된 경우
+      if (customHeight.value) {
+        style.height = `${customHeight.value}px`
+        style.maxHeight = `${customHeight.value}px`
+      }
+
+      return style
     }
 
     if (customWidth.value && props.position === 'right') {
@@ -228,8 +257,11 @@
   })
 
   let isResizing = false
+  let resizeDirection = null
   let startX = 0
+  let startY = 0
   let startWidth = 0
+  let startHeight = 0
   let modalElement = null
 
   watch(
@@ -299,33 +331,79 @@
     localStorage.setItem('modalSizeMode', sizeMode.value)
   }
 
-  function handleResizeStart(e) {
-    if (props.position !== 'right' || isFullscreen.value) return
+  function handleResizeStart(direction = 'left', e) {
+    if (isFullscreen.value) return
 
     isResizing = true
+    resizeDirection = direction
     startX = e.clientX
+    startY = e.clientY
     modalElement = e.target.closest('.ui-popup__content')
     startWidth = modalElement.offsetWidth
+    startHeight = modalElement.offsetHeight
 
-    document.body.style.cursor = 'ew-resize'
+    // 이벤트 리스너 추가
+    document.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mouseup', handleMouseUp)
+
+    // 커서 스타일 설정
+    if (direction === 'left' || direction === 'right') {
+      document.body.style.cursor = 'ew-resize'
+    } else if (direction === 'bottom') {
+      document.body.style.cursor = 'ns-resize'
+    } else if (direction === 'corner') {
+      document.body.style.cursor = 'nwse-resize'
+    }
+
     e.preventDefault()
   }
 
   function handleMouseMove(e) {
     if (!isResizing) return
 
-    const width = startWidth - (e.clientX - startX)
     const maxWidth = window.innerWidth
+    const maxHeight = window.innerHeight
     const minWidth = 300
+    const minHeight = 200
 
-    if (width >= minWidth && width <= maxWidth) {
-      customWidth.value = width
-      sizeMode.value = 'custom'
+    // 리사이즈 방향에 따라 처리
+    if (resizeDirection === 'left') {
+      // 왼쪽 핸들 (오른쪽 고정 모드)
+      const width = startWidth - (e.clientX - startX)
+      if (width >= minWidth && width <= maxWidth) {
+        customWidth.value = width
+        sizeMode.value = 'custom'
+      }
+    } else if (resizeDirection === 'right') {
+      // 오른쪽 핸들 (플로팅 모드)
+      const width = startWidth + (e.clientX - startX)
+      if (width >= minWidth && width <= maxWidth) {
+        customWidth.value = width
+      }
+    } else if (resizeDirection === 'bottom') {
+      // 아래쪽 핸들 (플로팅 모드)
+      const height = startHeight + (e.clientY - startY)
+      if (height >= minHeight && height <= maxHeight) {
+        customHeight.value = height
+      }
+    } else if (resizeDirection === 'corner') {
+      // 모서리 핸들 (플로팅 모드) - 너비와 높이 동시 조절
+      const width = startWidth + (e.clientX - startX)
+      const height = startHeight + (e.clientY - startY)
+
+      if (width >= minWidth && width <= maxWidth) {
+        customWidth.value = width
+      }
+
+      if (height >= minHeight && height <= maxHeight) {
+        customHeight.value = height
+      }
     }
   }
 
   function handleMouseUp() {
     isResizing = false
+    resizeDirection = null
     document.removeEventListener('mousemove', handleMouseMove)
     document.removeEventListener('mouseup', handleMouseUp)
     document.body.style.cursor = ''
@@ -333,6 +411,13 @@
     if (sizeMode.value === 'custom') {
       saveUserPreference()
     }
+
+    // 콘솔에 디버깅 정보 출력
+    console.log('Resize complete', {
+      width: customWidth.value,
+      height: customHeight.value,
+      floating: isFloating.value
+    })
   }
   // 드래그 관련 변수
   let isDragging = false
@@ -480,23 +565,76 @@
       flex-direction: column;
       max-height: calc(100vh - #{$spacing-xl * 2});
       width: 100%;
+      overflow: hidden; // 리사이즈 시 콘텐츠 넘치지 않도록 설정
     }
 
     &__resize-handle {
       position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 5px;
-      cursor: ew-resize;
       z-index: 10;
+
+      &--left {
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 5px;
+        cursor: ew-resize;
+      }
+
+      &--right {
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 5px;
+        cursor: ew-resize;
+      }
+
+      &--bottom {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 5px;
+        cursor: ns-resize;
+      }
+
+      &--corner {
+        right: 0;
+        bottom: 0;
+        width: 15px;
+        height: 15px;
+        cursor: nwse-resize;
+        &::before {
+          content: '';
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          width: 0;
+          height: 0;
+          border-style: solid;
+          border-width: 0 0 15px 15px;
+          border-color: transparent transparent rgba(0, 0, 0, 0.2) transparent;
+        }
+      }
 
       &:hover {
         background-color: rgba(0, 0, 0, 0.1);
+
+        &.ui-popup__resize-handle--corner {
+          background-color: transparent;
+          &::before {
+            border-color: transparent transparent rgba(0, 0, 0, 0.3) transparent;
+          }
+        }
       }
 
       &:active {
         background-color: rgba(0, 0, 0, 0.2);
+
+        &.ui-popup__resize-handle--corner {
+          background-color: transparent;
+          &::before {
+            border-color: transparent transparent rgba(0, 0, 0, 0.4) transparent;
+          }
+        }
       }
     }
 
@@ -705,5 +843,10 @@
         height: calc(100vh - #{$spacing-md * 2});
       }
     }
+  }
+
+  :deep(.activity-content > .flex) {
+    flex-wrap: wrap;
+    overflow-y: auto;
   }
 </style>
