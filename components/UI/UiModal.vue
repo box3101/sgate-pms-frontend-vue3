@@ -36,7 +36,7 @@
           <slot name="headerActions-right"></slot>
           <div class="ui-popup__actions flex gap-5">
             <button
-              v-if="position === 'right'"
+              v-if="position === 'right' && showSizeButtons"
               class="ui-popup__size-btn"
               :class="{ active: sizeMode === 'default' && !isFullscreen }"
               @click="changeSize('default')"
@@ -46,7 +46,7 @@
             </button>
 
             <button
-              v-if="position === 'right'"
+              v-if="position === 'right' && showSizeButtons"
               class="ui-popup__size-btn"
               :class="{ active: sizeMode === 'half' && !isFullscreen }"
               @click="changeSize('half')"
@@ -150,6 +150,10 @@
       default: false
     },
     isScroll: {
+      type: Boolean,
+      default: false
+    },
+    showSizeButtons: {
       type: Boolean,
       default: false
     }
@@ -275,7 +279,7 @@
     if (!isResizing) return
 
     const width = startWidth - (e.clientX - startX)
-    const maxWidth = 1000
+    const maxWidth = window.innerWidth
     const minWidth = 300
 
     if (width >= minWidth && width <= maxWidth) {

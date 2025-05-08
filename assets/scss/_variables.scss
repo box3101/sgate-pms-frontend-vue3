@@ -222,17 +222,6 @@ $border-width: 1px;
 $border-width-md: 2px;
 $border-width-lg: 3px;
 
-// UI 컴포넌트 사이즈
-$ui-height-sm: 32px;
-$ui-height-md: 40px;
-$ui-height-lg: 48px;
-$ui-height-xl: 56px;
-
-$ui-padding-sm: 0 $spacing-sm;
-$ui-padding-md: 0 $spacing-lg;
-$ui-padding-lg: 0 $spacing-xl;
-$ui-padding-xl: 0 $spacing-xl;
-
 // UI 컴포넌트 상태별 색상
 $primary-hover-color: color.adjust($primary-color, $lightness: -10%);
 $primary-active-color: color.adjust($primary-color, $lightness: -20%);

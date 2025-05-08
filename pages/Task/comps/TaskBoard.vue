@@ -70,7 +70,7 @@
     </section>
 
     <!-- ================== 카드 추가 모달 ================== -->
-    <UiModal v-model="isCardModalOpen" position="right" title="카드 추가">
+    <UiModal v-model="isCardModalOpen" position="right" title="카드 추가" :showSizeButtons="true">
       <template #headerActions>
         <button class="edit-title-btn">
           <Icon name="mdi:pencil" size="16" />
@@ -183,7 +183,7 @@
     </UiModal>
 
     <!-- ================== 카드 상세 모달 ================== -->
-    <UiModal v-model="isCardDetailOpen" position="right" title="카드 상세" size="medium">
+    <UiModal v-model="isCardDetailOpen" position="right" title="카드 상세" size="medium" :showSizeButtons="true">
       <template #headerActions>
         <button class="edit-title-btn">
           <Icon name="mdi:pencil" size="16" />
