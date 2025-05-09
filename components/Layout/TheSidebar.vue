@@ -872,7 +872,6 @@
     font-family: Pretendard;
     font-size: var(--font_size-font_S, 12px);
     font-weight: 700;
-    letter-spacing: -1.4px;
   }
 
   .menu-arrow {

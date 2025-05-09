@@ -19,10 +19,9 @@
 </template>
 
 <script setup>
-  // 명시적 임포트 사용
   import TheHeader from '~/components/Layout/TheHeader.vue'
   import TheSidebar from '~/components/Layout/TheSidebar.vue'
-  import { ref, provide, onMounted } from 'vue'
+  import { ref, provide, onMounted, computed } from 'vue'
   import AOS from 'aos'
 
   // 현재 라우터 가져오기
