@@ -102,11 +102,11 @@
         <div class="card-footer">
           <div class="card-stats">
             <span class="card-comments">
-              <Icon name="mdi:comment-outline" size="14" />
+              <i class="icon-comment icon-md"></i>
               {{ comments || 0 }}
             </span>
             <span class="card-attachments">
-              <i class="icon-user-border icon-md icon-white"></i>
+              <i class="icon-user-gray icon-md"></i>
               {{ attachments || 0 }}
             </span>
           </div>

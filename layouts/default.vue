@@ -4,7 +4,14 @@
     <TheHeader :logoText="logoText" :hasLink="hasLink" />
     <div class="content-wrapper">
       <TheSidebar @toggle-expanded="toggleExpanded" />
-      <main class="main-content" :key="$route.path" :class="{ expanded: isExpanded }">
+      <main
+        class="main-content"
+        :key="$route.path"
+        :class="{
+          expanded: isExpanded,
+          'overflow-hidden': shouldHideOverflow
+        }"
+      >
         <slot />
       </main>
     </div>
@@ -17,6 +24,15 @@
   import TheSidebar from '~/components/Layout/TheSidebar.vue'
   import { ref, provide, onMounted } from 'vue'
   import AOS from 'aos'
+
+  // 현재 라우터 가져오기
+  const route = useRoute()
+
+  // 오버플로우를 숨길 페이지 목록
+  const noOverflowPages = ['Task-collaboration-board']
+
+  // 오버플로우를 숨길지 여부 계산
+  const shouldHideOverflow = computed(() => noOverflowPages.includes(route.name))
 
   // 로고 텍스트 상태 관리
   const logoText = ref('개인성과')
@@ -70,6 +86,10 @@
 
     &.expanded {
       padding-left: 290px; /* 핀 고정 시 사이드바 너비(80px) + 서브메뉴 너비(200px) */
+    }
+
+    &.overflow-hidden {
+      overflow: hidden;
     }
   }
 
