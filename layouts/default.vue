@@ -1,4 +1,3 @@
-<!-- layouts/default.vue -->
 <template>
   <div class="app-layout">
     <TheHeader :logoText="logoText" :hasLink="hasLink" />
@@ -22,6 +21,7 @@
   import TheHeader from '~/components/Layout/TheHeader.vue'
   import TheSidebar from '~/components/Layout/TheSidebar.vue'
   import { ref, provide, onMounted, computed } from 'vue'
+  import { useRoute } from 'vue-router'
   import AOS from 'aos'
 
   // 현재 라우터 가져오기
@@ -46,14 +46,20 @@
 
   // 사이드바 확장 상태 토글 함수
   const toggleExpanded = () => {
-    isExpanded.value = !isExpanded.value
+    console.log('toggleExpanded 이후 값:', isExpanded.value)
   }
-
-  // 애니메이션 초기화
+  // 컴포넌트 마운트 시 확장 상태 복원
   onMounted(() => {
+    // localStorage에서 확장 상태 불러오기
+    const savedExpanded = localStorage.getItem('sidebarExpanded')
+    if (savedExpanded === 'true') {
+      isExpanded.value = true
+    }
+
+    // 애니메이션 초기화
     AOS.init({
-      once: true, // 애니메이션이 한 번만 실행되도록 설정
-      duration: 800 // 기본 지속 시간
+      once: true,
+      duration: 800
     })
   })
 </script>

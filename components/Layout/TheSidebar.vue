@@ -9,22 +9,19 @@
             :class="{
               'has-submenu':
                 section.items.length > 0 || (section.submenus && section.submenus.length > 0),
-              'active-menu': pinnedIndex === index
+              'active-menu': activeIndex === index
             }"
             @mouseenter="hoverMenu(index)"
-            @mouseleave="pinnedIndex === null ? (hoveringIndex = null) : null"
+            @mouseleave="hoveringIndex = null"
             @click="clickMenu(index)"
           >
             <!-- 메인 메뉴 아이템 -->
-            <div
-              class="menu-link"
-              :class="{ active: activeIndex === index || pinnedIndex === index }"
-            >
+            <div class="menu-link" :class="{ active: activeIndex === index }">
               <div class="menu-icon-container">
                 <div class="menu-icon">
                   <img
                     :src="
-                      hoveringIndex === index || activeIndex === index || pinnedIndex === index
+                      hoveringIndex === index || activeIndex === index
                         ? `/ispark-sgate/images/${section.icon}-hover.svg`
                         : `/ispark-sgate/images/${section.icon}.svg`
                     "
@@ -35,32 +32,32 @@
               </div>
             </div>
 
-            <!-- 통합 서브메뉴 섹션 -->
+            <!-- 통합 서브메뉴 섹션 - 수정: 호버링 상태도 함께 체크 -->
             <div
-              v-show="hoveringIndex === index || pinnedIndex === index"
+              v-show="hoveringIndex === index || (isExpanded && activeIndex === index)"
               class="submenu-sections"
-              :class="{ 'pinned-submenu': pinnedIndex === index }"
+              :class="{ 'pinned-submenu': isExpanded && index === activeIndex }"
             >
-              <!-- 핀 아이콘 -->
-              <div
-                class="pin-icon"
-                @click="togglePin(index, $event)"
-                :class="{ pinned: pinnedIndex === index }"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+              <!-- 핀 버튼을 서브메뉴 우측 상단에 배치 -->
+              <div class="pin-button-container">
+                <button
+                  class="pin-button"
+                  :class="{ pinned: isExpanded }"
+                  @click.stop="togglePinned"
+                  title="사이드바 고정"
                 >
-                  <path d="M12 2L12 22"></path>
-                  <path d="M5 5L19 19"></path>
-                </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    stroke="currentColor"
+                    stroke-width="0"
+                  >
+                    <path d="M16,12V4H17V2H7V4H8V12L6,14V16H11.2V22H12.8V16H18V14L16,12Z" />
+                  </svg>
+                </button>
               </div>
 
               <!-- 직접 메뉴 아이템 -->
@@ -113,72 +110,47 @@
     </div>
   </aside>
 </template>
+
 <script setup>
-  import { ref, reactive, onMounted, computed, provide, inject, watch } from 'vue'
+  import { ref, reactive, onMounted, inject, watch } from 'vue'
   import { useRoute } from 'vue-router'
+
+  const emit = defineEmits(['toggle-expanded'])
 
   const route = useRoute()
 
-  // 활성하된 메뉴 인덱스 추적
+  // 활성화된 메뉴 인덱스 추적
   const activeIndex = ref(null)
   // 호버 상태 추적
   const hoveringIndex = ref(null)
-  // 핀 고정 상태 추적
-  const pinnedIndex = ref(null)
-  // 사이드바 확장 상태
-  const isExpanded = ref(false)
 
   // 레이아웃에서 확장 상태 공유
-  const layoutIsExpanded = inject('isExpanded', ref(false))
+  const isExpanded = inject('isExpanded', ref(false))
 
-  // 메뉴 호버 함수
+  // 메뉴 호버 함수 - 핀 고정 상태와 관계없이 항상 호버 효과 활성화
   function hoverMenu(index) {
-    // 핀이 고정되어 있어도 호버 효과 적용
     hoveringIndex.value = index
   }
 
-  // 메뉴 클릭 함수 - 핀 고정 상태에서 메뉴 전환
+  // 메뉴 클릭 함수
   function clickMenu(index) {
     // 활성화된 메뉴 인덱스 설정
     activeIndex.value = index
-
-    // 이미 고정된 메뉴를 다시 클릭한 경우 핀 해제
-    if (pinnedIndex.value === index) {
-      pinnedIndex.value = null
-      isExpanded.value = false
-      layoutIsExpanded.value = false
-      // localStorage에서 핀 고정 상태 제거
-      localStorage.removeItem('pinnedMenuIndex')
-    } else {
-      // 다른 메뉴를 클릭한 경우 해당 메뉴로 핀 이동
-      pinnedIndex.value = index
-      isExpanded.value = true
-      layoutIsExpanded.value = true
-      // localStorage에 핀 고정 상태 저장
-      localStorage.setItem('pinnedMenuIndex', index)
-    }
   }
 
-  // 핀 토글 함수
-  function togglePin(index, event) {
-    // 이벤트 전파 중지
-    event.stopPropagation()
+  // 핀 토글 함수 - 사이드바 전체 확장 상태만 토글
+  function togglePinned() {
+    // 확장 상태 토글
+    isExpanded.value = !isExpanded.value
 
-    // 이미 고정된 핀이면 해제
-    if (pinnedIndex.value === index) {
-      pinnedIndex.value = null
-      isExpanded.value = false
-      layoutIsExpanded.value = false
-      // localStorage에서 핀 고정 상태 제거
-      localStorage.removeItem('pinnedMenuIndex')
+    // localStorage에 확장 상태 저장
+    if (isExpanded.value) {
+      localStorage.setItem('sidebarExpanded', 'true')
     } else {
-      // 새로운 핀 고정
-      pinnedIndex.value = index
-      isExpanded.value = true
-      layoutIsExpanded.value = true
-      // localStorage에 핀 고정 상태 저장
-      localStorage.setItem('pinnedMenuIndex', index)
+      localStorage.removeItem('sidebarExpanded')
     }
+
+    emit('toggle-expanded')
   }
 
   // 현재 경로에 따라 활성화된 메뉴 자동 설정
@@ -203,42 +175,28 @@
     })
   }
 
-  // 라우트 변경 감지 - 메뉴 이동 시에도 고정된 서브메뉴 유지
+  // 라우트 변경 감지
   watch(
     () => route.path,
-    newPath => {
-      // 활성 메뉴 업데이트 (핀 고정 상태는 유지)
-      const savedPinnedIndex = localStorage.getItem('pinnedMenuIndex')
-
+    () => {
       // 활성 메뉴 업데이트
       initActiveMenu()
-
-      // 핀 고정 상태 복원 (라우트 변경으로 인해 초기화되지 않도록)
-      if (savedPinnedIndex !== null) {
-        const index = parseInt(savedPinnedIndex)
-        pinnedIndex.value = index
-        isExpanded.value = true
-        layoutIsExpanded.value = true
-      }
     }
   )
 
-  // 컴포넌트 마운트 시 활성 메뉴 초기화 및 핀 고정 상태 복원
+  // 컴포넌트 마운트 시 초기화
   onMounted(() => {
     // 활성 메뉴 초기화
     initActiveMenu()
 
-    // localStorage에서 핀 고정 상태 불러오기
-    const savedPinnedIndex = localStorage.getItem('pinnedMenuIndex')
-    if (savedPinnedIndex !== null) {
-      const index = parseInt(savedPinnedIndex)
-      pinnedIndex.value = index
+    // localStorage에서 확장 상태 불러오기
+    const savedExpanded = localStorage.getItem('sidebarExpanded')
+    if (savedExpanded === 'true') {
       isExpanded.value = true
-      layoutIsExpanded.value = true
     }
   })
 
-  // 모든 메뉴 닫기 함수
+  // 모든 메뉴 닫기 함수 - 핀 고정 상태와 관계없이 호버링 상태만 초기화
   const closeAllMenus = () => {
     hoveringIndex.value = null
   }
@@ -764,7 +722,6 @@
     }
   ])
 </script>
-
 <style lang="scss" scoped>
   .sidebar {
     margin-top: 56px;
@@ -878,7 +835,7 @@
     display: none; /* 화살표 숨김 */
   }
 
-  /* 서브메뉴 스타일 - 통합된 형태로 변경 */
+  /* 서브메뉴 섹션 스타일 */
   .submenu-sections {
     padding: 8px; /* 패딩 증가 */
     margin: 0;
@@ -891,42 +848,49 @@
     border: 1px solid #eaeaea;
     height: 100vh;
     overflow-y: auto; /* 내용이 많을 경우 스크롤 가능하도록 */
-
-    /* 핀 고정 상태일 때 스타일 */
-    &.pinned-submenu {
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      border-left: 2px solid $primary-color;
-    }
+    padding-top: 40px; /* 핀 버튼을 위한 상단 여백 */
   }
 
-  /* 핀 아이콘 스타일 */
-  .pin-icon {
+  /* 핀 고정 시 서브메뉴 스타일 */
+  .submenu-sections.pinned-submenu {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 99;
+  }
+
+  /* 핀 버튼 스타일 */
+  .pin-button-container {
     position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 24px;
-    height: 24px;
+    top: 10px;
+    right: 10px;
+    z-index: 110;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    color: #b1b8be;
+  }
+
+  .pin-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    transition: all 0.2s;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    color: #666;
+    transition: all 0.3s;
 
     &:hover {
-      background-color: #f0f0f0;
+      background-color: #e0e0e0;
       color: $primary-color;
+      transform: scale(1.05);
     }
 
     &.pinned {
-      color: $primary-color;
-      transform: rotate(45deg);
-    }
-
-    svg {
-      width: 16px;
-      height: 16px;
+      color: white;
+      background-color: $primary-color;
     }
   }
 
@@ -982,6 +946,7 @@
     font-size: 15px; /* 글자 크기 증가 */
     text-align: left; /* 왼쪽 정렬로 변경 */
     width: auto; /* 자동 너비로 변경 */
+    color: #333; /* 색상 변경 */
   }
 
   .nested-submenu-bullet {
@@ -995,5 +960,9 @@
     background-color: #e6f7ff;
     color: $primary-color;
     font-weight: 500; /* 호버 시 글자 굵기 증가 */
+
+    .menu-text {
+      color: $primary-color;
+    }
   }
 </style>
