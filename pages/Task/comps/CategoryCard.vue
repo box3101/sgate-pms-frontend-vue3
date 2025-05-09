@@ -87,7 +87,7 @@
         <div class="card-tags">
           <div class="tags-group">
             <UiTag
-              size="small"
+              size="xsmall"
               v-for="tag in tags"
               :key="tag.id"
               :variant="tag.type"

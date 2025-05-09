@@ -49,7 +49,7 @@
     size: {
       type: String,
       default: 'medium',
-      validator: value => ['small', 'medium', 'large'].includes(value)
+      validator: value => ['xsmall', 'small', 'medium', 'large'].includes(value)
     },
     closable: {
       type: Boolean,
@@ -86,6 +86,14 @@
     white-space: nowrap;
 
     // 크기 변형
+    &--xsmall {
+      color: var(--color-gray-0, #fff);
+      font-size: $font-size-sm;
+      padding: 3px 4px;
+      height: 24px;
+      line-height: 1;
+    }
+
     &--small {
       color: var(--color-gray-0, #fff);
       font-size: 12px;
