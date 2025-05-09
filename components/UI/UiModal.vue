@@ -69,8 +69,74 @@
               <button class="ui-popup__fullscreen" @click="toggleFullscreen" title="전체화면">
                 <Icon name="heroicons:arrows-pointing-out" size="18" />
               </button>
+              <!-- 플로팅 모드일 때 크기 버튼 추가 -->
               <button
-                v-if="position === 'right' && showSizeButtons"
+                v-if="isFloating && !isFullscreen"
+                class="ui-popup__size-btn"
+                :class="{ active: sizeMode === 'half' }"
+                @click="dockToRight('half')"
+                title="넓은 크기 (1/2)"
+              >
+                <!-- 사용자 정의 SVG - 2개로 분할된 화면, 왼쪽만 강조됨 -->
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect x="2" y="4" width="9" height="16" fill="currentColor" />
+                  <rect
+                    x="13"
+                    y="4"
+                    width="9"
+                    height="16"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  />
+                </svg>
+              </button>
+              <button
+                v-if="isFloating && !isFullscreen"
+                class="ui-popup__size-btn"
+                :class="{ active: sizeMode === 'default' }"
+                @click="dockToRight('default')"
+                title="기본 크기 (1/3)"
+              >
+                <!-- 사용자 정의 SVG - 3개로 분할된 화면, 왼쪽만 채워짐, 회색 -->
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="text-gray-400"
+                >
+                  <rect x="2" y="4" width="6" height="16" fill="currentColor" />
+                  <rect
+                    x="10"
+                    y="4"
+                    width="6"
+                    height="16"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  />
+                  <rect
+                    x="18"
+                    y="4"
+                    width="4"
+                    height="16"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  />
+                </svg>
+              </button>
+              <!-- 기존 고정 모드일 때 크기 버튼 -->
+              <button
+                v-if="position === 'right' && showSizeButtons && !isFloating"
                 class="ui-popup__size-btn"
                 :class="{ active: sizeMode === 'half' && !isFullscreen }"
                 @click="changeSize('half')"
@@ -97,7 +163,7 @@
                 </svg>
               </button>
               <button
-                v-if="position === 'right' && showSizeButtons"
+                v-if="position === 'right' && showSizeButtons && !isFloating"
                 class="ui-popup__size-btn"
                 :class="{ active: sizeMode === 'default' && !isFullscreen }"
                 @click="changeSize('default')"
@@ -574,6 +640,25 @@
 
     // 이벤트 발생
     emit('floating-changed', false)
+  }
+
+  // 플로팅 모드에서 오른쪽 팝업으로 붙이는 함수
+  function dockToRight(mode) {
+    // 플로팅 모드 해제
+    isFloating.value = false
+    
+    // 위치 초기화
+    dragPosition.value = { x: 0, y: 0 }
+    
+    // 오른쪽 팝업으로 설정
+    sizeMode.value = mode
+    customWidth.value = null
+    
+    // 이벤트 발생
+    emit('floating-changed', false)
+    
+    // 사용자 설정 저장
+    saveUserPreference()
   }
 </script>
 
