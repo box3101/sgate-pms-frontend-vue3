@@ -12,7 +12,7 @@
         'ui-input--with-suffix': suffix,
         'ui-input--with-prefix-icon': prefixIcon,
         'ui-input--with-suffix-icon': suffixIcon,
-        'ui-input--has-value': modelValue
+        'ui-input--has-value': inputHasValue
       }
     ]"
   >
@@ -46,10 +46,10 @@
         :autocomplete="autocomplete"
         class="ui-input__field"
         :class="{ 'ui-input__field--with-prefix-icon': prefixIcon }"
-        @input="$emit('update:modelValue', $event.target.value)"
-        @focus="$emit('focus', $event)"
-        @blur="$emit('blur', $event)"
-        @change="$emit('change', $event)"
+        @input="handleInput"
+        @focus="handleFocus"
+        @blur="handleBlur"
+        @change="handleChange"
       />
 
       <i
@@ -71,9 +71,9 @@
 </template>
 
 <script setup>
-  import { defineProps, defineEmits } from 'vue'
+  import { defineProps, defineEmits, ref } from 'vue'
 
-  defineProps({
+  const props = defineProps({
     modelValue: {
       type: [String, Number],
       default: ''
@@ -190,7 +190,29 @@
     }
   })
 
-  defineEmits(['update:modelValue', 'focus', 'blur', 'change'])
+  const emit = defineEmits(['update:modelValue', 'focus', 'blur', 'change'])
+
+  // 내부 상태로 입력값 추적
+  const inputHasValue = ref(false)
+
+  // 이벤트 핸들러 함수들
+  const handleInput = event => {
+    const newValue = event.target.value
+    inputHasValue.value = newValue.length > 0
+    emit('update:modelValue', newValue)
+  }
+
+  const handleFocus = event => {
+    emit('focus', event)
+  }
+
+  const handleBlur = event => {
+    emit('blur', event)
+  }
+
+  const handleChange = event => {
+    emit('change', event)
+  }
 </script>
 
 <style lang="scss" scoped>

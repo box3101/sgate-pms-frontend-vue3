@@ -11,7 +11,7 @@
         <!-- 상단 필터 영역 -->
         <div class="filter-section">
           <div class="search-container">
-            <UiInput placeholder="담당자 검색" v-model="searchKeyword" class="search-input" />
+            <UiInput placeholder="담당자 검색" class="search-input" />
             <UiButton icon-only variant="secondary" @click="showUserSelectModal = true">
               <i class="icon icon-md icon-search icon-white"></i>
             </UiButton>
@@ -269,6 +269,7 @@
   logoText.value = '업무 인수인계'
 
   // 검색 키워드
+  const searchKeyword = ref('')
   const recipientSearchKeyword = ref('')
 
   // 필터 선택 값

@@ -8,7 +8,7 @@
         'ui-textarea--error': error,
         'ui-textarea--resizable': resizable,
         'ui-textarea--block': block,
-        'ui-textarea--has-value': hasValue
+        'ui-textarea--has-value': textareaHasValue
       }
     ]"
   >
@@ -46,16 +46,12 @@
 </template>
 
 <script setup>
-  import { defineProps, defineEmits } from 'vue'
+  import { defineProps, defineEmits, ref } from 'vue'
 
   const props = defineProps({
     modelValue: {
       type: String,
       default: ''
-    },
-    hasValue: {
-      type: Boolean,
-      default: false
     },
     label: {
       type: String,
@@ -126,12 +122,14 @@
 
   const emit = defineEmits(['update:modelValue', 'focus', 'blur', 'change'])
 
-  // 값이 있는지 확인하는 computed
-  const hasValue = computed(() => props.modelValue && props.modelValue.length > 0)
+  // 내부 상태로 입력값 추적
+  const textareaHasValue = ref(false)
 
   // 이벤트 핸들러 함수들
   const handleInput = event => {
-    emit('update:modelValue', event.target.value)
+    const newValue = event.target.value
+    textareaHasValue.value = newValue.length > 0
+    emit('update:modelValue', newValue)
   }
 
   const handleFocus = event => {
