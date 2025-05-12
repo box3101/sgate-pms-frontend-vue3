@@ -283,7 +283,7 @@
               <div class="flex justify-between gap-5 mb-4">
                 <div class="flex gap-10 items-center">
                   <p class="flex-none">일자</p>
-                  <UiDatePicker placeholder="날짜 선택" />
+                  <UiDatePicker size="large" placeholder="날짜 선택" />
                 </div>
                 <div class="flex gap-10 items-center">
                   <UiSelect

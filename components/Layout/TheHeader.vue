@@ -325,11 +325,13 @@
       { name: '보고서 조회', path: '/task/reports/view' }
     ],
 
-    // 프로젝트 섹션 탭
-    projects: [
-      { name: '프로젝트 목록', path: '/projects' },
-      { name: '간트 차트', path: '/projects/gantt' },
-      { name: '마일스톤', path: '/projects/milestones' }
+    // 인사 평가
+    hrEvaluation: [
+      { name: '평가기본설정', path: '/hr-evaluation/basic-items' },
+      { name: '등급배분표', path: '/hr-evaluation/grade-distribution' },
+      { name: '성과평가항목', path: '/hr-evaluation/performance-items' },
+      { name: '역량평가항목', path: '/hr-evaluation/competency-items' },
+      { name: '역량사전', path: '/hr-evaluation/competency-dictionary' }
     ],
 
     // 기본값: 빈 배열 (탭 없음)
@@ -1040,8 +1042,8 @@
       hasLink.value = true
       hasLinkIcon.value = 'icon icon-youtube icon-lg'
       return tabMenus.reports
-    } else if (route.path.startsWith('/projects')) {
-      return tabMenus.projects
+    } else if (route.path.startsWith('/hr-evaluation')) {
+      return tabMenus.hrEvaluation
     } else {
       // 해당하는 탭 메뉴가 없으면 빈 배열 반환
       hasLink.value = false
