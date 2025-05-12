@@ -266,7 +266,12 @@
 
     // 플레이스홀더 스타일
     &__placeholder {
-      color: var(--color-gray-40, #8a949e);
+      color: var(--color-gray-30, #B1B8BE);
+      font-family: Pretendard;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 150%;
     }
 
     // 드롭다운 스타일
@@ -420,6 +425,24 @@
     }
 
     // 크기 변형 - XLarge (40px)
+    // 크기 변형 - Large
+    &--large {
+      .ui-multi-select__header {
+        height: $ui-height-lg;
+        padding: 3px 12px;
+      }
+      
+      .ui-multi-select__option {
+        padding: 6px 12px;
+        font-size: $font-size-lg;
+      }
+      
+      .ui-multi-select__placeholder,
+      .ui-multi-select__tags-container {
+        @include font-style($body-medium);
+      }
+    }
+    
     &--xlarge {
       .ui-multi-select__header {
         height: $ui-height-lg; // 40px

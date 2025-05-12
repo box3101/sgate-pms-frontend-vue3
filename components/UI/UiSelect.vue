@@ -219,7 +219,12 @@
     }
 
     &__placeholder {
-      color: var(--color-gray-40, #8a949e);
+      color: var(--color-gray-30, #B1B8BE);
+      font-family: Pretendard;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 150%;
     }
 
     &__selected-text {
@@ -309,21 +314,20 @@
       }
     }
 
-    // 크기 변형 - Large (40px)
     &--large {
       .ui-select__header {
-        height: $ui-height-lg; // 40px
+        height: $ui-height-lg;
         padding: 3px 12px;
       }
 
       .ui-select__option {
         padding: 6px 12px;
-        font-size: $font-size-md;
+        font-size: $font-size-lg;
       }
 
-      .ui-select__selected-text,
-      .ui-select__placeholder {
-        @include font-style($body-large-bold);
+      .ui-select__placeholder,
+      .ui-select__selected-text {
+        @include font-style($body-medium);
       }
     }
 

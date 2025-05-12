@@ -166,7 +166,12 @@
       }
 
       &::placeholder {
-        color: var(--color-gray-40, #8a949e);
+        color: var(--color-gray-30, #B1B8BE);
+        font-family: Pretendard;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
       }
     }
 
@@ -195,6 +200,15 @@
       color: var(--color-gray-60, #58616a);
     }
 
+    // 크기 변형 - Large
+    &--large {
+      .ui-textarea__field {
+        padding: 3px 12px;
+        font-size: $font-size-lg;
+        @include font-style($body-medium);
+      }
+    }
+    
     // 크기 변형 - Small
     &--small {
       .ui-textarea__field {

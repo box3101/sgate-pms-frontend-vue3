@@ -108,6 +108,7 @@
       justify-content: center;
       align-items: center;
       gap: 2px;
+      min-width: 64px;
       @include font-style($body-small-bold);
     }
 
@@ -118,22 +119,26 @@
       align-items: center;
       gap: 2px;
       flex-shrink: 0;
+      min-width: 72px;
       @include font-style($body-small-bold);
     }
 
     &--icon-only {
+      min-width: auto;
       &.ui-button--medium {
         padding: 0 10px;
       }
     }
 
     &--large {
-      height: $ui-height-lg; // 40px
+      height: $ui-height-lg;
       padding: 3px 12px;
       justify-content: center;
       align-items: center;
       gap: 2px;
-      @include font-style($body-large-bold);
+      min-width: 88px;
+      font-size: $font-size-lg;
+      @include font-style($body-medium);
     }
 
     &--xlarge {

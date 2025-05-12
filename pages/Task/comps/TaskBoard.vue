@@ -214,14 +214,15 @@
           <template #content-1>
             <UiFormLayout :showFooter="true">
               <UiFormItem label="카테고리">
-                <UiSelect placeholder="업무 보드명입니다." />
+                <UiSelect size="large" placeholder="업무 보드명입니다." />
               </UiFormItem>
               <UiFormItem label="실행기간">
-                <UiDatePicker isRange />
+                <UiDatePicker isRange size="large" />
               </UiFormItem>
               <UiFormItem label="협업">
                 <div class="flex gap-5">
                   <UiMultiSelect
+                    size="large"
                     placeholder="협업자 이름을 입력해주세요"
                     :options="[
                       { label: '마케팅팀', value: 'marketing' },
@@ -229,10 +230,15 @@
                       { label: '디자인팀', value: 'design' }
                     ]"
                   />
-                  <UiButton variant="secondary" icon-only @click="openOrganizationUserSelector">
+                  <UiButton
+                    size="large"
+                    variant="secondary"
+                    icon-only
+                    @click="openOrganizationUserSelector"
+                  >
                     <Icon name="heroicons:user" size="20" />
                   </UiButton>
-                  <UiButton variant="secondary" icon-only>
+                  <UiButton size="large" variant="secondary" icon-only>
                     <Icon name="heroicons:magnifying-glass" size="20" />
                   </UiButton>
                 </div>
@@ -240,6 +246,7 @@
               <UiFormItem label="공유">
                 <div class="flex gap-5">
                   <UiMultiSelect
+                    size="large"
                     placeholder="공유자 이름을 입력해주세요"
                     :options="[
                       { label: '마케팅팀', value: 'marketing' },
@@ -247,16 +254,16 @@
                       { label: '디자인팀', value: 'design' }
                     ]"
                   />
-                  <UiButton variant="secondary" icon-only>
+                  <UiButton size="large" variant="secondary" icon-only>
                     <Icon name="heroicons:user" size="20" />
                   </UiButton>
-                  <UiButton variant="secondary" icon-only>
+                  <UiButton size="large" variant="secondary" icon-only>
                     <Icon name="heroicons:magnifying-glass" size="20" />
                   </UiButton>
                 </div>
               </UiFormItem>
               <UiFormItem label="내용">
-                <UiTextarea placeholder="업무에 대한 구체적인 내용을 입력해주세요." />
+                <UiTextarea size="large" placeholder="업무에 대한 구체적인 내용을 입력해주세요." />
               </UiFormItem>
               <template #footerActions>
                 <div class="flex gap-5 justify-end">
@@ -276,6 +283,7 @@
                 </div>
                 <div class="flex gap-10 items-center">
                   <UiSelect
+                    size="large"
                     placeholder="업무상태"
                     class="w-200"
                     :options="[
@@ -285,6 +293,7 @@
                     ]"
                   />
                   <UiSelect
+                    size="large"
                     placeholder="진행만족도"
                     class="w-200"
                     :options="[

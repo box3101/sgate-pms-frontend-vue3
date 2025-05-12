@@ -39,7 +39,7 @@
           rows="3"
         ></textarea>
         <div class="comment-actions">
-          <UiButton variant="primary" size="small" @click="submitComment">등록</UiButton>
+          <UiButton variant="primary" @click="submitComment">등록</UiButton>
         </div>
       </div>
     </div>

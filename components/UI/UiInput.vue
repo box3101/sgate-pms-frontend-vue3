@@ -251,7 +251,11 @@
       height: 100%;
 
       &::placeholder {
-        color: var(--color-gray-40, #8a949e);
+        color: var(--color-gray-30, #b1b8be);
+        font-family: Pretendard;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
       }
 
       &--with-prefix-icon {
@@ -324,17 +328,18 @@
       }
     }
 
-    // 크기 변형 - Large (40px)
+    // 크기 변형 - Large
     &--large {
       .ui-input__wrapper {
-        height: $ui-height-lg; // 40px
+        height: $ui-height-lg;
         padding: 3px 12px;
       }
       .ui-input__field {
         font-size: $font-size-lg;
+        @include font-style($body-medium);
       }
       .ui-input__label {
-        @include font-style($body-large-bold);
+        @include font-style($body-medium);
       }
     }
 

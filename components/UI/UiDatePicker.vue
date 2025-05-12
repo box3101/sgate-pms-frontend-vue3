@@ -691,6 +691,24 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    
+    // 크기 변형 - Large
+    &--large {
+      .ui-datepicker__input,
+      .ui-datepicker__range-input {
+        height: $ui-height-lg;
+        padding: 3px 12px;
+      }
+      
+      .ui-datepicker__placeholder,
+      .ui-datepicker__selected-text {
+        @include font-style($body-medium);
+      }
+      
+      .ui-datepicker__range-text {
+        font-size: $font-size-lg;
+      }
+    }
     gap: 8px;
     max-width: 250px;
 
@@ -743,7 +761,12 @@
     }
 
     &__placeholder {
-      color: var(--color-gray-40, #8a949e);
+      color: var(--color-gray-30, #B1B8BE);
+      font-family: Pretendard;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 150%;
     }
 
     &__selected-text {
