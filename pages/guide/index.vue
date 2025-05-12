@@ -231,6 +231,16 @@
                   <p class="component-desc">레이아웃 및 그리드 시스템</p>
                 </div>
               </NuxtLink>
+
+              <NuxtLink to="/components/Tag" class="component-card">
+                <div class="component-icon">
+                  <Icon name="mdi:view-grid-plus" size="24" />
+                </div>
+                <div class="component-info">
+                  <h3 class="component-title">태그</h3>
+                  <p class="component-desc">태그 컴포넌트</p>
+                </div>
+              </NuxtLink>
             </div>
           </div>
         </div>

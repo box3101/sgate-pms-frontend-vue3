@@ -1,28 +1,18 @@
-<!-- TagComponent.vue -->
 <template>
-  <span class="ui-tag" :class="tagClasses" :style="tagStyles" :data-testid="testId">
+  <span
+    class="ui-tag"
+    :class="[`ui-tag--${size}`, `ui-tag--${variant}`, { 'ui-tag--closable': closable }]"
+    :style="customStyles"
+  >
     <slot>{{ text }}</slot>
     <button
       v-if="closable"
       class="ui-tag__close"
       type="button"
-      @click.stop="handleClose"
+      @click.stop="$emit('close')"
       aria-label="태그 삭제"
     >
-      <span class="sr-only">삭제</span>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        class="ui-tag__close-icon"
-      >
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-      </svg>
+      <span class="ui-tag__close-icon"></span>
     </button>
   </span>
 </template>
@@ -70,28 +60,12 @@
     borderColor: {
       type: String,
       default: ''
-    },
-    testId: {
-      type: String,
-      default: 'ui-tag'
     }
   })
 
-  const emit = defineEmits(['close'])
+  defineEmits(['close'])
 
-  const handleClose = event => {
-    emit('close', event)
-  }
-
-  const tagClasses = computed(() => {
-    return [
-      `ui-tag--${props.size}`,
-      `ui-tag--${props.variant}`,
-      { 'ui-tag--closable': props.closable }
-    ]
-  })
-
-  const tagStyles = computed(() => {
+  const customStyles = computed(() => {
     if (props.variant === 'custom') {
       return {
         backgroundColor: props.backgroundColor,
@@ -104,22 +78,36 @@
 </script>
 
 <style lang="scss">
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
+  :root {
+    // 색상 변수 정의
+    --color-gray-0: #ffffff;
+    --color-gray-10: #f5f5f5;
+    --color-gray-20: #e0e0e0;
+    // 마감
+    --color-gray-30: #b1b8be;
+    --color-gray-60: #666666;
+    --color-gray-80: #333333;
 
-  .tags-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+    // 기본
+    --color-primary-50: #00aaff;
+    // 디자인
+    --color-primary-70: #0066cc;
+    // 공유
+    --color-primary-90: #002233;
+    // 이름
+    --color-system-g40: #008033;
+    // 완료
+    --color-system-b30: #0084ff;
+
+    // 텍스트 색상
+    --text-color: #333333;
+    --border-color: #e0e0e0;
+
+    // 글꼴 크기
+    --font-size-xs: 12px;
+    --font-size-sm: 14px;
+    --font-size-md: 16px;
+    --font-size-lg: 18px;
   }
 
   .ui-tag {
@@ -130,72 +118,58 @@
     line-height: 1;
     white-space: nowrap;
     transition: all 0.2s ease;
-    gap: 4px;
-
-    // 크기 변형
-    &--xsmall {
-      color: var(--color-gray-0, #fff);
-      font-size: 12px;
-      padding: 3px 4px;
-      height: 20px;
-      line-height: 1;
-    }
+    user-select: none;
 
     &--small {
-      color: var(--color-gray-0, #fff);
-      font-size: 12px;
-      padding: 4px 6px;
-      height: 22px;
-      line-height: 1;
+      padding: 2px 4px;
+      @include font-style($body-xsmall-bold);
     }
 
     &--medium {
-      font-size: 14px;
-      padding: 4px 8px;
-      height: 28px;
+      padding: 2px 4px;
+      @include font-style($body-xsmall-bold);
     }
 
     &--large {
-      font-size: 16px;
-      padding: 6px 10px;
-      height: 32px;
+      padding: 3px 4px;
+      @include font-style($body-small-bold);
     }
 
     // 색상 변형
     &--default {
-      background-color: #f0f0f0;
-      color: #333;
-      border: 1px solid #e0e0e0;
+      background-color: var(--color-gray-10);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
     }
 
     &--primary {
-      background-color: var(--color-primary-50, #0af);
-      color: #fff;
+      background-color: var(--color-primary-50);
+      color: var(--color-gray-0);
     }
 
     &--collaboration {
-      background-color: var(--color-primary-70, #069);
-      color: #fff;
+      background-color: var(--color-primary-70);
+      color: var(--color-gray-0);
     }
 
     &--shared {
-      background-color: var(--color-primary-90, #023);
-      color: #fff;
+      background-color: var(--color-primary-90);
+      color: var(--color-gray-0);
     }
 
     &--name {
-      background-color: var(--color-system-g40, #008033);
-      color: #fff;
+      background-color: var(--color-system-g40);
+      color: var(--color-gray-0);
     }
 
     &--completed {
-      background-color: var(--color-system-b30, #0084ff);
-      color: #fff;
+      background-color: var(--color-system-b30);
+      color: var(--color-gray-0);
     }
 
     &--deadline {
-      background-color: var(--color-gray-30, #b1b8be);
-      color: #fff;
+      background-color: var(--color-gray-30);
+      color: var(--color-gray-0);
     }
 
     &--closable {
@@ -207,32 +181,64 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      margin-left: 4px;
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+      border-radius: 50%;
       background-color: rgba(0, 0, 0, 0.2);
       border: none;
       cursor: pointer;
       padding: 0;
-      color: var(--color-gray-0, #fff);
-      border-radius: 50%;
-      width: 16px;
-      height: 16px;
-      min-width: 16px;
-      min-height: 16px;
-      transition: background-color 0.2s ease;
+      color: var(--color-gray-0);
+      position: relative;
 
-      &:hover,
-      &:focus {
+      &:hover {
         background-color: rgba(0, 0, 0, 0.3);
-        outline: none;
       }
 
-      &:focus-visible {
+      &:focus {
+        outline: none;
         box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
       }
     }
 
     &__close-icon {
-      width: 12px;
-      height: 12px;
+      position: relative;
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+
+      &:before,
+      &:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        background-color: var(--color-gray-0);
+        top: 50%;
+        left: 0;
+      }
+
+      &:before {
+        transform: rotate(45deg);
+      }
+
+      &:after {
+        transform: rotate(-45deg);
+      }
+    }
+  }
+
+  // 태그 그룹 스타일
+  .tags-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+
+    &--vertical {
+      flex-direction: column;
+      align-items: flex-start;
     }
   }
 </style>
