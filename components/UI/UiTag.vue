@@ -78,38 +78,6 @@
 </script>
 
 <style lang="scss">
-  :root {
-    // 색상 변수 정의
-    --color-gray-0: #ffffff;
-    --color-gray-10: #f5f5f5;
-    --color-gray-20: #e0e0e0;
-    // 마감
-    --color-gray-30: #b1b8be;
-    --color-gray-60: #666666;
-    --color-gray-80: #333333;
-
-    // 기본
-    --color-primary-50: #00aaff;
-    // 디자인
-    --color-primary-70: #0066cc;
-    // 공유
-    --color-primary-90: #002233;
-    // 이름
-    --color-system-g40: #008033;
-    // 완료
-    --color-system-b30: #0084ff;
-
-    // 텍스트 색상
-    --text-color: #333333;
-    --border-color: #e0e0e0;
-
-    // 글꼴 크기
-    --font-size-xs: 12px;
-    --font-size-sm: 14px;
-    --font-size-md: 16px;
-    --font-size-lg: 18px;
-  }
-
   .ui-tag {
     display: inline-flex;
     align-items: center;
@@ -119,6 +87,7 @@
     white-space: nowrap;
     transition: all 0.2s ease;
     user-select: none;
+    color: #fff;
 
     &--small {
       padding: 2px 4px;
@@ -138,38 +107,31 @@
     // 색상 변형
     &--default {
       background-color: var(--color-gray-10);
-      color: var(--text-color);
       border: 1px solid var(--border-color);
     }
 
     &--primary {
-      background-color: var(--color-primary-50);
-      color: var(--color-gray-0);
+      background-color: $tag-primary; // 디자인
     }
 
     &--collaboration {
-      background-color: var(--color-primary-70);
-      color: var(--color-gray-0);
+      background-color: $tag-secondary; // 공유
     }
 
     &--shared {
-      background-color: var(--color-primary-90);
-      color: var(--color-gray-0);
+      background-color: $tag-secondary; // 공유
     }
 
     &--name {
-      background-color: var(--color-system-g40);
-      color: var(--color-gray-0);
+      background-color: $tag-tertiary; // 이름
     }
 
     &--completed {
-      background-color: var(--color-system-b30);
-      color: var(--color-gray-0);
+      background-color: $tag-success; // 완료
     }
 
     &--deadline {
-      background-color: var(--color-gray-30);
-      color: var(--color-gray-0);
+      background-color: $tag-info; // 마감
     }
 
     &--closable {

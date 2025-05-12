@@ -18,8 +18,17 @@ $system-green: #00b248;
 // 중립 색상
 $text-color: #333;
 $placeholder-color: #888;
-$border-color-light: #B1B8BE; // UI 컴포넌트 테두리 색상
-$border-color-filled: #6D7882; // UI 컴포넌트 값이 입력되었을 때 테두리 색상
+$border-color-light: #b1b8be; // UI 컴포넌트 테두리 색상
+$border-color-filled: #6d7882; // UI 컴포넌트 값이 입력되었을 때 테두리 색상
+
+// UItag
+// UI 태그 색상 변수
+$tag-primary: #00aaff; // 디자인
+$tag-secondary: #0066cc; // 공유
+$tag-tertiary: #002233; // 이름
+$tag-success: #008033; // 완료
+$tag-info: #0084ff; // 마감
+$tag-disabled: #b1b8be; // 비활성화
 
 // UI 컴포넌트 높이 규격
 // 모든 UI 컴포넌트(버튼, 입력 필드, 셀렉트 등)에 일관되게 적용되는 높이 값
