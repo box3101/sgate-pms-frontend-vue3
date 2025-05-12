@@ -11,7 +11,8 @@
         'ui-input--with-prefix': prefix,
         'ui-input--with-suffix': suffix,
         'ui-input--with-prefix-icon': prefixIcon,
-        'ui-input--with-suffix-icon': suffixIcon
+        'ui-input--with-suffix-icon': suffixIcon,
+        'ui-input--has-value': modelValue
       }
     ]"
   >
@@ -200,6 +201,13 @@
     flex-direction: column;
     gap: $spacing-xs;
 
+    // 값이 입력되었을 때 스타일
+    &--has-value {
+      .ui-input__wrapper {
+        border: 1px solid $border-color-filled;
+      }
+    }
+
     &__label {
       font-size: $font-size-sm;
       font-weight: 500;
@@ -217,7 +225,7 @@
       display: flex;
       align-items: center;
       border-radius: $border-radius-sm;
-      border: 1px solid var(--color-gray-40, #8a949e);
+      border: 1px solid $border-color-light;
       background: var(--color-gray-0, #fff);
       transition: all $transition-normal ease;
       box-sizing: border-box;

@@ -8,7 +8,9 @@
         'ui-datepicker--range': isRange,
         'ui-datepicker--disabled': disabled,
         'ui-datepicker--error': error,
-        'ui-datepicker--block': block
+        'ui-datepicker--block': block,
+        'ui-datepicker--full': full,
+        'ui-datepicker--has-value': isRange ? (startDate || endDate) : selectedDate
       }
     ]"
   >
@@ -191,6 +193,10 @@
     placeholder: {
       type: String,
       default: '날짜 선택'
+    },
+    full: {
+      type: Boolean,
+      default: false
     },
     startPlaceholder: {
       type: String,
@@ -691,7 +697,19 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+
+    &--full {
+      max-width: 100%;
+    }
     
+    // 값이 입력되었을 때 스타일
+    &--has-value {
+      .ui-datepicker__input,
+      .ui-datepicker__range-input {
+        border: 1px solid $border-color-filled;
+      }
+    }
+
     // 크기 변형 - Large
     &--large {
       .ui-datepicker__input,
@@ -699,12 +717,12 @@
         height: $ui-height-lg;
         padding: 3px 12px;
       }
-      
+
       .ui-datepicker__placeholder,
       .ui-datepicker__selected-text {
         @include font-style($body-medium);
       }
-      
+
       .ui-datepicker__range-text {
         font-size: $font-size-lg;
       }
@@ -733,7 +751,7 @@
       display: flex;
       align-items: center;
       padding: 5px 12px;
-      border: 1px solid var(--color-gray-40, #8a949e);
+      border: 1px solid $border-color-light;
       border-radius: 4px;
       background: var(--color-gray-0, #fff);
       cursor: pointer;
@@ -761,7 +779,7 @@
     }
 
     &__placeholder {
-      color: var(--color-gray-30, #B1B8BE);
+      color: var(--color-gray-30, #b1b8be);
       font-family: Pretendard;
       font-size: 16px;
       font-style: normal;

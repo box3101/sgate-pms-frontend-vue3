@@ -176,11 +176,16 @@
     position: relative;
     font-family: $font-family;
     border-radius: $border-radius-sm;
-    border: 1px solid var(--color-gray-40, #8a949e);
+    border: 1px solid $border-color-light;
     background: var(--color-gray-0, #fff);
     color: var(--color-gray-40, #8a949e);
     transition: all $transition-normal ease;
     box-sizing: border-box;
+    
+    // 값이 입력되었을 때 스타일
+    &--selected {
+      border: 1px solid $border-color-filled;
+    }
 
     // 아이콘 스타일
     &__icon {

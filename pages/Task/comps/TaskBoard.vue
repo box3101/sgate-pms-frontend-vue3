@@ -90,7 +90,7 @@
               <UiSelect placeholder="업무 보드명입니다." v-model="selectedCategoryId" />
             </UiFormItem>
             <UiFormItem label="실행기간">
-              <UiDatePicker isRange v-model="executePeriod" />
+              <UiDatePicker full isRange v-model="executePeriod" />
             </UiFormItem>
             <UiFormItem label="협업">
               <div class="flex gap-5">
@@ -217,7 +217,7 @@
                 <UiSelect size="large" placeholder="업무 보드명입니다." />
               </UiFormItem>
               <UiFormItem label="실행기간">
-                <UiDatePicker isRange size="large" />
+                <UiDatePicker full isRange size="large" />
               </UiFormItem>
               <UiFormItem label="협업">
                 <div class="flex gap-5">
@@ -263,7 +263,11 @@
                 </div>
               </UiFormItem>
               <UiFormItem label="내용">
-                <UiTextarea size="large" placeholder="업무에 대한 구체적인 내용을 입력해주세요." />
+                <UiTextarea
+                  v-model="textContent"
+                  size="large"
+                  placeholder="업무에 대한 구체적인 내용을 입력해주세요."
+                />
               </UiFormItem>
               <template #footerActions>
                 <div class="flex gap-5 justify-end">

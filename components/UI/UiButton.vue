@@ -269,6 +269,7 @@
 
     // 아이콘만 버튼
     &--icon-only {
+      min-width: auto;
       .ui-button__icon {
         margin-right: 0;
       }

@@ -7,7 +7,8 @@
         'ui-textarea--disabled': disabled,
         'ui-textarea--error': error,
         'ui-textarea--resizable': resizable,
-        'ui-textarea--block': block
+        'ui-textarea--block': block,
+        'ui-textarea--has-value': hasValue
       }
     ]"
   >
@@ -28,10 +29,10 @@
         :rows="rows"
         :name="name"
         class="ui-textarea__field"
-        @input="$emit('update:modelValue', $event.target.value)"
-        @focus="$emit('focus', $event)"
-        @blur="$emit('blur', $event)"
-        @change="$emit('change', $event)"
+        @input="handleInput"
+        @focus="handleFocus"
+        @blur="handleBlur"
+        @change="handleChange"
       ></textarea>
 
       <div v-if="maxlength && showCount" class="ui-textarea__counter">
@@ -47,10 +48,14 @@
 <script setup>
   import { defineProps, defineEmits } from 'vue'
 
-  defineProps({
+  const props = defineProps({
     modelValue: {
       type: String,
       default: ''
+    },
+    hasValue: {
+      type: Boolean,
+      default: false
     },
     label: {
       type: String,
@@ -119,7 +124,27 @@
     }
   })
 
-  defineEmits(['update:modelValue', 'focus', 'blur', 'change'])
+  const emit = defineEmits(['update:modelValue', 'focus', 'blur', 'change'])
+
+  // 값이 있는지 확인하는 computed
+  const hasValue = computed(() => props.modelValue && props.modelValue.length > 0)
+
+  // 이벤트 핸들러 함수들
+  const handleInput = event => {
+    emit('update:modelValue', event.target.value)
+  }
+
+  const handleFocus = event => {
+    emit('focus', event)
+  }
+
+  const handleBlur = event => {
+    emit('blur', event)
+  }
+
+  const handleChange = event => {
+    emit('change', event)
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -127,6 +152,13 @@
     display: flex;
     flex-direction: column;
     gap: $spacing-xs;
+
+    // 값이 입력되었을 때 스타일
+    &--has-value {
+      .ui-textarea__field {
+        border: 1px solid $border-color-filled;
+      }
+    }
 
     &__label {
       font-size: $font-size-sm;
@@ -149,7 +181,7 @@
     &__field {
       width: 100%;
       padding: $spacing-sm;
-      border: 1px solid var(--color-gray-40, #8a949e);
+      border: 1px solid $border-color-light;
       border-radius: 6px;
       background-color: var(--color-gray-0, #fff);
       font-size: $font-size-sm;
@@ -160,13 +192,13 @@
       min-height: 100px;
 
       &:focus {
-        outline: none;
+        outline: none !important;
         border-color: var(--color-system-b30, #0084ff);
-        box-shadow: 0 0 0 2px rgba(0, 132, 255, 0.2);
+        box-shadow: none;
       }
 
       &::placeholder {
-        color: var(--color-gray-30, #B1B8BE);
+        color: var(--color-gray-30, #b1b8be);
         font-family: Pretendard;
         font-size: 16px;
         font-style: normal;
@@ -208,7 +240,7 @@
         @include font-style($body-medium);
       }
     }
-    
+
     // 크기 변형 - Small
     &--small {
       .ui-textarea__field {
@@ -286,7 +318,6 @@
         color: var(--color-gray-70, #464c53);
 
         &:focus {
-          box-shadow: 0 0 0 2px rgba(255, 51, 0, 0.1);
         }
       }
     }

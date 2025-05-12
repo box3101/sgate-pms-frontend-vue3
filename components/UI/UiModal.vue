@@ -646,17 +646,17 @@
   function dockToRight(mode) {
     // 플로팅 모드 해제
     isFloating.value = false
-    
+
     // 위치 초기화
     dragPosition.value = { x: 0, y: 0 }
-    
+
     // 오른쪽 팝업으로 설정
     sizeMode.value = mode
     customWidth.value = null
-    
+
     // 이벤트 발생
     emit('floating-changed', false)
-    
+
     // 사용자 설정 저장
     saveUserPreference()
   }
@@ -1012,10 +1012,5 @@
         height: calc(100vh - #{$spacing-md * 2});
       }
     }
-  }
-
-  :deep(.activity-content > .flex) {
-    flex-wrap: wrap;
-    overflow-y: auto;
   }
 </style>
