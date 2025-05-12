@@ -177,7 +177,7 @@
         position: absolute;
         width: 100%;
         height: 1px;
-        background-color: var(--color-gray-0);
+        background-color: #fff;
         top: 50%;
         left: 0;
       }
