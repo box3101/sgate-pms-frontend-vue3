@@ -111,27 +111,27 @@
     }
 
     &--primary {
-      background-color: $tag-primary; // 디자인
+      background-color: var(--color-primary-50, #00aaff); // 기본
     }
 
     &--collaboration {
-      background-color: $tag-secondary; // 공유
+      background-color: var(--color-system-b50, #069); // 협업
     }
 
     &--shared {
-      background-color: $tag-secondary; // 공유
+      background-color: var(--color-system-b70, #023); // 공유
     }
 
     &--name {
-      background-color: $tag-tertiary; // 이름
+      background-color: var(--color-system-g50, #008033); // 이름
     }
 
     &--completed {
-      background-color: $tag-success; // 완료
+      background-color: var(--color-system-b30, #0084ff); // 완료
     }
 
     &--deadline {
-      background-color: $tag-info; // 마감
+      background-color: var(--color-gray-30, #b1b8be); // 마감
     }
 
     &--closable {
