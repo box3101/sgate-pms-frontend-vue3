@@ -8,7 +8,7 @@
           <UiSelect
             v-model="selectedYear"
             :options="yearOptions"
-            size="medium"
+            size="large"
             style="width: 120px"
           />
         </div>
@@ -51,11 +51,10 @@
               <template #header>
                 <tr>
                   <th style="width: 40px">
-                    <input
-                      type="checkbox"
-                      class="checkbox-all"
-                      @click="toggleAllScaleGroups"
-                      :checked="allScaleGroupsSelected"
+                    <UiCheckbox
+                      v-model="allScaleGroupsSelected"
+                      @update:modelValue="toggleAllScaleGroups"
+                      size="large"
                     />
                   </th>
                   <th>등급척도</th>
@@ -70,16 +69,17 @@
                   :class="{ selected: selectedScaleGroup && selectedScaleGroup.id === item.id }"
                 >
                   <td>
-                    <input
-                      type="checkbox"
-                      :checked="item.selected"
-                      @click.stop="toggleScaleGroup(item)"
+                    <UiCheckbox
+                      v-model="item.selected"
+                      @update:modelValue="toggleScaleGroup(item)"
+                      size="large"
+                      @click.stop
                     />
                   </td>
                   <td>
                     <UiInput v-model="item.name" size="large" :clearable="true" @click.stop />
                   </td>
-                  <td class="grade-count" @click.stop="selectScaleGroup(item)">
+                  <td class="grade-count text-center" @click.stop="selectScaleGroup(item)">
                     {{ item.gradeCount }}
                   </td>
                 </tr>
@@ -114,11 +114,10 @@
               <template #header>
                 <tr>
                   <th>
-                    <input
-                      type="checkbox"
-                      class="checkbox-all"
-                      @click="toggleAllScaleDetails"
-                      :checked="allScaleDetailsSelected"
+                    <UiCheckbox
+                      v-model="allScaleDetailsSelected"
+                      @update:modelValue="toggleAllScaleDetails"
+                      size="large"
                     />
                   </th>
                   <th>등급척도</th>
@@ -128,7 +127,7 @@
               <template #body>
                 <tr v-for="(detail, index) in selectedScaleGroup.details" :key="index">
                   <td>
-                    <input type="checkbox" v-model="detail.selected" @click.stop />
+                    <UiCheckbox v-model="detail.selected" size="large" @click.stop />
                   </td>
                   <td>
                     <UiInput v-model="detail.name" size="large" :clearable="true" @click.stop />
@@ -159,6 +158,7 @@
   import UiInput from '~/components/ui/UiInput.vue'
   import UiSelect from '~/components/ui/UiSelect.vue'
   import UiButton from '~/components/ui/UiButton.vue'
+  import UiCheckbox from '~/components/ui/UiCheckbox.vue'
 
   // 로고 텍스트 접근
   const logoText = inject('logoText')
@@ -233,10 +233,9 @@
   }
 
   // 모든 등급척도 그룹 체크박스 토글
-  const toggleAllScaleGroups = () => {
-    const newState = !allScaleGroupsSelected.value
-    scaleGroups.value.forEach(item => {
-      item.selected = newState
+  const toggleAllScaleGroups = newState => {
+    scaleGroups.value.forEach(group => {
+      group.selected = newState
     })
   }
 
@@ -246,10 +245,9 @@
   })
 
   // 모든 등급척도 상세 체크박스 토글
-  const toggleAllScaleDetails = () => {
+  const toggleAllScaleDetails = newState => {
     if (!selectedScaleGroup.value) return
 
-    const newState = !allScaleDetailsSelected.value
     selectedScaleGroup.value.details.forEach(detail => {
       detail.selected = newState
     })
@@ -261,100 +259,3 @@
     return selectedScaleGroup.value.details.every(detail => detail.selected)
   })
 </script>
-
-<style lang="scss" scoped>
-  @use 'sass:math';
-  @use 'sass:color';
-
-  .basic-items-container {
-    .basic-items-content {
-      height: calc(100% - 200px);
-    }
-    .basic-items-layout {
-      display: flex;
-      height: 100%;
-      gap: 24px;
-
-      .scale-group-container {
-        width: 50%;
-        min-width: 300px;
-      }
-
-      .scale-detail-container {
-        width: 50%;
-        min-width: 300px;
-
-        &.empty {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: #f9f9f9;
-          border-radius: 8px;
-          border: 1px dashed #ddd;
-
-          .empty-message {
-            color: #888;
-            text-align: center;
-            padding: 40px;
-          }
-        }
-      }
-    }
-
-    .section-header {
-      margin-bottom: 16px;
-
-      h2 {
-        font-size: 18px;
-        font-weight: 600;
-        color: #333;
-      }
-    }
-
-    .section-body {
-      margin-bottom: 24px;
-    }
-
-    // 테이블 스타일
-    :deep(.ui-table) {
-      width: 100%;
-
-      th {
-        background-color: #f5f5f5;
-        font-weight: 600;
-        text-align: center;
-      }
-
-      td {
-        vertical-align: middle;
-      }
-
-      tr {
-        cursor: pointer;
-
-        &.selected {
-          background-color: #f0f7ff;
-        }
-
-        &:hover {
-          background-color: #f5f9ff;
-        }
-      }
-
-      .grade-count {
-        text-align: center;
-        font-weight: 600;
-        color: #0066cc;
-        cursor: pointer;
-      }
-
-      input[type='checkbox'] {
-        width: 18px;
-        height: 18px;
-        cursor: pointer;
-        position: relative;
-        top: 3px;
-      }
-    }
-  }
-</style>

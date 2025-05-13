@@ -1,0 +1,55 @@
+.basic-items-container {
+  .grade-count {
+    cursor: pointer;
+    color: $primary-color;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .basic-items-content {
+    height: 100%;
+  }
+  .basic-items-layout {
+    display: flex;
+    height: 100%;
+    gap: 24px;
+
+    .scale-group-container {
+      width: 50%;
+      min-width: 300px;
+    }
+
+    .scale-detail-container {
+      width: 50%;
+      min-width: 300px;
+
+      &.empty {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        border: 1px dashed #ddd;
+
+        .empty-message {
+          color: #888;
+          text-align: center;
+          padding: 40px;
+        }
+      }
+    }
+  }
+
+  .section-header {
+    margin-bottom: 16px;
+
+    h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+    }
+  }
+
+  .section-body {
+    margin-bottom: 24px;
+  }
+}

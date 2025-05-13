@@ -72,9 +72,8 @@
   .ui-table-wrapper {
     width: 100%;
     overflow-x: auto;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     transition: all 0.2s ease;
+    border-top: 1px solid #000;
 
     &.bordered {
       .ui-table {
@@ -123,7 +122,7 @@
 
         th,
         td {
-          padding: 7px 1rem;
+          padding: 10px 1rem;
         }
       }
     }
@@ -169,7 +168,11 @@
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-
+    tr {
+      &:hover {
+        background-color: rgba($primary-color, 0.05);
+      }
+    }
     th,
     td {
       text-align: left;
