@@ -552,7 +552,7 @@
         테이블의 행이 많아질 경우 스크롤 기능을 활성화하여 테이블의 높이를 제한할 수 있습니다.
         스크롤 기능을 사용하면 테이블 헤더는 상단에 고정되고 본문만 스크롤됩니다.
       </p>
-      
+
       <div class="example-container">
         <h3 class="example-title">스크롤 가능한 테이블 (scrollable)</h3>
         <div class="example-preview">
@@ -570,7 +570,7 @@
                 <td>{{ i }}</td>
                 <td>사용자{{ i }}</td>
                 <td>{{ 20 + i }}</td>
-                <td>{{ i % 3 === 0 ? '개발자' : (i % 3 === 1 ? '디자이너' : '기획자') }}</td>
+                <td>{{ i % 3 === 0 ? '개발자' : i % 3 === 1 ? '디자이너' : '기획자' }}</td>
               </tr>
             </template>
           </UiTable>
@@ -596,7 +596,7 @@
 &lt;/UiTable&gt;</code></pre>
         </div>
       </div>
-      
+
       <div class="example-container">
         <h3 class="example-title">스크롤 + 스타일 조합</h3>
         <div class="example-preview">
@@ -614,7 +614,7 @@
                 <td>{{ i }}</td>
                 <td>사용자{{ i }}</td>
                 <td>{{ 20 + i }}</td>
-                <td>{{ i % 3 === 0 ? '개발자' : (i % 3 === 1 ? '디자이너' : '기획자') }}</td>
+                <td>{{ i % 3 === 0 ? '개발자' : i % 3 === 1 ? '디자이너' : '기획자' }}</td>
               </tr>
             </template>
           </UiTable>
@@ -742,7 +742,7 @@
 
 <script setup>
   import { inject } from 'vue'
-  import UiTable from '~/components/ui/UiTable.vue'
+  import UiTable from '~/components/UI/UiTable.vue'
 
   // 로고 텍스트 접근
   const logoText = inject('logoText')
