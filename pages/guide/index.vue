@@ -183,6 +183,16 @@
                 </div>
               </NuxtLink>
 
+              <NuxtLink to="/components/Tooltip" class="component-card">
+                <div class="component-icon">
+                  <Icon name="mdi:tooltip-text" size="24" />
+                </div>
+                <div class="component-info">
+                  <h3 class="component-title">툴팁</h3>
+                  <p class="component-desc">마우스 오버 시 추가 정보를 제공하는 툴팁 컴포넌트</p>
+                </div>
+              </NuxtLink>
+
               <NuxtLink to="/components/Popup" class="component-card">
                 <div class="component-icon">
                   <Icon name="mdi:window-maximize" size="24" />
@@ -239,6 +249,16 @@
                 <div class="component-info">
                   <h3 class="component-title">태그</h3>
                   <p class="component-desc">태그 컴포넌트</p>
+                </div>
+              </NuxtLink>
+
+              <NuxtLink to="/components/Tooltip" class="component-card">
+                <div class="component-icon">
+                  <Icon name="mdi:tooltip-text" size="24" />
+                </div>
+                <div class="component-info">
+                  <h3 class="component-title">툴팁</h3>
+                  <p class="component-desc">마우스 오버 시 추가 정보를 제공하는 툴팁 컴포넌트</p>
                 </div>
               </NuxtLink>
             </div>
@@ -849,6 +869,100 @@
 </script>
 
 <style lang="scss" scoped>
+  // 툴팁 예시 스타일
+  .tooltip-examples {
+    .example-row {
+      margin-bottom: 32px;
+      border-bottom: 1px solid #eaeaea;
+      padding-bottom: 24px;
+
+      &:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+      }
+    }
+
+    .example-title {
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: #333;
+    }
+
+    .example-content {
+      margin-bottom: 16px;
+      padding: 16px;
+      background-color: #f9f9f9;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 80px;
+
+      &.position-examples {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+    }
+
+    .example-button {
+      padding: 8px 16px;
+      background-color: #4a6cf7;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #3a5ce5;
+      }
+    }
+
+    .example-code {
+      background-color: #f0f0f0;
+      border-radius: 4px;
+      overflow: hidden;
+
+      pre {
+        margin: 0;
+        padding: 16px;
+        overflow-x: auto;
+
+        code {
+          font-family: 'Courier New', Courier, monospace;
+          font-size: 14px;
+          color: #333;
+        }
+      }
+    }
+
+    .tooltip-wrapper {
+      display: inline-block;
+
+      .icon-md {
+        width: 24px;
+        height: 24px;
+        display: inline-block;
+        cursor: pointer;
+        background-color: #4a6cf7;
+        border-radius: 50%;
+        position: relative;
+
+        &::before {
+          content: '?';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          color: white;
+          font-weight: bold;
+        }
+      }
+    }
+  }
   .guide-container {
     max-width: 100%;
     margin: 0 auto;

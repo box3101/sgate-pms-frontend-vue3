@@ -13,10 +13,19 @@
           />
         </div>
         <div class="header-right flex items-center gap-5">
-          <UiButton type="button" variant="primary-line" size="medium">가져오기</UiButton>
-          <UiButton type="button" variant="secondary-line" size="medium" class="ml-2"
-            >전년도 데이터 복사</UiButton
-          >
+          <UiTooltip title="등급척도그룹 가져오기">
+            <template #trigger>
+              <UiButton type="button" variant="secondary-line" size="medium">
+                등급척도그룹 가져오기
+                <i class="icon-md icon-get"></i>
+              </UiButton>
+            </template>
+            <p>현 기존년도의 등급척도그룹 중 하나를 선택하여 복사합니다.</p>
+          </UiTooltip>
+          <UiButton type="button" variant="primary-line" size="medium" class="ml-2">
+            전년도 데이터 복사
+            <i class="icon-md icon-copy icon-primary"></i>
+          </UiButton>
         </div>
       </div>
 
@@ -117,7 +126,7 @@
                     <input type="checkbox" v-model="detail.selected" @click.stop />
                   </td>
                   <td>
-                    <UiInput v-model="detail.name" size="large" @click.stop />
+                    <UiInput v-model="detail.name" size="large" :clearable="true" @click.stop />
                   </td>
                   <td>
                     <UiInput
