@@ -5,12 +5,7 @@
       <div class="basic-items-header page-header flex justify-between items-center">
         <div class="header-left flex items-center gap-5">
           <label class="year-label">기준년도</label>
-          <UiSelect
-            v-model="selectedYear"
-            :options="yearOptions"
-            size="large"
-            style="width: 120px"
-          />
+          <UiSelect v-model="selectedYear" :options="yearOptions" style="width: 120px" />
         </div>
         <div class="header-right flex items-center gap-5">
           <UiTooltip title="등급척도그룹 가져오기">

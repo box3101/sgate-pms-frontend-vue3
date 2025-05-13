@@ -158,10 +158,10 @@
         font-size: 1rem;
 
         th {
-          padding: 10px 1rem;
+          padding: 10px 10px;
         }
         td {
-          padding: 7px 1rem;
+          padding: 7px 10px;
         }
       }
     }

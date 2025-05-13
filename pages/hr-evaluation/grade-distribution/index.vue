@@ -24,7 +24,7 @@
             />
             <div class="button-group ml-4 flex items-center gap-4">
               <UiButton variant="primary" icon-only>
-                <i class="icon-md icon-plus icon-white"></i>
+                <i class="icon-md icon-plus"></i>
               </UiButton>
               <UiButton variant="secondary" icon-only>
                 <i class="icon-md icon-pencil"></i>

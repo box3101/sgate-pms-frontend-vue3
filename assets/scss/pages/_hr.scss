@@ -1,15 +1,39 @@
+// 공통
+.page-header {
+  margin-bottom: 30px;
+}
+
+.grade-count {
+  cursor: pointer;
+  color: $primary-color;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px dashed #ddd;
+
+  .empty-message {
+    color: #888;
+    text-align: center;
+    padding: 40px;
+  }
+}
+
+.performance-items-layout,
+.performance-items-content,
+.basic-items-content {
+  height: 100%;
+}
+
 .basic-items-container {
   tr {
     cursor: pointer;
-  }
-  .grade-count {
-    cursor: pointer;
-    color: $primary-color;
-    font-size: 16px;
-    font-weight: 600;
-  }
-  .basic-items-content {
-    height: 100%;
   }
   .basic-items-layout {
     display: flex;
@@ -24,21 +48,6 @@
     .scale-detail-container {
       width: 50%;
       min-width: 300px;
-
-      &.empty {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        border: 1px dashed #ddd;
-
-        .empty-message {
-          color: #888;
-          text-align: center;
-          padding: 40px;
-        }
-      }
     }
   }
 
@@ -117,7 +126,69 @@
   }
 }
 
-// 공통
-.page-header {
-  margin-bottom: 30px;
+// 성과평가항목 관리
+.performance-items-container {
+  tr {
+    cursor: pointer;
+  }
+  .performance-items-content {
+    overflow: hidden;
+  }
+
+  .performance-items-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .section-header {
+    margin-bottom: 15px;
+  }
+
+  tr.selected {
+    background-color: #f0f7ff;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .grade-scale {
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    @include font-style($body-xsmall-bold);
+    color: $primary-color;
+    text-decoration: underline;
+    transition: all 0.2s;
+    text-underline-offset: 4px;
+
+    &:hover {
+      background-color: rgba($primary-color, 0.1);
+    }
+  }
+
+  .grade-scale-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 0;
+
+    .grade-scale-option {
+      padding: 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+
+      &.selected {
+        border-color: var(--primary-color);
+        background-color: #f0f7ff;
+      }
+    }
+  }
 }
