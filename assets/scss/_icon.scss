@@ -357,8 +357,9 @@
 .icon-primary {
   filter: invert(45%) sepia(99%) saturate(1622%) hue-rotate(190deg) brightness(98%) contrast(107%);
 }
-
 .icon-gray {
-  filter: brightness(0) invert(1);
-  color: #aaa;
+  filter: invert(50%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+}
+.icon-black {
+  filter: brightness(0);
 }

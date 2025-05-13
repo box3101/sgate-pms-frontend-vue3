@@ -1,13 +1,24 @@
 <template>
   <div
     class="ui-table-wrapper"
-    :class="[bordered && 'bordered', striped && 'striped', hover && 'hover', size, layout]"
+    :class="[
+      bordered && 'bordered',
+      striped && 'striped',
+      hover && 'hover',
+      size,
+      layout,
+      scrollable && 'scrollable'
+    ]"
+    :style="scrollable ? { maxHeight: maxHeight } : {}"
   >
     <table class="ui-table" :class="{ 'th-left': isThLeft }">
       <colgroup v-if="$slots.colgroup">
         <slot name="colgroup"></slot>
       </colgroup>
-      <thead v-if="$slots.header && layout !== 'horizontal'">
+      <thead
+        v-if="$slots.header && layout !== 'horizontal'"
+        :class="{ 'sticky-header': scrollable }"
+      >
         <slot name="header"></slot>
       </thead>
       <tbody v-if="$slots.body">
@@ -64,6 +75,20 @@
     isThLeft: {
       type: Boolean,
       default: false
+    },
+    /**
+     * 스크롤 가능 여부
+     */
+    scrollable: {
+      type: Boolean,
+      default: false
+    },
+    /**
+     * 테이블 최대 높이 (스크롤 가능할 때만 적용)
+     */
+    maxHeight: {
+      type: String,
+      default: '400px'
     }
   })
 </script>
@@ -74,6 +99,18 @@
     overflow-x: auto;
     transition: all 0.2s ease;
     border-top: 1px solid #000;
+
+    &.scrollable {
+      overflow-y: auto;
+      position: relative;
+
+      .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background-color: #fff;
+      }
+    }
 
     &.bordered {
       .ui-table {
@@ -120,9 +157,11 @@
       .ui-table {
         font-size: 1rem;
 
-        th,
-        td {
+        th {
           padding: 10px 1rem;
+        }
+        td {
+          padding: 7px 1rem;
         }
       }
     }

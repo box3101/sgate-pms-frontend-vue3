@@ -92,6 +92,38 @@
     </section>
 
     <section class="example-section">
+      <h2 class="section-title">Ghost 버튼</h2>
+      <div class="button-row">
+        <UiButton variant="ghost">Ghost 버튼</UiButton>
+        <UiButton variant="ghost">
+          <i class="icon icon-plus icon-sm icon-gray"></i>
+          <span>Ghost 아이콘 버튼</span>
+        </UiButton>
+        <UiButton variant="ghost" iconOnly>
+          <i class="icon icon-edit icon-sm icon-gray"></i>
+        </UiButton>
+        <UiButton variant="ghost" disabled>
+          <i class="icon icon-trash icon-sm icon-gray"></i>
+          <span>비활성화 Ghost</span>
+        </UiButton>
+      </div>
+      <div class="code-example">
+        <pre><code>&lt;UiButton variant="ghost"&gt;Ghost 버튼&lt;/UiButton&gt;
+&lt;UiButton variant="ghost"&gt;
+  &lt;i class="icon icon-plus icon-sm icon-gray"&gt;&lt;/i&gt;
+  &lt;span&gt;Ghost 아이콘 버튼&lt;/span&gt;
+&lt;/UiButton&gt;
+&lt;UiButton variant="ghost" iconOnly&gt;
+  &lt;i class="icon icon-edit icon-sm icon-gray"&gt;&lt;/i&gt;
+&lt;/UiButton&gt;
+&lt;UiButton variant="ghost" disabled&gt;
+  &lt;i class="icon icon-trash icon-sm icon-gray"&gt;&lt;/i&gt;
+  &lt;span&gt;비활성화 Ghost&lt;/span&gt;
+&lt;/UiButton&gt;</code></pre>
+      </div>
+    </section>
+
+    <section class="example-section">
       <h2 class="section-title">버튼 타입</h2>
       <div class="button-row">
         <UiButton nativeType="button">Button 타입</UiButton>

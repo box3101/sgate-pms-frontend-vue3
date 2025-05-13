@@ -1,4 +1,7 @@
 .basic-items-container {
+  tr {
+    cursor: pointer;
+  }
   .grade-count {
     cursor: pointer;
     color: $primary-color;
@@ -43,13 +46,78 @@
     margin-bottom: 16px;
 
     h2 {
-      font-size: 18px;
-      font-weight: 600;
-      color: #333;
+      @include font-style($heading-4);
     }
   }
 
   .section-body {
     margin-bottom: 24px;
   }
+}
+
+// 등급배분표 관리
+.grade-distribution-page {
+  // 헤더 영역 스타일
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .header-left {
+      .select-group {
+        display: flex;
+        gap: 16px;
+
+        .select-item {
+          display: flex;
+          align-items: center;
+
+          .select-label {
+            margin-right: 8px;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+
+    .header-right {
+      .button-group {
+        display: flex;
+        gap: 8px;
+      }
+    }
+  }
+
+  // 콘텐츠 영역 스타일
+  .page-content {
+    display: flex;
+    gap: 24px;
+
+    .content-section {
+      flex: 1;
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+
+        .section-title {
+          font-size: 18px;
+          font-weight: 600;
+          margin: 0;
+        }
+
+        .section-actions {
+          display: flex;
+          gap: 8px;
+        }
+      }
+    }
+  }
+}
+
+// 공통
+.page-header {
+  margin-bottom: 30px;
 }

@@ -150,3 +150,40 @@ button:focus,
   padding-left: 15px;
   padding-right: 15px;
 }
+
+// 헤딩 스타일 클래스
+.heading-1 {
+  font-size: $heading-xxl !important;
+  font-weight: 700 !important;
+  line-height: 130% !important;
+}
+
+.heading-2 {
+  font-size: $heading-xl !important;
+  font-weight: 700 !important;
+  line-height: 130% !important;
+}
+
+.heading-3 {
+  font-size: $heading-lg !important;
+  font-weight: 700 !important;
+  line-height: 130% !important;
+}
+
+.heading-4 {
+  font-size: $heading-md !important;
+  font-weight: 700 !important;
+  line-height: 130% !important;
+}
+
+.heading-5 {
+  font-size: $heading-sm !important;
+  font-weight: 700 !important;
+  line-height: 130% !important;
+}
+
+.heading-6 {
+  font-size: $heading-xs !important;
+  font-weight: 700 !important;
+  line-height: 130% !important;
+}

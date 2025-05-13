@@ -2,7 +2,7 @@
   <div class="basic-items-container container-large">
     <div class="basic-items-content">
       <!-- 헤더 영역 -->
-      <div class="basic-items-header flex justify-between items-center mb-30">
+      <div class="basic-items-header page-header flex justify-between items-center">
         <div class="header-left flex items-center gap-5">
           <label class="year-label">기준년도</label>
           <UiSelect
@@ -32,7 +32,7 @@
       <div class="basic-items-layout">
         <div class="scale-group-container">
           <div class="section-header flex items-center justify-between">
-            <h2>등급척도 그룹</h2>
+            <h2 class="heading-4">등급척도 그룹</h2>
             <div class="button-group flex items-center gap-5">
               <UiButton type="button" variant="secondary-line" icon-only>
                 <i class="icon-md icon-plus"></i>
@@ -76,7 +76,7 @@
                       @click.stop
                     />
                   </td>
-                  <td>
+                  <td class="text-center">
                     <UiInput v-model="item.name" size="large" :clearable="true" @click.stop />
                   </td>
                   <td class="grade-count text-center" @click.stop="selectScaleGroup(item)">
@@ -129,10 +129,10 @@
                   <td>
                     <UiCheckbox v-model="detail.selected" size="large" @click.stop />
                   </td>
-                  <td>
+                  <td class="text-center">
                     <UiInput v-model="detail.name" size="large" :clearable="true" @click.stop />
                   </td>
-                  <td>
+                  <td class="text-center">
                     <UiInput v-model="detail.score" size="large" type="number" @click.stop />
                   </td>
                 </tr>

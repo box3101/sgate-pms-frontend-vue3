@@ -51,9 +51,10 @@
 <style scoped lang="scss">
   .ui-checkbox {
     display: flex;
-    align-items: end;
+    align-items: center;
     cursor: pointer;
     width: fit-content;
+    gap: 3px;
 
     &--small {
       font-size: 12px;
