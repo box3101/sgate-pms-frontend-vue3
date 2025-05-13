@@ -154,11 +154,11 @@
 
 <script setup>
   import { inject, ref, computed } from 'vue'
-  import UiTable from '~/components/ui/UiTable.vue'
-  import UiInput from '~/components/ui/UiInput.vue'
-  import UiSelect from '~/components/ui/UiSelect.vue'
-  import UiButton from '~/components/ui/UiButton.vue'
-  import UiCheckbox from '~/components/ui/UiCheckbox.vue'
+  import UiTable from '~/components/UI/UiTable.vue'
+  import UiInput from '~/components/UI/UiInput.vue'
+  import UiSelect from '~/components/UI/UiSelect.vue'
+  import UiButton from '~/components/UI/UiButton.vue'
+  import UiCheckbox from '~/components/UI/UiCheckbox.vue'
 
   // 로고 텍스트 접근
   const logoText = inject('logoText')
