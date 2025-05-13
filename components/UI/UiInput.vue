@@ -12,7 +12,8 @@
         'ui-input--with-suffix': suffix,
         'ui-input--with-prefix-icon': prefixIcon,
         'ui-input--with-suffix-icon': suffixIcon,
-        'ui-input--has-value': inputHasValue
+        'ui-input--has-value': inputHasValue,
+        'ui-input--focused': isFocused
       }
     ]"
   >
@@ -59,9 +60,9 @@
       ></i>
       <div v-if="suffix" class="ui-input__suffix">{{ suffix }}</div>
       <i
-        v-if="clearable && modelValue"
+        v-if="clearable && modelValue && isFocused"
         class="icon icon-x-circle icon-md ui-input__clear"
-        @click="$emit('update:modelValue', '')"
+        @click="clearInput"
       ></i>
     </div>
 
@@ -195,6 +196,22 @@
   // 내부 상태로 입력값 추적
   const inputHasValue = ref(false)
 
+  // focus 상태 추적을 위한 새로운 ref 추가
+  const isFocused = ref(true)
+
+  const clearInput = () => {
+    emit('update:modelValue', '')
+    inputHasValue.value = false
+    isFocused.value = true
+
+    // input 요소에 focus 설정
+    const inputEl = document.querySelector(`#${props.id}`)
+    if (inputEl) {
+      inputEl.focus()
+      isFocused.value = true
+    }
+  }
+
   // 이벤트 핸들러 함수들
   const handleInput = event => {
     const newValue = event.target.value
@@ -300,6 +317,10 @@
     }
 
     &__clear {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
       margin-right: $spacing-sm;
       cursor: pointer;
       transition: color $transition-normal ease;

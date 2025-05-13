@@ -3,7 +3,7 @@
 @use 'sass:math';
 
 // ======== 마진 생성 (1px ~ 100px) ========
-@for $i from 1 through 100 {
+@for $i from 0 through 100 {
   .m-#{$i} {
     margin: #{$i}px !important;
   }

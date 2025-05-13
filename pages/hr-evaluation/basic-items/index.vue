@@ -1,5 +1,5 @@
 <template>
-  <div class="basic-items-container container-medium">
+  <div class="basic-items-container container-large">
     <div class="basic-items-content">
       <!-- 헤더 영역 -->
       <div class="basic-items-header flex justify-between items-center mb-30">
@@ -22,8 +22,20 @@
 
       <div class="basic-items-layout">
         <div class="scale-group-container">
-          <div class="section-header">
+          <div class="section-header flex items-center justify-between">
             <h2>등급척도 그룹</h2>
+            <div class="button-group flex items-center gap-5">
+              <UiButton type="button" variant="secondary-line" icon-only>
+                <i class="icon-md icon-plus"></i>
+              </UiButton>
+              <UiButton type="button" variant="secondary-line" icon-only>
+                <i class="icon-md icon-delete"></i>
+              </UiButton>
+              <UiButton type="button" variant="secondary-line" icon-only>
+                <i class="icon-md icon-sort"></i>
+              </UiButton>
+              <UiButton type="button" variant="primary">저장</UiButton>
+            </div>
           </div>
           <div class="section-body">
             <UiTable>
@@ -56,7 +68,7 @@
                     />
                   </td>
                   <td>
-                    <UiInput v-model="item.name" size="large" @click.stop />
+                    <UiInput v-model="item.name" size="large" :clearable="true" @click.stop />
                   </td>
                   <td class="grade-count" @click.stop="selectScaleGroup(item)">
                     {{ item.gradeCount }}
@@ -68,8 +80,20 @@
         </div>
 
         <div class="scale-detail-container" v-if="selectedScaleGroup">
-          <div class="section-header">
+          <div class="section-header flex items-center justify-between">
             <h2>평가등급 지정</h2>
+            <div class="button-group flex items-center gap-5">
+              <UiButton type="button" variant="secondary-line" icon-only>
+                <i class="icon-md icon-plus"></i>
+              </UiButton>
+              <UiButton type="button" variant="secondary-line" icon-only>
+                <i class="icon-md icon-delete"></i>
+              </UiButton>
+              <UiButton type="button" variant="secondary-line" icon-only>
+                <i class="icon-md icon-sort"></i>
+              </UiButton>
+              <UiButton type="button" variant="primary">저장</UiButton>
+            </div>
           </div>
           <div class="section-body">
             <UiTable>

@@ -849,6 +849,7 @@
     height: 100vh;
     overflow-y: auto; /* 내용이 많을 경우 스크롤 가능하도록 */
     padding-top: 40px; /* 핀 버튼을 위한 상단 여백 */
+    box-sizing: content-box;
   }
 
   /* 핀 고정 시 서브메뉴 스타일 */
