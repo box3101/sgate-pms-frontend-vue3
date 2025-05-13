@@ -1089,7 +1089,7 @@
       display: flex;
       align-items: center;
     }
-    dsf .title {
+    .title {
       margin: 0 14px;
       font-size: $font-size-xxl;
       font-weight: 700;
