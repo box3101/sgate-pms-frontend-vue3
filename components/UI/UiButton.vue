@@ -128,6 +128,7 @@
       min-width: auto;
       &.ui-button--medium {
         padding: 0 10px;
+        box-sizing: content-box;
       }
     }
 

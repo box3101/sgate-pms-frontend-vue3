@@ -14,15 +14,25 @@
               width="150px"
             />
           </div>
-          <div class="select-item">
+          <div class="select-item flex items-center">
             <span class="select-label">등급배분그룹</span>
             <UiSelect
               v-model="selectedGroup"
               :options="groupOptions"
-              size="medium"
               placeholder="선택"
               width="150px"
             />
+            <div class="button-group ml-4 flex items-center gap-4">
+              <UiButton variant="primary" icon-only>
+                <i class="icon-md icon-plus icon-white"></i>
+              </UiButton>
+              <UiButton variant="secondary" icon-only>
+                <i class="icon-md icon-pencil"></i>
+              </UiButton>
+              <UiButton variant="secondary-line" icon-only>
+                <i class="icon-md icon-delete"></i>
+              </UiButton>
+            </div>
           </div>
         </div>
       </div>

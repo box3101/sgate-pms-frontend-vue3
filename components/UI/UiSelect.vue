@@ -181,7 +181,7 @@
     color: var(--color-gray-40, #8a949e);
     transition: all $transition-normal ease;
     box-sizing: border-box;
-    
+
     // 값이 입력되었을 때 스타일
     &--selected {
       border: 1px solid $border-color-filled;
@@ -224,7 +224,7 @@
     }
 
     &__placeholder {
-      color: var(--color-gray-30, #B1B8BE);
+      color: var(--color-gray-30, #b1b8be);
       font-family: Pretendard;
       font-size: 16px;
       font-style: normal;
