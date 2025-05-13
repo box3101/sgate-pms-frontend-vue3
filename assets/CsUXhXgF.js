@@ -1,1 +1,0 @@
-import{C as s,c as o,a,o as n}from"./Die_obeW.js";const c={class:"basic-items-container container-medium"},m={__name:"index",setup(i){const t=s("logoText");return t.value="평가기본항목관리",(r,e)=>(n(),o("div",c,e[0]||(e[0]=[a("div",{class:"basic-items-content"},"23",-1)])))}};export{m as default};
