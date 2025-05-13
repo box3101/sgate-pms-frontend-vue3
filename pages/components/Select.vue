@@ -51,6 +51,14 @@
             v-model="selectedValue1"
           />
           <p class="select-desc">작은 사이즈 (Small)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSelect
+  size="small"
+  placeholder="선택하세요"
+  :options="options"
+  v-model="selectedValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="select-item">
           <UiSelect
@@ -60,6 +68,14 @@
             v-model="selectedValue2"
           />
           <p class="select-desc">중간 사이즈 (Medium) - 기본</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSelect
+  size="medium"
+  placeholder="선택하세요"
+  :options="options"
+  v-model="selectedValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="select-item">
           <UiSelect
@@ -69,6 +85,14 @@
             v-model="selectedValue3"
           />
           <p class="select-desc">큰 사이즈 (Large)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSelect
+  size="large"
+  placeholder="선택하세요"
+  :options="options"
+  v-model="selectedValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="select-item">
           <UiSelect
@@ -78,6 +102,14 @@
             v-model="selectedValueXL"
           />
           <p class="select-desc">아주 큰 사이즈 (XLarge)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSelect
+  size="xlarge"
+  placeholder="선택하세요"
+  :options="options"
+  v-model="selectedValue"
+/&gt;</pre>
+          </div>
         </div>
       </div>
     </section>
@@ -94,6 +126,14 @@
             v-model="selectedValueSearch2"
           />
           <p class="select-desc">작은 사이즈 (Small)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSearchableSelect
+  size="small"
+  placeholder="검색하세요"
+  :options="options"
+  v-model="selectedValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="select-item">
           <UiSearchableSelect
@@ -103,6 +143,14 @@
             v-model="selectedValueSearch3"
           />
           <p class="select-desc">중간 사이즈 (Medium) - 기본</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSearchableSelect
+  size="medium"
+  placeholder="검색하세요"
+  :options="options"
+  v-model="selectedValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="select-item">
           <UiSearchableSelect
@@ -112,6 +160,14 @@
             v-model="selectedValueSearch4"
           />
           <p class="select-desc">큰 사이즈 (Large)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSearchableSelect
+  size="large"
+  placeholder="검색하세요"
+  :options="options"
+  v-model="selectedValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="select-item">
           <UiSearchableSelect
@@ -121,6 +177,14 @@
             v-model="selectedValueSearchXL"
           />
           <p class="select-desc">아주 큰 사이즈 (XLarge)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSearchableSelect
+  size="xlarge"
+  placeholder="검색하세요"
+  :options="options"
+  v-model="selectedValue"
+/&gt;</pre>
+          </div>
         </div>
       </div>
     </section>
@@ -132,18 +196,45 @@
         <div class="select-item">
           <UiSelect placeholder="선택하세요" :options="options" />
           <p class="select-desc">기본 상태 (Default)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSelect
+  placeholder="선택하세요"
+  :options="options"
+/&gt;</pre>
+          </div>
         </div>
         <div class="select-item">
           <UiSelect placeholder="선택하세요" :options="options" v-model="selectedValue4" />
           <p class="select-desc">선택 완료 상태 (Complete)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSelect
+  placeholder="선택하세요"
+  :options="options"
+  v-model="selectedValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="select-item">
           <UiSelect placeholder="선택하세요" :options="options" :error="true" />
           <p class="select-desc">에러 상태 (Error)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSelect
+  placeholder="선택하세요"
+  :options="options"
+  :error="true"
+/&gt;</pre>
+          </div>
         </div>
         <div class="select-item">
           <UiSelect placeholder="선택하세요" :options="options" :disabled="true" />
           <p class="select-desc">비활성화 상태 (Disabled)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSelect
+  placeholder="선택하세요"
+  :options="options"
+  :disabled="true"
+/&gt;</pre>
+          </div>
         </div>
         <div class="select-item">
           <UiSelect
@@ -153,6 +244,14 @@
             :viewOnly="true"
           />
           <p class="select-desc">보기 전용 상태 (View Only)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSelect
+  placeholder="선택하세요"
+  :options="options"
+  v-model="selectedValue"
+  :viewOnly="true"
+/&gt;</pre>
+          </div>
         </div>
       </div>
     </section>
@@ -164,6 +263,12 @@
         <div class="select-item">
           <UiSearchableSelect placeholder="검색하세요" :options="options" />
           <p class="select-desc">기본 상태 (Default)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSearchableSelect
+  placeholder="검색하세요"
+  :options="options"
+/&gt;</pre>
+          </div>
         </div>
         <div class="select-item">
           <UiSearchableSelect
@@ -172,14 +277,35 @@
             v-model="selectedValueSearch5"
           />
           <p class="select-desc">선택 완료 상태 (Complete)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSearchableSelect
+  placeholder="검색하세요"
+  :options="options"
+  v-model="selectedValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="select-item">
           <UiSearchableSelect placeholder="검색하세요" :options="options" :error="true" />
           <p class="select-desc">에러 상태 (Error)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSearchableSelect
+  placeholder="검색하세요"
+  :options="options"
+  :error="true"
+/&gt;</pre>
+          </div>
         </div>
         <div class="select-item">
           <UiSearchableSelect placeholder="검색하세요" :options="options" :disabled="true" />
           <p class="select-desc">비활성화 상태 (Disabled)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSearchableSelect
+  placeholder="검색하세요"
+  :options="options"
+  :disabled="true"
+/&gt;</pre>
+          </div>
         </div>
         <div class="select-item">
           <UiSearchableSelect
@@ -189,6 +315,14 @@
             :viewOnly="true"
           />
           <p class="select-desc">보기 전용 상태 (View Only)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSearchableSelect
+  placeholder="검색하세요"
+  :options="options"
+  v-model="selectedValue"
+  :viewOnly="true"
+/&gt;</pre>
+          </div>
         </div>
       </div>
     </section>
@@ -200,28 +334,70 @@
         <div class="select-item">
           <UiSelect placeholder="선택하세요" :options="options" width="150px" />
           <p class="select-desc">기본 너비 (150px)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSelect
+  placeholder="선택하세요"
+  :options="options"
+  width="150px"
+/&gt;</pre>
+          </div>
         </div>
         <div class="select-item">
           <UiSelect placeholder="선택하세요" :options="options" width="200px" />
           <p class="select-desc">200px 너비</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSelect
+  placeholder="선택하세요"
+  :options="options"
+  width="200px"
+/&gt;</pre>
+          </div>
         </div>
         <div class="select-item">
           <UiSelect placeholder="선택하세요" :options="options" width="100%" />
           <p class="select-desc">100% 너비</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSelect
+  placeholder="선택하세요"
+  :options="options"
+  width="100%"
+/&gt;</pre>
+          </div>
         </div>
       </div>
       <div class="select-grid mt-4">
         <div class="select-item">
           <UiSearchableSelect placeholder="검색하세요" :options="options" width="150px" />
           <p class="select-desc">기본 너비 (150px)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSearchableSelect
+  placeholder="검색하세요"
+  :options="options"
+  width="150px"
+/&gt;</pre>
+          </div>
         </div>
         <div class="select-item">
           <UiSearchableSelect placeholder="검색하세요" :options="options" width="200px" />
           <p class="select-desc">200px 너비</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSearchableSelect
+  placeholder="검색하세요"
+  :options="options"
+  width="200px"
+/&gt;</pre>
+          </div>
         </div>
         <div class="select-item">
           <UiSearchableSelect placeholder="검색하세요" :options="options" width="100%" />
           <p class="select-desc">100% 너비</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiSearchableSelect
+  placeholder="검색하세요"
+  :options="options"
+  width="100%"
+/&gt;</pre>
+          </div>
         </div>
       </div>
     </section>
@@ -318,6 +494,14 @@ const countries = [
             v-model="multiSelectedValues2"
           />
           <p class="select-desc">작은 사이즈 (Small)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiMultiSelect
+  size="small"
+  placeholder="다중 선택하세요"
+  :options="options"
+  v-model="multiSelectedValues"
+/&gt;</pre>
+          </div>
         </div>
         <div class="select-item">
           <UiMultiSelect
@@ -327,6 +511,14 @@ const countries = [
             v-model="multiSelectedValues3"
           />
           <p class="select-desc">중간 사이즈 (Medium) - 기본</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiMultiSelect
+  size="medium"
+  placeholder="다중 선택하세요"
+  :options="options"
+  v-model="multiSelectedValues"
+/&gt;</pre>
+          </div>
         </div>
         <div class="select-item">
           <UiMultiSelect
@@ -336,6 +528,14 @@ const countries = [
             v-model="multiSelectedValues4"
           />
           <p class="select-desc">큰 사이즈 (Large)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiMultiSelect
+  size="large"
+  placeholder="다중 선택하세요"
+  :options="options"
+  v-model="multiSelectedValues"
+/&gt;</pre>
+          </div>
         </div>
         <div class="select-item">
           <UiMultiSelect
@@ -345,6 +545,14 @@ const countries = [
             v-model="multiSelectedValuesXL"
           />
           <p class="select-desc">아주 큰 사이즈 (XLarge)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiMultiSelect
+  size="xlarge"
+  placeholder="다중 선택하세요"
+  :options="options"
+  v-model="multiSelectedValues"
+/&gt;</pre>
+          </div>
         </div>
       </div>
     </section>

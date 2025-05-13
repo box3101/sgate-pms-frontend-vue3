@@ -41,18 +41,46 @@
         <div class="input-item">
           <UiInput size="small" placeholder="작은 사이즈" v-model="inputValue3" />
           <p class="input-desc">작은 사이즈 (Small)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  size="small"
+  placeholder="작은 사이즈"
+  v-model="inputValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="input-item">
           <UiInput size="medium" placeholder="중간 사이즈" v-model="inputValue4" />
           <p class="input-desc">중간 사이즈 (Medium) - 기본</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  size="medium"
+  placeholder="중간 사이즈"
+  v-model="inputValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="input-item">
           <UiInput size="large" placeholder="큰 사이즈" v-model="inputValue5" />
           <p class="input-desc">큰 사이즈 (Large)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  size="large"
+  placeholder="큰 사이즈"
+  v-model="inputValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="input-item">
           <UiInput size="xlarge" placeholder="아주 큰 사이즈" v-model="inputValue6" />
           <p class="input-desc">아주 큰 사이즈 (XLarge)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  size="xlarge"
+  placeholder="아주 큰 사이즈"
+  v-model="inputValue"
+/&gt;</pre>
+          </div>
         </div>
       </div>
     </section>
@@ -64,22 +92,53 @@
         <div class="input-item">
           <UiInput placeholder="기본 상태" />
           <p class="input-desc">기본 상태 (Default)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  placeholder="기본 상태"
+/&gt;</pre>
+          </div>
         </div>
         <div class="input-item">
           <UiInput placeholder="입력 완료" v-model="inputValue7" />
           <p class="input-desc">입력 완료 상태 (Complete)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  placeholder="입력 완료"
+  v-model="inputValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="input-item">
           <UiInput placeholder="에러 상태" :error="true" errorMessage="유효하지 않은 입력입니다." />
           <p class="input-desc">에러 상태 (Error)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  placeholder="에러 상태"
+  :error="true"
+  errorMessage="유효하지 않은 입력입니다."
+/&gt;</pre>
+          </div>
         </div>
         <div class="input-item">
           <UiInput placeholder="비활성화 상태" :disabled="true" />
           <p class="input-desc">비활성화 상태 (Disabled)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  placeholder="비활성화 상태"
+  :disabled="true"
+/&gt;</pre>
+          </div>
         </div>
         <div class="input-item">
           <UiInput placeholder="읽기 전용" v-model="inputValue8" :readonly="true" />
           <p class="input-desc">읽기 전용 상태 (Readonly)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  placeholder="읽기 전용"
+  v-model="inputValue"
+  :readonly="true"
+/&gt;</pre>
+          </div>
         </div>
       </div>
     </section>
@@ -91,22 +150,57 @@
         <div class="input-item">
           <UiInput placeholder="아이콘이 있는 인풋" icon="search" v-model="inputValue9" />
           <p class="input-desc">아이콘이 있는 인풋</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  placeholder="아이콘이 있는 인풋"
+  icon="search"
+  v-model="inputValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="input-item">
           <UiInput placeholder="접두 아이콘" prefixIcon="user" v-model="inputValue10" />
           <p class="input-desc">접두 아이콘 (Prefix Icon)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  placeholder="접두 아이콘"
+  prefixIcon="user"
+  v-model="inputValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="input-item">
           <UiInput placeholder="접미 아이콘" suffixIcon="calendar" v-model="inputValue11" />
           <p class="input-desc">접미 아이콘 (Suffix Icon)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  placeholder="접미 아이콘"
+  suffixIcon="calendar"
+  v-model="inputValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="input-item">
           <UiInput placeholder="금액 입력" suffix="원" v-model="inputValue12" />
           <p class="input-desc">접미사 텍스트 (Suffix)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  placeholder="금액 입력"
+  suffix="원"
+  v-model="inputValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="input-item">
           <UiInput placeholder="도메인 입력" prefix="https://" v-model="inputValue13" />
           <p class="input-desc">접두사 텍스트 (Prefix)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  placeholder="도메인 입력"
+  prefix="https://"
+  v-model="inputValue"
+/&gt;</pre>
+          </div>
         </div>
       </div>
     </section>
@@ -118,18 +212,46 @@
         <div class="input-item">
           <UiInput type="text" placeholder="텍스트 입력" v-model="inputValue14" />
           <p class="input-desc">텍스트 입력 (Text)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  type="text"
+  placeholder="텍스트 입력"
+  v-model="inputValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="input-item">
           <UiInput type="password" placeholder="비밀번호 입력" v-model="inputValue15" />
           <p class="input-desc">비밀번호 입력 (Password)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  type="password"
+  placeholder="비밀번호 입력"
+  v-model="inputValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="input-item">
           <UiInput type="email" placeholder="이메일 입력" v-model="inputValue16" />
           <p class="input-desc">이메일 입력 (Email)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  type="email"
+  placeholder="이메일 입력"
+  v-model="inputValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="input-item">
           <UiInput type="number" placeholder="숫자 입력" v-model="inputValue17" />
           <p class="input-desc">숫자 입력 (Number)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  type="number"
+  placeholder="숫자 입력"
+  v-model="inputValue"
+/&gt;</pre>
+          </div>
         </div>
       </div>
     </section>
@@ -146,6 +268,14 @@
             v-model="inputValue19"
           />
           <p class="input-desc">헬퍼 텍스트가 있는 인풋</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  label="사용자 이름"
+  placeholder="사용자 이름 입력"
+  helperText="영문, 숫자 조합 8-20자"
+  v-model="inputValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="input-item">
           <UiInput
@@ -155,6 +285,14 @@
             v-model="inputValue20"
           />
           <p class="input-desc">필수 입력 필드</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  label="이메일"
+  placeholder="이메일 입력"
+  :required="true"
+  v-model="inputValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="input-item">
           <UiInput
@@ -165,6 +303,15 @@
             v-model="inputValue21"
           />
           <p class="input-desc">필수 입력 + 헬퍼 텍스트</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  label="전화번호"
+  placeholder="전화번호 입력"
+  helperText="'-' 없이 숫자만 입력"
+  :required="true"
+  v-model="inputValue"
+/&gt;</pre>
+          </div>
         </div>
       </div>
     </section>
@@ -176,14 +323,34 @@
         <div class="input-item">
           <UiInput placeholder="기본 너비" v-model="inputValue22" />
           <p class="input-desc">기본 너비</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  placeholder="기본 너비"
+  v-model="inputValue"
+/&gt;</pre>
+          </div>
         </div>
         <div class="input-item">
           <UiInput placeholder="너비 지정" v-model="inputValue23" style="width: 150px" />
           <p class="input-desc">너비 지정 (150px)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  placeholder="너비 지정"
+  v-model="inputValue"
+  style="width: 150px"
+/&gt;</pre>
+          </div>
         </div>
         <div class="input-item">
           <UiInput placeholder="블록 레벨 인풋" v-model="inputValue24" :block="true" />
           <p class="input-desc">블록 레벨 인풋 (Block)</p>
+          <div class="code-example">
+            <pre class="code-block">&lt;UiInput
+  placeholder="블록 레벨 인풋"
+  v-model="inputValue"
+  :block="true"
+/&gt;</pre>
+          </div>
         </div>
       </div>
     </section>
