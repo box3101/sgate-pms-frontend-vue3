@@ -103,21 +103,6 @@ button:focus,
 }
 
 @media screen and (max-width: 768px) {
-  html,
-  body {
-    overflow-x: hidden;
-    overflow-y: auto;
-    height: auto !important;
-    max-height: 100% !important;
-    position: relative !important;
-  }
-
-  .app-layout {
-    height: auto !important;
-    min-height: 100% !important;
-    overflow: hidden !important;
-  }
-
   /* 빈 여백 제거를 위한 추가 스타일 */
   body::after {
     content: '';

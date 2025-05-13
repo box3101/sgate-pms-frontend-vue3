@@ -1089,12 +1089,17 @@
       display: flex;
       align-items: center;
     }
-
-    .title {
+    dsf .title {
       margin: 0 14px;
       font-size: $font-size-xxl;
       font-weight: 700;
       color: #1e2124;
+      flex: none;
+    }
+
+    a {
+      display: inline-block;
+      flex: none;
     }
   }
 

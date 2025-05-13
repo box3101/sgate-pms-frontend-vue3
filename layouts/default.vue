@@ -81,6 +81,7 @@
     padding-left: 95px; /* 사이드바 기본 너비 */
     padding-right: 16px;
     padding-top: 95px; /* 헤더 높이 */
+    padding-bottom: 16px;
     box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
     width: 100%;
     min-width: 1200px;
@@ -88,6 +89,10 @@
     overflow-y: auto;
     overflow-x: auto;
     height: calc(100vh);
+
+    @media screen and (max-width: 1200px) {
+      min-width: auto;
+    }
 
     &.expanded {
       padding-left: 290px; /* 핀 고정 시 사이드바 너비(80px) + 서브메뉴 너비(200px) */

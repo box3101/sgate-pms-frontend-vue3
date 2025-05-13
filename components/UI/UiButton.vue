@@ -98,6 +98,7 @@
       align-items: center;
       justify-content: center;
       gap: 4px;
+      flex: none;
     }
 
     // 크기 변형 - _variables.scss에 정의된 높이 변수 사용
