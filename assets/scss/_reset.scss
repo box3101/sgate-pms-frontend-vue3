@@ -23,9 +23,7 @@ body {
 body {
   font-size: 16px;
   color: #333;
-  min-height: 100%;
   position: relative;
-  overflow: hidden;
 }
 
 button {
@@ -39,15 +37,6 @@ button {
   border: none;
   outline: none;
   flex-shrink: 0;
-}
-
-/* 모바일에서 하단 빈 여백 제거 */
-@media screen and (max-width: 768px) {
-  body {
-    height: auto !important;
-    min-height: 100% !important;
-    overflow-y: auto !important;
-  }
 }
 
 ul,

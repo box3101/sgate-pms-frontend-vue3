@@ -106,9 +106,14 @@
           </div>
           <div class="section-body">
             <UiTable>
+              <template #colgroup>
+                <col style="width: 40px" />
+                <col />
+                <col style="width: 100px" />
+              </template>
               <template #header>
                 <tr>
-                  <th style="width: 40px">
+                  <th>
                     <input
                       type="checkbox"
                       class="checkbox-all"
@@ -117,7 +122,7 @@
                     />
                   </th>
                   <th>등급척도</th>
-                  <th>점수</th>
+                  <th>평가등급점수</th>
                 </tr>
               </template>
               <template #body>
@@ -129,13 +134,7 @@
                     <UiInput v-model="detail.name" size="large" :clearable="true" @click.stop />
                   </td>
                   <td>
-                    <UiInput
-                      v-model="detail.score"
-                      size="large"
-                      type="number"
-                      @click.stop
-                      style="width: 100px"
-                    />
+                    <UiInput v-model="detail.score" size="large" type="number" @click.stop />
                   </td>
                 </tr>
               </template>
@@ -269,7 +268,7 @@
 
   .basic-items-container {
     .basic-items-content {
-      height: calc(100vh - 200px);
+      height: calc(100% - 200px);
     }
     .basic-items-layout {
       display: flex;

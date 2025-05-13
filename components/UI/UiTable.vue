@@ -123,7 +123,7 @@
 
         th,
         td {
-          padding: 0.75rem 1rem;
+          padding: 7px 1rem;
         }
       }
     }

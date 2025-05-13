@@ -90,10 +90,6 @@
     overflow-x: auto;
     height: calc(100vh);
 
-    @media screen and (max-width: 1200px) {
-      min-width: auto;
-    }
-
     &.expanded {
       padding-left: 290px; /* 핀 고정 시 사이드바 너비(80px) + 서브메뉴 너비(200px) */
     }

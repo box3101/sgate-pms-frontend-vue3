@@ -328,7 +328,7 @@
     // 인사 평가
     hrEvaluation: [
       { name: '평가기본설정', path: '/hr-evaluation/basic-items' },
-      { name: '등급배분표', path: '/hr-evaluation/grade-distribution' },
+      { name: '등급배분표관리', path: '/hr-evaluation/grade-distribution' },
       { name: '성과평가항목', path: '/hr-evaluation/performance-items' },
       { name: '역량평가항목', path: '/hr-evaluation/competency-items' },
       { name: '역량사전', path: '/hr-evaluation/competency-dictionary' }
