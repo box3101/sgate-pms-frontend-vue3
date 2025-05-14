@@ -71,71 +71,6 @@
               </button>
               <!-- 플로팅 모드일 때 크기 버튼 추가 -->
               <button
-                v-if="isFloating && !isFullscreen"
-                class="ui-popup__size-btn"
-                :class="{ active: sizeMode === 'half' }"
-                @click="dockToRight('half')"
-                title="넓은 크기 (1/2)"
-              >
-                <!-- 사용자 정의 SVG - 2개로 분할된 화면, 왼쪽만 강조됨 -->
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <rect x="2" y="4" width="9" height="16" fill="currentColor" />
-                  <rect
-                    x="13"
-                    y="4"
-                    width="9"
-                    height="16"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                  />
-                </svg>
-              </button>
-              <button
-                v-if="isFloating && !isFullscreen"
-                class="ui-popup__size-btn"
-                :class="{ active: sizeMode === 'default' }"
-                @click="dockToRight('default')"
-                title="기본 크기 (1/3)"
-              >
-                <!-- 사용자 정의 SVG - 3개로 분할된 화면, 왼쪽만 채워짐, 회색 -->
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="text-gray-400"
-                >
-                  <rect x="2" y="4" width="6" height="16" fill="currentColor" />
-                  <rect
-                    x="10"
-                    y="4"
-                    width="6"
-                    height="16"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                  />
-                  <rect
-                    x="18"
-                    y="4"
-                    width="4"
-                    height="16"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                  />
-                </svg>
-              </button>
-              <!-- 기존 고정 모드일 때 크기 버튼 -->
-              <button
                 v-if="position === 'right' && showSizeButtons && !isFloating"
                 class="ui-popup__size-btn"
                 :class="{ active: sizeMode === 'half' && !isFullscreen }"
@@ -242,6 +177,9 @@
 
   // 플로팅 팝업 카운터 관리 - 전역 상태로 사용하기 위해 기본값을 제공
   const floatingPopupCount = inject('floatingPopupCount', ref(0))
+
+  // 고정 팝업 카운터 관리 - 전역 상태로 사용하기 위해 기본값을 제공
+  const fixedPopupCount = inject('fixedPopupCount', ref(0))
 
   // 현재 팝업이 플로팅 상태인지 추적
   const isThisPopupFloating = ref(false)
@@ -594,7 +532,11 @@
     const newY = e.clientY - startDragY
 
     // 오른쪽 가장자리 근처로 드래그 시 고정 모드로 전환
-    if (newX > screenWidth.value - 700 && props.position === 'right') {
+    if (
+      newX > screenWidth.value - 700 &&
+      props.position === 'right' &&
+      fixedPopupCount.value == 0
+    ) {
       // 플로팅 모드 해제 및 오른쪽 팝업으로 복귀
       isFloating.value = false
       isDragging = false

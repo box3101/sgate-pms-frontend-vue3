@@ -189,7 +189,6 @@
     </UiModal>
 
     <!-- 동적으로 생성되는 모달들 -->
-    <!-- 동적으로 생성되는 모달들 -->
     <template v-for="modal in cardModals" :key="modal.id">
       <UiModal
         v-model="modal.isOpen"
@@ -358,6 +357,11 @@
   // 플로팅 팝업 카운터 - 전역 상태로 관리
   const floatingPopupCount = ref(0)
   provide('floatingPopupCount', floatingPopupCount)
+
+  // 오른쪽 고정 팝업 갯수
+  const fixedPopupCount = ref(0)
+  provide('fixedPopupCount', fixedPopupCount)
+
   // 다중 모달 관리를 위한 배열
   const cardModals = ref([])
 
@@ -964,6 +968,9 @@
       isFloating: false, // 기본적으로 고정 모드로 시작
       zIndex: 1000 + cardModals.value.length // 순차적으로 z-index 증가
     })
+
+    // 플로팅 모드가 있는지 확인
+    fixedPopupCount.value = 1
   }
 
   // 모달 닫기
@@ -977,6 +984,7 @@
       // 모달 제거
       cardModals.value.splice(modalIndex, 1)
     }
+    fixedPopupCount.value = 0
   }
 
   // 모달 플로팅 모드 전환
@@ -987,8 +995,10 @@
       if (cardModals.value[modalIndex].isFloating !== isFloating) {
         if (isFloating) {
           floatingPopupCount.value++
+          fixedPopupCount.value--
         } else {
           floatingPopupCount.value--
+          fixedPopupCount.value++
         }
       }
       cardModals.value[modalIndex].isFloating = isFloating
