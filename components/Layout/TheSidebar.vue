@@ -46,17 +46,8 @@
                   @click.stop="togglePinned"
                   title="사이드바 고정"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    stroke="currentColor"
-                    stroke-width="0"
-                  >
-                    <path d="M16,12V4H17V2H7V4H8V12L6,14V16H11.2V22H12.8V16H18V14L16,12Z" />
-                  </svg>
+                  <i v-if="!isExpanded" class="icon-md icon-pin"></i>
+                  <i v-else class="icon-md icon-pin-pinned"></i>
                 </button>
               </div>
 
@@ -837,13 +828,13 @@
 
   /* 서브메뉴 섹션 스타일 */
   .submenu-sections {
-    padding: 8px; /* 패딩 증가 */
+    padding: 16px 8px;
     margin: 0;
     background-color: #fff;
     position: absolute;
     left: 75px; /* 사이드바 너비와 동일하게 설정 */
     top: -1px; /* 사이드바 컨테이너 상단 기준 */
-    min-width: 200px; /* 너비 증가 */
+    width: 168px; /* 너비 증가 */
     z-index: 100;
     border: 1px solid #eaeaea;
     height: 100vh;
@@ -875,10 +866,6 @@
     justify-content: center;
     width: 30px;
     height: 30px;
-    border-radius: 50%;
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     color: #666;
     transition: all 0.3s;
@@ -887,11 +874,6 @@
       background-color: #e0e0e0;
       color: $primary-color;
       transform: scale(1.05);
-    }
-
-    &.pinned {
-      color: white;
-      background-color: $primary-color;
     }
   }
 
@@ -905,17 +887,13 @@
   }
 
   .submenu-section-title {
-    font-weight: 600; /* 굵기 증가 */
-    color: #333;
-    padding: 8px 10px; /* 패딩 증가 */
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 10px; /* 여백 증가 */
-    font-size: 16px; /* 글자 크기 증가 */
+    @include font-style($body-small-bold);
+    margin-bottom: 8px;
+    color: #8a949e;
   }
 
   .section-indicator {
+    display: none;
     color: $primary-color;
     margin-right: 10px; /* 여백 증가 */
     font-size: 18px; /* 크기 증가 */
@@ -925,7 +903,15 @@
   .nested-submenu {
     list-style-type: none;
     padding: 0;
-    margin: 0 0 0 20px; /* 왼쪽 여백 증가 */
+    margin: 0 0 0 12px; /* 왼쪽 여백 증가 */
+    padding-bottom: 8px;
+    border-bottom: 1px solid #d9d9d9;
+  }
+
+  .submenu-section:last-child {
+    .nested-submenu {
+      border-bottom: none;
+    }
   }
 
   .nested-submenu-item {
@@ -935,30 +921,38 @@
   .nested-submenu-link {
     display: flex;
     align-items: center;
-    padding: 10px 14px; /* 패딩 증가 */
     text-decoration: none;
-    color: #333;
+    color: #464c53;
     white-space: nowrap;
     transition: all 0.2s;
     border-radius: 4px;
+    padding: 4px 8px;
+    margin-bottom: 8px;
+    @include font-style($body-small-bold);
+  }
+
+  .nested-submenu-link:last-child {
+    margin-bottom: 0;
   }
 
   .nested-submenu-link .menu-text {
     font-size: 15px; /* 글자 크기 증가 */
     text-align: left; /* 왼쪽 정렬로 변경 */
     width: auto; /* 자동 너비로 변경 */
-    color: #333; /* 색상 변경 */
+    color: #464c53; /* 색상 변경 */
+    line-height: 140%;
   }
 
   .nested-submenu-bullet {
-    display: inline-block;
+    display: none;
     margin-right: 10px; /* 여백 증가 */
     font-size: 15px; /* 크기 증가 */
     color: $primary-color;
   }
 
   .nested-submenu-link:hover {
-    background-color: #e6f7ff;
+    border-radius: 4px;
+    background: var(--color-primary-10, #cef);
     color: $primary-color;
     font-weight: 500; /* 호버 시 글자 굵기 증가 */
 
