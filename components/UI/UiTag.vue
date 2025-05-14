@@ -91,7 +91,7 @@
 
     &--small {
       padding: 2px 4px;
-      @include font-style($body-xsmall-bold);
+      @include font-style($body-caption-bold);
     }
 
     &--medium {

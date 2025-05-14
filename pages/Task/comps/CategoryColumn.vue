@@ -5,7 +5,7 @@
       <div class="category-actions">
         <UiButton v-if="showAddButton" variant="primary" size="small" @click="$emit('add-board')">
           <i class="icon icon-plus icon-md icon-white"></i>
-          카드
+          업무
         </UiButton>
         <div>
           <button class="category-menu-btn" @click="openCategoryModal">
@@ -22,13 +22,7 @@
             <UiAccordionMenu size="small" :menuItems="menuItems">
               <template #content-1>
                 <UiSelect placeholder="제조공정" />
-                <UiButton
-                  class="mt-5"
-                  variant="secondary"
-                
-                  icon-position="right"
-                  block
-                >
+                <UiButton class="mt-5" variant="secondary" icon-position="right" block>
                   <i class="icon icon-arrow-right icon-md icon-white"></i>
                   이동
                 </UiButton>

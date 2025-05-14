@@ -5,9 +5,14 @@
         <div class="flex gap-5">
           <UiSearchableSelect placeholder="보드를 선택하세요" class="w-200" />
           <div>
-            <UiButton variant="primary" iconOnly @click="openBoardAddModal">
-              <i class="icon icon-plus icon-md icon-white"></i>
-            </UiButton>
+            <UiTooltip position="top">
+              <template #trigger>
+                <UiButton variant="primary" iconOnly @click="openBoardAddModal">
+                  <i class="icon icon-plus icon-md icon-white"></i>
+                </UiButton>
+              </template>
+              <p>보드 추가</p>
+            </UiTooltip>
             <UiFilterModal v-model="isBoardAddModalOpen" title="보드 추가" :showFooter="true">
               <UiFormLayout>
                 <UiFormItem label="보드명">
@@ -23,9 +28,14 @@
           </div>
 
           <div>
-            <UiButton variant="secondary" iconOnly @click="openBoardEditModal">
-              <i class="icon icon-pencil icon-md icon-white"></i>
-            </UiButton>
+            <UiTooltip position="top">
+              <template #trigger>
+                <UiButton variant="secondary" iconOnly @click="openBoardEditModal">
+                  <i class="icon icon-pencil icon-md icon-white"></i>
+                </UiButton>
+              </template>
+              <p>보드 편집</p>
+            </UiTooltip>
             <UiFilterModal v-model="isBoardEditModalOpen" title="보드 편집" :showFooter="true">
               <UiFormLayout>
                 <UiFormItem label="보드명">
@@ -40,9 +50,14 @@
             </UiFilterModal>
           </div>
 
-          <UiButton variant="secondary-line" iconOnly>
-            <i class="icon icon-delete icon-md"></i>
-          </UiButton>
+          <UiTooltip position="top">
+            <template #trigger>
+              <UiButton variant="secondary-line" iconOnly>
+                <i class="icon icon-delete icon-md"></i>
+              </UiButton>
+            </template>
+            <p>보드 삭제</p>
+          </UiTooltip>
         </div>
 
         <div class="flex gap-5">
