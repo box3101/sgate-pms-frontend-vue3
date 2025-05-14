@@ -11,10 +11,20 @@
 
         <!-- 로그인 폼 섹션 -->
         <div class="login-form" :style="{ top: loginFormTop }">
+          <!-- 회사 아이디 입력 -->
+          <UiInput
+            clearable="true"
+            v-model="company"
+            size="xlarge"
+            prefixIcon="account"
+            block
+            placeholder="회사 아이디를 입력하세요"
+          />
           <!-- 아이디 입력 -->
           <UiInput
+            clearable="true"
             v-model="username"
-            size="large"
+            size="xlarge"
             prefixIcon="account"
             block
             placeholder="아이디를 입력하세요"
@@ -22,9 +32,10 @@
 
           <!-- 비밀번호 입력 -->
           <UiInput
+            clearable="true"
             v-model="password"
             type="password"
-            size="large"
+            size="xlarge"
             prefixIcon="lock"
             block
             placeholder="비밀번호를 입력하세요"
@@ -74,36 +85,20 @@
               <span class="notice-date">{{ notice.date }}</span>
             </li>
           </ul>
-          <div class="system-notice">매주 목요일 22:00 ~ 24:00 시스템 점검이 있습니다.</div>
         </div>
 
-        <!-- 업데이트/가이드/공지사항 -->
-        <ul class="bottom-links-wrp flex gap-4">
-          <li>
-            <a href="#" class="bottom-link">
-              <img src="/images/icon-login-patchnote.svg" alt="업데이트 노트" />
-              <span>업데이트 노트</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="bottom-link">
-              <img src="/images/icon-login-guide.svg" alt="사용 가이드" />
-              <span>사용 가이드</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="bottom-link" @click="showNoticeModal = true">
-              <img src="/images/icon-login-notice.svg" alt="공지사항" />
-              <span>공지사항</span>
-            </a>
-          </li>
-        </ul>
-
-        <!-- 푸터 -->
         <div class="login-footer">
           <div class="footer-content">
             <img src="@/assets/images/ispark_logo.svg" alt="ISPARK Logo" />
+            <div class="system-notice">매주 목요일 22:00 ~ 24:00 시스템 점검이 있습니다.</div>
             <a href="#" class="privacy-policy">개인정보처리방침</a>
+
+            <div class="copyright-info">
+              <span class="version-info">
+                <a href="#" @click="showNoticeModal = true">공지사항</a> |
+                <a href="/release-notes">v.1.1.4 릴리즈노트</a>
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -117,10 +112,21 @@
   <UiModal v-model="showModal" title="비밀번호 찾기" size="xmedium" :showFooter="true">
     <div class="modal-content">
       <div class="login-form" :style="{ top: loginFormTop }">
+        <!-- 회사 아이디-->
+        <UiInput
+          clearable="true"
+          v-model="company"
+          size="xlarge"
+          prefixIcon="account"
+          block
+          placeholder="회사 아이디를 입력하세요"
+        />
+
         <!-- 아이디 입력 -->
         <UiInput
+          clearable="true"
           v-model="username"
-          size="large"
+          size="xlarge"
           prefixIcon="account"
           block
           placeholder="아이디를 입력하세요"
@@ -128,9 +134,10 @@
 
         <!-- 이메일 입력 -->
         <UiInput
+          clearable="true"
           v-model="email"
           type="email"
-          size="large"
+          size="xlarge"
           prefixIcon="lock"
           block
           placeholder="이메일을 입력하세요"
@@ -218,6 +225,7 @@
   const doNotShowAgain = ref(false)
 
   // 로그인 관련 상태
+  const company = ref('')
   const username = ref('')
   const password = ref('')
   const email = ref('')
@@ -265,7 +273,6 @@
     .login-container {
       display: flex;
       justify-content: center;
-      align-items: center;
     }
   }
 
@@ -278,17 +285,16 @@
       background: var(--color-gray-0, #fff);
       box-shadow: 8px 8px 16px 0px rgba(0, 0, 0, 0.1);
       overflow: hidden;
+      box-sizing: border-box;
     }
 
     .login-right {
-      width: 592px;
-      height: 100%;
       border-radius: 0 8px 8px 0;
       box-shadow: 8px 8px 16px 0px rgba(0, 0, 0, 0.1);
       overflow: hidden;
 
       img {
-        height: 669.5px;
+        height: 100%;
       }
     }
   }
@@ -415,10 +421,30 @@
     text-align: center;
     font-size: 13px;
     font-weight: 700;
+    margin-top: 27px;
+  }
+
+  .copyright-info {
+    margin-top: 14px;
+    color: var(--color-gray-60, $primary-color);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 18px;
+
+    .version-info {
+      display: flex;
+      gap: 8px;
+    }
+
+    a {
+      color: var(--color-gray-60, $primary-color);
+      text-decoration: underline;
+      text-underline-offset: 5px;
+    }
   }
 
   .login-footer {
-    margin-top: 48px;
+    margin-top: 14px;
 
     .footer-content {
       display: flex;
@@ -433,11 +459,13 @@
   }
 
   .privacy-policy {
-    margin-top: 24px;
+    margin-top: 14px;
     color: var(--color-gray-60, #58616a);
     font-size: 13px;
     font-weight: 700;
     line-height: 18px;
+    text-decoration: underline;
+    text-underline-offset: 5px;
 
     &:hover {
       text-decoration: underline;
@@ -534,53 +562,6 @@
       padding-top: 16px;
       display: flex;
       justify-content: flex-end;
-    }
-  }
-
-  .bottom-links-wrp {
-    display: flex;
-    padding: 8px 16px;
-    justify-content: space-between;
-    align-items: flex-start;
-    border-radius: 8px;
-    border: 1px solid var(--color-gray-20, #cdd1d5);
-
-    li {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
-      a {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 4px;
-
-        &:hover {
-          img {
-            filter: brightness(1.1);
-          }
-          span {
-            color: $primary-color;
-          }
-        }
-
-        img {
-          width: 40px;
-          height: 40px;
-        }
-
-        span {
-          color: var(--color-gray-70, #464c53);
-          text-align: center;
-          font-size: 13px;
-          font-weight: 700;
-          line-height: 150%;
-        }
-      }
     }
   }
 

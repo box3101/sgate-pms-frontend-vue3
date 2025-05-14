@@ -144,7 +144,7 @@
     }
 
     &--xlarge {
-      height: $ui-height-lg; // 40px로 변경
+      height: $ui-height-xlg; // 40px로 변경
       border-radius: 4px;
       padding: 4px 16px;
       justify-content: center;

@@ -397,7 +397,7 @@
     // 크기 변형 - XLarge (40px)
     &--xlarge {
       .ui-input__wrapper {
-        height: $ui-height-lg; // 40px
+        height: $ui-height-xlg; // 40px
         padding: 4px 16px;
         border-radius: 4px;
       }
