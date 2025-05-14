@@ -223,7 +223,7 @@
     transition: all $transition-normal ease;
     box-sizing: border-box;
     height: max-content;
-    
+
     // 값이 입력되었을 때 스타일
     &--selected {
       border: 1px solid $border-color-filled;
@@ -271,7 +271,7 @@
 
     // 플레이스홀더 스타일
     &__placeholder {
-      color: var(--color-gray-30, #B1B8BE);
+      color: var(--color-gray-30, #b1b8be);
       font-family: Pretendard;
       font-size: 16px;
       font-style: normal;
@@ -397,7 +397,7 @@
       .ui-multi-select__header {
         height: $ui-height-md - 2px; // 36px
         padding: 3px 12px;
-        // box-sizing: border-box;
+        box-sizing: border-box;
       }
 
       .ui-multi-select__option {
@@ -436,18 +436,18 @@
         height: $ui-height-lg;
         padding: 3px 12px;
       }
-      
+
       .ui-multi-select__option {
         padding: 6px 12px;
         font-size: $font-size-lg;
       }
-      
+
       .ui-multi-select__placeholder,
       .ui-multi-select__tags-container {
         @include font-style($body-medium);
       }
     }
-    
+
     &--xlarge {
       .ui-multi-select__header {
         height: $ui-height-lg; // 40px

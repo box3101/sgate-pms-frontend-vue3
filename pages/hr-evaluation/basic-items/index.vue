@@ -26,56 +26,77 @@
 
       <div class="basic-items-layout">
         <div class="scale-group-container">
-          <div class="section-header flex items-center justify-between">
-            <h2 class="heading-4">등급척도 그룹</h2>
-            <div class="button-group flex items-center gap-5">
-              <UiButton type="button" variant="secondary-line" icon-only>
-                <i class="icon-md icon-plus"></i>
-              </UiButton>
-              <UiButton type="button" variant="secondary-line" icon-only>
-                <i class="icon-md icon-delete"></i>
-              </UiButton>
-              <UiButton type="button" variant="secondary-line" icon-only>
-                <i class="icon-md icon-sort"></i>
-              </UiButton>
-              <UiButton type="button" variant="primary">저장</UiButton>
-            </div>
-          </div>
           <div class="section-body">
-            <UiTable>
-              <template #header>
+            <UiTable
+              title="등급척도그룹"
+              v-model="tableData"
+              editable
+              hover
+              :default-row-data="{ name: '', job: '', age: 0 }"
+              @save="handleSave"
+            >
+              <template #colgroup>
+                <col style="width: 40px" />
+                <col />
+                <col style="width: 100px" />
+              </template>
+              <template #header="{ selectAll, isAllSelected, sortable }">
                 <tr>
                   <th style="width: 40px">
                     <UiCheckbox
-                      v-model="allScaleGroupsSelected"
-                      @update:modelValue="toggleAllScaleGroups"
+                      :modelValue="isAllSelected"
+                      @update:modelValue="selectAll"
                       size="large"
                     />
                   </th>
-                  <th>등급척도</th>
+                  <th>평가등급</th>
                   <th>평가등급수</th>
                 </tr>
               </template>
-              <template #body>
+              <template
+                #body="{
+                  rows,
+                  toggleRowSelection,
+                  isRowSelected,
+                  handleDragStart,
+                  handleDragOver,
+                  handleDrop,
+                  handleDragEnd,
+                  sortable
+                }"
+              >
                 <tr
-                  v-for="(item, index) in scaleGroups"
-                  :key="index"
-                  @click="selectScaleGroup(item)"
-                  :class="{ selected: selectedScaleGroup && selectedScaleGroup.id === item.id }"
+                  v-for="(item, index) in rows"
+                  :key="item.id"
+                  @click="!sortable && toggleRowSelection(item)"
+                  :class="{
+                    selected: isRowSelected(item),
+                    'sortable-row': sortable
+                  }"
+                  :draggable="sortable"
+                  @dragstart="e => handleDragStart(e, index)"
+                  @dragover="e => handleDragOver(e)"
+                  @drop="e => handleDrop(e, index)"
+                  @dragend="handleDragEnd"
                 >
                   <td>
-                    <UiCheckbox
-                      v-model="item.selected"
-                      @update:modelValue="toggleScaleGroup(item)"
-                      size="large"
-                      @click.stop
-                    />
+                    <div v-if="!sortable" class="row-checkbox">
+                      <UiCheckbox
+                        :modelValue="isRowSelected(item)"
+                        @update:modelValue="toggleRowSelection(item)"
+                        size="large"
+                        @click.stop
+                      />
+                    </div>
+                    <div v-else class="drag-handle">
+                      <i class="icon-md icon-drag"></i>
+                    </div>
                   </td>
-                  <td class="text-center">
-                    <UiInput v-model="item.name" size="large" :clearable="true" @click.stop />
+                  <td>
+                    <UiInput v-model="item.name" size="large" @click.stop />
                   </td>
-                  <td class="grade-count text-center" @click.stop="selectScaleGroup(item)">
-                    {{ item.gradeCount }}
+                  <td>
+                    <UiInput v-model="item.value" type="number" size="large" @click.stop />
                   </td>
                 </tr>
               </template>
@@ -84,51 +105,76 @@
         </div>
 
         <div class="scale-detail-container" v-if="selectedScaleGroup">
-          <div class="section-header flex items-center justify-between">
-            <h2>평가등급 지정</h2>
-            <div class="button-group flex items-center gap-5">
-              <UiButton type="button" variant="secondary-line" icon-only>
-                <i class="icon-md icon-plus"></i>
-              </UiButton>
-              <UiButton type="button" variant="secondary-line" icon-only>
-                <i class="icon-md icon-delete"></i>
-              </UiButton>
-              <UiButton type="button" variant="secondary-line" icon-only>
-                <i class="icon-md icon-sort"></i>
-              </UiButton>
-              <UiButton type="button" variant="primary">저장</UiButton>
-            </div>
-          </div>
           <div class="section-body">
-            <UiTable>
+            <UiTable
+              v-model="tableData"
+              editable
+              hover
+              :default-row-data="{ name: '', job: '', age: 0 }"
+              @save="handleSave"
+            >
               <template #colgroup>
                 <col style="width: 40px" />
                 <col />
                 <col style="width: 100px" />
               </template>
-              <template #header>
+              <template #header="{ selectAll, isAllSelected, sortable }">
                 <tr>
-                  <th>
+                  <th style="width: 40px">
                     <UiCheckbox
-                      v-model="allScaleDetailsSelected"
-                      @update:modelValue="toggleAllScaleDetails"
+                      :modelValue="isAllSelected"
+                      @update:modelValue="selectAll"
                       size="large"
                     />
                   </th>
-                  <th>등급척도</th>
+                  <th>평가등급</th>
                   <th>평가등급점수</th>
                 </tr>
               </template>
-              <template #body>
-                <tr v-for="(detail, index) in selectedScaleGroup.details" :key="index">
+              <template
+                #body="{
+                  rows,
+                  toggleRowSelection,
+                  isRowSelected,
+                  handleDragStart,
+                  handleDragOver,
+                  handleDrop,
+                  handleDragEnd,
+                  sortable
+                }"
+              >
+                <tr
+                  v-for="(item, index) in rows"
+                  :key="item.id"
+                  @click="!sortable && toggleRowSelection(item)"
+                  :class="{
+                    selected: isRowSelected(item),
+                    'sortable-row': sortable
+                  }"
+                  :draggable="sortable"
+                  @dragstart="e => handleDragStart(e, index)"
+                  @dragover="e => handleDragOver(e)"
+                  @drop="e => handleDrop(e, index)"
+                  @dragend="handleDragEnd"
+                >
                   <td>
-                    <UiCheckbox v-model="detail.selected" size="large" @click.stop />
+                    <div v-if="!sortable" class="row-checkbox">
+                      <UiCheckbox
+                        :modelValue="isRowSelected(item)"
+                        @update:modelValue="toggleRowSelection(item)"
+                        size="large"
+                        @click.stop
+                      />
+                    </div>
+                    <div v-else class="drag-handle">
+                      <i class="icon-md icon-drag"></i>
+                    </div>
                   </td>
-                  <td class="text-center">
-                    <UiInput v-model="detail.name" size="large" :clearable="true" @click.stop />
+                  <td>
+                    <UiInput v-model="item.name" size="large" @click.stop />
                   </td>
-                  <td class="text-center">
-                    <UiInput v-model="detail.score" size="large" type="number" @click.stop />
+                  <td>
+                    <UiInput v-model="item.score" type="number" size="large" @click.stop />
                   </td>
                 </tr>
               </template>
@@ -160,6 +206,32 @@
 
   // 원하는 시점에 로고 텍스트 변경
   logoText.value = '평가기본항목관리'
+
+  const tableData = ref([
+    { id: 1, name: '홍길동', score: 100, value: 100 },
+    { id: 2, name: '김철수', score: 80, value: 80 },
+    { id: 3, name: '이영희', score: 60, value: 60 },
+    { id: 4, name: '최민희', score: 40, value: 40 },
+    { id: 5, name: '최민희', score: 20, value: 20 }
+  ])
+
+  const handleSave = data => {
+    console.log('저장된 데이터:', data)
+    // API 호출 등의 저장 로직
+  }
+
+  const handleRowAdded = newRow => {
+    console.log('새 행 추가됨:', newRow)
+  }
+
+  const handleRowDeleted = deletedRows => {
+    console.log('행 삭제됨:', deletedRows)
+  }
+
+  const handleOrderChanged = ({ from, to, rows }) => {
+    console.log(`행 이동: ${from} → ${to}`)
+    console.log('변경된 순서:', rows)
+  }
 
   // 연도 옵션 데이터
   const currentYear = new Date().getFullYear()
