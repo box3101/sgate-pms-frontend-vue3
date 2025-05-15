@@ -96,5 +96,8 @@
     "**/node_modules": true,
     "**/dist": true,
     "**/.nuxt": true
+  },
+  "[snippets]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
   }
 }

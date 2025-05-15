@@ -1,6 +1,5 @@
 <template>
-  <div class="grade-distribution-page container-large">
-    <!-- 헤더 영역 -->
+  <div class="container-large">
     <div class="page-header">
       <div class="header-left">
         <div class="select-group">
@@ -24,7 +23,7 @@
             />
             <div class="button-group ml-4 flex items-center gap-4">
               <UiButton variant="primary" icon-only>
-                <i class="icon-md icon-plus"></i>
+                <i class="icon-md icon-plus icon-white"></i>
               </UiButton>
               <UiButton variant="secondary" icon-only>
                 <i class="icon-md icon-pencil"></i>
@@ -55,163 +54,239 @@
       </div>
     </div>
 
-    <!-- 콘텐츠 영역 -->
-    <div class="page-content">
-      <!-- 왼쪽 섹션 - 등급 관리 -->
-      <div class="content-section left-section">
-        <div class="section-header">
-          <h3 class="heading-4">등급관리</h3>
-          <div class="section-actions">
-            <UiButton variant="primary-line" size="small">
-              <span class="button-text">등급배분표 기준등급추가</span>
-              <i class="icon-md icon-plus icon-primary"></i>
-            </UiButton>
-
-            <UiCheckbox v-model="basicCheckbox" label="구간대 설정" />
-
-            <UiButton variant="primary" size="small">
-              <span class="button-text">저장</span>
-            </UiButton>
-          </div>
-        </div>
-        <div class="section-content">
-          <UiTable striped hover size="medium">
-            <template #header>
-              <tr>
-                <th>등급</th>
-                <th>이상</th>
-                <th>미만</th>
-                <th>환산점수</th>
-                <th>관리</th>
-              </tr>
-            </template>
-            <template #body>
-              <tr v-for="(grade, index) in grades" :key="index">
-                <td class="text-center">{{ grade.name }}</td>
-                <td class="text-center">{{ grade.min }}</td>
-                <td class="text-center">{{ grade.max }}</td>
-                <td class="text-center">{{ grade.score }}</td>
-                <td class="text-center">
-                  <div class="action-buttons">
-                    <UiButton size="small" variant="ghost" icon-only>
-                      <i class="icon-md icon-pencil icon-black"></i>
-                    </UiButton>
-                    <UiButton size="small" variant="ghost" icon-only>
-                      <i class="icon-md icon-delete icon-black"></i>
-                    </UiButton>
-                  </div>
-                </td>
-              </tr>
-            </template>
-          </UiTable>
-        </div>
+    <div class="flex-container">
+      <div class="w-50p-left">
+        <!-- 테이블 제목 테이블 -->
+        <UiTable
+          title="테이블 제목"
+          v-model="tableData"
+          editable
+          :canAddRow="false"
+          hover
+          @save="handleSave"
+        >
+          <template #colgroup>
+            <col style="width: 40px" v-if="useCheckbox" />
+            <!-- 동적 열 너비 설정 -->
+            <col
+              v-for="(column, index) in columns"
+              :key="index"
+              :style="column.width ? `width: ${column.width}` : ''"
+            />
+          </template>
+          <template #header="{ selectAll, isAllSelected, sortable }">
+            <tr>
+              <th style="width: 40px" v-if="useCheckbox">
+                <UiCheckbox
+                  :modelValue="isAllSelected"
+                  @update:modelValue="selectAll"
+                  size="large"
+                />
+              </th>
+              <th v-for="(column, index) in columns" :key="index">{{ column.title }}</th>
+            </tr>
+          </template>
+          <template
+            #body="{
+              rows,
+              toggleRowSelection,
+              isRowSelected,
+              handleDragStart,
+              handleDragOver,
+              handleDrop,
+              handleDragEnd,
+              sortable
+            }"
+          >
+            <tr
+              v-for="(item, index) in rows"
+              :key="item.id"
+              @click="!sortable && toggleRowSelection(item)"
+              :class="{
+                selected: isRowSelected(item),
+                'sortable-row': sortable
+              }"
+              :draggable="sortable"
+              @dragstart="e => handleDragStart(e, index)"
+              @dragover="e => handleDragOver(e)"
+              @drop="e => handleDrop(e, index)"
+              @dragend="handleDragEnd"
+            >
+              <td v-if="useCheckbox">
+                <div v-if="!sortable" class="row-checkbox">
+                  <UiCheckbox
+                    :modelValue="isRowSelected(item)"
+                    @update:modelValue="toggleRowSelection(item)"
+                    size="large"
+                    @click.stop
+                  />
+                </div>
+                <div v-else class="drag-handle">
+                  <i class="icon-md icon-drag"></i>
+                </div>
+              </td>
+              <td
+                v-for="(column, colIndex) in columns"
+                :key="colIndex"
+                :class="column.align ? `text-${column.align}` : ''"
+              >
+                <template v-if="column.editable">
+                  <UiInput v-model="item[column.key]" size="large" @click.stop />
+                </template>
+                <template v-else>
+                  {{ item[column.key] }}
+                </template>
+              </td>
+            </tr>
+          </template>
+        </UiTable>
       </div>
-
-      <!-- 오른쪽 섹션 - 배분표 관리 -->
-      <div class="content-section right-section">
-        <div class="section-header">
-          <h3 class="heading-4">배분표 관리</h3>
-          <div class="section-actions">
-            <UiButton variant="secondary-line">
-              <span class="button-text">엑셀 양식 다운로드</span>
-              <i class="icon-sm icon-excel"></i>
-            </UiButton>
-            <UiButton variant="secondary-line">
-              <span class="button-text">엑셀 업로드</span>
-              <i class="icon-sm icon-excel"></i>
-            </UiButton>
-          </div>
-        </div>
-        <div class="section-content">
-          <UiTable hover size="medium" scrollable :max-height="'500px'">
-            <template #header>
-              <tr>
-                <th>명수</th>
-                <th>S</th>
-                <th>A</th>
-                <th>B</th>
-                <th>C</th>
-                <th>D</th>
-              </tr>
-            </template>
-            <template #body>
-              <tr v-for="(distribution, index) in distributions" :key="index">
-                <td class="text-center">{{ distribution.count }}</td>
-                <td class="text-center">{{ distribution.S }}</td>
-                <td class="text-center">{{ distribution.A }}</td>
-                <td class="text-center">{{ distribution.B }}</td>
-                <td class="text-center">{{ distribution.C }}</td>
-                <td class="text-center">{{ distribution.D }}</td>
-              </tr>
-            </template>
-          </UiTable>
-        </div>
+      <div class="w-50p-right">
+        <!-- 테이블 제목 테이블 -->
+        <UiTable
+          v-model="tableData"
+          editable
+          hover
+          :default-row-data="defaultRowData"
+          @save="handleSave"
+        >
+          <template #colgroup>
+            <col style="width: 40px" v-if="useCheckbox" />
+            <!-- 동적 열 너비 설정 -->
+            <col
+              v-for="(column, index) in columns2"
+              :key="index"
+              :style="column.width ? `width: ${column.width}px` : ''"
+            />
+          </template>
+          <template #header="{ selectAll, isAllSelected, sortable }">
+            <tr>
+              <th style="width: 40px" v-if="useCheckbox">
+                <UiCheckbox
+                  :modelValue="isAllSelected"
+                  @update:modelValue="selectAll"
+                  size="large"
+                />
+              </th>
+              <th v-for="(column, index) in columns2" :key="index">{{ column.title }}</th>
+            </tr>
+          </template>
+          <template
+            #body="{
+              rows,
+              toggleRowSelection,
+              isRowSelected,
+              handleDragStart,
+              handleDragOver,
+              handleDrop,
+              handleDragEnd,
+              sortable
+            }"
+          >
+            <tr
+              v-for="(item, index) in rows"
+              :key="item.id"
+              @click="!sortable && toggleRowSelection(item)"
+              :class="{
+                selected: isRowSelected(item),
+                'sortable-row': sortable
+              }"
+              :draggable="sortable"
+              @dragstart="e => handleDragStart(e, index)"
+              @dragover="e => handleDragOver(e)"
+              @drop="e => handleDrop(e, index)"
+              @dragend="handleDragEnd"
+            >
+              <td v-if="useCheckbox">
+                <div v-if="!sortable" class="row-checkbox">
+                  <UiCheckbox
+                    :modelValue="isRowSelected(item)"
+                    @update:modelValue="toggleRowSelection(item)"
+                    size="large"
+                    @click.stop
+                  />
+                </div>
+                <div v-else class="drag-handle">
+                  <i class="icon-md icon-drag"></i>
+                </div>
+              </td>
+              <td
+                v-for="(column, colIndex) in columns2"
+                :key="colIndex"
+                :class="column.align ? `text-${column.align}` : ''"
+              >
+                <template v-if="column.editable">
+                  <UiInput v-model="item[column.key]" size="large" @click.stop />
+                </template>
+                <template v-else>
+                  {{ item[column.key] }}
+                </template>
+              </td>
+            </tr>
+          </template>
+        </UiTable>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-  /**
-   * 등급 배분 페이지
-   *
-   * 기준년도와 등급배분그룹을 선택하고 등급 관리 및 배분표 관리를 할 수 있는 페이지입니다.
-   * 왼쪽에는 등급 관리 테이블, 오른쪽에는 배분표 관리 테이블이 표시됩니다.
-   */
-
-  import { ref } from 'vue'
-
-  // 기준년도 선택 옵션
-  const yearOptions = [
-    { value: '2023', label: '2023년' },
-    { value: '2024', label: '2024년' },
-    { value: '2025', label: '2025년' }
-  ]
-
-  // 등급배분그룹 선택 옵션
-  const groupOptions = [
-    { value: '2023', label: '2023년' },
-    { value: '2024', label: '2024년' },
-    { value: '2025', label: '2025년' }
-  ]
-
-  // 선택된 값
   const selectedYear = ref('2025')
-  const selectedGroup = ref('2025')
-
-  // 등급 데이터
-  const grades = ref([
-    { name: 'S', min: 95, max: 100, score: 100 },
-    { name: 'A', min: 85, max: 95, score: 90 },
-    { name: 'B', min: 75, max: 85, score: 80 },
-    { name: 'C', min: 65, max: 75, score: 70 },
-    { name: 'D', min: 0, max: 65, score: 60 }
+  const yearOptions = ref([
+    { value: '2025', label: '2025년' },
+    {
+      value: '2024',
+      label: '2024년'
+    },
+    { value: '2023', label: '2023년' }
+  ])
+  const selectedGroup = ref('')
+  const groupOptions = ref([
+    { value: 'group1', label: '등급배분그룹 1' },
+    { value: 'group2', label: '등급배분그룹 2' },
+    { value: 'group3', label: '등급배분그룹 3' }
   ])
 
-  // 배분표 데이터
-  const distributions = ref(
-    Array.from({ length: 30 }, (_, i) => {
-      const count = (i + 1) * 5
-      return {
-        count: count,
-        S: Math.max(1, Math.floor(count * 0.1)),
-        A: Math.max(1, Math.floor(count * 0.2)),
-        B: Math.max(2, Math.floor(count * 0.4)),
-        C: Math.max(1, Math.floor(count * 0.2)),
-        D: Math.max(1, Math.floor(count * 0.1))
-      }
+  // 등급관리 테이블
+  const useCheckbox = ref(true)
+  const columns = ref([
+    { key: 'grade', title: '등급', editable: false, align: 'center', width: '60px' },
+    { key: 'above', title: '이상', editable: true, align: 'center', width: 'auto' },
+    { key: 'below', title: '미만', editable: true, align: 'center', width: 'auto' },
+    { key: 'score', title: '환산점수', editable: true, align: 'center', width: 'auto' }
+  ])
+  const tableData = ref([
+    { id: 1, grade: '5', above: 100, below: 90, score: 5 },
+    { id: 2, grade: '4', above: 89, below: 80, score: 4 },
+    { id: 3, grade: '3', above: 79, below: 70, score: 3 },
+    { id: 4, grade: '2', above: 69, below: 60, score: 2 },
+    { id: 5, grade: '1', above: 59, below: 0, score: 1 }
+  ])
+  const handleSave = data => {
+    console.log('저장된 데이터:', data)
+    // API 호출 등의 저장 로직
+  }
+
+  // 배분표 관리
+  const columns2 = ref([
+    { key: 'name', title: '첫번째 열 제목', editable: false, align: '' },
+    { key: 'value1', title: '두번째 열 제목', editable: false, align: 'center', width: '100px' },
+    { key: 'value2', title: '세번째 열 제목', editable: false, align: 'center', width: '100px' },
+    { key: 'value3', title: '네번째 열 제목', editable: false, align: 'center', width: '100px' },
+    { key: 'value4', title: '다섯번째 열 제목', editable: false, align: 'center', width: '100px' }
+  ])
+
+  const tableData2 = ref([
+    { id: 1, value1: 10, value2: 20, value3: 30, value4: 40, value5: 50 },
+    { id: 2, value1: 30, value2: 40, value3: 50, value4: 60, value5: 70 },
+    { id: 3, value1: 50, value2: 60, value3: 70, value4: 80, value5: 90 }
+  ])
+
+  const defaultRowData = computed(() => {
+    const defaultData = {}
+    columns.value.forEach(column => {
+      defaultData[column.key] = column.key.includes('value') ? 0 : ''
     })
-  )
-
-  // 체크박스 상태
-  const basicCheckbox = ref(false)
-
-  // 기준등급 추가 함수
-  const addGrade = () => {}
-
-  // 등급 수정 함수
-  const editGrade = index => {}
-
-  // 등급 삭제 함수
-  const deleteGrade = index => {}
+    return defaultData
+  })
 </script>

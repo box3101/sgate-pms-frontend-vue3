@@ -18,6 +18,7 @@
       <div v-if="editable" class="table-actions">
         <div class="button-group flex items-center gap-5">
           <UiButton
+            v-if="canAddRow"
             type="button"
             variant="secondary-line"
             icon-only
@@ -193,6 +194,13 @@
     title: {
       type: String,
       default: ''
+    },
+    /**
+     * 행 추가 버튼 표시 여부
+     */
+    canAddRow: {
+      type: Boolean,
+      default: true
     }
   })
 
