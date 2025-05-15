@@ -1,3 +1,33 @@
+// 반응형 레이아웃을 위한 부모 컨테이너 클래스
+.flex-container {
+  display: flex;
+  width: 100%;
+  gap: 16px;
+}
+
+// 왼쪽 50% 너비 클래스
+.w-50p-left {
+  width: 50%;
+  overflow: hidden;
+  min-width: 400px; // 최소 너비 설정
+  padding-right: 8px;
+}
+
+// 오른쪽 50% 너비 클래스
+.w-50p-right {
+  width: 50%;
+  overflow: hidden;
+  min-width: 400px; // 최소 너비 설정
+  padding-left: 8px;
+}
+
+// 기본 50% 너비 클래스
+.w-50p {
+  width: 50%;
+  overflow: hidden;
+  min-width: 400px; // 최소 너비 설정
+}
+
 .w-30p {
   overflow: hidden;
   min-width: 528px; // 최소 너비 설정

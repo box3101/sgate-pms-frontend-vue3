@@ -317,6 +317,22 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M11.2389 7.68782L8.70813 11.1564L4.8439 7.29214L8.31177 4.76065L11.2389 7.68782Z' fill='%23FF3300' stroke='%231E2124' stroke-width='2'/%3E%3Crect x='3.31055' y='6.37979' width='8.92342' height='2.68147' rx='1' transform='rotate(45 3.31055 6.37979)' fill='%23FF3300' stroke='%231E2124' stroke-width='2'/%3E%3Crect x='9.37939' y='1.41421' width='7.36293' height='2.68147' rx='1' transform='rotate(45 9.37939 1.41421)' fill='%23FF3300' stroke='%231E2124' stroke-width='2'/%3E%3Crect x='4.41357' y='11.0344' width='0.780244' height='5.46171' transform='rotate(45 4.41357 11.0344)' stroke='%231E2124' stroke-width='0.780244'/%3E%3C/svg%3E");
 }
 
+// 추가 아이콘 클래스 (이미 아이콘 시스템이 있다면 무시)
+
+.icon-sort-up {
+  @extend .icon;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 15l-6-6-6 6'%3E%3C/path%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.icon-sort-down {
+  @extend .icon;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
 // 아이콘 크기 추가
 .icon-xs {
   width: 12px;
