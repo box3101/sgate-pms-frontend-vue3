@@ -16,6 +16,12 @@
     <div class="section-header flex items-center justify-between">
       <h2 class="heading-4">{{ title }}</h2>
       <div v-if="editable" class="table-actions">
+        <div v-if="gradeRangeControls" class="grade-range-controls flex items-center gap-5 mr-5">
+          <UiButton variant="primary-line" size="medium"> 기준등급 추가 </UiButton>
+          <div>
+            <UiCheckbox label="구간대 설정"></UiCheckbox>
+          </div>
+        </div>
         <div class="button-group flex items-center gap-5">
           <UiButton
             v-if="canAddRow"
@@ -49,6 +55,16 @@
           </UiButton>
           <UiButton type="button" variant="primary" @click="saveChanges">저장</UiButton>
         </div>
+      </div>
+      <div v-if="excelControls" class="excel-controls flex items-center gap-5 mr-5">
+        <UiButton variant="secondary-line" size="medium">
+          <i class="icon-md icon-excel"></i>
+          엑셀 다운로드
+        </UiButton>
+        <UiButton variant="secondary-line" size="medium">
+          <i class="icon-md icon-excel"></i>
+          엑셀 업로드
+        </UiButton>
       </div>
     </div>
 
@@ -177,6 +193,15 @@
       type: Boolean,
       default: false
     },
+
+    /**
+     * 엑셀 컨트롤
+     */
+    excelControls: {
+      type: Boolean,
+      default: false
+    },
+
     /**
      * 새 행 추가 시 기본 행 데이터
      */
@@ -201,6 +226,11 @@
     canAddRow: {
       type: Boolean,
       default: true
+    },
+
+    gradeRangeControls: {
+      type: Boolean,
+      default: false
     }
   })
 
@@ -627,5 +657,11 @@
     border-radius: 4px;
     margin-bottom: 1rem;
     font-size: 0.875rem;
+  }
+  .textUnderLine {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+    color: $primary-color;
   }
 </style>

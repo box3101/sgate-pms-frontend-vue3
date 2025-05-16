@@ -61,8 +61,10 @@
           title="테이블 제목"
           v-model="tableData"
           editable
-          :canAddRow="false"
+          gradeRangeControls
           hover
+          :canAddRow="false"
+          :default-row-data="defaultRowData"
           @save="handleSave"
         >
           <template #colgroup>
@@ -71,7 +73,7 @@
             <col
               v-for="(column, index) in columns"
               :key="index"
-              :style="column.width ? `width: ${column.width}` : ''"
+              :style="column.width ? `width: ${column.width}px` : ''"
             />
           </template>
           <template #header="{ selectAll, isAllSelected, sortable }">
@@ -130,12 +132,7 @@
                 :key="colIndex"
                 :class="column.align ? `text-${column.align}` : ''"
               >
-                <template v-if="column.editable">
-                  <UiInput v-model="item[column.key]" size="large" @click.stop />
-                </template>
-                <template v-else>
-                  {{ item[column.key] }}
-                </template>
+                {{ item[column.key] }}
               </td>
             </tr>
           </template>
@@ -144,51 +141,33 @@
       <div class="w-50p-right">
         <!-- 테이블 제목 테이블 -->
         <UiTable
-          v-model="tableData"
-          editable
+          title="테이블 제목"
+          v-model="tableData2"
+          excelControls
           hover
-          :default-row-data="defaultRowData"
+          :canAddRow="false"
           @save="handleSave"
         >
           <template #colgroup>
-            <col style="width: 40px" v-if="useCheckbox" />
             <!-- 동적 열 너비 설정 -->
             <col
               v-for="(column, index) in columns2"
               :key="index"
-              :style="column.width ? `width: ${column.width}px` : ''"
+              :style="column.width ? `width: {column.width}` : ''"
             />
           </template>
-          <template #header="{ selectAll, isAllSelected, sortable }">
+          <template #header="{ sortable }">
             <tr>
-              <th style="width: 40px" v-if="useCheckbox">
-                <UiCheckbox
-                  :modelValue="isAllSelected"
-                  @update:modelValue="selectAll"
-                  size="large"
-                />
-              </th>
               <th v-for="(column, index) in columns2" :key="index">{{ column.title }}</th>
             </tr>
           </template>
           <template
-            #body="{
-              rows,
-              toggleRowSelection,
-              isRowSelected,
-              handleDragStart,
-              handleDragOver,
-              handleDrop,
-              handleDragEnd,
-              sortable
-            }"
+            #body="{ rows, handleDragStart, handleDragOver, handleDrop, handleDragEnd, sortable }"
           >
             <tr
               v-for="(item, index) in rows"
               :key="item.id"
-              @click="!sortable && toggleRowSelection(item)"
               :class="{
-                selected: isRowSelected(item),
                 'sortable-row': sortable
               }"
               :draggable="sortable"
@@ -197,30 +176,13 @@
               @drop="e => handleDrop(e, index)"
               @dragend="handleDragEnd"
             >
-              <td v-if="useCheckbox">
-                <div v-if="!sortable" class="row-checkbox">
-                  <UiCheckbox
-                    :modelValue="isRowSelected(item)"
-                    @update:modelValue="toggleRowSelection(item)"
-                    size="large"
-                    @click.stop
-                  />
-                </div>
-                <div v-else class="drag-handle">
-                  <i class="icon-md icon-drag"></i>
-                </div>
-              </td>
               <td
                 v-for="(column, colIndex) in columns2"
                 :key="colIndex"
-                :class="column.align ? `text-${column.align}` : ''"
+                :class="column.align ? `text-{column.align}` : ''"
+                class="text-center"
               >
-                <template v-if="column.editable">
-                  <UiInput v-model="item[column.key]" size="large" @click.stop />
-                </template>
-                <template v-else>
-                  {{ item[column.key] }}
-                </template>
+                {{ item[column.key] }}
               </td>
             </tr>
           </template>
@@ -231,56 +193,7 @@
 </template>
 
 <script setup>
-  const selectedYear = ref('2025')
-  const yearOptions = ref([
-    { value: '2025', label: '2025년' },
-    {
-      value: '2024',
-      label: '2024년'
-    },
-    { value: '2023', label: '2023년' }
-  ])
-  const selectedGroup = ref('')
-  const groupOptions = ref([
-    { value: 'group1', label: '등급배분그룹 1' },
-    { value: 'group2', label: '등급배분그룹 2' },
-    { value: 'group3', label: '등급배분그룹 3' }
-  ])
-
-  // 등급관리 테이블
   const useCheckbox = ref(true)
-  const columns = ref([
-    { key: 'grade', title: '등급', editable: false, align: 'center', width: '60px' },
-    { key: 'above', title: '이상', editable: true, align: 'center', width: 'auto' },
-    { key: 'below', title: '미만', editable: true, align: 'center', width: 'auto' },
-    { key: 'score', title: '환산점수', editable: true, align: 'center', width: 'auto' }
-  ])
-  const tableData = ref([
-    { id: 1, grade: '5', above: 100, below: 90, score: 5 },
-    { id: 2, grade: '4', above: 89, below: 80, score: 4 },
-    { id: 3, grade: '3', above: 79, below: 70, score: 3 },
-    { id: 4, grade: '2', above: 69, below: 60, score: 2 },
-    { id: 5, grade: '1', above: 59, below: 0, score: 1 }
-  ])
-  const handleSave = data => {
-    console.log('저장된 데이터:', data)
-    // API 호출 등의 저장 로직
-  }
-
-  // 배분표 관리
-  const columns2 = ref([
-    { key: 'name', title: '첫번째 열 제목', editable: false, align: '' },
-    { key: 'value1', title: '두번째 열 제목', editable: false, align: 'center', width: '100px' },
-    { key: 'value2', title: '세번째 열 제목', editable: false, align: 'center', width: '100px' },
-    { key: 'value3', title: '네번째 열 제목', editable: false, align: 'center', width: '100px' },
-    { key: 'value4', title: '다섯번째 열 제목', editable: false, align: 'center', width: '100px' }
-  ])
-
-  const tableData2 = ref([
-    { id: 1, value1: 10, value2: 20, value3: 30, value4: 40, value5: 50 },
-    { id: 2, value1: 30, value2: 40, value3: 50, value4: 60, value5: 70 },
-    { id: 3, value1: 50, value2: 60, value3: 70, value4: 80, value5: 90 }
-  ])
 
   const defaultRowData = computed(() => {
     const defaultData = {}
@@ -289,4 +202,39 @@
     })
     return defaultData
   })
+
+  // 테이블 데이터
+  const tableData = ref([
+    { id: 1, name: '샘플 데이터 1', value1: 10, value2: 20 },
+    { id: 2, name: '샘플 데이터 2', value1: 30, value2: 40 },
+    { id: 3, name: '샘플 데이터 3', value1: 50, value2: 60 }
+  ])
+
+  // 테이블 열 정의
+  const columns = ref([
+    { key: 'name', title: '첫번째 열 제목', editable: false, align: '' },
+    { key: 'value1', title: '두번째 열 제목', editable: false, align: 'center', width: '100px' },
+    { key: 'value2', title: '세번째 열 제목', editable: false, align: 'center', width: '100px' }
+    // 추가 열은 여기에 정의
+  ])
+
+  const handleSave = data => {
+    console.log('저장된 데이터:', data)
+    // API 호출 등의 저장 로직
+  }
+
+  // 테이블 열 정의
+  const columns2 = ref([
+    { key: 'name', title: '첫번째 열 제목', align: '', width: '' },
+    { key: 'value1', title: '두번째 열 제목', align: 'center', width: '100px' },
+    { key: 'value2', title: '세번째 열 제목', align: 'center', width: '100px' },
+    { key: 'value3', title: '네번째 열 제목', align: 'center', width: '100px' },
+    { key: 'value4', title: '다섯번째 열 제목', align: 'center', width: '100px' }
+  ])
+
+  const tableData2 = ref([
+    { id: 1, name: '샘플 데이터 1', value1: 10, value2: 20, value3: 30, value4: 40 },
+    { id: 2, name: '샘플 데이터 2', value1: 30, value2: 40, value3: 50, value4: 60 },
+    { id: 3, name: '샘플 데이터 3', value1: 50, value2: 60, value3: 70, value4: 80 }
+  ])
 </script>
