@@ -837,7 +837,7 @@
     width: 168px; /* 너비 증가 */
     z-index: 100;
     border: 1px solid #eaeaea;
-    height: 100vh;
+    height: calc(100vh - 96px); /* 헤더 높이(56px)를 뺌 */
     overflow-y: auto; /* 내용이 많을 경우 스크롤 가능하도록 */
     padding-top: 40px; /* 핀 버튼을 위한 상단 여백 */
     box-sizing: content-box;
@@ -926,9 +926,30 @@
     white-space: nowrap;
     transition: all 0.2s;
     border-radius: 4px;
-    padding: 4px 8px;
+    padding: 6px 8px;
     margin-bottom: 8px;
     @include font-style($body-small-bold);
+
+    &.router-link-active {
+      .menu-text {
+        position: relative;
+        color: #00aaff;
+        padding-left: 12px;
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 48%;
+          transform: translateY(-50%);
+          left: 0;
+          width: 8px;
+          height: 8px;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='8' viewBox='0 0 7 8' fill='none'%3E%3Cpath d='M0 1.61803C0 0.874652 0.782313 0.391156 1.44721 0.723607L6.21115 3.10557C6.94819 3.4741 6.94819 4.5259 6.21115 4.89443L1.44721 7.27639C0.782312 7.60884 0 7.12535 0 6.38197V1.61803Z' fill='%2300AAFF'/%3E%3C/svg%3E");
+          background-size: cover;
+          background-position: center;
+        }
+      }
+    }
   }
 
   .nested-submenu-link:last-child {

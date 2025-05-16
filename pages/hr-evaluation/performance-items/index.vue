@@ -57,7 +57,14 @@
     <div class="flex-container">
       <div class="w-50p-left">
         <!-- 테이블 제목 테이블 -->
-        <UiTable title="테이블 제목" v-model="tableData" editable hover>
+        <UiTable
+          title="테이블 제목"
+          v-model="tableData"
+          editable
+          hover
+          :default-row-data="{ name: '', name2: '', gradeCount: 5 }"
+          @save="handleSave"
+        >
           <template #colgroup>
             <col style="width: 40px" />
             <template
@@ -69,7 +76,7 @@
             </template>
             <col style="width: 150px" />
           </template>
-          <template #header="{ selectAll, isAllSelected }">
+          <template #header="{ selectAll, isAllSelected, sortable }">
             <tr>
               <th style="width: 40px">
                 <UiCheckbox size="large" :checked="isAllSelected" @update:checked="selectAll" />
@@ -85,16 +92,41 @@
             </tr>
           </template>
           <template
-            #body="{ rows, selectedRows, toggleRowSelection, isRowSelected, sortable, editable }"
+            #body="{
+              rows,
+              toggleRowSelection,
+              isRowSelected,
+              handleDragStart,
+              handleDragOver,
+              handleDrop,
+              handleDragEnd,
+              sortable,
+              editable
+            }"
           >
-            <tr v-for="(item, index) in rows" :key="item.id">
+            <tr
+              v-for="(item, index) in rows"
+              :key="item.id"
+              :class="{
+                'sortable-row': sortable,
+                selected: isRowSelected(item)
+              }"
+              :draggable="sortable"
+              @dragstart="e => handleDragStart(e, index)"
+              @dragover="e => handleDragOver(e)"
+              @drop="e => handleDrop(e, index)"
+              @dragend="handleDragEnd"
+            >
               <td>
-                <div class="row-checkbox">
+                <div v-if="!sortable" class="row-checkbox">
                   <UiCheckbox
                     size="large"
                     :checked="isRowSelected(item)"
                     @update:checked="() => toggleRowSelection(item)"
                   />
+                </div>
+                <div v-else class="drag-handle">
+                  <i class="icon-md icon-drag"></i>
                 </div>
               </td>
               <template
@@ -103,12 +135,16 @@
                 )"
               >
                 <td>
-                  <UiInput v-if="editable" v-model="item[field]" size="large" />
+                  <UiInput v-if="editable && !sortable" v-model="item[field]" size="large" />
                   <span v-else>{{ item[field] }}</span>
                 </td>
               </template>
               <td class="text-center">
-                <button class="textUnderLine" @click="handleButtonClick(item, index)">
+                <button
+                  class="textUnderLine"
+                  @click="handleButtonClick(item, index)"
+                  :disabled="sortable"
+                >
                   {{ item.gradeCount }}
                 </button>
               </td>
@@ -117,11 +153,19 @@
         </UiTable>
       </div>
       <div class="w-50p-right">
-        <UiTable title="테이블 제목" v-model="tableData2" editable hover>
+        <!-- 테이블 제목 테이블 -->
+        <UiTable
+          title="테이블 제목"
+          v-model="tableData"
+          editable
+          hover
+          :default-row-data="{ name: '', name2: '', gradeCount: 5 }"
+          @save="handleSave"
+        >
           <template #colgroup>
             <col style="width: 40px" />
             <template
-              v-for="field in Object.keys(tableData2[0]).filter(
+              v-for="field in Object.keys(tableData[0]).filter(
                 key => key !== 'id' && key !== 'gradeCount'
               )"
             >
@@ -129,13 +173,13 @@
             </template>
             <col style="width: 150px" />
           </template>
-          <template #header="{ selectAll, isAllSelected }">
+          <template #header="{ selectAll, isAllSelected, sortable }">
             <tr>
               <th style="width: 40px">
                 <UiCheckbox size="large" :checked="isAllSelected" @update:checked="selectAll" />
               </th>
               <template
-                v-for="field in Object.keys(tableData2[0]).filter(
+                v-for="field in Object.keys(tableData[0]).filter(
                   key => key !== 'id' && key !== 'gradeCount'
                 )"
               >
@@ -145,16 +189,41 @@
             </tr>
           </template>
           <template
-            #body="{ rows, selectedRows, toggleRowSelection, isRowSelected, sortable, editable }"
+            #body="{
+              rows,
+              toggleRowSelection,
+              isRowSelected,
+              handleDragStart,
+              handleDragOver,
+              handleDrop,
+              handleDragEnd,
+              sortable,
+              editable
+            }"
           >
-            <tr v-for="(item, index) in rows" :key="item.id">
+            <tr
+              v-for="(item, index) in rows"
+              :key="item.id"
+              :class="{
+                'sortable-row': sortable,
+                selected: isRowSelected(item)
+              }"
+              :draggable="sortable"
+              @dragstart="e => handleDragStart(e, index)"
+              @dragover="e => handleDragOver(e)"
+              @drop="e => handleDrop(e, index)"
+              @dragend="handleDragEnd"
+            >
               <td>
-                <div class="row-checkbox">
+                <div v-if="!sortable" class="row-checkbox">
                   <UiCheckbox
                     size="large"
                     :checked="isRowSelected(item)"
                     @update:checked="() => toggleRowSelection(item)"
                   />
+                </div>
+                <div v-else class="drag-handle">
+                  <i class="icon-md icon-drag"></i>
                 </div>
               </td>
               <template
@@ -163,12 +232,16 @@
                 )"
               >
                 <td>
-                  <UiInput v-if="editable" v-model="item[field]" size="large" />
+                  <UiInput v-if="editable && !sortable" v-model="item[field]" size="large" />
                   <span v-else>{{ item[field] }}</span>
                 </td>
               </template>
               <td class="text-center">
-                <button class="textUnderLine" @click="handleButtonClick(item, index)">
+                <button
+                  class="textUnderLine"
+                  @click="handleButtonClick(item, index)"
+                  :disabled="sortable"
+                >
                   {{ item.gradeCount }}
                 </button>
               </td>
