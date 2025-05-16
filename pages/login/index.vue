@@ -203,6 +203,16 @@
     layout: false
   })
 
+  // 로그인 페이지에만 모바일 친화적인 viewport 설정 적용
+  useHead({
+    meta: [
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+      }
+    ]
+  })
+
   // 공지사항
   const notices = ref([{ title: '시스템 업데이트 안내', date: '2025.03.31' }])
   const selectedNotice = ref({
@@ -259,15 +269,16 @@
   }
 </script>
 <style scoped lang="scss">
-  @use 'sass:color';
-
+  html {
+    font-size: 16px;
+  }
   .login-page {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     background-color: #f5f5f5;
-    padding: 15px;
+    padding: 0.9375rem;
     overflow-y: hidden;
 
     .login-container {
@@ -278,19 +289,19 @@
 
   .login-container {
     .login-left {
-      padding: 24px 40px;
-      padding-bottom: 60px;
-      width: 428px;
-      border-radius: 8px 0 0 8px;
+      padding: 1.5rem 2.5rem;
+      padding-bottom: 3.75rem;
+      width: 26.75rem;
+      border-radius: 0.5rem 0 0 0.5rem;
       background: var(--color-gray-0, #fff);
-      box-shadow: 8px 8px 16px 0px rgba(0, 0, 0, 0.1);
+      box-shadow: 0.5rem 0.5rem 1rem 0px rgba(0, 0, 0, 0.1);
       overflow: hidden;
       box-sizing: border-box;
     }
 
     .login-right {
-      border-radius: 0 8px 8px 0;
-      box-shadow: 8px 8px 16px 0px rgba(0, 0, 0, 0.1);
+      border-radius: 0 0.5rem 0.5rem 0;
+      box-shadow: 0.5rem 0.5rem 1rem 0px rgba(0, 0, 0, 0.1);
       overflow: hidden;
 
       img {
@@ -301,7 +312,7 @@
 
   .login-logo {
     text-align: center;
-    padding: 24px;
+    padding: 1.5rem;
 
     h1 {
       display: flex;
@@ -311,18 +322,18 @@
 
       img {
         display: inline-block;
-        height: 50px;
-        margin-bottom: 5px;
+        height: 3.125rem;
+        margin-bottom: 0.3125rem;
       }
     }
   }
 
   .login-form {
-    padding: 15px 0px;
+    padding: 0.9375rem 0;
     padding-top: 0;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0.5rem;
     transition: all 0.3s ease;
   }
 
@@ -330,8 +341,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 8px;
-    font-size: 14px;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
   }
 
   .remember-me {
@@ -340,12 +351,15 @@
   }
 
   .forgot-password {
+    position: relative;
+    top: -1px;
     display: flex;
     align-items: center;
-    color: var(--color-primary-50, #0af);
-    font-size: 13px;
-    font-weight: 700;
-    line-height: 150%;
+    span {
+      display: inline-block;
+      @include font-style($body-small-bold);
+      color: $primary-50;
+    }
   }
 
   .forgot-password:hover {
@@ -354,16 +368,16 @@
 
   .login-button {
     width: 100%;
-    padding: 12px 16px;
+    padding: 0.75rem 1rem;
     background-color: $primary-color;
     color: white;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 500;
     border: none;
-    border-radius: 6px;
+    border-radius: 0.375rem;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    margin-top: 5px;
+    margin-top: 0.3125rem;
 
     &:hover {
       background-color: #1765cc;
@@ -371,18 +385,18 @@
   }
 
   .divider {
-    height: 1px;
+    height: 0.0625rem;
     background: var(--color-gray-30, #b1b8be);
   }
 
   .notice-section {
-    padding: 15px 0px;
+    padding: 0.9375rem 0;
   }
 
   .notice-list {
     list-style: none;
     padding: 0;
-    margin: 0 0 16px 0;
+    margin: 0 0 1rem 0;
   }
 
   .notice-item {
@@ -392,7 +406,7 @@
 
   .notice-title {
     color: var(--color-primary-50, #0af);
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 700;
     line-height: 140%;
 
@@ -403,48 +417,48 @@
 
   .notice-date {
     color: var(--color-gray-30, #b1b8be);
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 400;
     line-height: 150%;
   }
 
   .system-notice {
     display: flex;
-    padding: 5px 0px;
+    padding: 0.3125rem 0;
     justify-content: center;
     align-items: center;
-    gap: 8px;
+    gap: 0.5rem;
     align-self: stretch;
-    border-radius: 4px;
+    border-radius: 0.25rem;
     background: var(--color-system-y10, #ffeacc);
     color: var(--color-system-y30, #ff9500);
     text-align: center;
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 700;
-    margin-top: 27px;
+    margin-top: 1.6875rem;
   }
 
   .copyright-info {
-    margin-top: 14px;
+    margin-top: 0.875rem;
     color: var(--color-gray-60, $primary-color);
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 700;
-    line-height: 18px;
+    line-height: 1.125rem;
 
     .version-info {
       display: flex;
-      gap: 8px;
+      gap: 0.5rem;
     }
 
     a {
       color: var(--color-gray-60, $primary-color);
       text-decoration: underline;
-      text-underline-offset: 5px;
+      text-underline-offset: 0.3125rem;
     }
   }
 
   .login-footer {
-    margin-top: 14px;
+    margin-top: 0.875rem;
 
     .footer-content {
       display: flex;
@@ -453,19 +467,17 @@
       align-items: center;
 
       img {
-        height: 35px;
+        height: 2.1875rem;
       }
     }
   }
 
   .privacy-policy {
-    margin-top: 14px;
+    margin-top: 0.875rem;
     color: var(--color-gray-60, #58616a);
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 700;
-    line-height: 18px;
-    text-decoration: underline;
-    text-underline-offset: 5px;
+    line-height: 1.125rem;
 
     &:hover {
       text-decoration: underline;
@@ -473,63 +485,63 @@
   }
 
   .modal-content .login-form {
-    padding: 10px;
+    padding: 0.625rem;
   }
 
   .error-message {
     display: flex;
     align-items: center;
     color: $system-blue;
-    font-size: 13px;
-    margin-top: 12px;
-    margin-right: 10px;
-    margin-left: 10px;
-    padding: 8px 12px;
+    font-size: 0.8125rem;
+    margin-top: 0.75rem;
+    margin-right: 0.625rem;
+    margin-left: 0.625rem;
+    padding: 0.5rem 0.75rem;
     background-color: rgba($system-blue, 0.1);
-    border-radius: 4px;
-    border-left: 3px solid $system-blue;
+    border-radius: 0.25rem;
+    border-left: 0.1875rem solid $system-blue;
   }
 
   .notice-modal-content {
-    padding: 20px;
+    padding: 1.25rem;
 
     .notice-header {
-      margin-bottom: 16px;
-      border-bottom: 1px solid #e8eaed;
-      padding-bottom: 12px;
+      margin-bottom: 1rem;
+      border-bottom: 0.0625rem solid #e8eaed;
+      padding-bottom: 0.75rem;
 
       .notice-title {
-        font-size: 24px;
+        font-size: 1.5rem;
         font-weight: 600;
         color: #202124;
       }
 
       .notice-date {
-        font-size: 14px;
+        font-size: 0.875rem;
         color: #5f6368;
       }
     }
 
     .notice-body {
-      margin-bottom: 20px;
+      margin-bottom: 1.25rem;
 
       .notice-text {
         font-size: $font-size-md;
         line-height: 1.5;
         color: #202124;
         white-space: pre-line;
-        margin-bottom: 16px;
+        margin-bottom: 1rem;
       }
 
       .notice-attachments {
         background-color: #f8fafc;
-        border-radius: 6px;
-        padding: 12px 16px;
+        border-radius: 0.375rem;
+        padding: 0.75rem 1rem;
 
         h4 {
           font-size: $font-size-md;
           font-weight: 600;
-          margin-bottom: 8px;
+          margin-bottom: 0.5rem;
           color: #202124;
         }
 
@@ -540,7 +552,7 @@
         }
 
         li {
-          padding: 6px 0;
+          padding: 0.375rem 0;
 
           a {
             display: flex;
@@ -558,22 +570,95 @@
     }
 
     .notice-footer {
-      border-top: 1px solid #e8eaed;
-      padding-top: 16px;
+      border-top: 0.0625rem solid #e8eaed;
+      padding-top: 1rem;
       display: flex;
       justify-content: flex-end;
     }
   }
 
   :deep(.ui-input__label) {
-    font-size: $font-size-md !important;
-    font-weight: 600;
+    @include font-style($body-small-bold);
+    color: $gray-30;
   }
 
   :deep(.ui-checkbox__label) {
-    color: var(--color-gray-30, #b1b8be);
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 140%; /* 19.6px */
+    @include font-style($body-small-bold);
+    color: $gray-30;
+  }
+
+  // 모바일 반응형 스타일 추가
+  @media (max-width: 768px) {
+    .login-page {
+      padding: 0.625rem;
+      overflow-y: auto;
+    }
+
+    .login-container {
+      flex-direction: column;
+      width: 100%;
+      max-width: 100%;
+
+      .login-left {
+        width: 100%;
+        min-width: unset;
+        border-radius: 0.5rem;
+        padding: 1.25rem;
+        box-sizing: border-box;
+      }
+
+      .login-right {
+        display: none; // 모바일에서는 이미지 숨김
+      }
+    }
+
+    .login-logo {
+      padding: 0.9375rem;
+
+      h1 img {
+        height: 2.5rem;
+      }
+    }
+
+    .login-form {
+      padding: 0.625rem 0;
+    }
+
+    .login-options {
+      flex-wrap: wrap;
+    }
+
+    .remember-me {
+      width: 100%;
+    }
+  }
+
+  // 더 작은 모바일 화면용 (iPhone SE 등)
+  @media (max-width: 480px) {
+    .login-container .login-left {
+      padding: 0.9375rem;
+    }
+
+    .login-logo {
+      padding: 0.625rem;
+    }
+
+    .login-options {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .login-form {
+      gap: 0.625rem;
+    }
+
+    .notice-section {
+      padding: 0.625rem 0;
+    }
+
+    .login-footer {
+      margin-top: 0.625rem;
+    }
   }
 </style>

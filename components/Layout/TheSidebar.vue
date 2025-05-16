@@ -928,7 +928,6 @@
     border-radius: 4px;
     padding: 6px 8px;
     margin-bottom: 8px;
-    @include font-style($body-small-bold);
 
     &.router-link-active {
       .menu-text {
@@ -957,11 +956,9 @@
   }
 
   .nested-submenu-link .menu-text {
-    font-size: 15px; /* 글자 크기 증가 */
-    text-align: left; /* 왼쪽 정렬로 변경 */
-    width: auto; /* 자동 너비로 변경 */
-    color: #464c53; /* 색상 변경 */
-    line-height: 140%;
+    @include font-style($body-small-bold);
+    color: $gray-70;
+    width: auto;
   }
 
   .nested-submenu-bullet {

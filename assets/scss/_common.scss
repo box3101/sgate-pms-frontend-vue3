@@ -144,6 +144,7 @@ button:focus,
   /* 페이지 끝에 도달했을 때 여백 제거 */
   html {
     overflow-y: auto !important;
+    font-size: 15px !important;
   }
 
   /* 모든 컨테이너 요소의 높이 제한 */

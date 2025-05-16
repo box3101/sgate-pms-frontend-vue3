@@ -185,14 +185,14 @@ $body-medium-bold: (
 // Body Large
 $body-large: (
   'font-family': $font-family,
-  'font-size': 16px,
+  'font-size': 18px,
   'font-weight': 400,
   'line-height': 150%
 );
 
 $body-large-bold: (
   'font-family': $font-family,
-  'font-size': 16px,
+  'font-size': 18px,
   'font-weight': 700,
   'line-height': 150%
 );
@@ -208,14 +208,6 @@ $body-xlarge: (
 $body-xlarge-bold: (
   'font-family': $font-family,
   'font-size': 20px,
-  'font-weight': 700,
-  'line-height': 150%
-);
-
-// 폰트 스타일 - Head
-$head-xxsmall: (
-  'font-family': $font-family,
-  'font-size': 16px,
   'font-weight': 700,
   'line-height': 150%
 );
@@ -293,3 +285,27 @@ $transition-slow: 0.3s;
   font-weight: map.get($heading-map, 'font-weight');
   line-height: map.get($heading-map, 'line-height');
 }
+
+// gray 색상
+$gray-5: #f4f5f6; // color/gray/5
+$gray-10: #e6e8ea; // 추가값
+$gray-20: #cdd1d5; // color/gray/20
+$gray-30: #b1b8be; // color/gray/30
+$gray-40: #8a949e; // color/gray/40
+$gray-50: #6d7882; // color/gray/50
+$gray-60: #58616a; // color/gray/60
+$gray-70: #464c53; // color/gray/70
+$gray-80: #33363d; // color/gray/80
+
+// Primary color variables
+$primary-5: #e5f6ff; // color/primary/5
+$primary-10: #cceeff; // color/primary/10
+$primary-20: #99ddff; // color/primary/20
+$primary-30: #66ccff; // color/primary/30
+$primary-40: #33bbff; // color/primary/40
+$primary-50: #00aaff; // color/primary/50
+$primary-60: #0088cc; // color/primary/60
+$primary-70: #006699; // color/primary/70
+$primary-80: #004466; // color/primary/80
+$primary-90: #002233; // color/primary/90
+$primary-95: #00111a; // color/primary/95
