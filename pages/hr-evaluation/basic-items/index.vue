@@ -121,6 +121,7 @@
                   v-if="column.editable"
                   v-model="item[column.key]"
                   size="large"
+                  :placeholder="column.placeholder || '값을 입력해주세요'"
                   @click.stop
                 />
                 <template v-else-if="column.key === 'gradeCount'">
@@ -226,10 +227,21 @@
                 :class="column.align ? `text-${column.align}` : ''"
               >
                 <!-- 입력 필드 또는 텍스트 값 조건부 렌더링 -->
+                <!-- 숫자 타입 입력 필드 -->
                 <UiInput
-                  v-if="column.editable"
+                  v-if="column.editable && column.type === 'number'"
+                  v-model.number="item[column.key]"
+                  type="number"
+                  size="large"
+                  :placeholder="column.placeholder"
+                  @click.stop
+                />
+                <!-- 일반 텍스트 입력 필드 -->
+                <UiInput
+                  v-else-if="column.editable"
                   v-model="item[column.key]"
                   size="large"
+                  :placeholder="column.placeholder"
                   @click.stop
                 />
                 <template v-else>
@@ -265,7 +277,14 @@
 
   // 테이블 열 정의
   const columnsCheckboxDynamic = ref([
-    { key: 'name', title: '등급척도', editable: true, align: '', width: '' },
+    {
+      key: 'name',
+      title: '등급척도',
+      editable: true,
+      align: '',
+      width: '',
+      placeholder: '등급척도를 입력해주세요'
+    },
     { key: 'gradeCount', title: '평가등급수', editable: false, align: 'center', width: '50px' }
   ])
 
@@ -283,20 +302,33 @@
 
   // 테이블 열 정의
   const columnsDynamic = ref([
-    { key: 'name', title: '첫번째 열', editable: true, align: '', width: '' },
-    { key: 'value1', title: '두번째 열', editable: true, align: 'center', width: '100px' },
-    { key: 'value2', title: '세번째 열', editable: true, align: 'center', width: '100px' }
+    {
+      key: 'name',
+      title: '평가등급',
+      editable: true,
+      align: '',
+      width: '',
+      placeholder: '평가등급'
+    },
+    {
+      key: 'value1',
+      title: '평가등급점수',
+      editable: true,
+      align: 'center',
+      width: '150px',
+      type: 'number',
+      placeholder: '평가등급점수'
+    }
   ])
 
   // 테이블 데이터
   const tableDataDynamic = ref([
-    { id: 1, name: '샘플 데이터 1', value1: 10, value2: 20 },
-    { id: 2, name: '샘플 데이터 2', value1: 30, value2: 40 },
-    { id: 3, name: '샘플 데이터 3', value1: 50, value2: 60 }
+    { id: 1, name: '샘플 데이터 1', value1: 10 },
+    { id: 2, name: '샘플 데이터 2', value1: 30 }
   ])
 
   // 기본 행 데이터
-  const defaultRowDataDynamic = { name: '', value1: 0, value2: 0 }
+  const defaultRowDataDynamic = { name: '', value1: '' }
 
   // 저장 핸들러
   const handleSaveDynamic = data => {
