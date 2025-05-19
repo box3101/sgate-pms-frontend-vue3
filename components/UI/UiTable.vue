@@ -60,11 +60,11 @@
       <div v-if="excelControls" class="excel-controls flex items-center gap-5 mr-5">
         <UiButton variant="secondary-line" size="medium">
           <i class="icon-md icon-excel"></i>
-          엑셀 다운로드
+          {{ excelDownloadLabel }}
         </UiButton>
         <UiButton variant="secondary-line" size="medium">
           <i class="icon-md icon-excel"></i>
-          엑셀 업로드
+          {{ excelUploadLabel }}
         </UiButton>
       </div>
     </div>
@@ -201,6 +201,16 @@
     excelControls: {
       type: Boolean,
       default: false
+    },
+
+    excelDownloadLabel: {
+      type: String,
+      default: '엑셀 다운로드'
+    },
+
+    excelUploadLabel: {
+      type: String,
+      default: '엑셀 업로드'
     },
 
     /**
