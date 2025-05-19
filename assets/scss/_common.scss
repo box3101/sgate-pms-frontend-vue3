@@ -8,7 +8,6 @@
 .w-50p-left {
   width: 50%;
   overflow: hidden;
-  min-width: 400px; // 최소 너비 설정
   padding-right: 8px;
 }
 
@@ -16,7 +15,6 @@
 .w-50p-right {
   width: 50%;
   overflow: hidden;
-  min-width: 400px; // 최소 너비 설정
   padding-left: 8px;
 }
 
@@ -24,47 +22,46 @@
 .w-50p {
   width: 50%;
   overflow: hidden;
-  min-width: 400px; // 최소 너비 설정
 }
 
 .w-30p {
+  width: 30%;
   overflow: hidden;
-  min-width: 528px; // 최소 너비 설정
 }
 
 .w-70p {
+  width: 70%;
   overflow: hidden;
-  min-width: 1233px; // 최소 너비 설정
 }
 
 .w-19p {
+  width: 19%;
   overflow: hidden;
-  min-width: 320px; // 최소 너비 설정
 }
 
 .w-20p {
+  width: 20%;
   overflow: hidden;
-  min-width: 416px; // 최소 너비 설정
 }
 
 .w-80p {
+  width: 80%;
   overflow: hidden;
-  min-width: 1152px; // 최소 너비 설정
 }
 
 .w-100p {
+  width: 100%;
   overflow: hidden;
-  min-width: 1280px; // 최소 너비 설정
 }
 
 .w-15p {
+  width: 15%;
   overflow: hidden;
-  min-width: 256px; // 최소 너비 설정
 }
 
 .w-85p {
+  width: 85%;
   overflow: hidden;
-  min-width: 1104px; // 최소 너비 설정
 }
 
 .is-border {

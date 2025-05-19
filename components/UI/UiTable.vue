@@ -87,6 +87,7 @@
           :is-all-selected="isAllSelected"
           :editable="editable"
           :sortable="sortable"
+          :showEditButton="showEditButton"
         ></slot>
       </thead>
       <tbody v-if="$slots.body">
@@ -102,6 +103,7 @@
           :handle-drag-end="handleDragEnd"
           :sortable="sortable"
           :editable="editable"
+          :showEditButton="showEditButton"
         ></slot>
       </tbody>
       <tfoot v-if="$slots.footer">
@@ -119,7 +121,8 @@
     'save',
     'row-added',
     'row-deleted',
-    'order-changed'
+    'order-changed',
+    'edit-row' // 행 수정 이벤트 추가
   ])
 
   const props = defineProps({
@@ -240,6 +243,12 @@
     },
 
     gradeRangeControls: {
+      type: Boolean,
+      default: false
+    },
+
+    //  수정 버튼을 마지막 열에 추가하는 기능
+    showEditButton: {
       type: Boolean,
       default: false
     }
@@ -410,6 +419,14 @@
   const saveChanges = () => {
     emit('save', props.modelValue)
     sortable.value = false
+  }
+
+  /**
+   * 행 수정 이벤트 발생
+   * @param {Object} row - 수정할 행 데이터
+   */
+  const editRow = row => {
+    emit('edit-row', row)
   }
 
   // 모델 값이 변경될 때 선택된 행 초기화
