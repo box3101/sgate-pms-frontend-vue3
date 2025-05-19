@@ -14,14 +14,15 @@
     :style="scrollable ? { maxHeight: maxHeight } : {}"
   >
     <div class="section-header flex items-center justify-between">
-      <h2 class="heading-4">{{ title }}</h2>
-      <div v-if="editable" class="table-actions">
+      <div class="flex items-center gap-10">
+        <h2 class="heading-4">{{ title }}</h2>
         <div v-if="gradeRangeControls" class="grade-range-controls flex items-center gap-5 mr-5">
-          <UiButton variant="primary-line" size="medium"> 기준등급 추가 </UiButton>
           <div>
             <UiCheckbox label="구간대 설정"></UiCheckbox>
           </div>
         </div>
+      </div>
+      <div v-if="editable" class="table-actions">
         <div class="button-group flex items-center gap-5">
           <UiButton
             v-if="canAddRow"
