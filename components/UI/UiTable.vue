@@ -289,10 +289,10 @@
    * 새 행 추가
    */
   const addRow = () => {
-    // 고유 ID 생성 (실제 구현에서는 더 강력한 방법이 필요할 수 있음)
     const newId = Date.now()
     const newRow = {
       id: newId,
+      gradeCount: 0,
       ...props.defaultRowData
     }
 
@@ -661,6 +661,6 @@
     text-decoration: underline;
     text-underline-offset: 2px;
     cursor: pointer;
-    color: $primary-color;
+    color: $primary-color !important;
   }
 </style>

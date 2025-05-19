@@ -38,126 +38,39 @@
       <div class="w-50p-left">
         <!-- 테이블 제목 테이블 -->
         <UiTable
-          v-model="tableData"
+          title="등급척도 그룹"
+          v-model="tableDataCheckboxDynamic"
           editable
           hover
-          :default-row-data="{ name: '', name2: '', gradeCount: 5 }"
+          :canAddRow="true"
+          :default-row-data="defaultRowData"
           @save="handleSave"
         >
           <template #colgroup>
-            <col style="width: 40px" />
-            <template
-              v-for="field in Object.keys(tableData[0]).filter(
-                key => key !== 'id' && key !== 'gradeCount'
-              )"
-            >
-              <col />
-            </template>
-            <col style="width: 150px" />
+            <col style="width: 40px" v-if="useCheckbox" />
+            <!-- 동적 열 너비 설정 -->
+            <col
+              v-for="(column, index) in columnsCheckboxDynamic"
+              :key="index"
+              :style="column.width ? `width: ${column.width}` : ''"
+            />
           </template>
+
           <template #header="{ selectAll, isAllSelected, sortable }">
             <tr>
-              <th style="width: 40px">
-                <UiCheckbox size="large" :checked="isAllSelected" @update:checked="selectAll" />
-              </th>
-              <template
-                v-for="field in Object.keys(tableData[0]).filter(
-                  key => key !== 'id' && key !== 'gradeCount'
-                )"
-              >
-                <th>{{ field }}</th>
-              </template>
-              <th>평가등급수</th>
-            </tr>
-          </template>
-          <template
-            #body="{
-              rows,
-              toggleRowSelection,
-              isRowSelected,
-              handleDragStart,
-              handleDragOver,
-              handleDrop,
-              handleDragEnd,
-              sortable,
-              editable
-            }"
-          >
-            <tr
-              v-for="(item, index) in rows"
-              :key="item.id"
-              :class="{
-                'sortable-row': sortable,
-                selected: isRowSelected(item)
-              }"
-              :draggable="sortable"
-              @dragstart="e => handleDragStart(e, index)"
-              @dragover="e => handleDragOver(e)"
-              @drop="e => handleDrop(e, index)"
-              @dragend="handleDragEnd"
-            >
-              <td>
-                <div v-if="!sortable" class="row-checkbox">
-                  <UiCheckbox
-                    size="large"
-                    :checked="isRowSelected(item)"
-                    @update:checked="() => toggleRowSelection(item)"
-                  />
-                </div>
-                <div v-else class="drag-handle">
-                  <i class="icon-md icon-drag"></i>
-                </div>
-              </td>
-              <template
-                v-for="field in Object.keys(item).filter(
-                  key => key !== 'id' && key !== 'gradeCount'
-                )"
-              >
-                <td>
-                  <UiInput v-if="editable && !sortable" v-model="item[field]" size="large" />
-                  <span v-else>{{ item[field] }}</span>
-                </td>
-              </template>
-              <td class="text-center">
-                <button
-                  class="textUnderLine"
-                  @click="handleButtonClick(item, index)"
-                  :disabled="sortable"
-                >
-                  {{ item.gradeCount }}
-                </button>
-              </td>
-            </tr>
-          </template>
-        </UiTable>
-      </div>
-      <div class="w-50p-right">
-        <!-- 테이블 제목 테이블 -->
-        <UiTable
-          title="테이블 제목"
-          v-model="tableData2"
-          editable
-          hover
-          :default-row-data="{ field1: '', field2: '' }"
-        >
-          <template #colgroup>
-            <col style="width: 40px" />
-            <col />
-            <col style="width: 150px" />
-          </template>
-          <template #header="{ selectAll, isAllSelected, sortable }">
-            <tr>
-              <th style="width: 40px">
+              <th style="width: 40px" v-if="useCheckbox">
                 <UiCheckbox
                   :modelValue="isAllSelected"
                   @update:modelValue="selectAll"
                   size="large"
                 />
               </th>
-              <th>첫번째 열 제목</th>
-              <th>두번째 열 제목</th>
+              <th v-for="(column, index) in columnsCheckboxDynamic" :key="index">
+                {{ column.title }}
+              </th>
             </tr>
           </template>
+
           <template
             #body="{
               rows,
@@ -184,7 +97,7 @@
               @drop="e => handleDrop(e, index)"
               @dragend="handleDragEnd"
             >
-              <td>
+              <td v-if="useCheckbox">
                 <div v-if="!sortable" class="row-checkbox">
                   <UiCheckbox
                     :modelValue="isRowSelected(item)"
@@ -197,11 +110,131 @@
                   <i class="icon-md icon-drag"></i>
                 </div>
               </td>
-              <td>
-                <UiInput v-model="item.field1" size="large" @click.stop />
+
+              <td
+                v-for="(column, colIndex) in columnsCheckboxDynamic"
+                :key="colIndex"
+                :class="column.align ? `text-${column.align}` : ''"
+              >
+                <!-- 입력 필드 또는 텍스트 값 조건부 렌더링 -->
+                <UiInput
+                  v-if="column.editable"
+                  v-model="item[column.key]"
+                  size="large"
+                  @click.stop
+                />
+                <template v-else-if="column.key === 'gradeCount'">
+                  <UiButton
+                    class="textUnderLine"
+                    variant="ghost"
+                    size="small"
+                    @click.stop="handleGradeCount(item)"
+                    >{{ item.gradeCount }}</UiButton
+                  >
+                </template>
+                <template v-else>
+                  {{ item[column.key] }}
+                </template>
               </td>
-              <td>
-                <UiInput v-model="item.field2" size="large" @click.stop />
+            </tr>
+          </template>
+        </UiTable>
+      </div>
+      <div class="w-50p-right">
+        <!-- 테이블 제목 테이
+         블 -->
+        <UiTable
+          title="테이블 제목"
+          v-model="tableDataDynamic"
+          editable
+          hover
+          :default-row-data="defaultRowDataDynamic"
+          @save="handleSaveDynamic"
+        >
+          <template #colgroup>
+            <col style="width: 40px" v-if="useCheckboxDynamic" />
+            <!-- 동적 열 너비 설정 -->
+            <col
+              v-for="(column, index) in columnsDynamic"
+              :key="index"
+              :style="column.width ? `width: ${column.width}` : ''"
+            />
+          </template>
+
+          <template #header="{ selectAll, isAllSelected }">
+            <tr>
+              <th style="width: 40px" v-if="useCheckboxDynamic">
+                <UiCheckbox
+                  :modelValue="isAllSelected"
+                  @update:modelValue="selectAll"
+                  size="large"
+                />
+              </th>
+              <th
+                v-for="(column, index) in columnsDynamic"
+                :key="index"
+                :class="column.align ? `text-${column.align}` : ''"
+              >
+                {{ column.title }}
+              </th>
+            </tr>
+          </template>
+
+          <template
+            #body="{
+              rows,
+              toggleRowSelection,
+              isRowSelected,
+              handleDragStart,
+              handleDragOver,
+              handleDrop,
+              handleDragEnd,
+              sortable
+            }"
+          >
+            <tr
+              v-for="(item, index) in rows"
+              :key="item.id"
+              @click="!sortable && toggleRowSelection(item)"
+              :class="{
+                selected: isRowSelected(item),
+                'sortable-row': sortable
+              }"
+              :draggable="sortable"
+              @dragstart="e => handleDragStart(e, index)"
+              @dragover="e => handleDragOver(e)"
+              @drop="e => handleDrop(e, index)"
+              @dragend="handleDragEnd"
+            >
+              <td v-if="useCheckboxDynamic">
+                <div v-if="!sortable" class="row-checkbox">
+                  <UiCheckbox
+                    :modelValue="isRowSelected(item)"
+                    @update:modelValue="toggleRowSelection(item)"
+                    size="large"
+                    @click.stop
+                  />
+                </div>
+                <div v-else class="drag-handle">
+                  <i class="icon-md icon-drag"></i>
+                </div>
+              </td>
+
+              <td
+                v-for="(column, colIndex) in columnsDynamic"
+                :key="colIndex"
+                :class="column.align ? `text-${column.align}` : ''"
+              >
+                <!-- 입력 필드 또는 텍스트 값 조건부 렌더링 -->
+                <UiInput
+                  v-if="column.editable"
+                  v-model="item[column.key]"
+                  size="large"
+                  @click.stop
+                />
+                <template v-else>
+                  {{ item[column.key] }}
+                </template>
               </td>
             </tr>
           </template>
@@ -228,16 +261,46 @@
     { value: 'group3', label: '등급배분그룹 3' }
   ])
 
-  // 등급척도 그룹
-  const tableData = ref([
-    { id: 1, name: '상위', name2: '상위2', gradeCount: 5 },
-    { id: 2, name: '중위', name2: '중위2', gradeCount: 5 }
+  const useCheckbox = ref(true)
+
+  // 테이블 열 정의
+  const columnsCheckboxDynamic = ref([
+    { key: 'name', title: '등급척도', editable: true, align: '', width: '' },
+    { key: 'gradeCount', title: '평가등급수', editable: false, align: 'center', width: '50px' }
   ])
 
-  // 평가등급 지정
-  const tableData2 = ref([
-    { id: 1, field1: '샘플 데이터 1', field2: '값 1' },
-    { id: 2, field1: '샘플 데이터 2', field2: '값 2' },
-    { id: 3, field1: '샘플 데이터 3', field2: '값 3' }
+  // 테이블 데이터
+  const tableDataCheckboxDynamic = ref([
+    { id: 1, name: '샘플 데이터 1', gradeCount: 5 },
+    { id: 2, name: '샘플 데이터 2', gradeCount: 5 },
+    { id: 3, name: '샘플 데이터 3', gradeCount: 5 }
   ])
+
+  const defaultRowData = { name: '', gradeCount: 0 }
+
+  // 테이블 2 설정
+  const useCheckboxDynamic = ref(true)
+
+  // 테이블 열 정의
+  const columnsDynamic = ref([
+    { key: 'name', title: '첫번째 열', editable: true, align: '', width: '' },
+    { key: 'value1', title: '두번째 열', editable: true, align: 'center', width: '100px' },
+    { key: 'value2', title: '세번째 열', editable: true, align: 'center', width: '100px' }
+  ])
+
+  // 테이블 데이터
+  const tableDataDynamic = ref([
+    { id: 1, name: '샘플 데이터 1', value1: 10, value2: 20 },
+    { id: 2, name: '샘플 데이터 2', value1: 30, value2: 40 },
+    { id: 3, name: '샘플 데이터 3', value1: 50, value2: 60 }
+  ])
+
+  // 기본 행 데이터
+  const defaultRowDataDynamic = { name: '', value1: 0, value2: 0 }
+
+  // 저장 핸들러
+  const handleSaveDynamic = data => {
+    console.log('저장된 데이터:', data)
+    // API 호출 등의 저장 로직
+  }
 </script>

@@ -61,7 +61,6 @@
           title="테이블 제목"
           v-model="tableData"
           editable
-          gradeRangeControls
           hover
           :default-row-data="defaultRowData"
           @save="handleSave"
@@ -75,7 +74,7 @@
               :style="column.width ? `width: ${column.width}px` : ''"
             />
           </template>
-          <template #header="{ selectAll, isAllSelected, sortable }">
+          <template #header="{ selectAll, isAllSelected }">
             <tr>
               <th style="width: 40px" v-if="useCheckbox">
                 <UiCheckbox
@@ -87,44 +86,23 @@
               <th v-for="(column, index) in columns" :key="index">{{ column.title }}</th>
             </tr>
           </template>
-          <template
-            #body="{
-              rows,
-              toggleRowSelection,
-              isRowSelected,
-              handleDragStart,
-              handleDragOver,
-              handleDrop,
-              handleDragEnd,
-              sortable,
-              editable
-            }"
-          >
+          <template #body="{ rows, toggleRowSelection, isRowSelected, editable }">
             <tr
               v-for="(item, index) in rows"
               :key="item.id"
-              @click="!sortable && toggleRowSelection(item)"
+              @click="toggleRowSelection(item)"
               :class="{
-                selected: isRowSelected(item),
-                'sortable-row': sortable
+                selected: isRowSelected(item)
               }"
-              :draggable="sortable"
-              @dragstart="e => handleDragStart(e, index)"
-              @dragover="e => handleDragOver(e)"
-              @drop="e => handleDrop(e, index)"
-              @dragend="handleDragEnd"
             >
               <td v-if="useCheckbox">
-                <div v-if="!sortable" class="row-checkbox">
+                <div class="row-checkbox">
                   <UiCheckbox
                     :modelValue="isRowSelected(item)"
                     @update:modelValue="toggleRowSelection(item)"
                     size="large"
                     @click.stop
                   />
-                </div>
-                <div v-else class="drag-handle">
-                  <i class="icon-md icon-drag"></i>
                 </div>
               </td>
               <td
@@ -156,32 +134,59 @@
         <!-- 테이블 제목 테이블 -->
         <UiTable
           title="테이블 제목"
-          v-model="tableData2"
-          excelControls
+          v-model="tableDataDynamic"
+          editable
           hover
-          :canAddRow="false"
-          @save="handleSave"
+          :default-row-data="defaultRowDataDynamic"
+          @save="handleSaveDynamic"
         >
           <template #colgroup>
+            <col style="width: 40px" v-if="useCheckboxDynamic" />
             <!-- 동적 열 너비 설정 -->
             <col
-              v-for="(column, index) in columns2"
+              v-for="(column, index) in columnsDynamic"
               :key="index"
-              :style="column.width ? `width: {column.width}` : ''"
+              :style="column.width ? `width: ${column.width}` : ''"
             />
           </template>
-          <template #header="{ sortable }">
+
+          <template #header="{ selectAll, isAllSelected }">
             <tr>
-              <th v-for="(column, index) in columns2" :key="index">{{ column.title }}</th>
+              <th style="width: 40px" v-if="useCheckboxDynamic">
+                <UiCheckbox
+                  :modelValue="isAllSelected"
+                  @update:modelValue="selectAll"
+                  size="large"
+                />
+              </th>
+              <th
+                v-for="(column, index) in columnsDynamic"
+                :key="index"
+                :class="column.align ? `text-${column.align}` : ''"
+              >
+                {{ column.title }}
+              </th>
             </tr>
           </template>
+
           <template
-            #body="{ rows, handleDragStart, handleDragOver, handleDrop, handleDragEnd, sortable }"
+            #body="{
+              rows,
+              toggleRowSelection,
+              isRowSelected,
+              handleDragStart,
+              handleDragOver,
+              handleDrop,
+              handleDragEnd,
+              sortable
+            }"
           >
             <tr
               v-for="(item, index) in rows"
               :key="item.id"
+              @click="!sortable && toggleRowSelection(item)"
               :class="{
+                selected: isRowSelected(item),
                 'sortable-row': sortable
               }"
               :draggable="sortable"
@@ -190,38 +195,70 @@
               @drop="e => handleDrop(e, index)"
               @dragend="handleDragEnd"
             >
+              <td v-if="useCheckboxDynamic">
+                <div v-if="!sortable" class="row-checkbox">
+                  <UiCheckbox
+                    :modelValue="isRowSelected(item)"
+                    @update:modelValue="toggleRowSelection(item)"
+                    size="large"
+                    @click.stop
+                  />
+                </div>
+                <div v-else class="drag-handle">
+                  <i class="icon-md icon-drag"></i>
+                </div>
+              </td>
+
               <td
-                v-for="(column, colIndex) in columns2"
+                v-for="(column, colIndex) in columnsDynamic"
                 :key="colIndex"
-                :class="column.align ? `text-{column.align}` : ''"
-                class="text-center"
+                :class="column.align ? `text-${column.align}` : ''"
               >
-                {{ item[column.key] }}
+                <!-- 입력 필드 또는 텍스트 값 조건부 렌더링 -->
+                <UiInput
+                  v-if="column.editable"
+                  v-model="item[column.key]"
+                  size="large"
+                  @click.stop
+                />
+                <template v-else>
+                  {{ item[column.key] }}
+                </template>
               </td>
             </tr>
           </template>
         </UiTable>
+
+        // 스크립트 부분 const useCheckboxDynamic = ref(true) // 테이블 열 정의 const columnsDynamic
+        = ref([ { key: 'name', title: '첫번째 열', editable: true, align: '', width: '' }, { key:
+        'value1', title: '두번째 열', editable: false, align: 'center', width: '100px' }, { key:
+        'value2', title: '세번째 열', editable: false, align: 'center', width: '100px' } ]) //
+        테이블 데이터 const tableDataDynamic = ref([ { id: 1, name: '샘플 데이터 1', value1: 10,
+        value2: 20 }, { id: 2, name: '샘플 데이터 2', value1: 30, value2: 40 }, { id: 3, name: '샘플
+        데이터 3', value1: 50, value2: 60 } ]) // 기본 행 데이터 const defaultRowDataDynamic = {
+        name: '', value1: 0, value2: 0 } // 저장 핸들러 const handleSaveDynamic = data => {
+        console.log('저장된 데이터:', data) // API 호출 등의 저장 로직 }
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-  const useCheckbox = ref(true)
-
-  // 테이블 데이터
-  const tableData = ref([
-    { id: 1, name: '샘플 데이터 1', value1: 10, value2: 20 },
-    { id: 2, name: '샘플 데이터 2', value1: 30, value2: 40 },
-    { id: 3, name: '샘플 데이터 3', value1: 50, value2: 60 }
-  ])
-
   // 테이블 열 정의
   const columns = ref([
     { key: 'name', title: '첫번째 열 제목', editable: false, align: '' },
     { key: 'value1', title: '두번째 열 제목', editable: false, align: 'center', width: '100px' },
-    { key: 'value2', title: '세번째 열 제목', editable: false, align: 'center', width: '100px' }
+    { key: 'value2', title: '세번째 열 제목', editable: false, align: 'center', width: '100px' },
+    { key: 'value3', title: '네번째 열 제목', editable: false, align: 'center', width: '100px' },
+    { key: 'value4', title: '다섯번째 열 제목', editable: false, align: 'center', width: '100px' }
     // 추가 열은 여기에 정의
+  ])
+
+  // 테이블 데이터
+  const tableData = ref([
+    { id: 1, name: '샘플 데이터 1', value1: 10, value2: 20, value3: 30, value4: 40 },
+    { id: 2, name: '샘플 데이터 2', value1: 30, value2: 40, value3: 50, value4: 60 },
+    { id: 3, name: '샘플 데이터 3', value1: 50, value2: 60, value3: 70, value4: 80 }
   ])
 
   const handleSave = data => {
