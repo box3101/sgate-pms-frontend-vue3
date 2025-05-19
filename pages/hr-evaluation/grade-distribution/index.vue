@@ -63,7 +63,6 @@
           editable
           gradeRangeControls
           hover
-          :canAddRow="false"
           :default-row-data="defaultRowData"
           @save="handleSave"
         >
@@ -97,7 +96,8 @@
               handleDragOver,
               handleDrop,
               handleDragEnd,
-              sortable
+              sortable,
+              editable
             }"
           >
             <tr
@@ -132,7 +132,21 @@
                 :key="colIndex"
                 :class="column.align ? `text-${column.align}` : ''"
               >
-                {{ item[column.key] }}
+                <!-- 편집 모드일 경우 input 컴포넌트 표시 -->
+                <UiInput v-if="editable" v-model="item[column.key]" />
+                <!-- 편집 모드가 아닐 경우 일반 텍스트 또는 버튼 표시 -->
+                <template v-else>
+                  <!-- 숫자 값이면 textUnderLine 버튼으로 표시 -->
+                  <button
+                    v-if="typeof item[column.key] === 'number'"
+                    class="textUnderLine"
+                    @click="editCell(item, column.key)"
+                  >
+                    {{ item[column.key] }}
+                  </button>
+                  <!-- 그 외의 경우 일반 텍스트로 표시 -->
+                  <span v-else>{{ item[column.key] }}</span>
+                </template>
               </td>
             </tr>
           </template>
@@ -194,14 +208,6 @@
 
 <script setup>
   const useCheckbox = ref(true)
-
-  const defaultRowData = computed(() => {
-    const defaultData = {}
-    columns.value.forEach(column => {
-      defaultData[column.key] = column.key.includes('value') ? 0 : ''
-    })
-    return defaultData
-  })
 
   // 테이블 데이터
   const tableData = ref([

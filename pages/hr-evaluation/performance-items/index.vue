@@ -62,7 +62,7 @@
           v-model="tableData"
           editable
           hover
-          :default-row-data="{ name: '', name2: '', gradeCount: 5 }"
+          :default-row-data="{ name: '', gradeCount: 5 }"
           @save="handleSave"
         >
           <template #colgroup>
@@ -255,14 +255,6 @@
 
 <script setup>
   const useCheckbox = ref(true)
-
-  const defaultRowData = computed(() => {
-    const defaultData = {}
-    columns.value.forEach(column => {
-      defaultData[column.key] = column.key.includes('value') ? 0 : ''
-    })
-    return defaultData
-  })
 
   const columns = ref([
     { key: 'name', title: '첫번째 열 제목', align: '', width: '' },

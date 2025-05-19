@@ -292,9 +292,7 @@
     const newId = Date.now()
     const newRow = {
       id: newId,
-      ...props.defaultRowData,
-      // 기본값 추가
-      selected: false
+      ...props.defaultRowData
     }
 
     const updatedRows = [...props.modelValue, newRow]
