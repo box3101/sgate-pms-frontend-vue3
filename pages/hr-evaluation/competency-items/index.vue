@@ -60,14 +60,12 @@
       <UiTable
         title="테이블 제목"
         v-model="tableData"
-        editable
         hover
+        editable
         bordered
         :canAddRow="false"
-        :showEditButton="true"
         :default-row-data="defaultRowData"
         @save="handleSave"
-        @edit-row="handleEditRow"
       >
         <template #colgroup>
           <col style="width: 40px" v-if="useCheckbox" />
@@ -77,10 +75,8 @@
             :key="index"
             :style="column.width ? `width: ${column.width}` : ''"
           />
-          <!-- 수정 버튼 열 추가 -->
-          <col style="width: 60px" v-if="showEditButton" />
         </template>
-        <template #header="{ selectAll, isAllSelected, sortable }">
+        <template #header="{ selectAll, isAllSelected }">
           <tr>
             <th style="width: 40px" v-if="useCheckbox">
               <UiCheckbox :modelValue="isAllSelected" @update:modelValue="selectAll" size="large" />
@@ -139,8 +135,8 @@
             </td>
             <!-- 수정 버튼 추가 -->
             <td v-if="showEditButton">
-              <UiButton variant="secondary-line" icon-only @click="editRow(item)">
-                <i class="icon-md icon-pencil"></i>
+              <UiButton variant="ghost" icon-only>
+                <i class="icon-md icon-pencil icon-gray"></i>
               </UiButton>
             </td>
           </tr>
@@ -165,7 +161,6 @@
   const useCheckbox = ref(true)
 
   // 행 수정 관련 상태 추가
-  const currentEditRow = ref(null)
   const showEditButton = ref(true)
 
   // 테이블 열 정의
@@ -226,11 +221,4 @@
     // API 호출 등의 저장 로직
   }
 
-  // 행 수정 이벤트 핸들러
-  const handleEditRow = row => {
-    console.log('행 수정:', row)
-    // 여기서 모달 창을 열거나 편집 모드로 전환하는 등의 작업 수행
-    currentEditRow.value = row
-    showEditModal.value = true
-  }
 </script>
