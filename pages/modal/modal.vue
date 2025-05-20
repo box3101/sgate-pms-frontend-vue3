@@ -215,8 +215,8 @@
     <!-- ================== 첨부파일 모달 ================== -->
     <UiModal v-model="isAttachmentModalOpen" title="첨부파일" size="medium">
       <div class="attachment-modal-content">
-        <UiAttachmentAccordion v-model="uploadedFiles" title="파일첨부" :initialOpen="true" />
-        <UiAttachmentAccordion
+        <UiAttachment v-model="uploadedFiles" title="파일첨부" :initialOpen="true" />
+        <UiAttachment
           v-model="googleDriveFiles"
           title="Google Drive"
           icon="mdi:google-drive"
@@ -1213,18 +1213,6 @@
 
 <script setup>
   import { ref, defineExpose } from 'vue'
-  import UiModal from '@/components/UI/UiModal.vue'
-  import UiAccordionMenu from '@/components/UI/UiAccordionMenu.vue'
-  import UiFormLayout from '@/components/UI/UiFormLayout.vue'
-  import UiFormItem from '@/components/UI/UiFormItem.vue'
-  import UiButton from '@/components/UI/UiButton.vue'
-  import UiSelect from '@/components/UI/UiSelect.vue'
-  import UiMultiSelect from '@/components/UI/UiMultiSelect.vue'
-  import UiTextarea from '@/components/UI/UiTextarea.vue'
-  import UiDatePicker from '@/components/UI/UiDatePicker.vue'
-  import UiAttachmentAccordion from '@/components/UI/UiAttachment.vue'
-  import OrganizationUserSelector from '@/components/domain/OrganizationUserSelector.vue'
-  import DepartmentUserSelector from '@/components/domain/DepartmentUserSelector.vue'
 
   // ================== 상태 변수 ==================
   const isCardModalOpen = ref(false)
