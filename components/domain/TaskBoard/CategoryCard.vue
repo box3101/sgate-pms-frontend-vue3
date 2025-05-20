@@ -119,7 +119,6 @@
 
 <script setup>
   import { ref } from 'vue'
-  import UiTag from '@/components/UI/UiTag.vue'
 
   const props = defineProps({
     title: {

@@ -331,10 +331,6 @@
         </UiAccordionMenu>
       </UiModal>
     </template>
-
-    <!-- ================== 공통 모달 매니저 ================== -->
-    <!-- 카드 추가/상세/첨부/직원찾기 팝업 모두 포함 -->
-    <!-- <CommonModal ref="modalRef" @save-card="handleSaveCard" /> -->
   </div>
 </template>
 
@@ -349,8 +345,7 @@
   import TaskBoardHeader from './TaskBoardHeader.vue'
   import CategoryColumn from './CategoryColumn.vue'
   import CategoryCard from './CategoryCard.vue'
-  import UiButton from '@/components/UI/UiButton.vue'
-  import ActivitySection from '@/components/domain/ActivitySection.vue'
+  import ActivitySection from '../Activity/ActivitySection.vue'
 
   // ================== 상태 변수 ==================
 

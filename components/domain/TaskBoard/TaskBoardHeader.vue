@@ -186,15 +186,7 @@
 </template>
 
 <script setup>
-  import UiSearchableSelect from '~/components/UI/UiSearchableSelect.vue'
-  import UiFilterModal from '~/components/UI/UiFilterModal.vue'
-  import UiFormLayout from '~/components/UI/UiFormLayout.vue'
-  import UiFormItem from '~/components/UI/UiFormItem.vue'
   import { ref } from 'vue'
-  import UiSelect from '~/components/UI/UiSelect.vue'
-  import UiDatePicker from '~/components/UI/UiDatePicker.vue'
-  import UiButton from '~/components/UI/UiButton.vue'
-  import UiTextarea from '~/components/UI/UiTextarea.vue'
 
   // 필터 모달 상태 관리 - 검색 필터 모달의 열림/닫힘 상태를 관리하는 변수
   const filterButton = ref(null)

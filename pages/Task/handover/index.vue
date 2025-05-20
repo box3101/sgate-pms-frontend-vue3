@@ -260,7 +260,6 @@
 
 <script setup>
   import { ref, computed, inject } from 'vue'
-  import DepartmentUserSelector from '@/components/domain/DepartmentUserSelector.vue'
 
   // 로고 텍스트 접근
   const logoText = inject('logoText')

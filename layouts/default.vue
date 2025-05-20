@@ -18,8 +18,8 @@
 </template>
 
 <script setup>
-  import TheHeader from '~/components/Layout/TheHeader.vue'
-  import TheSidebar from '~/components/Layout/TheSidebar.vue'
+  import TheHeader from '~/components/common/Layout/TheHeader.vue'
+  import TheSidebar from '~/components/common/Layout/TheSidebar.vue'
   import { ref, provide, onMounted, computed } from 'vue'
   import { useRoute } from 'vue-router'
   import AOS from 'aos'

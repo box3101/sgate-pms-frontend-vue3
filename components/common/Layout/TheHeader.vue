@@ -262,11 +262,11 @@
   import { computed, ref, defineProps } from 'vue'
   import { useRoute } from 'vue-router'
 
-  import UiFilterModal from '../UI/UiFilterModal.vue'
-  import UiFormLayout from '../UI/UiFormLayout.vue'
-  import UiFormItem from '../UI/UiFormItem.vue'
-  import UiSegment from '../UI/UiSegment.vue'
-  import UiModal from '../UI/UiModal.vue'
+  import UiFilterModal from '~/components/common/UI/UiFilterModal.vue'
+  import UiFormLayout from '~/components/common/UI/UiFormLayout.vue'
+  import UiFormItem from '~/components/common/UI/UiFormItem.vue'
+  import UiSegment from '~/components/common/UI/UiSegment.vue'
+  import UiModal from '~/components/common/UI/UiModal.vue'
 
   // props 정의
   const props = defineProps({

@@ -74,10 +74,6 @@
 </template>
 
 <script setup>
-  import UiButton from '~/components/UI/UiButton.vue'
-  import UiFilterModal from '~/components/UI/UiFilterModal.vue'
-  import UiAccordionMenu from '~/components/UI/UiAccordionMenu.vue'
-
   // Props 정의
   const props = defineProps({
     title: {

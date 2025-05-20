@@ -1,11 +1,10 @@
 <template>
-  <TasksBoard />
+  <TaskBoard />
 </template>
 
 <script setup>
-  import TasksBoard from '../comps/TaskBoard.vue'
   import { inject } from 'vue'
-  import '@/assets/scss/pages/_task.scss'
+  import TaskBoard from '~/components/domain/TaskBoard/TaskBoard.vue'
 
   // 로고 텍스트 접근
   const logoText = inject('logoText')
