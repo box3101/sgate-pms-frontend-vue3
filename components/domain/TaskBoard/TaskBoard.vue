@@ -1052,3 +1052,58 @@
   }
 </script>
 
+<style lang="scss" scoped>
+  :deep(.modal-buttons) {
+    display: none !important;
+  }
+  .task-board-page {
+    overflow: auto;
+  }
+  .board-content {
+    margin-top: 24px;
+  }
+  .categories-container {
+    display: flex;
+    gap: 16px;
+    list-style: none;
+    padding: 0;
+    min-height: calc(100vh - 172px);
+  }
+  .empty-category.full {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  }
+  .welcome-message {
+    text-align: center;
+    color: #888;
+    p {
+      margin: 0 0 8px 0;
+    }
+  }
+  .create-board-btn {
+    margin-top: 16px;
+  }
+  .add-card-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    padding: 6px 0;
+    color: #bbb;
+    border-radius: 4px;
+    border: 1px solid var(--color-gray-20, #cdd1d5);
+    background: var(--color-gray-0, #fff);
+    .add-placeholder-icon {
+      margin-bottom: 4px;
+    }
+    &:hover {
+      color: #333;
+    }
+  }
+</style>
