@@ -380,19 +380,22 @@
    * @param {Event} event - 드롭 이벤트
    * @param {Number} index - 드롭된 위치의 인덱스
    */
-  const handleDrop = (event, index) => {
+  const handleDrop = (event, targetIndex) => {
     if (!sortable.value || draggedRowIndex.value === null) return
-
     event.preventDefault()
 
-    if (draggedRowIndex.value !== index) {
+    if (draggedRowIndex.value !== targetIndex) {
       const updatedRows = [...props.modelValue]
-      const [movedRow] = updatedRows.splice(draggedRowIndex.value, 1)
-      updatedRows.splice(index, 0, movedRow)
+      const draggedItem = updatedRows[draggedRowIndex.value]
+
+      // 항목 이동 처리
+      updatedRows.splice(draggedRowIndex.value, 1) // 원래 위치에서 제거
+      updatedRows.splice(targetIndex, 0, draggedItem) // 새 위치에 삽입
+
       emit('update:modelValue', updatedRows)
       emit('order-changed', {
         from: draggedRowIndex.value,
-        to: index,
+        to: targetIndex,
         rows: updatedRows
       })
     }
@@ -400,7 +403,6 @@
     draggedRowIndex.value = null
     isDragging.value = false
   }
-
   /**
    * 드래그 종료 핸들러
    */

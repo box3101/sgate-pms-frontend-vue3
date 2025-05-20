@@ -164,6 +164,11 @@
                 :key="`${item.id}-${behaviorIndex}`"
                 @click="!sortable && toggleRowSelection(item)"
                 :class="{ selected: isRowSelected(item), 'sortable-row': sortable }"
+                :draggable="sortable && behaviorIndex === 0"
+                @dragstart="handleDragStart($event, index)"
+                @dragover="handleDragOver($event)"
+                @drop="handleDrop($event, index)"
+                @dragend="handleDragEnd"
               >
                 <!-- 첫 번째 행에만 표시되는 셀 -->
                 <template v-if="behaviorIndex === 0">
