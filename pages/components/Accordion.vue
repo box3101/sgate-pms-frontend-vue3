@@ -26,7 +26,6 @@
 
 <script setup>
   // 한국어 주석: 아코디언 열림/닫힘 상태 관리용 변수 선언
-  import UiAccordion from '~/components/UI/UiAccordion.vue'
   import { ref } from 'vue'
 
   const open1 = ref(false)

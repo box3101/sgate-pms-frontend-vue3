@@ -828,9 +828,6 @@ const handleOrderChanged = ({ from, to, rows }) => {
 
 <script setup>
   import { ref, inject } from 'vue'
-  import UiTable from '~/components/UI/UiTable.vue'
-  import UiCheckbox from '~/components/UI/UiCheckbox.vue'
-  import UiInput from '~/components/UI/UiInput.vue'
 
   // 로고 텍스트 접근
   const logoText = inject('logoText')
