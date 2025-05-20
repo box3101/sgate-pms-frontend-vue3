@@ -1,9 +1,13 @@
 <template>
   <header class="task-board-header fixed-top">
     <section class="header-container">
+      <!-- 왼쪽 영역: 보드 선택/관리 및 필터 -->
       <article class="left-section">
+        <!-- 보드 선택 및 관리 버튼 그룹 -->
         <div class="flex gap-5">
           <UiSearchableSelect placeholder="보드를 선택하세요" class="w-200" />
+
+          <!-- 보드 추가 버튼 및 모달 -->
           <div>
             <UiTooltip position="top">
               <template #trigger>
@@ -27,6 +31,7 @@
             </UiFilterModal>
           </div>
 
+          <!-- 보드 편집 버튼 및 모달 -->
           <div>
             <UiTooltip position="top">
               <template #trigger>
@@ -50,6 +55,7 @@
             </UiFilterModal>
           </div>
 
+          <!-- 보드 삭제 버튼 -->
           <UiTooltip position="top">
             <template #trigger>
               <UiButton variant="secondary-line" iconOnly>
@@ -60,7 +66,9 @@
           </UiTooltip>
         </div>
 
+        <!-- 검색 필터 및 중요 업무 필터 버튼 -->
         <div class="flex gap-5">
+          <!-- 검색 필터 버튼 및 모달 -->
           <div>
             <UiButton variant="secondary-line" @click="openFilterModal">
               <i class="icon icon-filter icon-md"></i>
@@ -73,7 +81,6 @@
               position="left"
               :showFooter="true"
             >
-              <!-- 필터 내용을 여기에 추가 -->
               <UiFormLayout>
                 <UiFormItem label="실행기간">
                   <UiDatePicker v-model="dateRange" isRange />
@@ -84,7 +91,6 @@
                 <UiFormItem label="D-DAY">
                   <UiSelect placeholder="전체" />
                 </UiFormItem>
-                <!-- 추가 항목 -->
               </UiFormLayout>
 
               <template #footerActions>
@@ -93,6 +99,8 @@
               </template>
             </UiFilterModal>
           </div>
+
+          <!-- 중요 업무 필터 버튼 -->
           <UiButton
             :variant="isImportantTaskActive ? 'secondary-line' : 'secondary-line'"
             @click="toggleImportantTask"
@@ -105,7 +113,10 @@
           </UiButton>
         </div>
       </article>
+
+      <!-- 오른쪽 영역: 협업/공유/전달 기능 -->
       <article class="right-section">
+        <!-- 협업 버튼 및 모달 -->
         <div>
           <div class="button-with-badge">
             <span class="badge">3</span>
@@ -132,7 +143,7 @@
             <div class="collaboration-content">
               <div class="search-section">
                 <div class="user-list">
-                  <!-- 사용자 목록이 표시될 영역 -->
+                  <!-- 사용자 목록 -->
                   <div v-for="i in 5" :key="i" class="user-item">
                     <div class="user-info">
                       <div class="user-avatar">
@@ -172,10 +183,13 @@
           </UiFilterModal>
         </div>
 
+        <!-- 공유 버튼 -->
         <UiButton variant="secondary">
           <i class="icon icon-plus icon-md icon-white"></i>
           <span>공유</span>
         </UiButton>
+
+        <!-- 전달 버튼 -->
         <UiButton variant="secondary">
           <i class="icon icon-plus icon-md icon-white"></i>
           <span>전달</span>
@@ -188,53 +202,72 @@
 <script setup>
   import { ref } from 'vue'
 
-  // 필터 모달 상태 관리 - 검색 필터 모달의 열림/닫힘 상태를 관리하는 변수
+  /**
+   * 검색 필터 관련 상태 변수
+   */
   const filterButton = ref(null)
   const isFilterModalOpen = ref(false)
   const dateRange = ref([null, null])
 
-  // 중요업무 버튼 상태 관리
+  /**
+   * 중요 업무 필터 관련 상태 변수
+   */
   const isImportantTaskActive = ref(false)
 
-  // 중요업무 버튼 토글 함수
+  /**
+   * 협업 모달 관련 상태 변수
+   */
+  const isActive = ref(false)
+  const isCollaborationModalOpen = ref(false)
+
+  /**
+   * 보드 관리 모달 관련 상태 변수
+   */
+  const isBoardAddModalOpen = ref(false)
+  const isBoardEditModalOpen = ref(false)
+
+  /**
+   * 중요 업무 필터 토글 함수
+   * 중요 업무 표시 상태를 전환
+   */
   function toggleImportantTask() {
     isImportantTaskActive.value = !isImportantTaskActive.value
   }
 
-  // 협업 토글
-  const isActive = ref(false)
-
-  // 필터 모달 열기 - 토글 방식으로 필터 모달의 열림/닫힘 상태를 변경하는 함수
+  /**
+   * 검색 필터 모달 토글 함수
+   */
   function openFilterModal() {
     isFilterModalOpen.value = !isFilterModalOpen.value
   }
 
-  // 보드 모달 상태 관리 - 새 보드 추가를 위한 모달의 열림/닫힘 상태를 관리하는 변수
-  const isBoardAddModalOpen = ref(false)
-
-  // 보드 편집 모달 상태 관리 - 보드 편집을 위한 모달의 열림/닫힘 상태를 관리하는 변수
-  const isBoardEditModalOpen = ref(false)
-
-  // 보드 모달 열기 - 토글 방식으로 보드 추가 모달의 열림/닫힘 상태를 변경하는 함수
+  /**
+   * 보드 추가 모달 토글 함수
+   */
   function openBoardAddModal() {
     isBoardAddModalOpen.value = !isBoardAddModalOpen.value
   }
-  // 보드 편집 모달 열기 - 토글 방식으로 보드 편집 모달의 열림/닫힘 상태를 변경하는 함수
+
+  /**
+   * 보드 편집 모달 토글 함수
+   */
   function openBoardEditModal() {
     isBoardEditModalOpen.value = !isBoardEditModalOpen.value
   }
 
-  // 협업 모달 상태 관리 - 협업을 위한 모달의 열림/닫힘 상태를 관리하는 변수
-  const isCollaborationModalOpen = ref(false)
-
-  // 협업 모달 열기 - 토글 방식으로 협업 모달의 열림/닫힘 상태를 변경하는 함수
+  /**
+   * 협업 모달 토글 함수
+   */
   function openCollaborationModal() {
     isCollaborationModalOpen.value = !isCollaborationModalOpen.value
   }
 
+  /**
+   * 협업 모달 제외 스위치 변경 핸들러
+   * @param {boolean} value - 스위치 상태 값
+   */
   function handleSwitchChange(value) {
     console.log('스위치 상태 변경:', value)
     isActive.value = value
   }
 </script>
-
