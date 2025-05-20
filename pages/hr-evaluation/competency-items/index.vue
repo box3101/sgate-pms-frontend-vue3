@@ -286,7 +286,7 @@
       <!-- BOS 구분일 경우의 필드 -->
       <template v-else>
         <!-- 행동수준 테이블 -->
-        <UiTable v-model="newItem.behaviors" editable sortable bordered>
+        <UiTable v-model="newItem.behaviors" editable sortable>
           <!-- 열 너비 설정 -->
           <template #colgroup>
             <col style="width: 20px" />
@@ -326,7 +326,16 @@
               editable
             }"
           >
-            <tr v-for="(behavior, index) in rows" :key="index">
+            <tr
+              v-for="(behavior, index) in rows"
+              :key="index"
+              :draggable="sortable"
+              @dragstart="e => handleDragStart(e, index)"
+              @dragover="e => handleDragOver(e)"
+              @drop="e => handleDrop(e, index)"
+              @dragend="handleDragEnd"
+              :class="{ 'sortable-row': sortable }"
+            >
               <!-- 체크박스 -->
               <td>
                 <UiCheckbox
