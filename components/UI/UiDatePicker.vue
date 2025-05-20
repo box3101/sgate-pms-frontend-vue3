@@ -697,11 +697,13 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    gap: 8px;
+    max-width: 250px;
 
     &--full {
       max-width: 100%;
     }
-    
+
     // 값이 입력되었을 때 스타일
     &--has-value {
       .ui-datepicker__input,
@@ -727,8 +729,6 @@
         font-size: $font-size-lg;
       }
     }
-    gap: 8px;
-    max-width: 250px;
 
     &__label {
       font-size: 14px;
