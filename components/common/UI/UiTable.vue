@@ -452,6 +452,9 @@
 
     .ui-table {
       border-top: 1px solid #6d7882;
+      th {
+        background-color: $gray-5;
+      }
     }
 
     &.scrollable {
@@ -468,11 +471,8 @@
 
     &.bordered {
       .ui-table {
-        border: 1px solid #e2e8f0;
-
-        th,
         td {
-          border: 1px solid #e2e8f0;
+          border: 0.5px solid $gray-20;
         }
       }
     }
@@ -528,7 +528,6 @@
         }
       }
     }
-
     &.large {
       .ui-table {
         font-size: 1.125rem;
@@ -584,7 +583,6 @@
 
   .ui-table {
     width: 100%;
-    border-collapse: separate;
     border-spacing: 0;
 
     tr {
@@ -616,7 +614,6 @@
     th {
       font-weight: 600;
       background-color: #f8fafc;
-      border-bottom: 2px solid #e2e8f0;
       position: sticky;
       top: 0;
       z-index: 1;

@@ -59,13 +59,20 @@
       <div class="cmptDict-noti">
         <ul>
           <li>
-            <span class="dict-title"> 역량사전 : <span class="dict-value">공통역량</span> </span>
+            <div class="flex items-center gap-5">
+              <i class="icon-sm icon-alert mr-1"></i>
+              <span class="dict-title"> 역량사전 : <span class="dict-value">공통역량</span> </span>
+            </div>
           </li>
           <li class="dict-info">
-            직무 : <span class="tag tag-job">공통</span> 직위 :
-            <span class="tag tag-position">공통</span> 직급 :
-            <span class="tag tag-rank">공통</span> 부서 :
-            <span class="tag tag-department">공통</span>
+            <div class="flex items-center gap-5">
+              <i class="icon-sm icon-alert mr-1"></i>
+              직무 :
+              <span class="tag tag-job">공통</span> 직위 :
+              <span class="tag tag-position">공통</span> 직급 :
+              <span class="tag tag-rank">공통</span> 부서 :
+              <span class="tag tag-department">공통</span>
+            </div>
           </li>
         </ul>
       </div>
