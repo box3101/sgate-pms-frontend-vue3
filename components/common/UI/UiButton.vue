@@ -114,7 +114,8 @@
     }
 
     &--medium {
-      height: $ui-height-md; // 36px
+      height: $ui-height-md;
+      height: 34px;
       padding: 5px 12px;
       justify-content: center;
       align-items: center;
@@ -128,7 +129,6 @@
       min-width: auto;
       &.ui-button--medium {
         padding: 0 10px;
-        box-sizing: content-box;
       }
     }
 
