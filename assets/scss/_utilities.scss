@@ -93,6 +93,14 @@
   }
 }
 
+// ======== max 높이 생성 (1px ~ 500px) ========
+@for $i from 1 through 2000 {
+  .max-h-#{$i} {
+    max-height: #{$i}px !important;
+    overflow-y: auto;
+  }
+}
+
 // ======== 자주 사용하는 특수 마진값 ========
 .m-auto {
   margin: auto !important;

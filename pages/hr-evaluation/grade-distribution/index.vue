@@ -62,6 +62,10 @@
           v-model="tableDataDynamic"
           editable
           hover
+          gradeRangeControls
+          scrollable
+          maxHeight="calc(100vh - 200px)"
+          :fixHeader="true"
           :canAddRow="false"
           :default-row-data="defaultRowDataDynamic"
           @save="handleSaveDynamic"
@@ -272,9 +276,27 @@
   ])
   // 테이블 데이터
   const tableDataDynamic = ref([
-    { id: 1, grade: 'S', min: 90, max: 999, score: 100 },
+    { id: 1, grade: 'S', min: 90, max: 100, score: 100 },
     { id: 2, grade: 'A', min: 80, max: 90, score: 90 },
-    { id: 3, grade: 'B', min: 70, max: 80, score: 80 }
+    { id: 3, grade: 'B', min: 70, max: 80, score: 80 },
+    { id: 4, grade: 'C', min: 60, max: 70, score: 70 },
+    { id: 5, grade: 'D', min: 50, max: 60, score: 60 },
+    { id: 6, grade: 'E', min: 40, max: 50, score: 50 },
+    { id: 7, grade: 'F', min: 0, max: 40, score: 0 },
+    { id: 1, grade: 'S', min: 90, max: 100, score: 100 },
+    { id: 2, grade: 'A', min: 80, max: 90, score: 90 },
+    { id: 3, grade: 'B', min: 70, max: 80, score: 80 },
+    { id: 4, grade: 'C', min: 60, max: 70, score: 70 },
+    { id: 5, grade: 'D', min: 50, max: 60, score: 60 },
+    { id: 6, grade: 'E', min: 40, max: 50, score: 50 },
+    { id: 7, grade: 'F', min: 0, max: 40, score: 0 },
+    { id: 1, grade: 'S', min: 90, max: 100, score: 100 },
+    { id: 2, grade: 'A', min: 80, max: 90, score: 90 },
+    { id: 3, grade: 'B', min: 70, max: 80, score: 80 },
+    { id: 4, grade: 'C', min: 60, max: 70, score: 70 },
+    { id: 5, grade: 'D', min: 50, max: 60, score: 60 },
+    { id: 6, grade: 'E', min: 40, max: 50, score: 50 },
+    { id: 7, grade: 'F', min: 0, max: 40, score: 0 }
   ])
   // 기본 행 데이터
   const defaultRowDataDynamic = { grade: '', min: 0, max: 0, score: 0 }

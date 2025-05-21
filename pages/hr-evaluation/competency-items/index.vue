@@ -53,9 +53,470 @@
     </div>
   </div>
 
-  <div class="flex-container">
-    <div class="w-30p"><!-- 왼쪽 콘텐츠 -->2</div>
-    <div class="w-70p">
+  <div class="flex-container flex gap-15">
+    <div class="w-25p">
+      <div class="flex justify-end mb-20">
+        <UiButton variant="primary-line" size="medium">그룹추가</UiButton>
+      </div>
+
+      <div class="is-border-wrp" style="max-height: calc(100vh - 240px); overflow-y: auto">
+        <div class="is-border">
+          <!-- 공통 -->
+          <UiTable
+            title="공통"
+            v-model="tableData2"
+            hover
+            editable
+            bordered
+            striped
+            :canAddRow="false"
+            :default-row-data="defaultRowData"
+            @save="handleSave"
+          >
+            <!-- 저장 버튼 대신 추가 버튼으로 변경 -->
+            <template #action-button>
+              <UiButton type="button" variant="primary" @click="showAddItemModal = true">
+                추가
+              </UiButton>
+            </template>
+
+            <!-- 열 너비 설정 -->
+            <template #colgroup>
+              <col v-if="useCheckbox" width="40px" />
+              <col v-for="column in columns2" :key="column.key" :width="column.width" />
+              <col v-if="showEditButton" width="60px" />
+            </template>
+
+            <!-- 테이블 헤더 -->
+            <template #header="{ selectAll, isAllSelected }">
+              <tr>
+                <th v-if="useCheckbox">
+                  <UiCheckbox
+                    :modelValue="isAllSelected"
+                    @update:modelValue="selectAll"
+                    size="large"
+                    @click.stop
+                  />
+                </th>
+                <th
+                  v-for="column in columns2"
+                  :key="column.key"
+                  :class="column.align ? `text-${column.align}` : ''"
+                >
+                  {{ column.title }}
+                </th>
+                <th v-if="showEditButton">수정</th>
+              </tr>
+            </template>
+
+            <!-- 테이블 본문 -->
+            <template
+              #body="{
+                rows,
+                toggleRowSelection,
+                isRowSelected,
+                handleDragStart,
+                handleDragOver,
+                handleDrop,
+                handleDragEnd,
+                sortable
+              }"
+            >
+              <template v-for="(item, index) in rows" :key="item.id">
+                <!-- 일반 항목인 경우 (특별 카테고리가 아닌 경우) -->
+                <tr
+                  v-if="item.category !== 'BOS'"
+                  @click="!sortable && toggleRowSelection(item)"
+                  :class="{ selected: isRowSelected(item), 'sortable-row': sortable }"
+                  :draggable="sortable"
+                  @dragstart="e => handleDragStart(e, index)"
+                  @dragover="e => handleDragOver(e)"
+                  @drop="e => handleDrop(e, index)"
+                  @dragend="handleDragEnd"
+                >
+                  <!-- 체크박스 -->
+                  <td v-if="useCheckbox">
+                    <div v-if="!sortable" class="row-checkbox">
+                      <UiCheckbox
+                        :modelValue="isRowSelected(item)"
+                        @update:modelValue="toggleRowSelection(item)"
+                        size="large"
+                        @click.stop
+                      />
+                    </div>
+                    <div v-else class="drag-handle">
+                      <i class="icon-md icon-drag"></i>
+                    </div>
+                  </td>
+
+                  <!-- 데이터 셀 -->
+                  <td
+                    v-for="(column, colIndex) in columns2"
+                    :key="colIndex"
+                    :class="column.align ? `text-${column.align}` : ''"
+                  >
+                    {{ item[column.key] }}
+                  </td>
+
+                  <!-- 수정 버튼, 돋보기 버튼 -->
+                  <td v-if="showEditButton">
+                    <div class="button-group flex items-center">
+                      <UiButton variant="ghost" icon-only @click.stop="editItem(item)">
+                        <i class="icon-md icon-pencil icon-gray"></i>
+                      </UiButton>
+                    </div>
+                  </td>
+                </tr>
+              </template>
+            </template>
+          </UiTable>
+          <!-- 공통 끝-->
+        </div>
+
+        <!-- 리더십 -->
+        <div class="is-border">
+          <UiTable
+            title="리더십"
+            v-model="tableData3"
+            hover
+            editable
+            bordered
+            striped
+            :canAddRow="false"
+            :default-row-data="defaultRowData"
+            @save="handleSave"
+          >
+            <!-- 저장 버튼 대신 추가 버튼으로 변경 -->
+            <template #action-button>
+              <UiButton type="button" variant="primary" @click="showAddItemModal = true">
+                추가
+              </UiButton>
+            </template>
+
+            <!-- 열 너비 설정 -->
+            <template #colgroup>
+              <col v-if="useCheckbox" width="40px" />
+              <col v-for="column in columns2" :key="column.key" :width="column.width" />
+              <col v-if="showEditButton" width="60px" />
+            </template>
+
+            <!-- 테이블 헤더 -->
+            <template #header="{ selectAll, isAllSelected }">
+              <tr>
+                <th v-if="useCheckbox">
+                  <UiCheckbox
+                    :modelValue="isAllSelected"
+                    @update:modelValue="selectAll"
+                    size="large"
+                    @click.stop
+                  />
+                </th>
+                <th
+                  v-for="column in columns2"
+                  :key="column.key"
+                  :class="column.align ? `text-${column.align}` : ''"
+                >
+                  {{ column.title }}
+                </th>
+                <th v-if="showEditButton">수정</th>
+              </tr>
+            </template>
+
+            <!-- 테이블 본문 -->
+            <template
+              #body="{
+                rows,
+                toggleRowSelection,
+                isRowSelected,
+                handleDragStart,
+                handleDragOver,
+                handleDrop,
+                handleDragEnd,
+                sortable
+              }"
+            >
+              <template v-for="(item, index) in rows" :key="item.id">
+                <!-- 일반 항목인 경우 (특별 카테고리가 아닌 경우) -->
+                <tr
+                  v-if="item.category !== 'BOS'"
+                  @click="!sortable && toggleRowSelection(item)"
+                  :class="{ selected: isRowSelected(item), 'sortable-row': sortable }"
+                  :draggable="sortable"
+                  @dragstart="e => handleDragStart(e, index)"
+                  @dragover="e => handleDragOver(e)"
+                  @drop="e => handleDrop(e, index)"
+                  @dragend="handleDragEnd"
+                >
+                  <!-- 체크박스 -->
+                  <td v-if="useCheckbox">
+                    <div v-if="!sortable" class="row-checkbox">
+                      <UiCheckbox
+                        :modelValue="isRowSelected(item)"
+                        @update:modelValue="toggleRowSelection(item)"
+                        size="large"
+                        @click.stop
+                      />
+                    </div>
+                    <div v-else class="drag-handle">
+                      <i class="icon-md icon-drag"></i>
+                    </div>
+                  </td>
+
+                  <!-- 데이터 셀 -->
+                  <td
+                    v-for="(column, colIndex) in columns2"
+                    :key="colIndex"
+                    :class="column.align ? `text-${column.align}` : ''"
+                  >
+                    {{ item[column.key] }}
+                  </td>
+
+                  <!-- 수정 버튼, 돋보기 버튼 -->
+                  <td v-if="showEditButton">
+                    <div class="button-group flex">
+                      <UiButton variant="ghost" icon-only @click.stop="editItem(item)">
+                        <i class="icon-md icon-pencil icon-gray"></i>
+                      </UiButton>
+                      <UiButton variant="ghost" icon-only @click.stop="viewItemDetails(item)">
+                        <i class="icon-lg icon-search icon-gray"></i>
+                      </UiButton>
+                    </div>
+                  </td>
+                </tr>
+              </template>
+            </template>
+          </UiTable>
+          <!-- 리더십 끝-->
+        </div>
+
+        <!-- 피드백역량 -->
+        <div class="is-border">
+          <UiTable
+            title="피드백역량"
+            v-model="tableData4"
+            hover
+            editable
+            bordered
+            striped
+            :canAddRow="false"
+            :default-row-data="defaultRowData"
+            @save="handleSave"
+          >
+            <!-- 저장 버튼 대신 추가 버튼으로 변경 -->
+            <template #action-button>
+              <UiButton type="button" variant="primary" @click="showAddItemModal = true">
+                추가
+              </UiButton>
+            </template>
+
+            <!-- 열 너비 설정 -->
+            <template #colgroup>
+              <col v-if="useCheckbox" width="40px" />
+              <col v-for="column in columns2" :key="column.key" :width="column.width" />
+              <col v-if="showEditButton" width="60px" />
+            </template>
+
+            <!-- 테이블 헤더 -->
+            <template #header="{ selectAll, isAllSelected }">
+              <tr>
+                <th v-if="useCheckbox">
+                  <UiCheckbox
+                    :modelValue="isAllSelected"
+                    @update:modelValue="selectAll"
+                    size="large"
+                    @click.stop
+                  />
+                </th>
+                <th
+                  v-for="column in columns2"
+                  :key="column.key"
+                  :class="column.align ? `text-${column.align}` : ''"
+                >
+                  {{ column.title }}
+                </th>
+                <th v-if="showEditButton">수정</th>
+              </tr>
+            </template>
+
+            <!-- 테이블 본문 -->
+            <template
+              #body="{
+                rows,
+                toggleRowSelection,
+                isRowSelected,
+                handleDragStart,
+                handleDragOver,
+                handleDrop,
+                handleDragEnd,
+                sortable
+              }"
+            >
+              <template v-for="(item, index) in rows" :key="item.id">
+                <tr
+                  @click="!sortable && toggleRowSelection(item)"
+                  :class="{ selected: isRowSelected(item), 'sortable-row': sortable }"
+                  :draggable="sortable"
+                  @dragstart="e => handleDragStart(e, index)"
+                  @dragover="e => handleDragOver(e)"
+                  @drop="e => handleDrop(e, index)"
+                  @dragend="handleDragEnd"
+                >
+                  <!-- 체크박스 -->
+                  <td v-if="useCheckbox">
+                    <div v-if="!sortable" class="row-checkbox">
+                      <UiCheckbox
+                        :modelValue="isRowSelected(item)"
+                        @update:modelValue="toggleRowSelection(item)"
+                        size="large"
+                        @click.stop
+                      />
+                    </div>
+                    <div v-else class="drag-handle">
+                      <i class="icon-md icon-drag"></i>
+                    </div>
+                  </td>
+
+                  <!-- 데이터 셀 -->
+                  <td
+                    v-for="(column, colIndex) in columns2"
+                    :key="colIndex"
+                    :class="column.align ? `text-${column.align}` : ''"
+                  >
+                    {{ item[column.key] }}
+                  </td>
+
+                  <!-- 수정 버튼 -->
+                  <td v-if="showEditButton">
+                    <div class="button-group flex">
+                      <UiButton variant="ghost" icon-only @click.stop="editItem(item)">
+                        <i class="icon-md icon-pencil icon-gray"></i>
+                      </UiButton>
+                      <UiButton variant="ghost" icon-only @click.stop="viewItemDetails(item)">
+                        <i class="icon-lg icon-search icon-gray"></i>
+                      </UiButton>
+                    </div>
+                  </td>
+                </tr>
+              </template>
+            </template>
+          </UiTable>
+        </div>
+
+        <!-- 다면평가 -->
+        <div class="is-border">
+          <UiTable
+            title="다면평가"
+            v-model="tableData5"
+            hover
+            editable
+            bordered
+            striped
+            :canAddRow="false"
+            :default-row-data="defaultRowData"
+            @save="handleSave"
+          >
+            <!-- 저장 버튼 대신 추가 버튼으로 변경 -->
+            <template #action-button>
+              <UiButton type="button" variant="primary" @click="showAddItemModal = true">
+                추가
+              </UiButton>
+            </template>
+
+            <!-- 열 너비 설정 -->
+            <template #colgroup>
+              <col v-if="useCheckbox" width="40px" />
+              <col v-for="column in columns2" :key="column.key" :width="column.width" />
+              <col v-if="showEditButton" width="60px" />
+            </template>
+
+            <!-- 테이블 헤더 -->
+            <template #header="{ selectAll, isAllSelected }">
+              <tr>
+                <th v-if="useCheckbox">
+                  <UiCheckbox
+                    :modelValue="isAllSelected"
+                    @update:modelValue="selectAll"
+                    size="large"
+                    @click.stop
+                  />
+                </th>
+                <th
+                  v-for="column in columns2"
+                  :key="column.key"
+                  :class="column.align ? `text-${column.align}` : ''"
+                >
+                  {{ column.title }}
+                </th>
+                <th v-if="showEditButton">수정</th>
+              </tr>
+            </template>
+
+            <!-- 테이블 본문 -->
+            <template
+              #body="{
+                rows,
+                toggleRowSelection,
+                isRowSelected,
+                handleDragStart,
+                handleDragOver,
+                handleDrop,
+                handleDragEnd,
+                sortable
+              }"
+            >
+              <template v-for="(item, index) in rows" :key="item.id">
+                <tr
+                  @click="!sortable && toggleRowSelection(item)"
+                  :class="{ selected: isRowSelected(item), 'sortable-row': sortable }"
+                  :draggable="sortable"
+                  @dragstart="e => handleDragStart(e, index)"
+                  @dragover="e => handleDragOver(e)"
+                  @drop="e => handleDrop(e, index)"
+                  @dragend="handleDragEnd"
+                >
+                  <!-- 체크박스 -->
+                  <td v-if="useCheckbox">
+                    <div v-if="!sortable" class="row-checkbox">
+                      <UiCheckbox
+                        :modelValue="isRowSelected(item)"
+                        @update:modelValue="toggleRowSelection(item)"
+                        size="large"
+                        @click.stop
+                      />
+                    </div>
+                    <div v-else class="drag-handle">
+                      <i class="icon-md icon-drag"></i>
+                    </div>
+                  </td>
+
+                  <!-- 데이터 셀 -->
+                  <td
+                    v-for="(column, colIndex) in columns2"
+                    :key="colIndex"
+                    :class="column.align ? `text-${column.align}` : ''"
+                  >
+                    {{ item[column.key] }}
+                  </td>
+
+                  <!-- 수정 버튼 -->
+                  <td v-if="showEditButton">
+                    <div class="button-group flex">
+                      <UiButton variant="ghost" icon-only @click.stop="editItem(item)">
+                        <i class="icon-md icon-pencil icon-gray"></i>
+                      </UiButton>
+                      <UiButton variant="ghost" icon-only @click.stop="viewItemDetails(item)">
+                        <i class="icon-lg icon-search icon-gray"></i>
+                      </UiButton>
+                    </div>
+                  </td>
+                </tr>
+              </template>
+            </template>
+          </UiTable>
+        </div>
+      </div>
+    </div>
+    <div class="w-75p">
       <div class="cmptDict-noti">
         <ul>
           <li>
@@ -82,6 +543,10 @@
         hover
         editable
         bordered
+        striped
+        scrollable
+        maxHeight="calc(100vh - 285px)"
+        :fixHeader="true"
         :canAddRow="false"
         :default-row-data="defaultRowData"
         @save="handleSave"
@@ -441,18 +906,6 @@
   // 테이블 관련 스크립트
   const useCheckbox = ref(true)
   const showEditButton = ref(true)
-  const columns = ref([
-    { key: 'name', title: '역량항목', align: '', width: '100px', icon: 'edit' },
-    { key: 'category', title: '구분', align: 'center', width: '100px' },
-    {
-      key: 'standard',
-      title: '행동기준/행동수준/역량정의',
-      align: '',
-      width: ''
-    },
-    { key: 'level', title: '수준/점수', align: 'center', width: '100px' },
-    { key: 'weight', title: '가중', align: 'center', width: '80px' }
-  ])
 
   // 기본 행 데이터 정의
   const defaultRowData = computed(() => {
@@ -524,8 +977,128 @@
       standard: '목표를 달성하기 위해 끊임없이 노력하는 태도',
       level: '-',
       weight: '-'
+    },
+    {
+      id: 1,
+      name: '리더십',
+      category: '핵심역량',
+      standard: '조직의 목표를 달성하기 위해 구성원들을 이끄는 능력',
+      level: 5,
+      weight: 20
+    },
+    {
+      id: 2,
+      name: '문제해결',
+      category: '직무역량',
+      standard: '복잡한 문제를 분석하고 효과적인 해결책을 도출하는 능력',
+      level: 4,
+      weight: 15
+    },
+    {
+      id: 3,
+      name: '의사소통',
+      category: '기본역량',
+      standard: '정보와 아이디어를 명확하게 전달하고 수용하는 능력',
+      level: 3,
+      weight: 10
+    },
+    {
+      id: 4,
+      name: '전략적 사고',
+      category: 'BOS',
+      behaviors: [
+        {
+          description:
+            '사업에 대한 통찰력에 기초하여 2년 이상의 추진 기간이 요구되는 장기적 사업 계획을 기안하며, 장기적 미래의 변화 상황을 예측하고, 현실적인 대안을 제시한다.',
+          level: 5,
+          score: 100,
+          weight: '-'
+        },
+        {
+          description:
+            '1~2년의 추진 기간이 요구되는 중기적 사업 계획을 수립하며, 중기적 변화 상황을 예측하고, 현실적인 대안을 제시한다.',
+          level: 4,
+          score: 80,
+          weight: '-'
+        },
+        {
+          description:
+            '3~6개월 이상의 추진 기간이 요구되는 단기적 사업 계획을 수립하며, 단기적 변화 상황을 예측하고, 현실적인 대안을 제시한다.',
+          level: 3,
+          score: 60,
+          weight: '-'
+        }
+      ]
+    },
+    {
+      id: 5,
+      name: '성과지향',
+      category: '일반',
+      standard: '목표를 달성하기 위해 끊임없이 노력하는 태도',
+      level: '-',
+      weight: '-'
     }
   ])
+  const columns = ref([
+    { key: 'name', title: '역량항목', align: '', width: '100px', icon: 'edit' },
+    { key: 'category', title: '구분', align: 'center', width: '100px' },
+    {
+      key: 'standard',
+      title: '행동기준/행동수준/역량정의',
+      align: '',
+      width: ''
+    },
+    { key: 'level', title: '수준/점수', align: 'center', width: '100px' },
+    { key: 'weight', title: '가중', align: 'center', width: '80px' }
+  ])
+
+  // 공통 테이블 데데이터
+  const tableData2 = ref([
+    {
+      id: 1,
+      name: '역량항목'
+    },
+    {
+      id: 2,
+      name: '리더십'
+    },
+    {
+      id: 3,
+      name: '혁신'
+    },
+    {
+      id: 4,
+      name: '소통능력'
+    }
+  ])
+  const columns2 = ref([{ key: 'name', title: '역량사전', icon: 'edit' }])
+
+  // 리더십 테이블 데이터
+  const tableData3 = ref([
+    {
+      id: 1,
+      name: '역량사전'
+    }
+  ])
+  const columns3 = ref([{ key: 'name', title: '역량사전', icon: 'edit' }])
+
+  // 다면평가 테이블 데이터
+  const tableData4 = ref([
+    {
+      id: 1,
+      name: '역량사전'
+    }
+  ])
+  const columns4 = ref([{ key: 'name', title: '역량사전', icon: 'edit' }])
+
+  // 피드백역량
+  const tableData5 = ref([
+    {
+      id: 1,
+      name: '역량사전'
+    }
+  ])
+  const columns5 = ref([{ key: 'name', title: '역량사전', icon: 'edit' }])
 
   // 저장 핸들러
   const handleSave = data => {

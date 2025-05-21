@@ -13,7 +13,10 @@
     ]"
     :style="scrollable ? { maxHeight: maxHeight } : {}"
   >
-    <div class="section-header flex items-center justify-between">
+    <div
+      class="section-header flex items-center justify-between"
+      :class="fixHeader && 'sticky-headers'"
+    >
       <div class="flex items-center gap-10">
         <h2 class="heading-4">{{ title }}</h2>
         <div v-if="gradeRangeControls" class="grade-range-controls flex items-center gap-5 mr-5">
@@ -181,6 +184,13 @@
     maxHeight: {
       type: String,
       default: '400px'
+    },
+    /**
+     * 테이블 헤더 고정 여부
+     */
+    fixHeader: {
+      type: Boolean,
+      default: false
     },
     /**
      * 테이블 데이터 (v-model로 바인딩)
@@ -461,16 +471,17 @@
       overflow-y: auto;
       position: relative;
 
-      .sticky-header {
-        position: sticky;
-        top: 0;
-        z-index: 1;
-        background-color: #fff;
-      }
+      // .sticky-header {
+      //   position: sticky;
+      //   top: 0;
+      //   z-index: 1;
+      //   background-color: #fff;
+      // }
     }
 
     &.bordered {
       .ui-table {
+        th,
         td {
           border: 0.5px solid $gray-20;
         }
@@ -479,7 +490,7 @@
 
     &.striped {
       .ui-table {
-        tbody tr:nth-child(odd) {
+        tbody tr:nth-child(2n) {
           background-color: rgba(248, 250, 252, 0.7);
         }
       }
@@ -586,6 +597,8 @@
     border-spacing: 0;
 
     tr {
+      cursor: pointer;
+
       &.sortable-row {
         &:hover {
           background-color: rgba(241, 245, 249, 0.8);
@@ -614,7 +627,7 @@
     th {
       font-weight: 600;
       background-color: #f8fafc;
-      position: sticky;
+      // position: sticky;
       top: 0;
       z-index: 1;
       white-space: nowrap;
@@ -629,18 +642,6 @@
       &.text-center {
         text-align: center;
       }
-    }
-
-    tbody tr:last-child td {
-      border-bottom: none;
-    }
-
-    thead tr:first-child th:first-child {
-      border-top-left-radius: 6px;
-    }
-
-    thead tr:first-child th:last-child {
-      border-top-right-radius: 6px;
     }
 
     &.th-left {
@@ -681,5 +682,14 @@
     text-underline-offset: 2px;
     cursor: pointer;
     color: $primary-color !important;
+  }
+
+  .sticky-headers {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #fff;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e2e8f0;
   }
 </style>

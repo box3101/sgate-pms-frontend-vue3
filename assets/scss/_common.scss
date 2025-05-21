@@ -2,20 +2,19 @@
 .flex-container {
   display: flex;
   width: 100%;
+  gap: 16px;
 }
 
 // 왼쪽 50% 너비 클래스
 .w-50p-left {
   width: 50%;
   overflow: hidden;
-  padding-right: 8px;
 }
 
 // 오른쪽 50% 너비 클래스
 .w-50p-right {
   width: 50%;
   overflow: hidden;
-  padding-left: 8px;
 }
 
 // 기본 50% 너비 클래스
@@ -64,6 +63,15 @@
   overflow: hidden;
 }
 
+.is-border-wrp {
+  .is-border {
+    margin-bottom: 16px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
 .is-border {
   border: 1px solid #ccc;
   border-radius: 8px;
