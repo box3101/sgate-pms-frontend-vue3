@@ -1,15 +1,69 @@
 <template>
-  <div class="flex-container">
-    <div class="w-30p">
-      <!-- 왼쪽 콘텐츠 -->
+  <div class="page-header">
+    <div class="header-left">
+      <div class="select-group">
+        <div class="select-item">
+          <span class="select-label">기준년도</span>
+          <UiSelect
+            v-model="selectedYear"
+            :options="yearOptions"
+            size="medium"
+            placeholder="선택"
+            width="150px"
+          />
+        </div>
+        <div class="select-item flex items-center">
+          <span class="select-label">역량평가항목그룹</span>
+          <UiSelect
+            v-model="selectedGroup"
+            :options="groupOptions"
+            placeholder="선택"
+            width="150px"
+          />
+          <div class="button-group ml-4 flex items-center gap-4">
+            <UiButton variant="primary" icon-only>
+              <i class="icon-md icon-plus icon-white"></i>
+            </UiButton>
+            <UiButton variant="secondary" icon-only>
+              <i class="icon-md icon-pencil"></i>
+            </UiButton>
+            <UiButton variant="secondary-line" icon-only>
+              <i class="icon-md icon-delete"></i>
+            </UiButton>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="w-70p">
-      <!-- 오른쪽 콘텐츠 -->
+    <div class="header-right">
+      <div class="button-group">
+        <UiTooltip title="역량항목그룹 가져오기">
+          <template #trigger>
+            <UiButton type="button" variant="secondary-line" size="medium">
+              역량항목그룹 가져오기
+              <i class="icon-md icon-get"></i>
+            </UiButton>
+          </template>
+          <p>현 기존년도의 등급배분표 그룹 중 하나를 선택하여 복사합니다.</p>
+        </UiTooltip>
+        <UiButton type="button" variant="primary-line" size="medium" class="ml-2">
+          전년도 데이터 복사
+          <i class="icon-md icon-copy icon-primary"></i>
+        </UiButton>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex-container flex gap-15">
+    <div class="w-25p">
+      <!-- 공통 -->
       <UiTable
-        v-model="tableData"
+        v-model="tableData2"
         hover
         editable
         bordered
+        striped
+        maxHeight="calc(100vh - 250px)"
+        :fixHeader="true"
         :canAddRow="false"
         :default-row-data="defaultRowData"
         @save="handleSave"
@@ -17,14 +71,14 @@
         <!-- 저장 버튼 대신 추가 버튼으로 변경 -->
         <template #action-button>
           <UiButton type="button" variant="primary" @click="showAddItemModal = true">
-            항목 추가
+            추가
           </UiButton>
         </template>
 
         <!-- 열 너비 설정 -->
         <template #colgroup>
           <col v-if="useCheckbox" width="40px" />
-          <col v-for="column in columns" :key="column.key" :width="column.width" />
+          <col v-for="column in columns2" :key="column.key" :width="column.width" />
           <col v-if="showEditButton" width="60px" />
         </template>
 
@@ -40,7 +94,7 @@
               />
             </th>
             <th
-              v-for="column in columns"
+              v-for="column in columns2"
               :key="column.key"
               :class="column.align ? `text-${column.align}` : ''"
             >
@@ -92,6 +146,137 @@
 
               <!-- 데이터 셀 -->
               <td
+                v-for="(column, colIndex) in columns2"
+                :key="colIndex"
+                :class="column.align ? `text-${column.align}` : ''"
+              >
+                {{ item[column.key] }}
+              </td>
+
+              <!-- 수정 버튼, 돋보기 버튼 -->
+              <td v-if="showEditButton">
+                <div class="button-group flex items-center">
+                  <UiButton variant="ghost" icon-only @click.stop="editItem(item)">
+                    <i class="icon-md icon-pencil icon-gray"></i>
+                  </UiButton>
+                </div>
+              </td>
+            </tr>
+          </template>
+        </template>
+      </UiTable>
+      <!-- 공통 끝-->
+    </div>
+    <div class="w-75p">
+      <div class="cmptDict-noti">
+        <ul>
+          <li>
+            <div class="flex items-center gap-5">
+              <i class="icon-sm icon-alert mr-1"></i>
+              <span class="dict-title"> 역량사전 : <span class="dict-value">공통역량</span> </span>
+            </div>
+          </li>
+          <li class="dict-info">
+            <div class="flex items-center gap-5">
+              <i class="icon-sm icon-alert mr-1"></i>
+              직무 :
+              <span class="tag tag-job">공통</span> 직위 :
+              <span class="tag tag-position">공통</span> 직급 :
+              <span class="tag tag-rank">공통</span> 부서 :
+              <span class="tag tag-department">공통</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!-- 테이블 제목 테이블 -->
+      <UiTable
+        v-model="tableData"
+        hover
+        editable
+        bordered
+        striped
+        scrollable
+        maxHeight="calc(100vh - 285px)"
+        :fixHeader="true"
+        :canAddRow="false"
+        :default-row-data="defaultRowData"
+        @save="handleSave"
+      >
+        <!-- 저장 버튼 대신 추가 버튼으로 변경 -->
+        <template #action-button>
+          <UiButton type="button" variant="primary" @click="showAddItemModal = true">
+            항목 추가
+          </UiButton>
+        </template>
+
+        <!-- 기존 테이블 내용 유지 -->
+        <template #colgroup>
+          <col v-if="useCheckbox" width="40px" />
+          <col v-for="column in columns" :key="column.key" :width="column.width" />
+          <col v-if="showEditButton" width="60px" />
+        </template>
+        <template #header="{ selectAll, isAllSelected }">
+          <tr>
+            <th v-if="useCheckbox">
+              <UiCheckbox
+                :modelValue="isAllSelected"
+                @update:modelValue="selectAll"
+                size="large"
+                @click.stop
+              />
+            </th>
+            <th
+              v-for="column in columns"
+              :key="column.key"
+              :class="column.align ? `text-${column.align}` : ''"
+            >
+              {{ column.title }}
+            </th>
+            <th v-if="showEditButton">수정</th>
+          </tr>
+        </template>
+        <!-- body 템플릿 부분 -->
+        <template
+          #body="{
+            rows,
+            toggleRowSelection,
+            isRowSelected,
+            handleDragStart,
+            handleDragOver,
+            handleDrop,
+            handleDragEnd,
+            sortable
+          }"
+        >
+          <template v-for="(item, index) in rows" :key="item.id">
+            <!-- 일반 항목인 경우 (BOS가 아닌 경우) -->
+            <tr
+              v-if="item.category !== 'BOS'"
+              @click="!sortable && toggleRowSelection(item)"
+              :class="{ selected: isRowSelected(item), 'sortable-row': sortable }"
+              :draggable="sortable"
+              @dragstart="e => handleDragStart(e, index)"
+              @dragover="e => handleDragOver(e)"
+              @drop="e => handleDrop(e, index)"
+              @dragend="handleDragEnd"
+            >
+              <!-- 체크박스 -->
+              <td v-if="useCheckbox">
+                <div v-if="!sortable" class="row-checkbox">
+                  <UiCheckbox
+                    :modelValue="isRowSelected(item)"
+                    @update:modelValue="toggleRowSelection(item)"
+                    size="large"
+                    @click.stop
+                  />
+                </div>
+                <div v-else class="drag-handle">
+                  <i class="icon-md icon-drag"></i>
+                </div>
+              </td>
+
+              <!-- 데이터 셀 -->
+              <td
                 v-for="(column, colIndex) in columns"
                 :key="colIndex"
                 :class="column.align ? `text-${column.align}` : ''"
@@ -107,17 +292,17 @@
               </td>
             </tr>
 
-            <!-- 특별 카테고리 항목인 경우 (예: BOS) -->
+            <!-- BOS 항목인 경우 -->
             <template v-else>
               <tr
                 v-for="(behavior, behaviorIndex) in item.behaviors"
-                :key="`${item.id}-behaviorIndex`"
+                :key="`${item.id}-${behaviorIndex}`"
                 @click="!sortable && toggleRowSelection(item)"
                 :class="{ selected: isRowSelected(item), 'sortable-row': sortable }"
                 :draggable="sortable && behaviorIndex === 0"
-                @dragstart="handleDragStart(event, index)"
-                @dragover="handleDragOver(event)"
-                @drop="handleDrop(event, index)"
+                @dragstart="handleDragStart($event, index)"
+                @dragover="handleDragOver($event)"
+                @drop="handleDrop($event, index)"
                 @dragend="handleDragEnd"
               >
                 <!-- 첫 번째 행에만 표시되는 셀 -->
@@ -137,12 +322,12 @@
                     </div>
                   </td>
 
-                  <!-- 첫 번째 고정 컬럼 (항목명) -->
+                  <!-- 역량항목 -->
                   <td :rowspan="item.behaviors.length">
                     {{ item.name }}
                   </td>
 
-                  <!-- 두 번째 고정 컬럼 (구분) -->
+                  <!-- 구분 -->
                   <td
                     :rowspan="item.behaviors.length"
                     :class="columns[1].align ? `text-${columns[1].align}` : ''"
@@ -151,7 +336,8 @@
                   </td>
                 </template>
 
-                <!-- 모든 행에 표시되는 셀 (행동수준) -->
+                <!-- 모든 행에 표시되는 셀 -->
+                <!-- 행동수준/역량정의 -->
                 <td :class="columns[2].align ? `text-${columns[2].align}` : ''">
                   {{ behavior.description }}
                 </td>
@@ -161,7 +347,7 @@
                   {{ behavior.level }}/{{ behavior.score }}
                 </td>
 
-                <!-- 가중치 -->
+                <!-- 가중 -->
                 <td :class="columns[4].align ? `text-${columns[4].align}` : ''">
                   {{ behavior.weight }}
                 </td>
@@ -180,20 +366,20 @@
     </div>
   </div>
 
-  <!-- 역량사전 모달 -->
+  <!-- 역량 항목 추가/수정 모달 -->
   <UiModal
     v-model="showAddItemModal"
     size="mlarge"
-    :title="isEditMode ? '항목 수정' : '항목 추가'"
+    :title="isEditMode ? '역량사전 항목 수정' : '역량사전 항목 추가'"
     :showFooter="true"
   >
     <UiFormLayout>
-      <!-- 항목명 - 항상 표시 -->
-      <UiFormItem label="항목명">
-        <UiInput v-model="newItem.name" placeholder="항목명을 입력해주세요." />
+      <!-- 역량항목 - 항상 표시 -->
+      <UiFormItem label="역량항목">
+        <UiInput v-model="newItem.name" placeholder="역량항목을 입력해주세요." />
       </UiFormItem>
 
-      <!-- 구분 선택 - 항상 표시 -->
+      <!-- 구분 - 항상 표시 -->
       <UiFormItem label="구분">
         <UiSelect
           v-model="newItem.category"
@@ -205,17 +391,17 @@
 
       <!-- 일반 구분일 경우의 필드 -->
       <template v-if="newItem.category === '일반'">
-        <!-- 정의 -->
-        <UiFormItem label="정의">
-          <UiTextarea v-model="newItem.standard" placeholder="정의를 입력해주세요." />
+        <!-- 역량정의 -->
+        <UiFormItem label="역량정의">
+          <UiTextarea v-model="newItem.standard" placeholder="역량정의를 입력해주세요." />
         </UiFormItem>
       </template>
 
-      <!-- 특별 구분 아닐 경우의 필드 -->
+      <!-- BOS가 아니고 일반도 아닌 경우의 필드 -->
       <template v-else-if="newItem.category !== 'BOS'">
-        <!-- 정의 -->
-        <UiFormItem label="정의">
-          <UiTextarea v-model="newItem.standard" placeholder="정의를 입력해주세요." />
+        <!-- 역량정의 -->
+        <UiFormItem label="역량정의">
+          <UiTextarea v-model="newItem.standard" placeholder="역량정의를 입력해주세요." />
         </UiFormItem>
 
         <!-- 수준/점수 -->
@@ -237,9 +423,9 @@
         </UiFormItem>
       </template>
 
-      <!-- 특별 구분일 경우의 필드 (예: BOS) -->
+      <!-- BOS 구분일 경우의 필드 -->
       <template v-else>
-        <!-- 내부 테이블 -->
+        <!-- 행동수준 테이블 -->
         <UiTable v-model="newItem.behaviors" editable sortable>
           <!-- 열 너비 설정 -->
           <template #colgroup>
@@ -343,7 +529,7 @@
             </tr>
             <tr v-if="rows.length === 0">
               <td colspan="4" class="text-center py-4">
-                항목이 없습니다. '행 추가' 버튼을 클릭하여 추가해주세요.
+                행동수준이 없습니다. '행 추가' 버튼을 클릭하여 추가해주세요.
               </td>
             </tr>
           </template>
@@ -357,220 +543,435 @@
     </template>
   </UiModal>
 </template>
-
-
 <script setup>
-import { ref, computed } from 'vue'
+  import { ref, computed } from 'vue'
 
-// 테이블 설정
-const useCheckbox = ref(true)
-const showEditButton = ref(true)
-const columns = ref([
-  { key: 'name', title: '항목명', align: '', width: '100px' },
-  { key: 'category', title: '구분', align: 'center', width: '100px' },
-  {
-    key: 'standard',
-    title: '정의/설명',
-    align: '',
-    width: ''
-  },
-  { key: 'level', title: '수준/점수', align: 'center', width: '100px' },
-  { key: 'weight', title: '가중치', align: 'center', width: '80px' }
-])
+  // 헤더 관련 스크립트
+  const selectedYear = ref('2025')
+  const yearOptions = ref([
+    { value: '2025', label: '2025년' },
+    { value: '2024', label: '2024년' },
+    { value: '2023', label: '2023년' }
+  ])
 
-// 기본 행 데이터 정의
-const defaultRowData = computed(() => {
-  const defaultData = {}
-  columns.value.forEach(column => {
-    defaultData[column.key] = column.key === 'level' || column.key === 'weight' ? 0 : ''
-  })
-  return defaultData
-})
+  // 테이블 관련 스크립트
+  const useCheckbox = ref(true)
+  const showEditButton = ref(true)
 
-// 테이블 데이터
-const tableData = ref([
-  {
-    id: 1,
-    name: '샘플 항목 1',
-    category: '카테고리 1',
-    standard: '이 항목에 대한 설명입니다.',
-    level: 5,
-    weight: 20
-  },
-  {
-    id: 2,
-    name: '샘플 항목 2',
-    category: '카테고리 2',
-    standard: '이 항목에 대한 설명입니다.',
-    level: 4,
-    weight: 15
-  },
-  {
-    id: 3,
-    name: '특별 항목',
-    category: 'BOS',
-    behaviors: [
-      {
-        description: '첫 번째 행동수준에 대한 설명입니다.',
-        level: 5,
-        score: 100,
-        weight: '-'
-      },
-      {
-        description: '두 번째 행동수준에 대한 설명입니다.',
-        level: 4,
-        score: 80,
-        weight: '-'
-      }
-    ]
-  }
-])
-
-// 저장 핸들러
-const handleSave = data => {
-  console.log('저장된 데이터:', data)
-  // API 호출 등의 저장 로직
-}
-
-/**
- * 모달 관련
- */
-const showAddItemModal = ref(false)
-const isEditMode = ref(false)
-const editItemId = ref(null)
-
-// 구분 옵션
-const categoryOptions = ref([
-  { value: '카테고리 1', label: '카테고리 1' },
-  { value: '카테고리 2', label: '카테고리 2' },
-  { value: 'BOS', label: 'BOS' },
-  { value: '일반', label: '일반' }
-])
-
-// 새 항목 데이터 초기화
-const initNewItem = () => ({
-  name: '',
-  category: '',
-  standard: '',
-  level: 3,
-  weight: 10,
-  behaviors: []
-})
-
-// 새 항목 데이터
-const newItem = ref(initNewItem())
-
-// 구분 변경 핸들러
-const handleCategoryChange = newCategory => {
-  // 공통 초기화
-  newItem.value.behaviors = []
-
-  if (newCategory === '일반') {
-    newItem.value.level = '-'
-    newItem.value.weight = '-'
-  } else if (newCategory === 'BOS') {
-    // BOS일 경우 기본 행동수준 하나 추가
-    newItem.value.behaviors = [createNewBehavior()]
-  } else {
-    // 기본 카테고리일 경우
-    newItem.value.level = 3
-    newItem.value.weight = 10
-  }
-}
-
-// 새 행동수준 객체 생성
-const createNewBehavior = () => ({
-  description: '',
-  level: 1,
-  score: 20,
-  weight: '-'
-})
-
-// 모달 닫기
-const closeModal = () => {
-  showAddItemModal.value = false
-  isEditMode.value = false
-  editItemId.value = null
-  newItem.value = initNewItem()
-}
-
-// 항목 편집 시작
-const editItem = item => {
-  isEditMode.value = true
-  editItemId.value = item.id
-
-  // 깊은 복사로 항목 데이터 복사
-  newItem.value = JSON.parse(
-    JSON.stringify({
-      name: item.name,
-      category: item.category,
-      standard: item.standard,
-      level: item.level,
-      weight: item.weight,
-      behaviors: item.behaviors || []
+  // 기본 행 데이터 정의
+  const defaultRowData = computed(() => {
+    const defaultData = {}
+    columns.value.forEach(column => {
+      defaultData[column.key] = column.key === 'level' || column.key === 'weight' ? 0 : ''
     })
-  )
+    return defaultData
+  })
 
-  showAddItemModal.value = true
-}
+  // 테이블 데이터
+  const tableData = ref([
+    {
+      id: 1,
+      name: '리더십',
+      category: '핵심역량',
+      standard: '조직의 목표를 달성하기 위해 구성원들을 이끄는 능력',
+      level: 5,
+      weight: 20
+    },
+    {
+      id: 2,
+      name: '문제해결',
+      category: '직무역량',
+      standard: '복잡한 문제를 분석하고 효과적인 해결책을 도출하는 능력',
+      level: 4,
+      weight: 15
+    },
+    {
+      id: 3,
+      name: '의사소통',
+      category: '기본역량',
+      standard: '정보와 아이디어를 명확하게 전달하고 수용하는 능력',
+      level: 3,
+      weight: 10
+    },
+    {
+      id: 4,
+      name: '전략적 사고',
+      category: 'BOS',
+      behaviors: [
+        {
+          description:
+            '사업에 대한 통찰력에 기초하여 2년 이상의 추진 기간이 요구되는 장기적 사업 계획을 기안하며, 장기적 미래의 변화 상황을 예측하고, 현실적인 대안을 제시한다.',
+          level: 5,
+          score: 100,
+          weight: '-'
+        },
+        {
+          description:
+            '1~2년의 추진 기간이 요구되는 중기적 사업 계획을 수립하며, 중기적 변화 상황을 예측하고, 현실적인 대안을 제시한다.',
+          level: 4,
+          score: 80,
+          weight: '-'
+        },
+        {
+          description:
+            '3~6개월 이상의 추진 기간이 요구되는 단기적 사업 계획을 수립하며, 단기적 변화 상황을 예측하고, 현실적인 대안을 제시한다.',
+          level: 3,
+          score: 60,
+          weight: '-'
+        }
+      ]
+    },
+    {
+      id: 5,
+      name: '성과지향',
+      category: '일반',
+      standard: '목표를 달성하기 위해 끊임없이 노력하는 태도',
+      level: '-',
+      weight: '-'
+    },
+    {
+      id: 1,
+      name: '리더십',
+      category: '핵심역량',
+      standard: '조직의 목표를 달성하기 위해 구성원들을 이끄는 능력',
+      level: 5,
+      weight: 20
+    },
+    {
+      id: 2,
+      name: '문제해결',
+      category: '직무역량',
+      standard: '복잡한 문제를 분석하고 효과적인 해결책을 도출하는 능력',
+      level: 4,
+      weight: 15
+    },
+    {
+      id: 3,
+      name: '의사소통',
+      category: '기본역량',
+      standard: '정보와 아이디어를 명확하게 전달하고 수용하는 능력',
+      level: 3,
+      weight: 10
+    },
+    {
+      id: 4,
+      name: '전략적 사고',
+      category: 'BOS',
+      behaviors: [
+        {
+          description:
+            '사업에 대한 통찰력에 기초하여 2년 이상의 추진 기간이 요구되는 장기적 사업 계획을 기안하며, 장기적 미래의 변화 상황을 예측하고, 현실적인 대안을 제시한다.',
+          level: 5,
+          score: 100,
+          weight: '-'
+        },
+        {
+          description:
+            '1~2년의 추진 기간이 요구되는 중기적 사업 계획을 수립하며, 중기적 변화 상황을 예측하고, 현실적인 대안을 제시한다.',
+          level: 4,
+          score: 80,
+          weight: '-'
+        },
+        {
+          description:
+            '3~6개월 이상의 추진 기간이 요구되는 단기적 사업 계획을 수립하며, 단기적 변화 상황을 예측하고, 현실적인 대안을 제시한다.',
+          level: 3,
+          score: 60,
+          weight: '-'
+        }
+      ]
+    },
+    {
+      id: 5,
+      name: '성과지향',
+      category: '일반',
+      standard: '목표를 달성하기 위해 끊임없이 노력하는 태도',
+      level: '-',
+      weight: '-'
+    }
+  ])
+  const columns = ref([
+    { key: 'name', title: '역량항목', align: '', width: '100px', icon: 'edit' },
+    { key: 'category', title: '구분', align: 'center', width: '100px' },
+    {
+      key: 'standard',
+      title: '행동기준/행동수준/역량정의',
+      align: '',
+      width: ''
+    },
+    { key: 'level', title: '수준/점수', align: 'center', width: '100px' },
+    { key: 'weight', title: '가중', align: 'center', width: '80px' }
+  ])
 
-// 항목 저장 (추가 또는 수정)
-const saveItem = () => {
-  // 기본 검증
-  if (!newItem.value.name || !newItem.value.category) {
-    alert('항목명과 구분은 필수 입력 항목입니다.')
-    return
+  // 공통 테이블 데데이터
+  const tableData2 = ref([
+    {
+      id: 1,
+      name: '리더십'
+    },
+    {
+      id: 2,
+      name: '혁신'
+    },
+    {
+      id: 3,
+      name: '소통능력'
+    },
+    {
+      id: 4,
+      name: '전략적 사고'
+    },
+    {
+      id: 5,
+      name: '성과지향'
+    },
+    {
+      id: 6,
+      name: '문제해결'
+    },
+    {
+      id: 7,
+      name: '팀워크'
+    },
+    {
+      id: 8,
+      name: '고객중심'
+    },
+    {
+      id: 9,
+      name: '창의성'
+    },
+    {
+      id: 10,
+      name: '분석력'
+    },
+    {
+      id: 11,
+      name: '실행력'
+    },
+    {
+      id: 12,
+      name: '위기관리'
+    },
+    {
+      id: 13,
+      name: '의사결정'
+    },
+    {
+      id: 14,
+      name: '자기개발'
+    },
+    {
+      id: 15,
+      name: '윤리의식'
+    },
+    {
+      id: 16,
+      name: '전문성'
+    },
+    {
+      id: 17,
+      name: '변화관리'
+    },
+    {
+      id: 18,
+      name: '책임감'
+    },
+    {
+      id: 19,
+      name: '협상력'
+    },
+    {
+      id: 20,
+      name: '조직이해'
+    },
+    {
+      id: 21,
+      name: '자원관리'
+    },
+    {
+      id: 22,
+      name: '정보수집'
+    },
+    {
+      id: 23,
+      name: '유연성'
+    },
+    {
+      id: 24,
+      name: '목표설정'
+    },
+    {
+      id: 25,
+      name: '시간관리'
+    },
+    {
+      id: 26,
+      name: '갈등관리'
+    },
+    {
+      id: 27,
+      name: '인재육성'
+    },
+    {
+      id: 28,
+      name: '글로벌 마인드'
+    },
+    {
+      id: 29,
+      name: '프로젝트 관리'
+    },
+    {
+      id: 30,
+      name: '품질관리'
+    }
+  ])
+  const columns2 = ref([{ key: 'name', title: '역량사전', icon: 'edit' }])
+
+  // 저장 핸들러
+  const handleSave = data => {
+    console.log('저장된 데이터:', data)
+    // API 호출 등의 저장 로직
   }
 
-  // 구분별 검증 및 처리
-  if (newItem.value.category === 'BOS') {
-    if (newItem.value.behaviors.length === 0) {
-      alert('BOS 구분의 경우 최소 하나 이상의 행동수준을 추가해야 합니다.')
+  /**
+   * 모달 관련
+   */
+  const showAddItemModal = ref(false)
+  const isEditMode = ref(false)
+  const editItemId = ref(null)
+
+  // 구분 옵션
+  const categoryOptions = ref([
+    { value: '일반', label: '일반' },
+    { value: 'BOS', label: 'BOS' }
+  ])
+
+  // 새 항목 데이터 초기화
+  const initNewItem = () => ({
+    name: '',
+    category: '',
+    standard: '',
+    level: 3,
+    weight: 10,
+    behaviors: []
+  })
+
+  // 새 항목 데이터
+  const newItem = ref(initNewItem())
+
+  // 구분 변경 핸들러
+  const handleCategoryChange = newCategory => {
+    // 공통 초기화
+    newItem.value.behaviors = []
+
+    if (newCategory === '일반') {
+      newItem.value.level = '-'
+      newItem.value.weight = '-'
+    } else if (newCategory === 'BOS') {
+      // BOS일 경우 기본 행동수준 하나 추가
+      newItem.value.behaviors = [createNewBehavior()]
+    } else {
+      // 기본 카테고리일 경우
+      newItem.value.level = 3
+      newItem.value.weight = 10
+    }
+  }
+
+  // 새 행동수준 객체 생성
+  const createNewBehavior = () => ({
+    description: '',
+    level: 1,
+    score: 20,
+    weight: '-'
+  })
+
+  // 모달 닫기
+  const closeModal = () => {
+    showAddItemModal.value = false
+    isEditMode.value = false
+    editItemId.value = null
+    newItem.value = initNewItem()
+  }
+
+  // 항목 편집 시작
+  const editItem = item => {
+    isEditMode.value = true
+    editItemId.value = item.id
+
+    // 깊은 복사로 항목 데이터 복사
+    newItem.value = JSON.parse(
+      JSON.stringify({
+        name: item.name,
+        category: item.category,
+        standard: item.standard,
+        level: item.level,
+        weight: item.weight,
+        behaviors: item.behaviors || []
+      })
+    )
+
+    showAddItemModal.value = true
+  }
+
+  // 항목 저장 (추가 또는 수정)
+  const saveItem = () => {
+    // 기본 검증
+    if (!newItem.value.name || !newItem.value.category) {
+      alert('항목명과 구분은 필수 입력 항목입니다.')
       return
     }
 
-    // 행동수준 검증
-    for (const behavior of newItem.value.behaviors) {
-      if (!behavior.description) {
-        alert('모든 행동수준 설명을 입력해주세요.')
+    // 구분별 검증 및 처리
+    if (newItem.value.category === 'BOS') {
+      if (newItem.value.behaviors.length === 0) {
+        alert('BOS 구분의 경우 최소 하나 이상의 행동수준을 추가해야 합니다.')
+        return
+      }
+
+      // BOS 행동수준 검증
+      for (const behavior of newItem.value.behaviors) {
+        if (!behavior.description) {
+          alert('모든 행동수준 설명을 입력해주세요.')
+          return
+        }
+      }
+    } else if (newItem.value.category === '일반') {
+      // 일반 구분일 경우
+      if (!newItem.value.standard) {
+        alert('역량정의를 입력해주세요.')
+        return
+      }
+      newItem.value.level = '-'
+      newItem.value.weight = '-'
+    } else {
+      // 다른 구분일 경우
+      if (!newItem.value.standard) {
+        alert('역량정의를 입력해주세요.')
         return
       }
     }
-  } else if (newItem.value.category === '일반') {
-    // 일반 구분일 경우
-    if (!newItem.value.standard) {
-      alert('항목 정의를 입력해주세요.')
-      return
-    }
-    newItem.value.level = '-'
-    newItem.value.weight = '-'
-  } else {
-    // 다른 구분일 경우
-    if (!newItem.value.standard) {
-      alert('항목 정의를 입력해주세요.')
-      return
-    }
-  }
 
-  // 추가 또는 수정 처리
-  if (isEditMode.value) {
-    const index = tableData.value.findIndex(item => item.id === editItemId.value)
-    if (index !== -1) {
-      tableData.value[index] = {
-        ...tableData.value[index],
-        ...newItem.value,
-        id: editItemId.value // ID 유지
+    // 추가 또는 수정 처리
+    if (isEditMode.value) {
+      const index = tableData.value.findIndex(item => item.id === editItemId.value)
+      if (index !== -1) {
+        tableData.value[index] = {
+          ...tableData.value[index],
+          ...newItem.value,
+          id: editItemId.value // ID 유지
+        }
       }
+    } else {
+      tableData.value.push({
+        id: Date.now(),
+        ...newItem.value
+      })
     }
-  } else {
-    tableData.value.push({
-      id: Date.now(),
-      ...newItem.value
-    })
-  }
 
-  // 모달 닫기
-  closeModal()
-}
+    // 모달 닫기
+    closeModal()
+  }
 </script>
 
+<style scoped></style>
