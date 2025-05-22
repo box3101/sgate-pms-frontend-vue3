@@ -58,7 +58,7 @@
             <i class="icon-md icon-sort"></i>
           </UiButton>
           <!-- 저장 버튼을 커스텀 슬롯으로 변경 -->
-          <slot name="action-button">
+          <slot name="action-button" v-if="canSave">
             <UiButton type="button" variant="primary" @click="saveChanges">저장</UiButton>
           </slot>
         </div>
@@ -247,6 +247,14 @@
      * 행 추가 버튼 표시 여부
      */
     canAddRow: {
+      type: Boolean,
+      default: true
+    },
+
+    /**
+     * 저장 버튼 표시 여부
+     */
+    canSave: {
       type: Boolean,
       default: true
     },

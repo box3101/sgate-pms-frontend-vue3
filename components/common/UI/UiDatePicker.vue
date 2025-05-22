@@ -10,7 +10,7 @@
         'ui-datepicker--error': error,
         'ui-datepicker--block': block,
         'ui-datepicker--full': full,
-        'ui-datepicker--has-value': isRange ? (startDate || endDate) : selectedDate
+        'ui-datepicker--has-value': isRange ? startDate || endDate : selectedDate
       }
     ]"
   >
@@ -1036,7 +1036,7 @@
     &--medium {
       .ui-datepicker__input,
       .ui-datepicker__range-input {
-        height: $ui-height-md; // 36px
+        height: $ui-height-md + 2; // 36px
         padding: 5px 6px;
       }
       .ui-datepicker__text,

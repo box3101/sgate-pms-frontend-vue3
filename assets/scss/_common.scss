@@ -3,6 +3,8 @@
   display: flex;
   width: 100%;
   gap: 14px;
+  position: relative;
+  z-index: 1;
 }
 
 // 왼쪽 50% 너비 클래스
@@ -277,4 +279,12 @@ button:focus,
   &-department {
     background-color: rgb(133, 152, 183);
   }
+}
+
+// com header
+.com-header {
+  background-color: rgba(0, 170, 255, 0.05);
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  padding: 10px 15px;
 }
