@@ -80,7 +80,7 @@
   .main-content {
     padding-left: 95px; /* 사이드바 기본 너비 */
     padding-right: 16px;
-    padding-top: 95px; /* 헤더 높이 */
+    padding-top: 76px; /* 헤더 높이 */
     padding-bottom: 16px;
     box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
     width: 100%;

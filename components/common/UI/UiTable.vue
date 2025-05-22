@@ -503,10 +503,10 @@
 
     .ui-table {
       width: 100%;
-      border-top: 1px solid #6d7882;
       border-collapse: separate;
       th {
         background-color: $gray-5;
+        border-top: 1px solid #6d7882;
       }
     }
 
@@ -659,8 +659,6 @@
   }
 
   .ui-table {
-    border-top: 1px solid #6d7882;
-
     tr {
       &.sortable-row {
         &:hover {
