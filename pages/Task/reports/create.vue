@@ -562,7 +562,7 @@
               <tr>
                 <th>의견/기타</th>
                 <td>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum voluptatum deserunt voluptatem, corrupti veniam quasi sapiente vitae quas necessitatibus ut sint odio quod provident ipsum fugiat aliquam repudiandae ullam excepturi, consequuntur iure quibusdam harum. Quisquam, perspiciatis fuga provident, necessitatibus autem quod, in quasi illo quos velit officiis minima voluptatibus deserunt incidunt cumque repudiandae eligendi facere impedit labore? Ad sed quam nisi sunt voluptatibus in impedit fuga rem rerum similique maxime, corrupti aliquam quia enim provident perspiciatis commodi excepturi repellendus error magnam eius odio fugiat quisquam placeat? Nobis recusandae veniam earum. Quas aperiam dolorem rem modi, excepturi vel et sunt laboriosam eveniet, recusandae saepe aspernatur aut totam soluta eius maxime hic blanditiis fugiat esse dolorum veniam laudantium. Consectetur a, omnis voluptatem illo nostrum impedit cum, suscipit, voluptas qui eligendi commodi ullam vitae quis dolore necessitatibus accusamus minus debitis eius molestiae architecto. Officia, corporis ex ea sequi laboriosam aperiam ipsam culpa temporibus provident quo reprehenderit, reiciendis deleniti soluta, fugit odit illum eligendi dolores necessitatibus aliquam sit explicabo commodi ipsum. Iusto alias similique doloribus dolor odit repellat aliquam porro, ipsum sapiente libero velit debitis tempore quos vitae quam eligendi modi quod distinctio quis quisquam nemo? Soluta accusantium mollitia, odit maxime dolores numquam eveniet?
+                  <UiTextarea  />
                 </td>
               </tr>
             </template>
