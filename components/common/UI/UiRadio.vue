@@ -117,7 +117,7 @@
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 60%;
+          width: 64%;
           height: 60%;
           border-radius: 50%;
           background-color: $primary-color;

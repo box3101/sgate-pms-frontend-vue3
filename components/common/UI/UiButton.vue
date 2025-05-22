@@ -105,7 +105,7 @@
     &--small {
       height: $ui-height-sm; // 32px
       display: inline-flex;
-      padding: 3px 9px;
+      padding: 3px 5px;
       justify-content: center;
       align-items: center;
       gap: 2px;

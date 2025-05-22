@@ -221,6 +221,16 @@ button:focus,
   line-height: 130% !important;
 }
 
+.text-sm {
+  font-size: $font-size-sm !important;
+  color: $gray-70 !important;
+}
+
+.text-md {
+  font-size: $font-size-md !important;
+  color: $gray-70 !important;
+}
+
 .section-header {
   margin-bottom: 15px;
 }

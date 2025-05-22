@@ -242,7 +242,7 @@
     </UiModal>
 
     <!-- ================== 보고서 설정 모달 ================== -->
-    <UiModal title="보고서 설정" v-model="reportConfigModal" :size="'large'" :isScroll="true">
+    <UiModal title="보고서 설정" v-model="reportConfigModal" :size="'large'">
       <template #headerActions-right>
         <UiButton variant="primary" @click="reportCreateModal = true">
           <i class="icon icon-md icon-create icon-white"></i>
@@ -265,7 +265,7 @@
           </div>
         </UiFormItem>
         <UiFormItem label="표시할내용">
-          <div class="flex flex-col gap-15">
+          <div class="flex flex-col gap-5">
             <div class="flex gap-10 items-center">
               <UiCheckbox class="w-60" size="large" label="KPI" />
               <UiSelect
@@ -304,7 +304,7 @@
           </div>
         </UiFormItem>
         <UiFormItem label="실적작성방법">
-          <div class="flex flex-col gap-15">
+          <div class="flex flex-col gap-5">
             <div class="flex gap-10 align-center">
               <UiRadio name="reportType" label="활동" />
               <div class="flex gap-10 is-border">
@@ -322,7 +322,7 @@
           </div>
         </UiFormItem>
         <UiFormItem label="Project <br> 실적작성방법">
-          <div class="flex flex-col gap-15">
+          <div class="flex flex-col gap-5">
             <div class="flex gap-10 align-center">
               <UiRadio name="reportType" label="활동" />
               <div class="flex gap-10 is-border">
@@ -341,7 +341,6 @@
         </UiFormItem>
       </UiFormLayout>
     </UiModal>
-
     <!-- ================== AI 취업 보고서 생성 ================== -->
     <UiModal title="AI 취업 보고서 생성" v-model="aiReportModal" :size="'mlarge'">
       <template #headerActions-left>

@@ -676,7 +676,7 @@
       flex-direction: column;
       max-height: calc(100vh - #{$spacing-xl * 2});
       width: 100%;
-      overflow: hidden; // 리사이즈 시 콘텐츠 넘치지 않도록 설정
+      overflow: auto; // 리사이즈 시 콘텐츠 넘치지 않도록 설정
     }
 
     &__resize-handle {

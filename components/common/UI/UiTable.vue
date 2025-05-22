@@ -76,7 +76,7 @@
     </div>
 
     <div v-if="sortable && editable" class="sort-mode-message">
-      행을 드래그하여 순서를 변경할 수 있습니다. 완료 후 정렬 버튼을 다시 클릭하세요.
+      행을 드래그하여 순서를 변경할 수 있습니다. <br />완료 후 정렬 버튼을 다시 클릭하세요.
     </div>
 
     <table class="ui-table" :class="{ 'th-left': isThLeft }">
@@ -85,7 +85,7 @@
       </colgroup>
       <thead
         v-if="$slots.header && layout !== 'horizontal'"
-        :class="{ 'sticky-header': scrollable }"
+        :class="{ 'sticky-header': scrollable, 'sticky-header-no': !editable }"
       >
         <slot
           name="header"
@@ -140,7 +140,7 @@
      */
     striped: {
       type: Boolean,
-      default: false
+      default: true
     },
     /**
      * 테이블 행 호버 효과 적용 여부
@@ -640,7 +640,7 @@
     th,
     td {
       text-align: left;
-      vertical-align: middle;
+      vertical-align: top;
       line-height: 1.5;
     }
 
@@ -717,5 +717,21 @@
       background-color: #6d7882;
       z-index: 1;
     }
+  }
+
+  .sticky-header-no {
+    top: 0;
+  }
+
+  .sort-mode-message {
+    background: #fef3c7; /* 연한 노란색 */
+    border-left: 4px solid #f59e0b; /* 좌측 강조선 */
+    padding: 12px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 500;
+    color: #92400e; /* 어두운 갈색 텍스트 */
+    z-index: 10;
+    margin-bottom: 5px;
   }
 </style>
