@@ -4,6 +4,10 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
+  background-color: rgba($primary-color, 0.05);
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  padding: 10px 15px;
 
   .header-left {
     .select-group {

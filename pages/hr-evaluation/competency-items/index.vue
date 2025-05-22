@@ -273,14 +273,9 @@
 
                   <!-- 수정 버튼, 돋보기 버튼 -->
                   <td v-if="showEditButton">
-                    <div class="button-group flex">
-                      <UiButton variant="ghost" icon-only @click.stop="editItem(item)">
-                        <i class="icon-md icon-pencil icon-gray"></i>
-                      </UiButton>
-                      <UiButton variant="ghost" icon-only @click.stop="viewItemDetails(item)">
-                        <i class="icon-lg icon-search icon-gray"></i>
-                      </UiButton>
-                    </div>
+                    <UiButton variant="ghost" icon-only @click.stop="editItem(item)">
+                      <i class="icon-md icon-pencil icon-gray"></i>
+                    </UiButton>
                   </td>
                 </tr>
               </template>
@@ -387,14 +382,9 @@
 
                   <!-- 수정 버튼 -->
                   <td v-if="showEditButton">
-                    <div class="button-group flex">
-                      <UiButton variant="ghost" icon-only @click.stop="editItem(item)">
-                        <i class="icon-md icon-pencil icon-gray"></i>
-                      </UiButton>
-                      <UiButton variant="ghost" icon-only @click.stop="viewItemDetails(item)">
-                        <i class="icon-lg icon-search icon-gray"></i>
-                      </UiButton>
-                    </div>
+                    <UiButton variant="ghost" icon-only @click.stop="editItem(item)">
+                      <i class="icon-md icon-pencil icon-gray"></i>
+                    </UiButton>
                   </td>
                 </tr>
               </template>
@@ -500,14 +490,9 @@
 
                   <!-- 수정 버튼 -->
                   <td v-if="showEditButton">
-                    <div class="button-group flex">
-                      <UiButton variant="ghost" icon-only @click.stop="editItem(item)">
-                        <i class="icon-md icon-pencil icon-gray"></i>
-                      </UiButton>
-                      <UiButton variant="ghost" icon-only @click.stop="viewItemDetails(item)">
-                        <i class="icon-lg icon-search icon-gray"></i>
-                      </UiButton>
-                    </div>
+                    <UiButton variant="ghost" icon-only @click.stop="editItem(item)">
+                      <i class="icon-md icon-pencil icon-gray"></i>
+                    </UiButton>
                   </td>
                 </tr>
               </template>

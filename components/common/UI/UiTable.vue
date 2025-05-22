@@ -493,7 +493,6 @@
           }
         }
 
-        // 마지막 행의 td에만 하단 border
         tbody tr:last-child td {
           border-bottom: 0.5px solid $gray-20;
         }
@@ -538,6 +537,7 @@
         .ui-checkbox--large .ui-checkbox__input {
           margin-right: 0 !important;
         }
+
         .row-checkbox {
           width: 20px !important;
         }
@@ -551,6 +551,7 @@
         }
       }
     }
+
     &.large {
       .ui-table {
         font-size: 1.125rem;
@@ -607,7 +608,7 @@
   .ui-table {
     width: 100%;
     border-spacing: 0;
-    border-collapse: separate; // 추가
+    border-collapse: separate;
 
     tr {
       &.sortable-row {
@@ -687,16 +688,17 @@
   .sticky-header-btn {
     position: sticky;
     top: 0;
-    z-index: 11; // 1에서 11로 변경
+    z-index: 11;
     background-color: #fff;
     padding-bottom: 10px;
     border-bottom: 1px solid #e2e8f0;
   }
+
   .sticky-header {
     position: sticky;
     top: 44px;
     z-index: 1;
-    // 추가: border 잘림 방지
+
     &::after {
       content: '';
       position: absolute;
