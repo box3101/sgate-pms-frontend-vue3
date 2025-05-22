@@ -159,7 +159,7 @@
               </UiButton>
             </div>
           </div>
-          <UiTable v-model="tableData" scrollable striped bordered maxHeight="calc(100vh - 220px)">
+          <UiTable v-model="tableData" scrollable striped bordered maxHeight="calc(100vh - 222px)">
             <!-- 테이블 구조 설정 -->
             <template #colgroup>
               <col width="50%" />

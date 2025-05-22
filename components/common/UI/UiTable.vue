@@ -79,14 +79,47 @@
       행을 드래그하여 순서를 변경할 수 있습니다. <br />완료 후 정렬 버튼을 다시 클릭하세요.
     </div>
 
-    <table class="ui-table" :class="{ 'th-left': isThLeft }">
+    <!-- 스크롤 가능한 테이블 컨테이너 -->
+    <div v-if="scrollable" class="table-scroll-container">
+      <table class="ui-table" :class="{ 'th-left': isThLeft }">
+        <colgroup v-if="$slots.colgroup">
+          <slot name="colgroup"></slot>
+        </colgroup>
+        <thead v-if="$slots.header && layout !== 'horizontal'" class="sticky-header">
+          <slot
+            name="header"
+            :select-all="selectAll"
+            :is-all-selected="isAllSelected"
+            :editable="editable"
+          ></slot>
+        </thead>
+        <tbody v-if="$slots.body">
+          <slot
+            name="body"
+            :rows="modelValue"
+            :selected-rows="selectedRows"
+            :toggle-row-selection="toggleRowSelection"
+            :is-row-selected="isRowSelected"
+            :handle-drag-start="handleDragStart"
+            :handle-drag-over="handleDragOver"
+            :handle-drop="handleDrop"
+            :handle-drag-end="handleDragEnd"
+            :sortable="sortable"
+            :editable="editable"
+          ></slot>
+        </tbody>
+        <tfoot v-if="$slots.footer">
+          <slot name="footer"></slot>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- 스크롤이 없는 경우 기존 방식 -->
+    <table v-else class="ui-table" :class="{ 'th-left': isThLeft }">
       <colgroup v-if="$slots.colgroup">
         <slot name="colgroup"></slot>
       </colgroup>
-      <thead
-        v-if="$slots.header && layout !== 'horizontal'"
-        :class="{ 'sticky-header': scrollable, 'sticky-header-no': !editable }"
-      >
+      <thead v-if="$slots.header && layout !== 'horizontal'" class="sticky-header">
         <slot
           name="header"
           :select-all="selectAll"
@@ -462,24 +495,44 @@
 <style lang="scss">
   .ui-table-wrapper {
     position: relative;
+    overflow: hidden; // 전체 컨테이너는 overflow 숨김
     width: 100%;
-    overflow-x: auto;
     transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
 
     .ui-table {
+      width: 100%;
       border-top: 1px solid #6d7882;
+      border-collapse: separate;
       th {
         background-color: $gray-5;
       }
     }
 
     &.scrollable {
-      overflow-y: auto;
-      position: relative;
+      height: 100%; // 높이 설정 필요
+      // 섹션 헤더는 고정
+      .section-header {
+        flex-shrink: 0; // 고정
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background-color: #fff;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      // 테이블 컨테이너만 스크롤
+      .table-scroll-container {
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: auto;
+      }
     }
 
     &.bordered {
       .ui-table {
+        border-right: 0.5px solid $gray-20;
         th {
           border-left: 0.5px solid $gray-20;
           border-bottom: 0.5px solid $gray-20;
@@ -487,18 +540,10 @@
           &:first-child {
             border-left: 1px solid $gray-20;
           }
-
-          &:last-child {
-            border-right: 0.5px solid $gray-20;
-          }
         }
 
         td {
           border-left: 0.5px solid $gray-20;
-
-          &:last-child {
-            border-right: 0.5px solid $gray-20;
-          }
         }
 
         tbody tr:last-child td {
@@ -614,9 +659,7 @@
   }
 
   .ui-table {
-    width: 100%;
-    border-spacing: 0;
-    border-collapse: separate;
+    border-top: 1px solid #6d7882;
 
     tr {
       &.sortable-row {
@@ -640,7 +683,7 @@
     th,
     td {
       text-align: left;
-      vertical-align: top;
+      vertical-align: middle;
       line-height: 1.5;
     }
 
@@ -693,34 +736,34 @@
     color: $primary-color !important;
   }
 
-  .sticky-header-btn {
-    position: sticky;
-    top: 0;
-    z-index: 11;
-    background-color: #fff;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #e2e8f0;
-  }
-
+  // 테이블 헤더 sticky 개선
   .sticky-header {
-    position: sticky;
-    top: 44px;
-    z-index: 1;
+    th {
+      position: sticky;
+      top: 0; // 테이블 컨테이너 기준으로 고정
+      z-index: 10;
+      background-color: #f8fafc;
 
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -1px;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background-color: #6d7882;
-      z-index: 1;
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background-color: #6d7882;
+        z-index: 1;
+      }
     }
   }
 
   .sticky-header-no {
-    top: 0;
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background-color: #f8fafc;
+    }
   }
 
   .sort-mode-message {
