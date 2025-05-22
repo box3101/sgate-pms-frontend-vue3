@@ -298,3 +298,11 @@ button:focus,
   border-radius: 4px;
   padding: 10px 15px;
 }
+
+.text-underline {
+  color: $primary-color;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

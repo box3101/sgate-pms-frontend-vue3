@@ -9,7 +9,8 @@
       layout,
       scrollable && 'scrollable',
       isDragging && 'dragging',
-      editable && 'editable'
+      editable && 'editable',
+      alignTop && 'align-top'
     ]"
     :style="scrollable ? { maxHeight: maxHeight } : {}"
   >
@@ -127,6 +128,9 @@
           :editable="editable"
         ></slot>
       </thead>
+      <thead v-if="layout === 'horizontal'">
+        <slot name="header"></slot>
+      </thead>
       <tbody v-if="$slots.body">
         <slot
           name="body"
@@ -201,6 +205,10 @@
       validator: value => ['vertical', 'horizontal'].includes(value)
     },
     isThLeft: {
+      type: Boolean,
+      default: false
+    },
+    alignTop: {
       type: Boolean,
       default: false
     },
@@ -500,10 +508,12 @@
     transition: all 0.2s ease;
     display: flex;
     flex-direction: column;
+    border-bottom: 1px solid #e2e8f0;
 
     .ui-table {
       width: 100%;
       border-collapse: separate;
+
       th {
         background-color: $gray-5;
         border-top: 1px solid #6d7882;
@@ -519,7 +529,6 @@
         top: 0;
         z-index: 20;
         background-color: #fff;
-        border-bottom: 1px solid #e2e8f0;
       }
 
       // 테이블 컨테이너만 스크롤
@@ -535,7 +544,6 @@
         border-right: 0.5px solid $gray-20;
         th {
           border-left: 0.5px solid $gray-20;
-          border-bottom: 0.5px solid $gray-20;
 
           &:first-child {
             border-left: 1px solid $gray-20;
@@ -601,6 +609,7 @@
 
         td {
           padding: 7px 10px;
+          font-size: 15px;
         }
       }
     }
@@ -618,29 +627,51 @@
 
     &.horizontal {
       .ui-table {
-        th {
-          width: 21.5%;
-          text-align: left;
-          border-right: 2px solid #e2e8f0;
-          border-bottom: 1px solid #e2e8f0;
-          position: relative;
-          white-space: nowrap;
-        }
-
-        td {
-          width: 78.5%;
-        }
-
-        tr:last-child th {
-          border-bottom: none;
-        }
-
+        display: table;
+        width: 100%;
         thead {
-          display: none;
+          display: none; // horizontal에서는 thead 숨김
+        }
+
+        tbody {
+          tr {
+            display: table-row;
+            &:first-child {
+              td,th {
+                border-top: 1px solid #6d7882;
+              }
+            }
+
+            th {
+              display: table-cell;
+              width: 15%;
+              background-color: #f8fafc;
+              font-weight: 600;
+              padding: 10px;
+              vertical-align: middle;
+              white-space: nowrap;
+              border:1px solid #e2e8f0;
+              border-bottom:none;
+            }
+
+            td {
+              display: table-cell;
+              width: 85%;
+              padding: 10px;
+              vertical-align: top;
+              border:1px solid #e2e8f0;
+              border-bottom:none;
+            }
+
+            &:last-child {
+              th, td {
+                border-bottom: none;
+              }
+            }
+          }
         }
       }
     }
-
     &.editable {
       .ui-table {
         tbody tr {
@@ -654,6 +685,14 @@
     &.dragging {
       .ui-table tbody tr {
         transition: transform 0.2s ease;
+      }
+    }
+
+    &.align-top {
+      .ui-table {
+        td {
+          vertical-align: top;
+        }
       }
     }
   }
@@ -696,7 +735,6 @@
     }
 
     td {
-      border-bottom: 1px solid #e2e8f0;
 
       &.text-center {
         text-align: center;
