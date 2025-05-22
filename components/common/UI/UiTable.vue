@@ -15,7 +15,7 @@
   >
     <div
       class="section-header flex items-center justify-between"
-      :class="fixHeader && 'sticky-headers'"
+      :class="fixHeader && 'sticky-header-btn'"
     >
       <div class="flex items-center gap-10">
         <h2 class="heading-4">{{ title }}</h2>
@@ -452,8 +452,6 @@
 </script>
 
 <style lang="scss">
-  @use 'sass:color';
-
   .ui-table-wrapper {
     position: relative;
     width: 100%;
@@ -470,20 +468,34 @@
     &.scrollable {
       overflow-y: auto;
       position: relative;
-
-      // .sticky-header {
-      //   position: sticky;
-      //   top: 0;
-      //   z-index: 1;
-      //   background-color: #fff;
-      // }
     }
 
     &.bordered {
       .ui-table {
-        th,
+        th {
+          border-left: 0.5px solid $gray-20;
+          border-bottom: 0.5px solid $gray-20;
+
+          &:first-child {
+            border-left: 1px solid $gray-20;
+          }
+
+          &:last-child {
+            border-right: 0.5px solid $gray-20;
+          }
+        }
+
         td {
-          border: 0.5px solid $gray-20;
+          border-left: 0.5px solid $gray-20;
+
+          &:last-child {
+            border-right: 0.5px solid $gray-20;
+          }
+        }
+
+        // 마지막 행의 td에만 하단 border
+        tbody tr:last-child td {
+          border-bottom: 0.5px solid $gray-20;
         }
       }
     }
@@ -595,10 +607,9 @@
   .ui-table {
     width: 100%;
     border-spacing: 0;
+    border-collapse: separate; // 추가
 
     tr {
-      cursor: pointer;
-
       &.sortable-row {
         &:hover {
           background-color: rgba(241, 245, 249, 0.8);
@@ -627,8 +638,6 @@
     th {
       font-weight: 600;
       background-color: #f8fafc;
-      // position: sticky;
-      top: 0;
       z-index: 1;
       white-space: nowrap;
       font-size: 1rem;
@@ -668,15 +677,6 @@
     }
   }
 
-  .sort-mode-message {
-    background-color: #ebf8ff;
-    color: #2b6cb0;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    margin-bottom: 1rem;
-    font-size: 0.875rem;
-  }
-
   .textUnderLine {
     text-decoration: underline;
     text-underline-offset: 2px;
@@ -684,12 +684,28 @@
     color: $primary-color !important;
   }
 
-  .sticky-headers {
+  .sticky-header-btn {
     position: sticky;
     top: 0;
-    z-index: 1;
+    z-index: 11; // 1에서 11로 변경
     background-color: #fff;
     padding-bottom: 10px;
     border-bottom: 1px solid #e2e8f0;
+  }
+  .sticky-header {
+    position: sticky;
+    top: 44px;
+    z-index: 1;
+    // 추가: border 잘림 방지
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background-color: #6d7882;
+      z-index: 1;
+    }
   }
 </style>

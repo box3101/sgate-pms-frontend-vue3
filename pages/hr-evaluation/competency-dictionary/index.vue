@@ -53,7 +53,7 @@
     </div>
   </div>
 
-  <div class="flex-container flex gap-15">
+  <div class="flex-container flex">
     <div class="w-25p">
       <!-- 공통 -->
       <UiTable
@@ -62,7 +62,8 @@
         editable
         bordered
         striped
-        maxHeight="calc(100vh - 250px)"
+        scrollable
+        maxHeight="calc(100vh - 190px)"
         :fixHeader="true"
         :canAddRow="false"
         :default-row-data="defaultRowData"
