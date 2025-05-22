@@ -604,11 +604,11 @@
         }
 
         th {
-          padding: 10px 10px;
+          padding: 10px 7px;
         }
 
         td {
-          padding: 7px 10px;
+          padding: 7px;
           font-size: 15px;
         }
       }
