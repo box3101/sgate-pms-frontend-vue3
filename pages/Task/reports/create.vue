@@ -1,6 +1,5 @@
-처처
 <template>
-  <div class="report-creation-container">
+  <div class="report-creation-container" ref="mainContentRef">
     <header class="report-header com-header">
       <div class="ct-top flex justify-between items-center">
         <ul class="my_menu flex gap-23 items-center">
@@ -30,7 +29,7 @@
             editable
             striped
             scrollable
-            maxHeight="calc(100vh - 180px)"
+            :maxHeight="dynamicTableHeight"
             :fixHeader="true"
             :canAddRow="false"
             :canSave="false"
@@ -325,6 +324,63 @@
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum voluptatum deserunt
                   voluptatem, corrupti veniam quasi sapiente vitae quas necessitatibus ut sint odio
                   quod provident ipsum fugiat aliquam repudiandae ullam excepturi, consequuntur iure
+                  quibusdam harum. Quisquam, perspiciatis fuga provident, necessitatibus autem quod,
+                  in quasi illo quos velit officiis minima voluptatibus deserunt incidunt cumque
+                  repudiandae eligendi facere impedit labore? Ad sed quam nisi sunt voluptatibus in
+                  impedit fuga rem rerum similique maxime, corrupti aliquam quia enim provident
+                  perspiciatis commodi excepturi repellendus error magnam eius odio fugiat quisquam
+                  placeat? Nobis recusandae veniam earum. Quas aperiam dolorem rem modi, excepturi
+                  vel et sunt laboriosam eveniet, recusandae saepe aspernatur aut totam soluta eius
+                  maxime hic blanditiis fugiat esse dolorum veniam laudantium. Consectetur a, omnis
+                  voluptatem illo nostrum impedit cum, suscipit, voluptas qui eligendi commodi ullam
+                  vitae quis dolore necessitatibus accusamus minus debitis eius molestiae
+                  architecto. Officia, corporis ex ea sequi laboriosam aperiam ipsam culpa
+                  temporibus provident quo reprehenderit, reiciendis deleniti soluta, fugit odit
+                  illum eligendi dolores necessitatibus aliquam sit explicabo commodi ipsum. Iusto
+                  alias similique doloribus dolor odit repellat aliquam porro, ipsum sapiente libero
+                  velit debitis tempore quos vitae quam eligendi modi quod distinctio quis quisquam
+                  nemo? Soluta accusantium mollitia, odit maxime dolores numquam eveniet?Lorem ipsum
+                  dolor sit amet consectetur adipisicing elit. Eum voluptatum deserunt voluptatem,
+                  corrupti veniam quasi sapiente vitae quas necessitatibus ut sint odio quod
+                  provident ipsum fugiat aliquam repudiandae ullam excepturi, consequuntur iure
+                  quibusdam harum. Quisquam, perspiciatis fuga provident, necessitatibus autem quod,
+                  in quasi illo quos velit officiis minima voluptatibus deserunt incidunt cumque
+                  repudiandae eligendi facere impedit labore? Ad sed quam nisi sunt voluptatibus in
+                  impedit fuga rem rerum similique maxime, corrupti aliquam quia enim provident
+                  perspiciatis commodi excepturi repellendus error magnam eius odio fugiat quisquam
+                  placeat? Nobis recusandae veniam earum. Quas aperiam dolorem rem modi, excepturi
+                  vel et sunt laboriosam eveniet, recusandae saepe aspernatur aut totam soluta eius
+                  maxime hic blanditiis fugiat esse dolorum veniam laudantium. Consectetur a, omnis
+                  voluptatem illo nostrum impedit cum, suscipit, voluptas qui eligendi commodi ullam
+                  vitae quis dolore necessitatibus accusamus minus debitis eius molestiae
+                  architecto. Officia, corporis ex ea sequi laboriosam aperiam ipsam culpa
+                  temporibus provident quo reprehenderit, reiciendis deleniti soluta, fugit odit
+                  illum eligendi dolores necessitatibus aliquam sit explicabo commodi ipsum. Iusto
+                  alias similique doloribus dolor odit repellat aliquam porro, ipsum sapiente libero
+                  velit debitis tempore quos vitae quam eligendi modi quod distinctio quis quisquam
+                  nemo? Soluta accusantium mollitia, odit maxime dolores numquam eveniet?Lorem ipsum
+                  dolor sit amet consectetur adipisicing elit. Eum voluptatum deserunt voluptatem,
+                  corrupti veniam quasi sapiente vitae quas necessitatibus ut sint odio quod
+                  provident ipsum fugiat aliquam repudiandae ullam excepturi, consequuntur iure
+                  quibusdam harum. Quisquam, perspiciatis fuga provident, necessitatibus autem quod,
+                  in quasi illo quos velit officiis minima voluptatibus deserunt incidunt cumque
+                  repudiandae eligendi facere impedit labore? Ad sed quam nisi sunt voluptatibus in
+                  impedit fuga rem rerum similique maxime, corrupti aliquam quia enim provident
+                  perspiciatis commodi excepturi repellendus error magnam eius odio fugiat quisquam
+                  placeat? Nobis recusandae veniam earum. Quas aperiam dolorem rem modi, excepturi
+                  vel et sunt laboriosam eveniet, recusandae saepe aspernatur aut totam soluta eius
+                  maxime hic blanditiis fugiat esse dolorum veniam laudantium. Consectetur a, omnis
+                  voluptatem illo nostrum impedit cum, suscipit, voluptas qui eligendi commodi ullam
+                  vitae quis dolore necessitatibus accusamus minus debitis eius molestiae
+                  architecto. Officia, corporis ex ea sequi laboriosam aperiam ipsam culpa
+                  temporibus provident quo reprehenderit, reiciendis deleniti soluta, fugit odit
+                  illum eligendi dolores necessitatibus aliquam sit explicabo commodi ipsum. Iusto
+                  alias similique doloribus dolor odit repellat aliquam porro, ipsum sapiente libero
+                  velit debitis tempore quos vitae quam eligendi modi quod distinctio quis quisquam
+                  nemo? Soluta accusantium mollitia, odit maxime dolores numquam eveniet?Lorem ipsum
+                  dolor sit amet consectetur adipisicing elit. Eum voluptatum deserunt voluptatem,
+                  corrupti veniam quasi sapiente vitae quas necessitatibus ut sint odio quod
+                  provident ipsum fugiat aliquam repudiandae ullam excepturi, consequuntur iure
                   quibusdam harum. Quisquam, perspiciatis fuga provident, necessitatibus autem quod,
                   in quasi illo quos velit officiis minima voluptatibus deserunt incidunt cumque
                   repudiandae eligendi facere impedit labore? Ad sed quam nisi sunt voluptatibus in
@@ -778,7 +834,7 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue'
+  import { ref, nextTick } from 'vue'
 
   // 로고 텍스트 접근
   const logoText = inject('logoText')
@@ -1242,4 +1298,21 @@
   const handleCancel = () => {
     aiSummaryModal.value = false
   }
+
+  const mainContentRef = ref(null)
+
+  const dynamicTableHeight = ref('400px') // 초기값
+
+  const updateTableHeight = async () => {
+    await nextTick()
+
+    if (mainContentRef.value) {
+      const mainContentHeight = mainContentRef.value.offsetHeight
+      const calculatedHeight = mainContentHeight - 75
+
+      dynamicTableHeight.value = `${calculatedHeight}px`
+    }
+  }
+
+  onMounted(updateTableHeight)
 </script>
