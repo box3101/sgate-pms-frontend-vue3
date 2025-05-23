@@ -1,4 +1,5 @@
-처처<template>
+처처
+<template>
   <div class="report-creation-container">
     <header class="report-header com-header">
       <div class="ct-top flex justify-between items-center">
@@ -159,7 +160,14 @@
               </UiButton>
             </div>
           </div>
-          <UiTable v-model="tableData" scrollable striped bordered maxHeight="calc(100vh - 222px)" alignTop>
+          <UiTable
+            v-model="tableData"
+            scrollable
+            striped
+            bordered
+            maxHeight="calc(100vh - 222px)"
+            alignTop
+          >
             <!-- 테이블 구조 설정 -->
             <template #colgroup>
               <col width="50%" />
@@ -302,75 +310,110 @@
           </UiTable>
 
           <!-- 의건/기타 -->
-          <UiTable class="mt-20" title="의건/기타" v-model="tableData2" layout="horizontal" striped bordered>
+          <UiTable
+            class="mt-20"
+            title="의건/기타"
+            v-model="tableData2"
+            layout="horizontal"
+            striped
+            bordered
+          >
             <template #body>
               <tr>
                 <th>의견/기타</th>
                 <td>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum voluptatum deserunt voluptatem, corrupti veniam quasi sapiente vitae quas necessitatibus ut sint odio quod provident ipsum fugiat aliquam repudiandae ullam excepturi, consequuntur iure quibusdam harum. Quisquam, perspiciatis fuga provident, necessitatibus autem quod, in quasi illo quos velit officiis minima voluptatibus deserunt incidunt cumque repudiandae eligendi facere impedit labore? Ad sed quam nisi sunt voluptatibus in impedit fuga rem rerum similique maxime, corrupti aliquam quia enim provident perspiciatis commodi excepturi repellendus error magnam eius odio fugiat quisquam placeat? Nobis recusandae veniam earum. Quas aperiam dolorem rem modi, excepturi vel et sunt laboriosam eveniet, recusandae saepe aspernatur aut totam soluta eius maxime hic blanditiis fugiat esse dolorum veniam laudantium. Consectetur a, omnis voluptatem illo nostrum impedit cum, suscipit, voluptas qui eligendi commodi ullam vitae quis dolore necessitatibus accusamus minus debitis eius molestiae architecto. Officia, corporis ex ea sequi laboriosam aperiam ipsam culpa temporibus provident quo reprehenderit, reiciendis deleniti soluta, fugit odit illum eligendi dolores necessitatibus aliquam sit explicabo commodi ipsum. Iusto alias similique doloribus dolor odit repellat aliquam porro, ipsum sapiente libero velit debitis tempore quos vitae quam eligendi modi quod distinctio quis quisquam nemo? Soluta accusantium mollitia, odit maxime dolores numquam eveniet?
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum voluptatum deserunt
+                  voluptatem, corrupti veniam quasi sapiente vitae quas necessitatibus ut sint odio
+                  quod provident ipsum fugiat aliquam repudiandae ullam excepturi, consequuntur iure
+                  quibusdam harum. Quisquam, perspiciatis fuga provident, necessitatibus autem quod,
+                  in quasi illo quos velit officiis minima voluptatibus deserunt incidunt cumque
+                  repudiandae eligendi facere impedit labore? Ad sed quam nisi sunt voluptatibus in
+                  impedit fuga rem rerum similique maxime, corrupti aliquam quia enim provident
+                  perspiciatis commodi excepturi repellendus error magnam eius odio fugiat quisquam
+                  placeat? Nobis recusandae veniam earum. Quas aperiam dolorem rem modi, excepturi
+                  vel et sunt laboriosam eveniet, recusandae saepe aspernatur aut totam soluta eius
+                  maxime hic blanditiis fugiat esse dolorum veniam laudantium. Consectetur a, omnis
+                  voluptatem illo nostrum impedit cum, suscipit, voluptas qui eligendi commodi ullam
+                  vitae quis dolore necessitatibus accusamus minus debitis eius molestiae
+                  architecto. Officia, corporis ex ea sequi laboriosam aperiam ipsam culpa
+                  temporibus provident quo reprehenderit, reiciendis deleniti soluta, fugit odit
+                  illum eligendi dolores necessitatibus aliquam sit explicabo commodi ipsum. Iusto
+                  alias similique doloribus dolor odit repellat aliquam porro, ipsum sapiente libero
+                  velit debitis tempore quos vitae quam eligendi modi quod distinctio quis quisquam
+                  nemo? Soluta accusantium mollitia, odit maxime dolores numquam eveniet?
                 </td>
               </tr>
             </template>
           </UiTable>
 
-<!-- 첨부파일 -->
-<UiTable class="mt-20" title="첨부파일" layout="horizontal" striped bordered>
-  <template #body>
-    <tr>
-      <th>첨부파일</th>
-      <td>
-        <div class="flex flex-col gap-2">
-          <div class="flex items-center gap-3">
-            <i class="icon icon-md icon-file"></i>
-            <span>보고서_첨부자료.pdf</span>
-            <UiButton size="small" variant="text">
-              <i class="icon icon-sm icon-download"></i>
-              <span class="text-underline">다운로드</span>
-            </UiButton>
-          </div>
-          <div class="flex items-center gap-3">
-            <i class="icon icon-md icon-file"></i>
-            <span>회의록_20240601.docx</span>
-            <UiButton size="small" variant="text">
-              <i class="icon icon-sm icon-download"></i>
-              <span class="text-underline">다운로드</span>
-            </UiButton>
-          </div>
-        </div>
-      </td>
-    </tr>
-  </template>
-</UiTable>
+          <!-- 첨부파일 -->
+          <UiTable class="mt-20" title="첨부파일" layout="horizontal" striped bordered>
+            <template #body>
+              <tr>
+                <th>첨부파일</th>
+                <td>
+                  <div class="flex flex-col gap-2">
+                    <div class="flex items-center gap-3">
+                      <i class="icon icon-md icon-file"></i>
+                      <span>보고서_첨부자료.pdf</span>
+                      <UiButton size="small" variant="text">
+                        <i class="icon icon-sm icon-download"></i>
+                        <span class="text-underline">다운로드</span>
+                      </UiButton>
+                    </div>
+                    <div class="flex items-center gap-3">
+                      <i class="icon icon-md icon-file"></i>
+                      <span>회의록_20240601.docx</span>
+                      <UiButton size="small" variant="text">
+                        <i class="icon icon-sm icon-download"></i>
+                        <span class="text-underline">다운로드</span>
+                      </UiButton>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </template>
+          </UiTable>
 
-<!-- 피드백 -->
-<UiTable class="mt-20" title="피드백" v-model="feedbackData" layout="horizontal" striped bordered>
-  <template #body>
-    <tr>
-      <th>피드백</th>
-      <td>
-        <div class="flex flex-col gap-4">
-          <div class="p-3 bg-gray-50 rounded">
-            <div class="flex items-center gap-2 mb-2">
-              <span class="font-bold">홍길동</span>
-              <span class="text-gray-500 text-sm">2024-06-01 14:30</span>
-            </div>
-            <p>보고서 내용이 매우 명확하게 작성되었습니다. 다음 보고서에서는 KPI 달성률에 대한
-            자세한 분석도 추가해주시면 좋겠습니다.</p>
-          </div>
-          <div class="p-3 bg-gray-50 rounded">
-            <div class="flex items-center gap-2 mb-2">
-              <span class="font-bold">김철수</span>
-              <span class="text-gray-500 text-sm">2024-06-02 09:15</span>
-            </div>
-            <p>주요 이슈 사항에 대한 해결 방안이 구체적으로 제시되어 있어 도움이 되었습니다.
-            차주 계획에 일정 관련 세부 내용도 포함해주세요.</p>
-          </div>
-        </div>
-      </td>
-    </tr>
-  </template>
-</UiTable>
-
+          <!-- 피드백 -->
+          <UiTable
+            class="mt-20"
+            title="피드백"
+            v-model="feedbackData"
+            layout="horizontal"
+            striped
+            bordered
+          >
+            <template #body>
+              <tr>
+                <th>피드백</th>
+                <td>
+                  <div class="flex flex-col gap-4">
+                    <div class="p-3 bg-gray-50 rounded">
+                      <div class="flex items-center gap-2 mb-2">
+                        <span class="font-bold">홍길동</span>
+                        <span class="text-gray-500 text-sm">2024-06-01 14:30</span>
+                      </div>
+                      <p>
+                        보고서 내용이 매우 명확하게 작성되었습니다. 다음 보고서에서는 KPI 달성률에
+                        대한 자세한 분석도 추가해주시면 좋겠습니다.
+                      </p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded">
+                      <div class="flex items-center gap-2 mb-2">
+                        <span class="font-bold">김철수</span>
+                        <span class="text-gray-500 text-sm">2024-06-02 09:15</span>
+                      </div>
+                      <p>
+                        주요 이슈 사항에 대한 해결 방안이 구체적으로 제시되어 있어 도움이
+                        되었습니다. 차주 계획에 일정 관련 세부 내용도 포함해주세요.
+                      </p>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </template>
+          </UiTable>
         </div>
       </div>
     </div>
@@ -567,6 +610,37 @@
         </tr>
       </template>
     </UiTable>
+
+    <!-- 의건/기타 -->
+    <UiTable
+      class="mt-20"
+      title="의건/기타"
+      v-model="tableData2"
+      layout="horizontal"
+      striped
+      bordered
+    >
+      <template #body>
+        <tr>
+          <th>의견/기타</th>
+          <td>
+            <UiTextarea v-model="textareaValue" :rows="5" />
+          </td>
+        </tr>
+      </template>
+    </UiTable>
+
+    <!-- 첨부파일 -->
+    <UiTable class="mt-20" title="첨부파일" layout="horizontal" striped bordered>
+      <template #body>
+        <tr>
+          <th>첨부파일</th>
+          <td>
+            <UiAttachment v-model="uploadedFiles" :initialOpen="true" />
+          </td>
+        </tr>
+      </template>
+    </UiTable>
   </UiModal>
 
   <!-- ================== 활동추가 팝업 ================== -->
@@ -719,15 +793,15 @@
   const reportConfigModal = ref(false)
   const reportCreateModal = ref(false)
   const addActivityPopup = ref(false)
-  const aiSummaryModal = ref(false);
-  const aiSummaryConfirm = ref(false);
+  const aiSummaryModal = ref(false)
+  const aiSummaryConfirm = ref(false)
+  const uploadedFiles = ref([])
 
   const columns = ref([
     { key: 'date', title: '날짜', width: '140px', align: 'center' },
     { key: 'type', title: '보고서 유형', width: '80px', align: 'center' },
     { key: 'status', title: '상태', width: '80px', align: 'center' },
-{ key: 'feedbackCount', title: '피드백', width: '80px', align: 'center' },
-
+    { key: 'feedbackCount', title: '피드백', width: '80px', align: 'center' }
   ])
 
   const tableData = ref([
@@ -1162,10 +1236,10 @@
   ])
 
   const handleConfirm = () => {
-    aiSummaryModal.value = true;
+    aiSummaryModal.value = true
   }
 
   const handleCancel = () => {
-    aiSummaryModal.value = false;
+    aiSummaryModal.value = false
   }
 </script>
