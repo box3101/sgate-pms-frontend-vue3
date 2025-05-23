@@ -725,89 +725,107 @@
   const columns = ref([
     { key: 'date', title: '날짜', width: '140px', align: 'center' },
     { key: 'type', title: '보고서 유형', width: '80px', align: 'center' },
-    { key: 'status', title: '상태', width: '80px', align: 'center' }
+    { key: 'status', title: '상태', width: '80px', align: 'center' },
+{ key: 'feedbackCount', title: '피드백', width: '80px', align: 'center' },
+
   ])
 
   const tableData = ref([
     {
       date: '2025-05-22',
       type: '일간보고',
-      status: '대기'
+      status: '대기',
+      feedbackCount: 1
     },
     {
       date: '2025-05-21',
       type: '일간보고',
-      status: '제출'
+      status: '제출',
+      feedbackCount: 2
     },
     {
       date: '2025-05-20',
       type: '일간보고',
-      status: '제출'
+      status: '제출',
+      feedbackCount: 0
     },
     {
       date: '2025-05-19',
       type: '일간보고',
-      status: '제출'
+      status: '제출',
+      feedbackCount: 0
     },
     {
       date: '2025-05-18',
       type: '주간보고',
-      status: '제출'
+      status: '제출',
+      feedbackCount: 0
     },
     {
       date: '2025-05-17',
       type: '일간보고',
-      status: '미제출'
+      status: '미제출',
+      feedbackCount: 0
     },
     {
       date: '2025-05-16',
       type: '일간보고',
-      status: '제출'
+      status: '제출',
+      feedbackCount: 0
     },
     {
       date: '2025-05-15',
       type: '일간보고',
-      status: '제출'
+      status: '제출',
+      feedbackCount: 0
     },
     {
       date: '2025-05-14',
       type: '일간보고',
-      status: '제출'
+      status: '제출',
+      feedbackCount: 0
     },
     {
       date: '2025-05-13',
       type: '일간보고',
-      status: '미제출'
+      status: '미제출',
+      feedbackCount: 0
     },
     {
       date: '2025-05-12',
       type: '일간보고',
-      status: '제출'
+      status: '제출',
+      feedbackCount: 0
     },
     {
       date: '2025-05-11',
       type: '주간보고',
-      status: '제출'
+      status: '제출',
+      feedbackCount: 0
     },
     {
       date: '2025-05-10',
       type: '일간보고',
-      status: '제출'
+      status: '제출',
+      feedbackCount: 0
     },
     {
       date: '2025-05-09',
       type: '일간보고',
-      status: '제출'
+      status: '제출',
+      feedbackCount: 0
     },
     {
       date: '2025-05-08',
       type: '일간보고',
-      status: '미제출'
+      status: '미제출',
+      feedbackCount: 0
     },
     {
       date: '2025-05-07',
       type: '일간보고',
-      status: '제출'
+      status: '제출',
+      feedbackCount: 0
     },
     {
       date: '2025-05-06',
