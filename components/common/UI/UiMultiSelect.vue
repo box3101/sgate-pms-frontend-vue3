@@ -18,11 +18,7 @@
     <div class="ui-multi-select__control" @click="focusInput">
       <!-- 선택된 협업자 태그들 -->
       <div class="ui-multi-select__tags">
-        <div
-          v-for="option in selectedOptions"
-          :key="option.value"
-          class="ui-multi-select__tag"
-        >
+        <div v-for="option in selectedOptions" :key="option.value" class="ui-multi-select__tag">
           <div class="ui-multi-select__tag-avatar">
             <img
               v-if="option.avatar"
@@ -98,12 +94,13 @@
           @click.stop="toggleOption(option)"
           @mouseenter="highlightedIndex = index"
         >
-
           <!-- 협업자 정보 -->
           <div class="ui-multi-select__option-info">
             <div class="ui-multi-select__option-name">{{ option.label }}</div>
             <div v-if="option.email" class="ui-multi-select__option-email">{{ option.email }}</div>
-            <div v-if="option.department" class="ui-multi-select__option-department">{{ option.department }}</div>
+            <div v-if="option.department" class="ui-multi-select__option-department">
+              {{ option.department }}
+            </div>
           </div>
 
           <!-- 선택 체크박스 -->
@@ -112,8 +109,14 @@
               class="ui-multi-select__checkbox"
               :class="{ 'ui-multi-select__checkbox--checked': isSelected(option) }"
             >
-              <svg v-if="isSelected(option)" viewBox="0 0 16 16" class="ui-multi-select__check-icon">
-                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+              <svg
+                v-if="isSelected(option)"
+                viewBox="0 0 16 16"
+                class="ui-multi-select__check-icon"
+              >
+                <path
+                  d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
+                />
               </svg>
             </div>
           </div>
@@ -197,7 +200,7 @@
   })
 
   // 이니셜 생성 함수
-  const getInitials = (name) => {
+  const getInitials = name => {
     return name
       .split(' ')
       .map(word => word.charAt(0).toUpperCase())
@@ -261,7 +264,6 @@
     )
   }
 
-
   // 입력 핸들러
   const handleInput = () => {
     emit('search', searchQuery.value)
@@ -269,7 +271,7 @@
   }
 
   // 키보드 네비게이션
-  const handleKeydown = (event) => {
+  const handleKeydown = event => {
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault()
@@ -354,8 +356,12 @@
   }
 
   @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 
   .ui-multi-select {
@@ -537,7 +543,6 @@
       }
     }
 
-
     // 옵션 정보
     &__option-info {
       flex: 1;
@@ -665,10 +670,6 @@
     }
 
     &--large {
-      .ui-multi-select__control {
-        min-height: 44px;
-      }
-
       .ui-multi-select__tag {
         padding: 4px 8px;
         font-size: $font-size-sm;
