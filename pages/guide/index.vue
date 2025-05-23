@@ -281,11 +281,19 @@
                   <p class="component-desc">확인 컴포넌트</p>
                 </div>
               </NuxtLink>
+
+              <NuxtLink to="/components/MultiSelector" class="component-card">
+                <div class="component-icon">
+                  <Icon name="mdi:checkbox-multiple-marked" size="24" />
+                </div>
+                <div class="component-info">
+                  <h3 class="component-title">멀티셀렉터</h3>
+                  <p class="component-desc">여러 항목을 선택할 수 있는 멀티셀렉터 컴포넌트</p>
+                </div>
+              </NuxtLink>
             </div>
           </div>
         </div>
-
-
 
         <!-- 퍼블리싱 진척도 섹션 -->
         <div class="guide-column">
