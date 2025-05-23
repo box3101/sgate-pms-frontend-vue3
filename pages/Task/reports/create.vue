@@ -506,10 +506,21 @@
               ]"
             />
           </div>
-          <UiButton variant="secondary" @click="aiSummaryModal = true">
+          <UiButton variant="secondary" @click="aiSummaryConfirm = true">
             <img src="@/assets/images/ico_avatar_sai.svg" alt="sai" class="icon-md" />
             <span>AI 요약</span>
           </UiButton>
+          <UiConfirm
+            v-model="aiSummaryConfirm"
+            title="사용상의 주의사항"
+            message="
+              사이(S-AI)를 통한 업무보고 요약은 LLM기반의 AI모델을 사용하여 서비스를 제공하고 있습니다.
+              <br><br>
+              이미지는 요약내용에 포함되지 않으며 요약 후에는 직접 입력 모드로 전환합니다.
+            "
+            @confirm="handleConfirm"
+            @cancel="handleCancel"
+          />
           <UiButton variant="secondary">
             <span>직접입력</span>
           </UiButton>
@@ -708,7 +719,8 @@
   const reportConfigModal = ref(false)
   const reportCreateModal = ref(false)
   const addActivityPopup = ref(false)
-  const aiSummaryModal = ref(false)
+  const aiSummaryModal = ref(false);
+  const aiSummaryConfirm = ref(false);
 
   const columns = ref([
     { key: 'date', title: '날짜', width: '140px', align: 'center' },
@@ -1130,4 +1142,12 @@
       createdAt: '2025-04-18'
     }
   ])
+
+  const handleConfirm = () => {
+    aiSummaryModal.value = true;
+  }
+
+  const handleCancel = () => {
+    aiSummaryModal.value = false;
+  }
 </script>
