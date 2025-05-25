@@ -261,6 +261,36 @@
                   <p class="component-desc">데이터를 행과 열로 표시하는 테이블 컴포넌트</p>
                 </div>
               </NuxtLink>
+
+              <NuxtLink to="/components/Alert" class="component-card">
+                <div class="component-icon">
+                  <Icon name="mdi:alert" size="24" />
+                </div>
+                <div class="component-info">
+                  <h3 class="component-title">알림</h3>
+                  <p class="component-desc">알림 컴포넌트</p>
+                </div>
+              </NuxtLink>
+
+              <NuxtLink to="/components/Confirm" class="component-card">
+                <div class="component-icon">
+                  <Icon name="mdi:confirm" size="24" />
+                </div>
+                <div class="component-info">
+                  <h3 class="component-title">확인</h3>
+                  <p class="component-desc">확인 컴포넌트</p>
+                </div>
+              </NuxtLink>
+
+              <NuxtLink to="/components/MultiSelector" class="component-card">
+                <div class="component-icon">
+                  <Icon name="mdi:checkbox-multiple-marked" size="24" />
+                </div>
+                <div class="component-info">
+                  <h3 class="component-title">멀티셀렉터</h3>
+                  <p class="component-desc">여러 항목을 선택할 수 있는 멀티셀렉터 컴포넌트</p>
+                </div>
+              </NuxtLink>
             </div>
           </div>
         </div>

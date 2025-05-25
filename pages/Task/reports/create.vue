@@ -1,5 +1,5 @@
-처처<template>
-  <div class="report-creation-container">
+<template>
+  <div class="report-creation-container" ref="mainContentRef">
     <header class="report-header com-header">
       <div class="ct-top flex justify-between items-center">
         <ul class="my_menu flex gap-23 items-center">
@@ -29,7 +29,12 @@
             editable
             striped
             scrollable
+<<<<<<< HEAD
             maxHeight="calc(100vh - 180px)"
+=======
+            :maxHeight="dynamicTableHeight"
+            :fixHeader="true"
+>>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
             :canAddRow="false"
             :canSave="false"
           >
@@ -158,7 +163,14 @@
               </UiButton>
             </div>
           </div>
-          <UiTable v-model="tableData" scrollable striped bordered maxHeight="calc(100vh - 222px)" alignTop>
+          <UiTable
+            v-model="tableData"
+            scrollable
+            striped
+            bordered
+            maxHeight="calc(100vh - 222px)"
+            alignTop
+          >
             <!-- 테이블 구조 설정 -->
             <template #colgroup>
               <col width="50%" />
@@ -301,75 +313,167 @@
           </UiTable>
 
           <!-- 의건/기타 -->
-          <UiTable class="mt-20" title="의건/기타" v-model="tableData2" layout="horizontal" striped bordered>
+          <UiTable
+            class="mt-20"
+            title="의건/기타"
+            v-model="tableData2"
+            layout="horizontal"
+            striped
+            bordered
+          >
             <template #body>
               <tr>
                 <th>의견/기타</th>
                 <td>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum voluptatum deserunt voluptatem, corrupti veniam quasi sapiente vitae quas necessitatibus ut sint odio quod provident ipsum fugiat aliquam repudiandae ullam excepturi, consequuntur iure quibusdam harum. Quisquam, perspiciatis fuga provident, necessitatibus autem quod, in quasi illo quos velit officiis minima voluptatibus deserunt incidunt cumque repudiandae eligendi facere impedit labore? Ad sed quam nisi sunt voluptatibus in impedit fuga rem rerum similique maxime, corrupti aliquam quia enim provident perspiciatis commodi excepturi repellendus error magnam eius odio fugiat quisquam placeat? Nobis recusandae veniam earum. Quas aperiam dolorem rem modi, excepturi vel et sunt laboriosam eveniet, recusandae saepe aspernatur aut totam soluta eius maxime hic blanditiis fugiat esse dolorum veniam laudantium. Consectetur a, omnis voluptatem illo nostrum impedit cum, suscipit, voluptas qui eligendi commodi ullam vitae quis dolore necessitatibus accusamus minus debitis eius molestiae architecto. Officia, corporis ex ea sequi laboriosam aperiam ipsam culpa temporibus provident quo reprehenderit, reiciendis deleniti soluta, fugit odit illum eligendi dolores necessitatibus aliquam sit explicabo commodi ipsum. Iusto alias similique doloribus dolor odit repellat aliquam porro, ipsum sapiente libero velit debitis tempore quos vitae quam eligendi modi quod distinctio quis quisquam nemo? Soluta accusantium mollitia, odit maxime dolores numquam eveniet?
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum voluptatum deserunt
+                  voluptatem, corrupti veniam quasi sapiente vitae quas necessitatibus ut sint odio
+                  quod provident ipsum fugiat aliquam repudiandae ullam excepturi, consequuntur iure
+                  quibusdam harum. Quisquam, perspiciatis fuga provident, necessitatibus autem quod,
+                  in quasi illo quos velit officiis minima voluptatibus deserunt incidunt cumque
+                  repudiandae eligendi facere impedit labore? Ad sed quam nisi sunt voluptatibus in
+                  impedit fuga rem rerum similique maxime, corrupti aliquam quia enim provident
+                  perspiciatis commodi excepturi repellendus error magnam eius odio fugiat quisquam
+                  placeat? Nobis recusandae veniam earum. Quas aperiam dolorem rem modi, excepturi
+                  vel et sunt laboriosam eveniet, recusandae saepe aspernatur aut totam soluta eius
+                  maxime hic blanditiis fugiat esse dolorum veniam laudantium. Consectetur a, omnis
+                  voluptatem illo nostrum impedit cum, suscipit, voluptas qui eligendi commodi ullam
+                  vitae quis dolore necessitatibus accusamus minus debitis eius molestiae
+                  architecto. Officia, corporis ex ea sequi laboriosam aperiam ipsam culpa
+                  temporibus provident quo reprehenderit, reiciendis deleniti soluta, fugit odit
+                  illum eligendi dolores necessitatibus aliquam sit explicabo commodi ipsum. Iusto
+                  alias similique doloribus dolor odit repellat aliquam porro, ipsum sapiente libero
+                  velit debitis tempore quos vitae quam eligendi modi quod distinctio quis quisquam
+                  nemo? Soluta accusantium mollitia, odit maxime dolores numquam eveniet?Lorem ipsum
+                  dolor sit amet consectetur adipisicing elit. Eum voluptatum deserunt voluptatem,
+                  corrupti veniam quasi sapiente vitae quas necessitatibus ut sint odio quod
+                  provident ipsum fugiat aliquam repudiandae ullam excepturi, consequuntur iure
+                  quibusdam harum. Quisquam, perspiciatis fuga provident, necessitatibus autem quod,
+                  in quasi illo quos velit officiis minima voluptatibus deserunt incidunt cumque
+                  repudiandae eligendi facere impedit labore? Ad sed quam nisi sunt voluptatibus in
+                  impedit fuga rem rerum similique maxime, corrupti aliquam quia enim provident
+                  perspiciatis commodi excepturi repellendus error magnam eius odio fugiat quisquam
+                  placeat? Nobis recusandae veniam earum. Quas aperiam dolorem rem modi, excepturi
+                  vel et sunt laboriosam eveniet, recusandae saepe aspernatur aut totam soluta eius
+                  maxime hic blanditiis fugiat esse dolorum veniam laudantium. Consectetur a, omnis
+                  voluptatem illo nostrum impedit cum, suscipit, voluptas qui eligendi commodi ullam
+                  vitae quis dolore necessitatibus accusamus minus debitis eius molestiae
+                  architecto. Officia, corporis ex ea sequi laboriosam aperiam ipsam culpa
+                  temporibus provident quo reprehenderit, reiciendis deleniti soluta, fugit odit
+                  illum eligendi dolores necessitatibus aliquam sit explicabo commodi ipsum. Iusto
+                  alias similique doloribus dolor odit repellat aliquam porro, ipsum sapiente libero
+                  velit debitis tempore quos vitae quam eligendi modi quod distinctio quis quisquam
+                  nemo? Soluta accusantium mollitia, odit maxime dolores numquam eveniet?Lorem ipsum
+                  dolor sit amet consectetur adipisicing elit. Eum voluptatum deserunt voluptatem,
+                  corrupti veniam quasi sapiente vitae quas necessitatibus ut sint odio quod
+                  provident ipsum fugiat aliquam repudiandae ullam excepturi, consequuntur iure
+                  quibusdam harum. Quisquam, perspiciatis fuga provident, necessitatibus autem quod,
+                  in quasi illo quos velit officiis minima voluptatibus deserunt incidunt cumque
+                  repudiandae eligendi facere impedit labore? Ad sed quam nisi sunt voluptatibus in
+                  impedit fuga rem rerum similique maxime, corrupti aliquam quia enim provident
+                  perspiciatis commodi excepturi repellendus error magnam eius odio fugiat quisquam
+                  placeat? Nobis recusandae veniam earum. Quas aperiam dolorem rem modi, excepturi
+                  vel et sunt laboriosam eveniet, recusandae saepe aspernatur aut totam soluta eius
+                  maxime hic blanditiis fugiat esse dolorum veniam laudantium. Consectetur a, omnis
+                  voluptatem illo nostrum impedit cum, suscipit, voluptas qui eligendi commodi ullam
+                  vitae quis dolore necessitatibus accusamus minus debitis eius molestiae
+                  architecto. Officia, corporis ex ea sequi laboriosam aperiam ipsam culpa
+                  temporibus provident quo reprehenderit, reiciendis deleniti soluta, fugit odit
+                  illum eligendi dolores necessitatibus aliquam sit explicabo commodi ipsum. Iusto
+                  alias similique doloribus dolor odit repellat aliquam porro, ipsum sapiente libero
+                  velit debitis tempore quos vitae quam eligendi modi quod distinctio quis quisquam
+                  nemo? Soluta accusantium mollitia, odit maxime dolores numquam eveniet?Lorem ipsum
+                  dolor sit amet consectetur adipisicing elit. Eum voluptatum deserunt voluptatem,
+                  corrupti veniam quasi sapiente vitae quas necessitatibus ut sint odio quod
+                  provident ipsum fugiat aliquam repudiandae ullam excepturi, consequuntur iure
+                  quibusdam harum. Quisquam, perspiciatis fuga provident, necessitatibus autem quod,
+                  in quasi illo quos velit officiis minima voluptatibus deserunt incidunt cumque
+                  repudiandae eligendi facere impedit labore? Ad sed quam nisi sunt voluptatibus in
+                  impedit fuga rem rerum similique maxime, corrupti aliquam quia enim provident
+                  perspiciatis commodi excepturi repellendus error magnam eius odio fugiat quisquam
+                  placeat? Nobis recusandae veniam earum. Quas aperiam dolorem rem modi, excepturi
+                  vel et sunt laboriosam eveniet, recusandae saepe aspernatur aut totam soluta eius
+                  maxime hic blanditiis fugiat esse dolorum veniam laudantium. Consectetur a, omnis
+                  voluptatem illo nostrum impedit cum, suscipit, voluptas qui eligendi commodi ullam
+                  vitae quis dolore necessitatibus accusamus minus debitis eius molestiae
+                  architecto. Officia, corporis ex ea sequi laboriosam aperiam ipsam culpa
+                  temporibus provident quo reprehenderit, reiciendis deleniti soluta, fugit odit
+                  illum eligendi dolores necessitatibus aliquam sit explicabo commodi ipsum. Iusto
+                  alias similique doloribus dolor odit repellat aliquam porro, ipsum sapiente libero
+                  velit debitis tempore quos vitae quam eligendi modi quod distinctio quis quisquam
+                  nemo? Soluta accusantium mollitia, odit maxime dolores numquam eveniet?
                 </td>
               </tr>
             </template>
           </UiTable>
 
-<!-- 첨부파일 -->
-<UiTable class="mt-20" title="첨부파일" layout="horizontal" striped bordered>
-  <template #body>
-    <tr>
-      <th>첨부파일</th>
-      <td>
-        <div class="flex flex-col gap-2">
-          <div class="flex items-center gap-3">
-            <i class="icon icon-md icon-file"></i>
-            <span>보고서_첨부자료.pdf</span>
-            <UiButton size="small" variant="text">
-              <i class="icon icon-sm icon-download"></i>
-              <span class="text-underline">다운로드</span>
-            </UiButton>
-          </div>
-          <div class="flex items-center gap-3">
-            <i class="icon icon-md icon-file"></i>
-            <span>회의록_20240601.docx</span>
-            <UiButton size="small" variant="text">
-              <i class="icon icon-sm icon-download"></i>
-              <span class="text-underline">다운로드</span>
-            </UiButton>
-          </div>
-        </div>
-      </td>
-    </tr>
-  </template>
-</UiTable>
+          <!-- 첨부파일 -->
+          <UiTable class="mt-20" title="첨부파일" layout="horizontal" striped bordered>
+            <template #body>
+              <tr>
+                <th>첨부파일</th>
+                <td>
+                  <div class="flex flex-col gap-2">
+                    <div class="flex items-center gap-3">
+                      <i class="icon icon-md icon-file"></i>
+                      <span>보고서_첨부자료.pdf</span>
+                      <UiButton size="small" variant="text">
+                        <i class="icon icon-sm icon-download"></i>
+                        <span class="text-underline">다운로드</span>
+                      </UiButton>
+                    </div>
+                    <div class="flex items-center gap-3">
+                      <i class="icon icon-md icon-file"></i>
+                      <span>회의록_20240601.docx</span>
+                      <UiButton size="small" variant="text">
+                        <i class="icon icon-sm icon-download"></i>
+                        <span class="text-underline">다운로드</span>
+                      </UiButton>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </template>
+          </UiTable>
 
-<!-- 피드백 -->
-<UiTable class="mt-20" title="피드백" v-model="feedbackData" layout="horizontal" striped bordered>
-  <template #body>
-    <tr>
-      <th>피드백</th>
-      <td>
-        <div class="flex flex-col gap-4">
-          <div class="p-3 bg-gray-50 rounded">
-            <div class="flex items-center gap-2 mb-2">
-              <span class="font-bold">홍길동</span>
-              <span class="text-gray-500 text-sm">2024-06-01 14:30</span>
-            </div>
-            <p>보고서 내용이 매우 명확하게 작성되었습니다. 다음 보고서에서는 KPI 달성률에 대한
-            자세한 분석도 추가해주시면 좋겠습니다.</p>
-          </div>
-          <div class="p-3 bg-gray-50 rounded">
-            <div class="flex items-center gap-2 mb-2">
-              <span class="font-bold">김철수</span>
-              <span class="text-gray-500 text-sm">2024-06-02 09:15</span>
-            </div>
-            <p>주요 이슈 사항에 대한 해결 방안이 구체적으로 제시되어 있어 도움이 되었습니다.
-            차주 계획에 일정 관련 세부 내용도 포함해주세요.</p>
-          </div>
-        </div>
-      </td>
-    </tr>
-  </template>
-</UiTable>
-
+          <!-- 피드백 -->
+          <UiTable
+            class="mt-20"
+            title="피드백"
+            v-model="feedbackData"
+            layout="horizontal"
+            striped
+            bordered
+          >
+            <template #body>
+              <tr>
+                <th>피드백</th>
+                <td>
+                  <div class="flex flex-col gap-4">
+                    <div class="p-3 bg-gray-50 rounded">
+                      <div class="flex items-center gap-2 mb-2">
+                        <span class="font-bold">홍길동</span>
+                        <span class="text-gray-500 text-sm">2024-06-01 14:30</span>
+                      </div>
+                      <p>
+                        보고서 내용이 매우 명확하게 작성되었습니다. 다음 보고서에서는 KPI 달성률에
+                        대한 자세한 분석도 추가해주시면 좋겠습니다.
+                      </p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded">
+                      <div class="flex items-center gap-2 mb-2">
+                        <span class="font-bold">김철수</span>
+                        <span class="text-gray-500 text-sm">2024-06-02 09:15</span>
+                      </div>
+                      <p>
+                        주요 이슈 사항에 대한 해결 방안이 구체적으로 제시되어 있어 도움이
+                        되었습니다. 차주 계획에 일정 관련 세부 내용도 포함해주세요.
+                      </p>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </template>
+          </UiTable>
         </div>
       </div>
     </div>
@@ -505,10 +609,21 @@
               ]"
             />
           </div>
-          <UiButton variant="secondary" @click="aiSummaryModal = true">
+          <UiButton variant="secondary" @click="aiSummaryConfirm = true">
             <img src="@/assets/images/ico_avatar_sai.svg" alt="sai" class="icon-md" />
             <span>AI 요약</span>
           </UiButton>
+          <UiConfirm
+            v-model="aiSummaryConfirm"
+            title="사용상의 주의사항"
+            message="
+              사이(S-AI)를 통한 업무보고 요약은 LLM기반의 AI모델을 사용하여 서비스를 제공하고 있습니다.
+              <br><br>
+              이미지는 요약내용에 포함되지 않으며 요약 후에는 직접 입력 모드로 전환합니다.
+            "
+            @confirm="handleConfirm"
+            @cancel="handleCancel"
+          />
           <UiButton variant="secondary">
             <span>직접입력</span>
           </UiButton>
@@ -556,6 +671,7 @@
       </template>
     </UiTable>
 
+<<<<<<< HEAD
      <!-- 의건/기타 -->
      <UiTable class="mt-20" title="의건/기타" v-model="tableData2" layout="horizontal" striped bordered>
             <template #body>
@@ -579,6 +695,38 @@
     </tr>
   </template>
 </UiTable>
+=======
+    <!-- 의건/기타 -->
+    <UiTable
+      class="mt-20"
+      title="의건/기타"
+      v-model="tableData2"
+      layout="horizontal"
+      striped
+      bordered
+    >
+      <template #body>
+        <tr>
+          <th>의견/기타</th>
+          <td>
+            <UiTextarea v-model="textareaValue" :rows="5" />
+          </td>
+        </tr>
+      </template>
+    </UiTable>
+
+    <!-- 첨부파일 -->
+    <UiTable class="mt-20" title="첨부파일" layout="horizontal" striped bordered>
+      <template #body>
+        <tr>
+          <th>첨부파일</th>
+          <td>
+            <UiAttachment v-model="uploadedFiles" :initialOpen="true" />
+          </td>
+        </tr>
+      </template>
+    </UiTable>
+>>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
   </UiModal>
 
   <!-- ================== 활동추가 팝업 ================== -->
@@ -716,7 +864,7 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue'
+  import { ref, nextTick } from 'vue'
 
   // 로고 텍스트 접근
   const logoText = inject('logoText')
@@ -732,13 +880,22 @@
   const reportCreateModal = ref(false)
   const addActivityPopup = ref(false)
   const aiSummaryModal = ref(false)
+<<<<<<< HEAD
   const attachmentFiles = ref([])
+=======
+  const aiSummaryConfirm = ref(false)
+  const uploadedFiles = ref([])
+>>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
 
   const columns = ref([
     { key: 'date', title: '날짜', width: '140px', align: 'center' },
     { key: 'type', title: '보고서 유형', width: '80px', align: 'center' },
     { key: 'status', title: '상태', width: '80px', align: 'center' },
+<<<<<<< HEAD
     { key: 'feedbackCount', title: '피드백', width: '50px', align: 'center' }
+=======
+    { key: 'feedbackCount', title: '피드백', width: '80px', align: 'center' }
+>>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
   ])
 
   const tableData = ref([
@@ -746,113 +903,167 @@
       date: '2025-05-22',
       type: '일간보고',
       status: '대기',
+<<<<<<< HEAD
       hasFeedback: false,
       feedbackCount: 0
+=======
+      feedbackCount: 1
+>>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
     },
     {
       date: '2025-05-21',
       type: '일간보고',
       status: '제출',
+<<<<<<< HEAD
       hasFeedback: true,
+=======
+>>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
       feedbackCount: 2
     },
     {
       date: '2025-05-20',
       type: '일간보고',
       status: '제출',
+<<<<<<< HEAD
       hasFeedback: true,
       feedbackCount: 1
+=======
+      feedbackCount: 0
+>>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
     },
     {
       date: '2025-05-19',
       type: '일간보고',
       status: '제출',
+<<<<<<< HEAD
       hasFeedback: false,
+=======
+>>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
       feedbackCount: 0
     },
     {
       date: '2025-05-18',
       type: '주간보고',
       status: '제출',
+<<<<<<< HEAD
       hasFeedback: true,
       feedbackCount: 3
+=======
+      feedbackCount: 0
+>>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
     },
     {
       date: '2025-05-17',
       type: '일간보고',
       status: '미제출',
+<<<<<<< HEAD
       hasFeedback: false,
+=======
+>>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
       feedbackCount: 0
     },
     {
       date: '2025-05-16',
       type: '일간보고',
       status: '제출',
+<<<<<<< HEAD
       hasFeedback: false,
+=======
+>>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
       feedbackCount: 0
     },
     {
       date: '2025-05-15',
       type: '일간보고',
       status: '제출',
+<<<<<<< HEAD
       hasFeedback: true,
       feedbackCount: 1
+=======
+      feedbackCount: 0
+>>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
     },
     {
       date: '2025-05-14',
       type: '일간보고',
       status: '제출',
+<<<<<<< HEAD
       hasFeedback: false,
+=======
+>>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
       feedbackCount: 0
     },
     {
       date: '2025-05-13',
       type: '일간보고',
       status: '미제출',
+<<<<<<< HEAD
       hasFeedback: false,
+=======
+>>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
       feedbackCount: 0
     },
     {
       date: '2025-05-12',
       type: '일간보고',
       status: '제출',
+<<<<<<< HEAD
       hasFeedback: false,
+=======
+>>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
       feedbackCount: 0
     },
     {
       date: '2025-05-11',
       type: '주간보고',
       status: '제출',
+<<<<<<< HEAD
       hasFeedback: true,
       feedbackCount: 2
+=======
+      feedbackCount: 0
+>>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
     },
     {
       date: '2025-05-10',
       type: '일간보고',
       status: '제출',
+<<<<<<< HEAD
       hasFeedback: false,
+=======
+>>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
       feedbackCount: 0
     },
     {
       date: '2025-05-09',
       type: '일간보고',
       status: '제출',
+<<<<<<< HEAD
       hasFeedback: false,
+=======
+>>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
       feedbackCount: 0
     },
     {
       date: '2025-05-08',
       type: '일간보고',
       status: '미제출',
+<<<<<<< HEAD
       hasFeedback: false,
+=======
+>>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
       feedbackCount: 0
     },
     {
       date: '2025-05-07',
       type: '일간보고',
       status: '제출',
+<<<<<<< HEAD
       hasFeedback: true,
       feedbackCount: 1
+=======
+      feedbackCount: 0
+>>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
     },
     {
       date: '2025-05-06',
@@ -1252,4 +1463,31 @@
     }
   ])
 
+<<<<<<< HEAD
+=======
+  const handleConfirm = () => {
+    aiSummaryModal.value = true
+  }
+
+  const handleCancel = () => {
+    aiSummaryModal.value = false
+  }
+
+  const mainContentRef = ref(null)
+
+  const dynamicTableHeight = ref('400px') // 초기값
+
+  const updateTableHeight = async () => {
+    await nextTick()
+
+    if (mainContentRef.value) {
+      const mainContentHeight = mainContentRef.value.offsetHeight
+      const calculatedHeight = mainContentHeight - 75
+
+      dynamicTableHeight.value = `${calculatedHeight}px`
+    }
+  }
+
+  onMounted(updateTableHeight)
+>>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
 </script>
