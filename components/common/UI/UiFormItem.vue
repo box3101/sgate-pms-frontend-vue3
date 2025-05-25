@@ -1,6 +1,6 @@
 <template>
   <li class="ui-form-item">
-    <div v-if="label" class="ui-form-item__label" :class="{ [minWidth]: true }">
+    <div v-if="label" class="ui-form-item__label" :class="`min-w-${minWidth}`">
       <span v-html="label"></span>
     </div>
     <div class="ui-form-item__content">

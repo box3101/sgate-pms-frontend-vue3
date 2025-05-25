@@ -1214,7 +1214,7 @@
   import { ref, defineExpose } from 'vue'
 
   import DepartmentUserSelector from '@/components/user/DepartmentUserSelector.vue'
-  import openOrganizationUserSelector from '@/components/user/DepartmentUserSelector.vue'
+  import OrganizationUserSelector from '@/components/user/OrganizationUserSelector.vue'
 
   // ================== 상태 변수 ==================
   const isCardModalOpen = ref(false)
