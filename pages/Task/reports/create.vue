@@ -29,12 +29,8 @@
             editable
             striped
             scrollable
-<<<<<<< HEAD
-            maxHeight="calc(100vh - 180px)"
-=======
             :maxHeight="dynamicTableHeight"
             :fixHeader="true"
->>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
             :canAddRow="false"
             :canSave="false"
           >
@@ -671,31 +667,6 @@
       </template>
     </UiTable>
 
-<<<<<<< HEAD
-     <!-- 의건/기타 -->
-     <UiTable class="mt-20" title="의건/기타" v-model="tableData2" layout="horizontal" striped bordered>
-            <template #body>
-              <tr>
-                <th>의견/기타</th>
-                <td>
-                  <UiTextarea  />
-                </td>
-              </tr>
-            </template>
-          </UiTable>
-
-<!-- 첨부파일 -->
-<UiTable class="mt-20" title="첨부파일" layout="horizontal" striped bordered>
-  <template #body>
-    <tr>
-      <th>첨부파일</th>
-      <td>
-        <UiAttachment v-model="attachmentFiles" />
-      </td>
-    </tr>
-  </template>
-</UiTable>
-=======
     <!-- 의건/기타 -->
     <UiTable
       class="mt-20"
@@ -726,7 +697,6 @@
         </tr>
       </template>
     </UiTable>
->>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
   </UiModal>
 
   <!-- ================== 활동추가 팝업 ================== -->
@@ -880,22 +850,14 @@
   const reportCreateModal = ref(false)
   const addActivityPopup = ref(false)
   const aiSummaryModal = ref(false)
-<<<<<<< HEAD
-  const attachmentFiles = ref([])
-=======
   const aiSummaryConfirm = ref(false)
   const uploadedFiles = ref([])
->>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
 
   const columns = ref([
     { key: 'date', title: '날짜', width: '140px', align: 'center' },
     { key: 'type', title: '보고서 유형', width: '80px', align: 'center' },
     { key: 'status', title: '상태', width: '80px', align: 'center' },
-<<<<<<< HEAD
-    { key: 'feedbackCount', title: '피드백', width: '50px', align: 'center' }
-=======
     { key: 'feedbackCount', title: '피드백', width: '80px', align: 'center' }
->>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
   ])
 
   const tableData = ref([
@@ -903,391 +865,257 @@
       date: '2025-05-22',
       type: '일간보고',
       status: '대기',
-<<<<<<< HEAD
-      hasFeedback: false,
-      feedbackCount: 0
-=======
       feedbackCount: 1
->>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
     },
     {
       date: '2025-05-21',
       type: '일간보고',
       status: '제출',
-<<<<<<< HEAD
-      hasFeedback: true,
-=======
->>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
       feedbackCount: 2
     },
     {
       date: '2025-05-20',
       type: '일간보고',
       status: '제출',
-<<<<<<< HEAD
-      hasFeedback: true,
-      feedbackCount: 1
-=======
       feedbackCount: 0
->>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
     },
     {
       date: '2025-05-19',
       type: '일간보고',
       status: '제출',
-<<<<<<< HEAD
-      hasFeedback: false,
-=======
->>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
       feedbackCount: 0
     },
     {
       date: '2025-05-18',
       type: '주간보고',
       status: '제출',
-<<<<<<< HEAD
-      hasFeedback: true,
-      feedbackCount: 3
-=======
       feedbackCount: 0
->>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
     },
     {
       date: '2025-05-17',
       type: '일간보고',
       status: '미제출',
-<<<<<<< HEAD
-      hasFeedback: false,
-=======
->>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
       feedbackCount: 0
     },
     {
       date: '2025-05-16',
       type: '일간보고',
       status: '제출',
-<<<<<<< HEAD
-      hasFeedback: false,
-=======
->>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
       feedbackCount: 0
     },
     {
       date: '2025-05-15',
       type: '일간보고',
       status: '제출',
-<<<<<<< HEAD
-      hasFeedback: true,
-      feedbackCount: 1
-=======
       feedbackCount: 0
->>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
     },
     {
       date: '2025-05-14',
       type: '일간보고',
       status: '제출',
-<<<<<<< HEAD
-      hasFeedback: false,
-=======
->>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
       feedbackCount: 0
     },
     {
       date: '2025-05-13',
       type: '일간보고',
       status: '미제출',
-<<<<<<< HEAD
-      hasFeedback: false,
-=======
->>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
       feedbackCount: 0
     },
     {
       date: '2025-05-12',
       type: '일간보고',
       status: '제출',
-<<<<<<< HEAD
-      hasFeedback: false,
-=======
->>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
       feedbackCount: 0
     },
     {
       date: '2025-05-11',
       type: '주간보고',
       status: '제출',
-<<<<<<< HEAD
-      hasFeedback: true,
-      feedbackCount: 2
-=======
       feedbackCount: 0
->>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
     },
     {
       date: '2025-05-10',
       type: '일간보고',
       status: '제출',
-<<<<<<< HEAD
-      hasFeedback: false,
-=======
->>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
       feedbackCount: 0
     },
     {
       date: '2025-05-09',
       type: '일간보고',
       status: '제출',
-<<<<<<< HEAD
-      hasFeedback: false,
-=======
->>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
       feedbackCount: 0
     },
     {
       date: '2025-05-08',
       type: '일간보고',
       status: '미제출',
-<<<<<<< HEAD
-      hasFeedback: false,
-=======
->>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
       feedbackCount: 0
     },
     {
       date: '2025-05-07',
       type: '일간보고',
       status: '제출',
-<<<<<<< HEAD
-      hasFeedback: true,
-      feedbackCount: 1
-=======
       feedbackCount: 0
->>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
     },
     {
       date: '2025-05-06',
       type: '일간보고',
-      status: '제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '제출'
     },
     {
       date: '2025-05-05',
       type: '일간보고',
-      status: '미제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '미제출'
     },
     {
       date: '2025-05-04',
       type: '주간보고',
-      status: '제출',
-      hasFeedback: true,
-      feedbackCount: 2
+      status: '제출'
     },
     {
       date: '2025-05-03',
       type: '일간보고',
-      status: '제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '제출'
     },
     {
       date: '2025-05-02',
       type: '일간보고',
-      status: '제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '제출'
     },
     {
       date: '2025-05-01',
       type: '일간보고',
-      status: '제출',
-      hasFeedback: true,
-      feedbackCount: 1
+      status: '제출'
     },
     {
       date: '2025-04-30',
       type: '일간보고',
-      status: '미제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '미제출'
     },
     {
       date: '2025-04-29',
       type: '일간보고',
-      status: '제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '제출'
     },
     {
       date: '2025-04-28',
       type: '일간보고',
-      status: '제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '제출'
     },
     {
       date: '2025-04-27',
       type: '주간보고',
-      status: '제출',
-      hasFeedback: true,
-      feedbackCount: 3
+      status: '제출'
     },
     {
       date: '2025-04-26',
       type: '일간보고',
-      status: '제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '제출'
     },
     {
       date: '2025-04-25',
       type: '일간보고',
-      status: '제출',
-      hasFeedback: true,
-      feedbackCount: 1
+      status: '제출'
     },
     {
       date: '2025-04-24',
       type: '일간보고',
-      status: '미제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '미제출'
     },
     {
       date: '2025-04-23',
       type: '일간보고',
-      status: '제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '제출'
     },
     {
       date: '2025-04-22',
       type: '일간보고',
-      status: '제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '제출'
     },
     {
       date: '2025-04-21',
       type: '일간보고',
-      status: '제출',
-      hasFeedback: true,
-      feedbackCount: 1
+      status: '제출'
     },
     {
       date: '2025-04-20',
       type: '주간보고',
-      status: '제출',
-      hasFeedback: true,
-      feedbackCount: 2
+      status: '제출'
     },
     {
       date: '2025-04-19',
       type: '일간보고',
-      status: '제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '제출'
     },
     {
       date: '2025-04-18',
       type: '일간보고',
-      status: '미제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '미제출'
     },
     {
       date: '2025-04-17',
       type: '일간보고',
-      status: '제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '제출'
     },
     {
       date: '2025-04-16',
       type: '일간보고',
-      status: '제출',
-      hasFeedback: true,
-      feedbackCount: 1
+      status: '제출'
     },
     {
       date: '2025-04-15',
       type: '일간보고',
-      status: '제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '제출'
     },
     {
       date: '2025-04-14',
       type: '일간보고',
-      status: '미제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '미제출'
     },
     {
       date: '2025-04-13',
       type: '주간보고',
-      status: '제출',
-      hasFeedback: true,
-      feedbackCount: 2
+      status: '제출'
     },
     {
       date: '2025-04-12',
       type: '일간보고',
-      status: '제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '제출'
     },
     {
       date: '2025-04-11',
       type: '일간보고',
-      status: '제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '제출'
     },
     {
       date: '2025-04-10',
       type: '일간보고',
-      status: '제출',
-      hasFeedback: true,
-      feedbackCount: 1
+      status: '제출'
     },
     {
       date: '2025-04-09',
       type: '일간보고',
-      status: '미제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '미제출'
     },
     {
       date: '2025-04-08',
       type: '일간보고',
-      status: '제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '제출'
     },
     {
       date: '2025-04-07',
       type: '일간보고',
-      status: '제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '제출'
     },
     {
       date: '2025-04-06',
       type: '주간보고',
-      status: '제출',
-      hasFeedback: true,
-      feedbackCount: 2
+      status: '제출'
     },
     {
       date: '2025-04-05',
       type: '일간보고',
-      status: '제출',
-      hasFeedback: false,
-      feedbackCount: 0
+      status: '제출'
     }
   ])
 
@@ -1463,8 +1291,6 @@
     }
   ])
 
-<<<<<<< HEAD
-=======
   const handleConfirm = () => {
     aiSummaryModal.value = true
   }
@@ -1482,12 +1308,11 @@
 
     if (mainContentRef.value) {
       const mainContentHeight = mainContentRef.value.offsetHeight
-      const calculatedHeight = mainContentHeight - 75
+      const calculatedHeight = 725
 
       dynamicTableHeight.value = `${calculatedHeight}px`
     }
   }
 
   onMounted(updateTableHeight)
->>>>>>> f6921bc619d2a64f0a2c14ce2883d5e41703a4dd
 </script>
