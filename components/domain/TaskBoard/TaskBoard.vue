@@ -102,7 +102,11 @@
                 <UiButton variant="secondary" icon-only @click="openOrganizationUserSelector">
                   <Icon name="heroicons:user" size="20" />
                 </UiButton>
-                <UiButton variant="secondary" icon-only>
+                <UiButton
+                  variant="secondary"
+                  icon-only
+                  @click="isOrganizationUserSelectorOpen = true"
+                >
                   <Icon name="heroicons:magnifying-glass" size="20" />
                 </UiButton>
               </div>
@@ -225,58 +229,11 @@
               <UiFormItem label="협업">
                 <div class="flex gap-5">
                   <UiMultiSelect
-        size="large"
-        placeholder="협업자 이름을 입력해주세요"
-        :options="[
-          // 부서/팀
-          { label: '이즈파크', value: 'D000001', department: '회사' },
-          { label: 'ESM 고객관리팀', value: 'D000001', department: '팀' },
-          { label: '경영지원팀_test', value: 'D000002', department: '팀' },
-          { label: 'OEM 생산부', value: 'D000017', department: '부서' },
-          { label: '공공클라우드 영업팀', value: 'D000015', department: '팀' },
-          { label: '종로지부', value: 'D000029', department: '지부' },
-
-          // 개별 협업자들
-          { label: 'ADMIN', value: 'isp_admin', email: 'admin@ezpark.com', department: '이즈파크' },
-          { label: 'testman', value: 'testman', email: 'testman@ezpark.com', department: '이즈파크' },
-          { label: '김경수', value: 'isp130', email: 'kim.ks@ezpark.com', department: '이즈파크' },
-          { label: '마진석', value: 'isp128', email: 'ma.js@ezpark.com', department: '이즈파크' },
-          { label: '오현정', value: 'isp147', email: 'oh.hj@ezpark.com', department: '이즈파크' },
-          { label: '몽글몽글이', value: 'brx20071002', email: 'monggl@ezpark.com', department: '이즈파크' },
-          { label: '송기준', value: 'kjsong3', email: 'song.kj@ezpark.com', department: '이즈파크' },
-          { label: 'srkim테스트', value: 'srkimTest', email: 'srkim@ezpark.com', department: '이즈파크' },
-
-          { label: '오승현', value: 'isp123', email: 'oh.sh@ezpark.com', department: '이즈파크' },
-          { label: '고광렬', value: '고광렬', email: 'ko.kr@ezpark.com', department: '회계부' },
-          { label: '동글동글이', value: 'brx20071001', email: 'donggl@ezpark.com', department: 'ESM 고객관리팀' },
-          { label: '고대훈', value: 'dhg', email: 'ko.dh@ezpark.com', department: 'OEM 생산부' },
-          { label: '김두한', value: '김두한', email: 'kim.dh@ezpark.com', department: '종로지부' },
-          { label: '김좌진 장군', value: '김좌진', email: 'kim.jj@ezpark.com', department: '종로지부' },
-
-          { label: '조사업', value: 'isp137', email: 'jo.sa@ezpark.com', department: 'SaaS Cloud 서비스 사업부' },
-          { label: '3213213', value: 'isp149', email: 'test123@ezpark.com', department: 'SaaS Cloud 서비스 사업부' },
-          { label: '고CS', value: 'isp153', email: 'ko.cs@ezpark.com', department: 'CS관리부' },
-          { label: '고니', value: '고니', email: 'goni@ezpark.com', department: '회계부' },
-          { label: '사이토마코토', value: '사이토마코토', email: 'saito@ezpark.com', department: '총독부' },
-          { label: '시라소니', value: '시라소니', email: 'sirasoni@ezpark.com', department: '우미관' },
-
-          { label: '정프로젝트', value: 'isp151', email: 'jung.pj@ezpark.com', department: '프로젝트팀2' },
-          { label: '곽디자인', value: 'isp152', email: 'kwak.ds@ezpark.com', department: '프로젝트팀2' },
-          { label: '곽철용', value: '곽철용', email: 'kwak.cy@ezpark.com', department: '회계부' },
-          { label: '기사업', value: 'isp138', email: 'ki.sa@ezpark.com', department: 'SaaS Cloud 서비스 사업부' },
-          { label: '김도현', value: 'isp135', email: 'kim.dh2@ezpark.com', department: '공공클라우드 영업팀' },
-          { label: '도프로젝트기획', value: 'isp142', email: 'do.pj@ezpark.com', department: '영업1팀' },
-
-          { label: '오CS', value: 'isp140', email: 'oh.cs@ezpark.com', department: '영업2팀' },
-          { label: '정마담', value: '정마담', email: 'jung.md@ezpark.com', department: '회계부' },
-          { label: '하야시', value: '하야시', email: 'hayashi@ezpark.com', department: '총독부' },
-          { label: '공디자인', value: 'isp155', email: 'kong.ds@ezpark.com', department: '프로젝트팀2' },
-          { label: '도강혁', value: 'isp131', email: 'do.kh@ezpark.com', department: '프로젝트팀2' },
-          { label: '사용자1', value: 'user01', email: 'user1@ezpark.com', department: 'OEM 생산부' },
-
-          { label: '사용자2', value: 'user02', email: 'user2@ezpark.com', department: 'OEM 생산부' }
-        ]"
-      />
+                    size="large"
+                    placeholder="협업자 이름을 입력해주세요"
+                    v-model="selectedUsers"
+                    :options="allOptions"
+                  />
                   <UiButton
                     size="large"
                     variant="secondary"
@@ -285,7 +242,12 @@
                   >
                     <Icon name="heroicons:user" size="20" />
                   </UiButton>
-                  <UiButton size="large" variant="secondary" icon-only>
+                  <UiButton
+                    size="large"
+                    variant="secondary"
+                    icon-only
+                    @click="isOrganizationUserSelectorOpen = true"
+                  >
                     <Icon name="heroicons:magnifying-glass" size="20" />
                   </UiButton>
                 </div>
@@ -400,6 +362,19 @@
       </div>
     </UiModal>
   </div>
+
+  <!-- ================== 직원 찾기 모달 ================== -->
+  <UiModal
+    v-model="isOrganizationUserSelectorOpen"
+    title="직원 찾기"
+    size="large"
+    :show-footer="true"
+  >
+    <OrganizationUserSelector v-model="orgSelectedUsers" />
+    <template #footerActions>
+      <UiButton variant="primary" @click="saveData">저장</UiButton>
+    </template>
+  </UiModal>
 </template>
 
 <script setup>
@@ -417,6 +392,7 @@
   import CategoryColumn from './CategoryColumn.vue'
   import CategoryCard from './CategoryCard.vue'
   import ActivitySection from '~/components/domain/Activity/ActivitySection.vue'
+  import OrganizationUserSelector from '~/components/user/OrganizationUserSelector.vue'
 
   // 모달 상태 관리
   const floatingPopupCount = ref(0)
@@ -424,6 +400,38 @@
   provide('floatingPopupCount', floatingPopupCount)
   provide('fixedPopupCount', fixedPopupCount)
   const cardModals = ref([])
+
+  // 조직 선택 모달
+  const isOrganizationUserSelectorOpen = ref(false)
+  const selectedUsers = ref([]) // UiMultiSelect 선택값
+  const orgSelectedUsers = ref([]) // 조직에서 선택한 직원들
+
+  const basicOptions = [
+    { label: 'Option 1', value: '1' },
+    { label: 'Option 2', value: '2' },
+    { label: 'Option 3', value: '3' }
+  ]
+
+  const allOptions = computed(() => [
+    ...basicOptions,
+    ...orgSelectedUsers.value.map(user => ({
+      label: `${user.name} [${user.rank}]`,
+      value: user.id.toString()
+    }))
+  ])
+
+  const saveData = () => {
+    console.log('저장 버튼 클릭')
+    console.log('UiMultiSelect 선택된 값:', selectedUsers.value)
+    console.log('조직에서 선택된 직원:', orgSelectedUsers.value)
+
+    // 🔥 선택된 직원들을 UiMultiSelect에 자동으로 선택상태로 만들기
+    const userValues = orgSelectedUsers.value.map(user => user.id.toString())
+    selectedUsers.value = [...new Set([...selectedUsers.value, ...userValues])]
+
+    // 모달 닫기
+    isOrganizationUserSelectorOpen.value = false
+  }
 
   // 보드 상태 관리
   const isFirstVisit = ref(true)
@@ -1080,10 +1088,7 @@
       cardModals.value.splice(modalIndex, 1)
 
       // z-index 값 조정
-      const highestZIndex = cardModals.value.reduce(
-        (max, m) => Math.max(max, m.zIndex || 0),
-        1000
-      )
+      const highestZIndex = cardModals.value.reduce((max, m) => Math.max(max, m.zIndex || 0), 1000)
       modal.zIndex = highestZIndex + 10
 
       // 배열 맨 뒤에 추가하여 시각적으로 맨 위에 표시

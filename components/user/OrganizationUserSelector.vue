@@ -243,6 +243,21 @@
 <script setup>
   import { ref, computed } from 'vue'
 
+  const props = defineProps({
+    modelValue: {
+      type: Array,
+      default: () => []
+    }
+  })
+
+  const emit = defineEmits(['update:modelValue'])
+
+  // 🔥 selectedUsers를 props와 연동
+  const selectedUsers = computed({
+    get: () => props.modelValue,
+    set: value => emit('update:modelValue', value)
+  })
+
   const expandedOrgs = ref([]) // 펼쳐진 조직 ID 목록
   const selectedOrgId = ref('') // 선택된 조직 ID
   const employeeName = ref('') // 직원 이름 검색어
@@ -300,7 +315,6 @@
     ]
   })
 
-  const selectedUsers = ref([]) // 선택된 직원들
   const selectedFromDept = ref(new Set()) // 소속 직원에서 선택된 ID들
   const selectedFromSelected = ref(new Set()) // 선택 직원에서 선택된 ID들
 
@@ -334,18 +348,27 @@
   const moveSelectedToRight = () => {
     const toMove = departmentUsers.value.filter(user => selectedFromDept.value.has(user.id))
 
+    // 🔥 새 배열 생성해서 전달
+    const newSelectedUsers = [...selectedUsers.value]
+
     toMove.forEach(user => {
-      selectedUsers.value.push({ ...user })
+      newSelectedUsers.push({ ...user })
       selectedFromDept.value.delete(user.id)
     })
+
+    // 🔥 부모로 데이터 전달
+    selectedUsers.value = newSelectedUsers
   }
 
   // 왼쪽으로 이동 (선택 직원 → 제거)
   const removeSelectedUsers = () => {
-    selectedUsers.value = selectedUsers.value.filter(
+    const newSelectedUsers = selectedUsers.value.filter(
       user => !selectedFromSelected.value.has(user.id)
     )
     selectedFromSelected.value.clear()
+
+    // 🔥 부모로 데이터 전달
+    selectedUsers.value = newSelectedUsers
   }
 
   // 조직 선택
