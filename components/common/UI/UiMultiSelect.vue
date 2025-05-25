@@ -49,6 +49,8 @@
             @focus="handleFocus"
             @keydown="handleKeydown"
             @input="handleInput"
+            @keyup="handleInput"
+            @compositionupdate="handleInput"
             autocomplete="off"
           />
         </div>
@@ -265,7 +267,8 @@
   }
 
   // 입력 핸들러
-  const handleInput = () => {
+  const handleInput = e => {
+    searchQuery.value = e.target.value
     emit('search', searchQuery.value)
     highlightedIndex.value = -1
   }
