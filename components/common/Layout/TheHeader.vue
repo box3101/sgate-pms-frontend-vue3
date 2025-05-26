@@ -1042,7 +1042,15 @@
       hasLink.value = true
       hasLinkIcon.value = 'icon icon-youtube icon-lg'
       return tabMenus.reports
-    } else if (route.path.startsWith('/hr-evaluation')) {
+    } else if (
+      route.path.startsWith('/hr-evaluation/basic-items') ||
+      route.path.startsWith('/hr-evaluation/grade-distribution') ||
+      route.path.startsWith('/hr-evaluation/performance-items') ||
+      route.path.startsWith('/hr-evaluation/competency-items') ||
+      route.path.startsWith('/hr-evaluation/competency-dictionary')
+    ) {
+      hasLink.value = false
+      hasLinkIcon.value = ''
       return tabMenus.hrEvaluation
     } else {
       // 해당하는 탭 메뉴가 없으면 빈 배열 반환

@@ -58,7 +58,7 @@
       <div class="w-50p-left">
         <!-- 왼쪽 콘텐츠 -->
         <UiTable
-          title="테이블 제목"
+          title="등급관리"
           v-model="tableDataDynamic"
           editable
           hover
@@ -66,7 +66,6 @@
           scrollable
           maxHeight="calc(100vh - 200px)"
           :fixHeader="true"
-          :canAddRow="false"
           :default-row-data="defaultRowDataDynamic"
           @save="handleSaveDynamic"
         >

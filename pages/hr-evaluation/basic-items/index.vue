@@ -309,6 +309,9 @@
 <script setup>
   import { ref } from 'vue'
 
+  const logoText = inject('logoText')
+  logoText.value = '평가기본항목관리'
+
   // 선택된 등급척도그룹
   const selectedGroup = ref(0)
 
