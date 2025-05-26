@@ -26,7 +26,7 @@
                 <i class="icon-md icon-plus icon-white"></i>
               </UiButton>
               <UiButton variant="secondary" icon-only>
-                <i class="icon-md icon-pencil"></i>
+                <i class="icon-md icon-pencil icon-white"></i>
               </UiButton>
               <UiButton variant="secondary-line" icon-only>
                 <i class="icon-md icon-delete"></i>

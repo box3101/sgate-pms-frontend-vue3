@@ -17,10 +17,15 @@
       </div>
       <div class="header-right">
         <div class="button-group">
-          <UiTooltip title="등급척도 그룹 가져오기">
+          <UiTooltip title="등급척도그룹 가져오기">
             <template #trigger>
-              <UiButton type="button" variant="secondary-line" size="medium">
-                등급척도 그룹 가져오기
+              <UiButton
+                type="button"
+                variant="secondary-line"
+                size="medium"
+                @click="showGroupSelectModal = true"
+              >
+                등급척도그룹 가져오기
                 <i class="icon-md icon-get"></i>
               </UiButton>
             </template>
@@ -145,7 +150,6 @@
         <!-- 테이블 제목 테이
          블 -->
         <UiTable
-          title="테이블 제목"
           v-model="tableDataDynamic"
           editable
           hover
@@ -254,10 +258,62 @@
       </div>
     </div>
   </div>
+
+  <!-- 등급척도그룹 가져오기 -->
+  <UiModal
+    v-model="showGroupSelectModal"
+    title="등급척도그룹 가져오기"
+    size="medium"
+    :show-footer="true"
+  >
+    <div class="flex items-center gap-10">
+      <h2 class="heading-6">기준년도</h2>
+      <UiSelect
+        v-model="selectedYear"
+        :options="yearOptions"
+        size="medium"
+        placeholder="선택"
+        width="150px"
+      />
+    </div>
+
+    <UiTable striped hover>
+      <template #colgroup>
+        <col style="width: 40px" />
+        <col style="width: auto" />
+        <col style="width: 40px" />
+      </template>
+      <template #header>
+        <tr>
+          <th></th>
+          <th>등급척도</th>
+          <th>평가등급수</th>
+        </tr>
+      </template>
+      <template #body>
+        <tr v-for="(grade, index) in 7" :key="index">
+          <td>
+            <UiRadio v-model="selectedGroup" :value="index" size="large" @click.stop />
+          </td>
+          <td>성과평가등급그룹</td>
+          <td class="text-center">5</td>
+        </tr>
+      </template>
+    </UiTable>
+    <template #footerActions>
+      <UiButton variant="primary" @click="showGroupSelectModal = false">가져오기</UiButton>
+    </template>
+  </UiModal>
 </template>
 
 <script setup>
   import { ref } from 'vue'
+
+  // 선택된 등급척도그룹
+  const selectedGroup = ref(0)
+
+  // 등급척도그룹 가져오기 모달
+  const showGroupSelectModal = ref(false)
 
   // 기준년도 선택 옵션
   const selectedYear = ref('2025')
