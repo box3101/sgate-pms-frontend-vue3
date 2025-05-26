@@ -240,7 +240,7 @@
           class="filter-select"
         />
         <UiButton type="primary" size="medium">
-          <i class="icon icon-sm icon-search icon-white"></i>
+          <i class="icon icon-md icon-search icon-white"></i>
           검색
         </UiButton>
       </div>
@@ -260,6 +260,8 @@
 
 <script setup>
   import { ref, computed, inject } from 'vue'
+
+  import DepartmentUserSelector from '~/components/user/DepartmentUserSelector.vue'
 
   // 로고 텍스트 접근
   const logoText = inject('logoText')
