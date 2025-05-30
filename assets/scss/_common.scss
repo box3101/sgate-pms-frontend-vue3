@@ -306,3 +306,80 @@ button:focus,
     text-decoration: underline;
   }
 }
+
+// 기본 스크롤 영역 스타일
+@mixin scrollable-area {
+  overflow-y: auto;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #cdd1d5;
+    border-radius: 10px;
+
+    &:hover {
+      background-color: #a8acb0;
+    }
+  }
+}
+
+// 조합 클래스 (스크롤 + 최대 높이)
+.scrollable-full {
+  @include scrollable-area;
+  max-height: 100vh;
+}
+
+.scrollable-90 {
+  @include scrollable-area;
+  max-height: 90vh;
+}
+
+.scrollable-80 {
+  @include scrollable-area;
+  max-height: 80vh;
+}
+
+.scrollable-70 {
+  @include scrollable-area;
+  max-height: 70vh;
+}
+
+// 헤더/푸터 등을 뺀 스크롤 영역
+// 숫자가 클수록 더 많은 공간이 차감됨
+@for $i from 1 through 10 {
+  $space: $i * 40px;
+  .scrollable-minus-#{$i} {
+    @include scrollable-area;
+    max-height: calc(100vh - #{$space});
+  }
+}
+
+// 특별한 경우를 위한 동적 높이 계산
+.scrollable-dynamic {
+  @include scrollable-area;
+  max-height: calc(
+    100vh - var(--header-height, 80px) - var(--footer-height, 0px) - var(--padding, 40px)
+  );
+}
+
+// 컨테이너 내부에서 사용하는 경우
+.scrollable-container {
+  @include scrollable-area;
+  height: 100%;
+  max-height: none; // 부모 컨테이너 높이에 맞춤
+}
+
+// 플렉스 레이아웃에서 사용
+.scrollable-flex {
+  @include scrollable-area;
+  flex: 1;
+  min-height: 0; // 플렉스 아이템이 축소될 수 있도록
+}

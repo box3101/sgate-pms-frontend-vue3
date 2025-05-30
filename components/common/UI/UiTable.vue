@@ -166,6 +166,13 @@
 
   const props = defineProps({
     /**
+     * 테이블 제목
+     */
+    title: {
+      type: String,
+      default: ''
+    },
+    /**
      * 테이블 테두리 표시 여부
      */
     bordered: {
@@ -637,34 +644,36 @@
           tr {
             display: table-row;
             &:first-child {
-              td,th {
+              td,
+              th {
                 border-top: 1px solid #6d7882;
               }
             }
 
             th {
               display: table-cell;
-              width: 15%;
+              width: 20%;
               background-color: #f8fafc;
               font-weight: 600;
               padding: 10px;
               vertical-align: middle;
               white-space: nowrap;
-              border:1px solid #e2e8f0;
-              border-bottom:none;
+              border: 1px solid #e2e8f0;
+              border-bottom: none;
             }
 
             td {
               display: table-cell;
-              width: 85%;
+              width: 80%;
               padding: 10px;
               vertical-align: top;
-              border:1px solid #e2e8f0;
-              border-bottom:none;
+              border: 1px solid #e2e8f0;
+              border-bottom: none;
             }
 
             &:last-child {
-              th, td {
+              th,
+              td {
                 border-bottom: none;
               }
             }
@@ -735,7 +744,6 @@
     }
 
     td {
-
       &.text-center {
         text-align: center;
       }
