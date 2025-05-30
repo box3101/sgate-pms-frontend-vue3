@@ -21,6 +21,13 @@
       </div>
     </div>
 
+    <!-- <div class="tab-container">
+      <UiTabs v-model="activePeriod" class="mb-4">
+        <UiTab name="first" label="상반기" />
+        <UiTab name="second" label="하반기" />
+      </UiTabs>
+    </div> -->
+
     <div class="flex-container">
       <!-- 평가대상자 목록 -->
       <div class="w-65p">
@@ -358,8 +365,6 @@
   .config-panel {
     background: #ffffff;
     border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
 
   .panel-header {
@@ -463,7 +468,6 @@
   .tag {
     display: inline-block;
     padding: 3px 8px;
-    border-radius: 12px;
     font-size: 12px;
     font-weight: 500;
   }

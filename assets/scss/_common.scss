@@ -359,6 +359,7 @@ button:focus,
   .scrollable-minus-#{$i} {
     @include scrollable-area;
     max-height: calc(100vh - #{$space});
+    min-height: calc(100vh - #{$space});
   }
 }
 
