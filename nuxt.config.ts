@@ -53,7 +53,14 @@ export default defineNuxtConfig({
           content: 'width=1500, initial-scale=0.5, maximum-scale=3, user-scalable=yes'
         }
       ]
-    }
+    },
+     // TinyMCE CDN 스크립트 추가
+     script: [
+      {
+        src: 'https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js',
+        referrerpolicy: 'origin'
+      }
+    ]
   },
   nitro: {
     preset: 'github-pages'
