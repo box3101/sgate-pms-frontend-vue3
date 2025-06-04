@@ -34,7 +34,7 @@
     // 메뉴바 표시 여부
     showMenubar: {
       type: Boolean,
-      default: false
+      default: true
     },
 
     // 읽기 전용

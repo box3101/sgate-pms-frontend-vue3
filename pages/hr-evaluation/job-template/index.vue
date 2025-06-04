@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container">
+  <div class="page-container container-large">
     <div class="page-header com-header">
       <div class="header-left">
         <div class="select-group">
@@ -44,6 +44,10 @@
 
 <script setup>
   import { ref } from 'vue'
+
+  // 로고 텍스트 설정
+  const logoText = inject('logoText')
+  logoText.value = '업무기술서 템플릿'
 
   const selectedYear = ref('2025')
   const yearOptions = ref([
