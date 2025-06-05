@@ -128,12 +128,6 @@
       action: () => {}
     },
     {
-      title: '카테고리 삭제',
-      isAccordion: false,
-      icon: 'trash',
-      action: () => {}
-    },
-    {
       title: '카테고리 이동',
       isAccordion: true,
       initialOpen: false,
@@ -145,6 +139,17 @@
       isAccordion: true,
       initialOpen: false,
       items: [],
+      action: () => {}
+    },
+    {
+      title: '카테고리 삭제',
+      isAccordion: false,
+      icon: 'trash',
+      action: () => {}
+    },
+    {
+      title: '정렬',
+      isAccordion: false,
       action: () => {}
     }
   ]

@@ -368,7 +368,7 @@
     // 크기 변형 - Medium (36px)
     &--medium {
       .ui-input__wrapper {
-        height: $ui-height-md + 4; // 36px
+        height: $ui-height-md + 2; // 36px
         padding: 5px 12px;
       }
       .ui-input__field {
