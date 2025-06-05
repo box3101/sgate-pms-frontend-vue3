@@ -5,12 +5,7 @@
       <!-- 아코디언이 아닌 일반 버튼 카테고리 -->
       <div v-if="!menu.isAccordion" class="menu-category-button" @click="menu.action">
         <span class="menu-category-text">{{ menu.title }}</span>
-        <Icon
-          v-if="menu.icon"
-          :name="menu.icon"
-          :size="size === 'small' ? '14' : '16'"
-          class="menu-category-icon"
-        />
+        <i v-if="menu.icon" :class="menu.icon"></i>
       </div>
 
       <!-- 아코디언 카테고리 -->
@@ -98,12 +93,16 @@
     // 사이즈별 스타일 정의
     &--small {
       .menu-category-button {
+        display: flex;
+        align-items: center;
         padding: 8px 12px;
         padding-right: 6px;
       }
 
       .menu-category-text {
         font-size: 16px;
+        height: 100%;
+        line-height: 150%;
       }
 
       .menu-item {

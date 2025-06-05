@@ -54,13 +54,11 @@
         @mousedown="allowFloating && handleDragStart($event)"
       >
         <div class="flex items-center gap-5">
-          <slot name="headerActions-left"></slot>
           <h3 class="ui-popup__title">
             <slot name="title">
               {{ title }}
             </slot>
           </h3>
-          <slot name="headerActions"></slot>
         </div>
         <div class="ui-popup__header-actions">
           <slot name="headerActions-right"></slot>
@@ -788,6 +786,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      max-width: 500px; // 추천값
     }
 
     &__close,

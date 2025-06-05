@@ -13,18 +13,16 @@
           medium: evaluation === '보통',
           low: evaluation === '미흡'
         }"
-      ></div>
+      >
+        {{ status }}
+      </div>
 
       <div class="task-card-header">
         <!-- 카드 상단 기능 버튼 영역 -->
         <div class="card-actions">
-          <!-- 즐겨찾기 토글 버튼 -->
-          <button class="action-btn favorite-btn" @click.stop="toggleFavorite">
-            <Icon
-              :name="isFavorite ? 'mdi:star' : 'mdi:star-outline'"
-              size="20"
-              :class="{ 'star-active': isFavorite }"
-            />
+          <!-- 즐겨찾기 토글 버튼 - 즐겨찾기가 활성화된 경우에만 표시 -->
+          <button v-if="isFavorite" class="action-btn favorite-btn" @click.stop="toggleFavorite">
+            <Icon name="mdi:star" size="20" class="star-active" />
           </button>
 
           <!-- 추가 메뉴 영역 -->
@@ -187,6 +185,12 @@
       type: String,
       default: '보통',
       validator: value => ['우수', '보통', '미흡'].includes(value)
+    },
+    // 업무 진행 상태 (진행중/완료) - 텍스트 표시
+    status: {
+      type: String,
+      default: '진행중',
+      validator: value => ['진행중', '완료'].includes(value)
     }
   })
 
@@ -198,8 +202,7 @@
   /**
    * 상태 변수
    */
-  // 즐겨찾기 상태 (props에서 초기값 설정)
-  const isFavorite = ref(props.favorite)
+  const isFavorite = ref(false)
 
   // 필터 메뉴 표시 상태
   const showFilterMenu = ref(false)
@@ -222,9 +225,15 @@
       isAccordion: true
     },
     {
+      title: isFavorite.value ? '즐겨찾기 해제' : '즐겨찾기',
+      isAccordion: false,
+      icon: 'icon-star icon-md',
+      action: () => handleTaskAction('favorite')
+    },
+    {
       title: '업무 삭제',
       isAccordion: false,
-      icon: 'mdi:delete-outline',
+      icon: 'icon-delete icon-md',
       action: () => handleTaskAction('delete')
     }
   ]
@@ -251,6 +260,9 @@
   function toggleFavorite() {
     isFavorite.value = !isFavorite.value
     emit('toggleFavorite', props.cardId, isFavorite.value)
+
+    // 메뉴 텍스트 업데이트
+    updateMenuItems()
   }
 
   /**
@@ -275,11 +287,26 @@
    * @param {any} subAction - 추가 액션 매개변수 (선택사항)
    */
   function handleTaskAction(action, subAction = null) {
+    if (action === 'favorite') {
+      isFavorite.value = !isFavorite.value
+      emit('toggleFavorite', props.cardId, isFavorite.value)
+
+      // 메뉴 텍스트 업데이트
+      updateMenuItems()
+    }
     emit('taskAction', {
       cardId: props.cardId,
       action,
       subAction
     })
     closeFilterMenu()
+  }
+
+  /**
+   * 메뉴 아이템 업데이트 함수
+   * 즐겨찾기 상태에 따라 메뉴 아이템 텍스트를 업데이트
+   */
+  function updateMenuItems() {
+    menuItems.value[3].title = isFavorite.value ? '즐겨찾기 해제' : '즐겨찾기'
   }
 </script>

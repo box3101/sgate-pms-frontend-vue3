@@ -457,7 +457,244 @@
   ]
 
   // 카테고리 목록 데이터
-  const categories = ref([])
+  // 카테고리 목록 데이터
+  const categories = ref([
+    {
+      id: 1,
+      title: '계획',
+      cards: [
+        {
+          id: 1,
+          title:
+            '[신규구축] 인천 중구청 평생학습센터 웹사이트 구축 및 모바일 사이트 구축 사업[신규구축] 인천 중구청 평생학습센터 웹사이트 구축 및 모바일 사이트 구축 사업[신규구축] 인천 중구청 평생학습센터 웹사이트 구축 및 모바일 사이트 구축 사업',
+          tags: ['기획', '우선순위높음'],
+          date: '2025-06-10',
+          comments: 3,
+          attachments: 2,
+          cardId: 1,
+          evaluation: '우수'
+        },
+        {
+          id: 2,
+          title: '모바일 앱 UI/UX 설계',
+          tags: ['디자인', '신규'],
+          date: '2025-06-15',
+          comments: 1,
+          attachments: 5,
+          cardId: 2,
+          evaluation: '우수'
+        },
+        {
+          id: 3,
+          title: '마케팅 캠페인 전략 수립',
+          tags: ['마케팅', '중요'],
+          date: '2025-06-20',
+          comments: 0,
+          attachments: 1,
+          cardId: 3,
+          evaluation: '보통'
+        },
+        {
+          id: 4,
+          title: 'API 문서 작성',
+          tags: ['개발', '문서화'],
+          date: '2025-06-25',
+          comments: 2,
+          attachments: 0,
+          cardId: 4,
+          evaluation: '우수'
+        },
+        {
+          id: 5,
+          title: 'API 문서 작성',
+          tags: ['개발', '문서화'],
+          date: '2025-06-25',
+          comments: 2,
+          attachments: 0,
+          cardId: 4,
+          evaluation: '우수'
+        },
+        {
+          id: 6,
+          title: 'API 문서 작성',
+          tags: ['개발', '문서화'],
+          date: '2025-06-25',
+          comments: 2,
+          attachments: 0,
+          cardId: 4,
+          evaluation: '우수'
+        }
+      ]
+    },
+    {
+      id: 2,
+      title: '진행중',
+      cards: [
+        {
+          id: 5,
+          title: '[신규구축] 인천 중구청 평생학습센터 웹사이트 구축 및 모바일 사이트 구축 사업',
+          tags: ['개발', '백엔드'],
+          date: '2025-06-08',
+          comments: 5,
+          attachments: 3,
+          cardId: 5,
+          evaluation: '우수'
+        },
+        {
+          id: 6,
+          title: '프론트엔드 컴포넌트 개발',
+          tags: ['개발', '프론트엔드'],
+          date: '2025-06-12',
+          comments: 4,
+          attachments: 2,
+          cardId: 6,
+          evaluation: '보통'
+        },
+        {
+          id: 7,
+          title: '데이터베이스 최적화',
+          tags: ['개발', 'DB'],
+          date: '2025-06-18',
+          comments: 2,
+          attachments: 1,
+          cardId: 7,
+          evaluation: '우수'
+        },
+        {
+          id: 8,
+          title: '소셜미디어 콘텐츠 제작',
+          tags: ['마케팅', '콘텐츠'],
+          date: '2025-06-22',
+          comments: 1,
+          attachments: 4,
+          cardId: 8,
+          evaluation: '보통'
+        },
+        {
+          id: 9,
+          title: '고객 피드백 분석',
+          tags: ['분석', '고객'],
+          date: '2025-06-16',
+          comments: 3,
+          attachments: 2,
+          cardId: 9,
+          evaluation: '우수'
+        }
+      ]
+    },
+    {
+      id: 3,
+      title: '검토',
+      cards: [
+        {
+          id: 10,
+          title: '결제 시스템 보안 점검',
+          tags: ['보안', '결제'],
+          date: '2025-06-05',
+          comments: 8,
+          attachments: 6,
+          cardId: 10,
+          evaluation: '우수'
+        },
+        {
+          id: 11,
+          title: '성능 테스트 보고서',
+          tags: ['테스트', '성능'],
+          date: '2025-06-07',
+          comments: 3,
+          attachments: 1,
+          cardId: 11,
+          evaluation: '보통'
+        },
+        {
+          id: 12,
+          title: '브랜드 가이드라인 검토',
+          tags: ['브랜딩', '디자인'],
+          date: '2025-06-09',
+          comments: 2,
+          attachments: 3,
+          cardId: 12,
+          evaluation: '우수'
+        },
+        {
+          id: 13,
+          title: '법적 검토 및 컴플라이언스',
+          tags: ['법무', '컴플라이언스'],
+          date: '2025-06-11',
+          comments: 1,
+          attachments: 2,
+          cardId: 13,
+          evaluation: '보통'
+        }
+      ]
+    },
+    {
+      id: 4,
+      title: '완료',
+      cards: [
+        {
+          id: 14,
+          title: '로그인 페이지 디자인',
+          tags: ['디자인', '완료'],
+          date: '2025-05-28',
+          comments: 6,
+          attachments: 4,
+          cardId: 14,
+          evaluation: '우수'
+        },
+        {
+          id: 15,
+          title: '회원가입 기능 구현',
+          tags: ['개발', '완료'],
+          date: '2025-05-30',
+          comments: 4,
+          attachments: 2,
+          cardId: 15,
+          evaluation: '우수'
+        },
+        {
+          id: 16,
+          title: '이메일 템플릿 제작',
+          tags: ['디자인', '이메일'],
+          date: '2025-06-01',
+          comments: 2,
+          attachments: 3,
+          cardId: 16,
+          evaluation: '보통'
+        },
+        {
+          id: 17,
+          title: '서버 환경 구축',
+          tags: ['인프라', '완료'],
+          date: '2025-06-03',
+          comments: 5,
+          attachments: 1,
+          cardId: 17,
+          evaluation: '우수'
+        },
+        {
+          id: 18,
+          title: '[신규구축] 인천 중구청 평생학습센터 웹사이트 구축 및 모바일 사이트 구축 사업',
+          tags: ['테스트', '완료'],
+          date: '2025-06-04',
+          comments: 7,
+          attachments: 5,
+          cardId: 18,
+          evaluation: '우수'
+        },
+        {
+          id: 19,
+          title: '프로젝트 킥오프 미팅',
+          tags: ['회의', '완료'],
+          date: '2025-05-25',
+          comments: 3,
+          attachments: 1,
+          cardId: 19,
+          evaluation: '보통'
+        }
+      ]
+    }
+  ])
 
   // 활동 데이터
   const activities = ref([
