@@ -1,7 +1,7 @@
 <!-- components/common/UI/CustomCalendar.vue -->
 <template>
-  <div class="custom-calendar-wrapper">
-    <div class="calendar-container">
+  <div class="custom-calendar-wrapper" :style="wrapperStyles">
+    <div class="calendar-container" :style="containerStyles">
       <FullCalendar ref="fullCalendar" :options="mergedOptions" />
     </div>
 
@@ -35,10 +35,28 @@
       default: () => []
     },
 
-    // 캘린더 높이
+    // 캘린더 높이 (auto, 픽셀값, vh 등)
     height: {
       type: [String, Number],
       default: 'auto'
+    },
+
+    // 뷰포트 높이 사용 여부 (vh 단위)
+    useViewportHeight: {
+      type: Boolean,
+      default: false
+    },
+
+    // vh 값 (useViewportHeight가 true일 때)
+    viewportHeight: {
+      type: [String, Number],
+      default: 80
+    },
+
+    // 셀 높이 커스터마이징
+    cellHeight: {
+      type: [String, Number],
+      default: 100 // 기본 셀 높이
     },
 
     // 시작 요일 (0: 일요일, 1: 월요일)
@@ -104,6 +122,35 @@
   const selectedDate = ref(null)
   const fullCalendar = ref(null)
 
+  // 컨테이너 스타일 계산
+  const wrapperStyles = computed(() => {
+    const styles = {}
+
+    if (props.useViewportHeight) {
+      const vhValue =
+        typeof props.viewportHeight === 'number'
+          ? `${props.viewportHeight}vh`
+          : props.viewportHeight
+      styles.height = vhValue
+      styles.display = 'flex'
+      styles.flexDirection = 'column'
+    }
+
+    return styles
+  })
+
+  const containerStyles = computed(() => {
+    const styles = {}
+
+    if (props.useViewportHeight) {
+      styles.flex = '1'
+      styles.display = 'flex'
+      styles.flexDirection = 'column'
+    }
+
+    return styles
+  })
+
   // 기본 플러그인 + 추가 플러그인
   const allPlugins = computed(() => [
     dayGridPlugin,
@@ -121,6 +168,14 @@
       center: 'title',
       right: 'dayGridMonth,listMonth'
     }
+  })
+
+  // 계산된 높이값
+  const computedHeight = computed(() => {
+    if (props.useViewportHeight) {
+      return '100%' // 컨테이너가 flex로 설정되어 있어서 100% 사용
+    }
+    return props.height
   })
 
   // 캘린더 옵션 병합
@@ -142,7 +197,7 @@
       firstDay: props.firstDay,
 
       // 높이 설정
-      height: props.height,
+      height: computedHeight.value,
 
       // 이벤트 데이터
       events: props.events,
@@ -195,7 +250,11 @@
 
       // 선택 가능하도록 설정
       selectable: true,
-      selectMirror: true
+      selectMirror: true,
+
+      // 셀 높이 설정 (dayGrid 뷰에서만 적용)
+      dayMaxEvents: false, // 이벤트 제한 없음
+      moreLinkClick: 'popover'
     }
 
     // 커스텀 옵션으로 덮어쓰기
@@ -298,7 +357,6 @@
     background: white;
     border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     border: 1px solid #e5e7eb;
   }
 
@@ -323,98 +381,204 @@
     font-size: 14px;
   }
 
-  /* FullCalendar 커스터마이징 */
+  /* FullCalendar 커스터마이징 - 디자인 시스템 적용 */
   :deep(.fc) {
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Pretendard Variable', Pretendard, sans-serif;
+    height: 100%;
+  }
+
+  :deep(.fc-view-harness) {
+    height: 100% !important;
   }
 
   :deep(.fc-toolbar-title) {
-    font-size: 1.5em;
-    font-weight: 600;
-    color: #333;
+    font-size: 20px;
+    font-weight: 700;
+    color: #464c53; /* $text-default-color */
+    line-height: 150%;
   }
 
-  :deep(.fc-button-primary) {
-    background-color: #0084ff;
-    border-color: #0084ff;
-    border-radius: 6px;
-    padding: 6px 12px;
+  /* 버튼 기본 스타일 */
+  :deep(.fc-button) {
+    border-radius: 6px; /* $border-radius-md */
+    font-family: 'Pretendard Variable', Pretendard, sans-serif;
+    font-size: 14px; /* $font-size-md */
     font-weight: 500;
-    transition: all 0.2s ease;
+    height: 32px; /* $ui-height-md */
+    padding: 0 16px; /* $spacing-md */
+    transition: all 0.2s ease; /* $transition-normal */
+    border-width: 1px; /* $border-width */
+    box-shadow: none;
+  }
+
+  /* Primary 버튼 (prev, next, month 등) */
+  :deep(.fc-button-primary) {
+    background-color: #00aaff; /* $primary-color */
+    border-color: #00aaff;
+    color: #fff;
   }
 
   :deep(.fc-button-primary:hover) {
-    background-color: #0066cc;
-    border-color: #0066cc;
+    background-color: #0088cc; /* $primary-60 */
+    border-color: #0088cc;
     transform: translateY(-1px);
   }
 
-  :deep(.fc-button-primary:disabled) {
-    background-color: #94a3b8;
-    border-color: #94a3b8;
+  :deep(.fc-button-primary:active) {
+    background-color: #006699; /* $primary-70 */
+    border-color: #006699;
+    transform: translateY(0);
   }
 
+  :deep(.fc-button-primary:disabled) {
+    background-color: #b1b8be; /* $gray-30 */
+    border-color: #b1b8be;
+    color: #fff;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Today 버튼 - Success 색상 사용 */
   :deep(.fc-today-button) {
-    background-color: #28a745;
-    border-color: #28a745;
+    background-color: #00b248; /* $info-color */
+    border-color: #00b248;
   }
 
   :deep(.fc-today-button:hover) {
-    background-color: #218838;
-    border-color: #1e7e34;
+    background-color: #009a3e;
+    border-color: #009a3e;
   }
 
+  :deep(.fc-today-button:active) {
+    background-color: #008034;
+    border-color: #008034;
+  }
+
+  /* 오늘 날짜 배경 */
   :deep(.fc-daygrid-day.fc-day-today) {
-    background-color: rgba(0, 132, 255, 0.1);
+    background-color: #e5f6ff; /* $primary-5 */
   }
 
+  /* 날짜 칸 호버 효과 */
   :deep(.fc-daygrid-day:hover) {
-    background-color: rgba(0, 132, 255, 0.05);
+    background-color: #cceeff; /* $primary-10 */
     cursor: pointer;
   }
 
+  /* 셀 스타일링 */
   :deep(.fc-daygrid-day-number) {
     padding: 8px;
     font-weight: 500;
+    font-size: 14px; /* $font-size-md */
+    color: #464c53; /* $text-default-color */
   }
 
+  /* 이벤트 스타일링 */
   :deep(.fc-event) {
-    border-radius: 4px;
+    border-radius: 4px; /* $border-radius-sm */
     font-weight: 500;
-    padding: 2px 4px;
-    margin: 1px 0;
+    padding: 4px 8px; /* $spacing-xxs $spacing-xs */
+    margin: 2px 0;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s ease; /* $transition-normal */
+    font-size: 12px; /* $font-size-sm */
+    line-height: 150%;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
 
   :deep(.fc-event:hover) {
     transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* $shadow-color */
   }
 
   :deep(.fc-list-event:hover) {
-    background-color: #f8f9fa;
+    background-color: #f4f5f6; /* $gray-5 */
   }
 
+  /* 헤더 스타일링 */
   :deep(.fc-col-header-cell) {
-    background-color: #f8f9fa;
+    background-color: #f4f5f6; /* $gray-5 */
     font-weight: 600;
-    border-color: #dee2e6;
+    border-color: #e6e8ea; /* $gray-10 */
+    padding: 12px 8px;
+    font-size: 12px; /* $font-size-sm */
+    color: #6d7882; /* $gray-50 */
   }
 
+  /* 테두리 색상 통일 */
   :deep(.fc-scrollgrid) {
-    border-color: #dee2e6;
+    border-color: #e6e8ea; /* $gray-10 */
+    height: 100%;
   }
 
   :deep(.fc-scrollgrid td, .fc-scrollgrid th) {
-    border-color: #dee2e6;
+    border-color: #e6e8ea; /* $gray-10 */
+  }
+
+  /* 컨테이너 스타일 업데이트 */
+  .calendar-container {
+    background: white;
+    border-radius: 8px; /* $border-radius-lg */
+    padding: 24px; /* $spacing-lg */
+    border: 1px solid #e6e8ea; /* $gray-10 */
+  }
+
+  .selected-info {
+    margin-top: 24px; /* $spacing-lg */
+    padding: 16px; /* $spacing-md */
+    background-color: #e5f6ff; /* $primary-5 */
+    border-radius: 6px; /* $border-radius-md */
+    border-left: 3px solid #00aaff; /* $primary-color */
+  }
+
+  .selected-info h3 {
+    margin: 0 0 8px 0; /* $spacing-xs */
+    color: #006699; /* $primary-70 */
+    font-size: 16px; /* $font-size-lg */
+    font-weight: 600;
+  }
+
+  .selected-info p {
+    margin: 0;
+    color: #6d7882; /* $gray-50 */
+    font-size: 14px; /* $font-size-md */
+  }
+
+  /* 셀 높이 조정 */
+  :deep(.fc-daygrid-day-frame) {
+    min-height: v-bind('`${cellHeight}px`');
+    display: flex;
+    flex-direction: column;
+  }
+
+  :deep(.fc-daygrid-day-top) {
+    flex-shrink: 0;
+  }
+
+  :deep(.fc-daygrid-day-events) {
+    flex: 1;
+    margin-top: 4px;
+  }
+
+  /* vh 사용시 높이 조정 */
+  :deep(.fc-view-harness-active > .fc-view) {
+    height: 100% !important;
+  }
+
+  :deep(.fc-daygrid-body) {
+    height: 100%;
+  }
+
+  :deep(.fc-scrollgrid-sync-table) {
+    height: 100%;
   }
 
   /* 반응형 디자인 */
   @media (max-width: 768px) {
     .calendar-container {
-      padding: 10px;
-      margin: 0 -10px;
+      padding: 16px; /* $spacing-md */
+      margin: 0 -16px;
       border-radius: 0;
       border-left: none;
       border-right: none;
@@ -422,34 +586,53 @@
 
     :deep(.fc-toolbar) {
       flex-direction: column;
-      gap: 10px;
+      gap: 12px; /* $spacing-sm */
     }
 
     :deep(.fc-toolbar-chunk) {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 5px;
+      gap: 8px; /* $spacing-xs */
     }
 
     :deep(.fc-button) {
-      padding: 4px 8px;
-      font-size: 12px;
+      height: 28px; /* $ui-height-sm */
+      padding: 0 12px; /* $spacing-sm */
+      font-size: 12px; /* $font-size-sm */
     }
 
     :deep(.fc-toolbar-title) {
-      font-size: 1.2em;
+      font-size: 18px; /* $heading-sm */
+    }
+
+    :deep(.fc-daygrid-day-frame) {
+      min-height: v-bind('`${Math.max(cellHeight * 0.7, 60)}px`');
     }
   }
 
   @media (max-width: 480px) {
+    .calendar-container {
+      padding: 12px; /* $spacing-sm */
+    }
+
     :deep(.fc-daygrid-day-number) {
-      padding: 4px;
-      font-size: 12px;
+      padding: 4px; /* $spacing-xxs */
+      font-size: 12px; /* $font-size-sm */
     }
 
     :deep(.fc-event-title) {
-      font-size: 11px;
+      font-size: 10px; /* $font-size-xs */
+    }
+
+    :deep(.fc-daygrid-day-frame) {
+      min-height: v-bind('`${Math.max(cellHeight * 0.6, 50)}px`');
+    }
+
+    :deep(.fc-button) {
+      height: 24px; /* $ui-height-xs */
+      padding: 0 8px; /* $spacing-xs */
+      font-size: 10px; /* $font-size-xs */
     }
   }
 </style>
