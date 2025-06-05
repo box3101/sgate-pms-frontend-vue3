@@ -141,50 +141,64 @@
           </div>
           <UiFilterModal
             v-model="isCollaborationModalOpen"
-            title="협업"
             size="large"
             position="right"
             :showFooter="true"
-            :isScroll="true"
           >
-            <template #headerActions>
-              <UiSwitch
-                v-model="isActive"
-                label="제외하기"
-                @update:modelValue="handleSwitchChange"
-              />
-            </template>
-            <div class="collaboration-content">
-              <div class="search-section">
-                <div class="user-list">
-                  <!-- 사용자 목록 -->
-                  <div v-for="i in 5" :key="i" class="user-item">
-                    <div class="user-info">
-                      <div class="user-avatar">
-                        <i class="icon-user-gray icon-xl"></i>
+            <template #fixedActions>
+              <UiTabs :tabs="basicTabs" :isScroll="true">
+                <template #협업>
+                  <UiSwitch
+                    v-model="isActive"
+                    label="제외하기"
+                    @update:modelValue="handleSwitchChange"
+                  />
+                  <div class="collaboration-content">
+                    <div class="search-section">
+                      <div class="user-list">
+                        <!-- 사용자 목록 -->
+                        <div v-for="i in 10" :key="i" class="user-item">
+                          <div class="user-info">
+                            <div class="user-avatar">
+                              <i class="icon-user-gray icon-xl"></i>
+                            </div>
+                            <div class="user-details">
+                              <div class="user-name">[이강표] Contact</div>
+                              <div class="user-role">[2022.03.04 ~ ] Contact - BYC</div>
+                            </div>
+                          </div>
+                          <div class="flex gap-10">
+                            <template v-if="isActive">
+                              <UiTextarea
+                                placeholder="제외사유를 입력하세요."
+                                class="w-200"
+                                rows="2"
+                              />
+                              <UiButton variant="secondary">제외</UiButton>
+                            </template>
+                            <template v-else>
+                              <UiSelect placeholder="선택하세요" class="w-200" />
+                              <UiButton variant="secondary">이동</UiButton>
+                            </template>
+                          </div>
+                        </div>
                       </div>
-                      <div class="user-details">
-                        <div class="user-name">[이강표] Contact</div>
-                        <div class="user-role">[2022.03.04 ~ ] Contact - BYC</div>
-                      </div>
-                    </div>
-                    <div class="flex gap-10">
-                      <template v-if="isActive">
-                        <UiTextarea placeholder="제외사유를 입력하세요." class="w-200" rows="2" />
-                        <UiButton variant="secondary">제외</UiButton>
-                      </template>
-                      <template v-else>
-                        <UiSelect placeholder="선택하세요" class="w-200" />
-                        <UiButton variant="secondary">이동</UiButton>
-                      </template>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
+                </template>
+                <template #공유>
+                  <h4>공유 콘텐츠</h4>
+                  <p>공유 관련 내용입니다.</p>
+                </template>
+                <template #전달>
+                  <h4>전달 콘텐츠</h4>
+                  <p>업무 전달 정보입니다.</p>
+                </template>
+              </UiTabs>
+            </template>
 
             <template #footerActions>
-              <div class="flex gap-4 w-full justify-end">
+              <div class="flex items-center gap-4 w-full justify-end">
                 <UiSelect class="w-300" placeholder="선택하세요" />
                 <UiButton variant="secondary" @click="isCollaborationModalOpen = false"
                   >카테고리 일괄 선택</UiButton
@@ -198,14 +212,27 @@
         </div>
 
         <!-- 셋팅 버튼 -->
-        <UiTooltip position="top">
-          <template #trigger>
-            <UiButton variant="secondary-line" iconOnly>
-              <i class="icon icon-setting icon-xl"></i>
-            </UiButton>
-          </template>
-          <p>설정</p>
-        </UiTooltip>
+        <div>
+          <UiTooltip position="top">
+            <template #trigger>
+              <div class="flex items-center gap-4">
+                <UiButton variant="secondary-line" iconOnly @click="openSettingModal">
+                  <i class="icon icon-setting icon-xl"></i>
+                </UiButton>
+              </div>
+            </template>
+            <p>설정</p>
+          </UiTooltip>
+          <UiFilterModal position="right" v-model="isSettingModalOpen" size="large" title="설정">
+            <div class="setting-section">
+              <UiFormLayout>
+                <UiFormItem label="업무카드 이동시 확인여부">
+                  <UiSwitch v-model="moveCardConfirmation" />
+                </UiFormItem>
+              </UiFormLayout>
+            </div>
+          </UiFilterModal>
+        </div>
       </article>
     </section>
   </header>
@@ -231,12 +258,21 @@
    */
   const isActive = ref(false)
   const isCollaborationModalOpen = ref(false)
+  const isSettingModalOpen = ref(false)
+  const moveCardConfirmation = ref(false)
 
   /**
    * 보드 관리 모달 관련 상태 변수
    */
   const isBoardAddModalOpen = ref(false)
   const isBoardEditModalOpen = ref(false)
+
+  // 기본 탭 데이터
+  const basicTabs = [
+    { id: '협업', label: '협업' },
+    { id: '공유', label: '공유' },
+    { id: '전달', label: '전달' }
+  ]
 
   /**
    * 중요 업무 필터 토글 함수
@@ -281,5 +317,12 @@
   function handleSwitchChange(value) {
     console.log('스위치 상태 변경:', value)
     isActive.value = value
+  }
+
+  /**
+   * 설정 모달 토글 함수
+   */
+  function openSettingModal() {
+    isSettingModalOpen.value = !isSettingModalOpen.value
   }
 </script>

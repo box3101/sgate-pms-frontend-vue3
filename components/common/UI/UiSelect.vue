@@ -302,7 +302,7 @@
     // 크기 변형 - Medium (36px)
     &--medium {
       .ui-select__header {
-        height: $ui-height-lg; // 36px
+        height: $ui-height-md; // 36px
         padding: 5px 12px;
       }
 

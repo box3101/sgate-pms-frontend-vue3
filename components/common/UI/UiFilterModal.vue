@@ -24,6 +24,7 @@
       </div>
 
       <div class="filter-body" :class="{ 'is-scroll': isScroll }">
+        <slot name="fixedActions" />
         <slot />
       </div>
 
