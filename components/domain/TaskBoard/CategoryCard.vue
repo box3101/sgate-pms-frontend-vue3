@@ -20,9 +20,17 @@
       <div class="task-card-header">
         <!-- 카드 상단 기능 버튼 영역 -->
         <div class="card-actions">
-          <!-- 즐겨찾기 토글 버튼 - 즐겨찾기가 활성화된 경우에만 표시 -->
-          <button v-if="isFavorite" class="action-btn favorite-btn" @click.stop="toggleFavorite">
-            <Icon name="mdi:star" size="20" class="star-active" />
+          <!-- 즐겨찾기가 true일 때만 표시 -->
+          <button
+            v-if="favorite"
+            class="action-btn favorite-btn"
+            @click.stop="handleFavoriteToggle"
+          >
+            <Icon
+              name="mdi:star"
+              size="20"
+              :class="{ 'star-active': favorite, 'star-inactive': !favorite }"
+            />
           </button>
 
           <!-- 추가 메뉴 영역 -->
@@ -140,6 +148,7 @@
    * 카드 클릭, 즐겨찾기, 메뉴 액션 등의 기능 제공
    */
   import { ref } from 'vue'
+  import { computed } from 'vue'
 
   /**
    * 컴포넌트 속성 정의
@@ -196,13 +205,11 @@
 
   /**
    * 이벤트 정의
+   * - click: 카드 클릭 시
+   * - favoriteToggle: 즐겨찾기 상태 변경 시 (별도 이벤트)
+   * - taskAction: 기타 업무 액션 (삭제, 이동 등)
    */
-  const emit = defineEmits(['click', 'toggleFavorite', 'taskAction'])
-
-  /**
-   * 상태 변수
-   */
-  const isFavorite = ref(false)
+  const emit = defineEmits(['click', 'favoriteToggle', 'taskAction'])
 
   // 필터 메뉴 표시 상태
   const showFilterMenu = ref(false)
@@ -211,7 +218,8 @@
    * 메뉴 설정
    */
   // 아코디언 메뉴 아이템 정의
-  const menuItems = [
+  // 계산된 속성으로 메뉴 아이템 정의 - 반응성 보장
+  const menuItems = computed(() => [
     {
       title: '업무 이동',
       isAccordion: true
@@ -225,10 +233,10 @@
       isAccordion: true
     },
     {
-      title: isFavorite.value ? '즐겨찾기 해제' : '즐겨찾기',
+      title: props.favorite ? '즐겨찾기 해제' : '즐겨찾기',
       isAccordion: false,
       icon: 'icon-star icon-md',
-      action: () => handleTaskAction('favorite')
+      action: () => handleFavoriteToggle()
     },
     {
       title: '업무 삭제',
@@ -236,7 +244,7 @@
       icon: 'icon-delete icon-md',
       action: () => handleTaskAction('delete')
     }
-  ]
+  ])
 
   /**
    * 카드 클릭 핸들러
@@ -257,12 +265,11 @@
    * 즐겨찾기 상태 토글 함수
    * 즐겨찾기 상태를 변경하고 부모에게 이벤트 발송
    */
-  function toggleFavorite() {
-    isFavorite.value = !isFavorite.value
-    emit('toggleFavorite', props.cardId, isFavorite.value)
-
-    // 메뉴 텍스트 업데이트
-    updateMenuItems()
+  function handleFavoriteToggle() {
+    emit('favoriteToggle', {
+      cardId: props.cardId,
+      newFavorite: !props.favorite
+    })
   }
 
   /**
@@ -279,34 +286,12 @@
     showFilterMenu.value = false
   }
 
-  /**
-   * 업무 액션 처리 함수
-   * 지정된 액션 유형을 부모 컴포넌트에 전달
-   *
-   * @param {string} action - 수행할 액션 (delete, move 등)
-   * @param {any} subAction - 추가 액션 매개변수 (선택사항)
-   */
   function handleTaskAction(action, subAction = null) {
-    if (action === 'favorite') {
-      isFavorite.value = !isFavorite.value
-      emit('toggleFavorite', props.cardId, isFavorite.value)
-
-      // 메뉴 텍스트 업데이트
-      updateMenuItems()
-    }
     emit('taskAction', {
       cardId: props.cardId,
       action,
       subAction
     })
     closeFilterMenu()
-  }
-
-  /**
-   * 메뉴 아이템 업데이트 함수
-   * 즐겨찾기 상태에 따라 메뉴 아이템 텍스트를 업데이트
-   */
-  function updateMenuItems() {
-    menuItems.value[3].title = isFavorite.value ? '즐겨찾기 해제' : '즐겨찾기'
   }
 </script>

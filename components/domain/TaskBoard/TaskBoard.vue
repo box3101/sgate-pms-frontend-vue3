@@ -36,7 +36,10 @@
               :attachments="card.attachments"
               :cardId="card.id"
               :evaluation="getEvaluation(card)"
+              :favorite="card.favorite"
               @click="openCardDetail(card)"
+              @favoriteToggle="handleFavoriteToggle"
+              @taskAction="handleTaskAction"
             />
           </div>
           <!-- 카드가 없는 경우 -->
@@ -472,7 +475,8 @@
           comments: 3,
           attachments: 2,
           cardId: 1,
-          evaluation: '우수'
+          evaluation: '우수',
+          favorite: false
         },
         {
           id: 2,
@@ -482,7 +486,8 @@
           comments: 1,
           attachments: 5,
           cardId: 2,
-          evaluation: '우수'
+          evaluation: '우수',
+          favorite: false
         },
         {
           id: 3,
@@ -492,7 +497,8 @@
           comments: 0,
           attachments: 1,
           cardId: 3,
-          evaluation: '보통'
+          evaluation: '보통',
+          favorite: false
         },
         {
           id: 4,
@@ -502,7 +508,8 @@
           comments: 2,
           attachments: 0,
           cardId: 4,
-          evaluation: '우수'
+          evaluation: '우수',
+          favorite: false
         },
         {
           id: 5,
@@ -512,7 +519,8 @@
           comments: 2,
           attachments: 0,
           cardId: 4,
-          evaluation: '우수'
+          evaluation: '우수',
+          favorite: false
         },
         {
           id: 6,
@@ -522,7 +530,8 @@
           comments: 2,
           attachments: 0,
           cardId: 4,
-          evaluation: '우수'
+          evaluation: '우수',
+          favorite: false
         }
       ]
     },
@@ -538,7 +547,8 @@
           comments: 5,
           attachments: 3,
           cardId: 5,
-          evaluation: '우수'
+          evaluation: '우수',
+          favorite: false
         },
         {
           id: 6,
@@ -548,7 +558,8 @@
           comments: 4,
           attachments: 2,
           cardId: 6,
-          evaluation: '보통'
+          evaluation: '보통',
+          favorite: false
         },
         {
           id: 7,
@@ -558,7 +569,8 @@
           comments: 2,
           attachments: 1,
           cardId: 7,
-          evaluation: '우수'
+          evaluation: '우수',
+          favorite: false
         },
         {
           id: 8,
@@ -568,7 +580,8 @@
           comments: 1,
           attachments: 4,
           cardId: 8,
-          evaluation: '보통'
+          evaluation: '보통',
+          favorite: false
         },
         {
           id: 9,
@@ -578,7 +591,8 @@
           comments: 3,
           attachments: 2,
           cardId: 9,
-          evaluation: '우수'
+          evaluation: '우수',
+          favorite: false
         }
       ]
     },
@@ -594,7 +608,8 @@
           comments: 8,
           attachments: 6,
           cardId: 10,
-          evaluation: '우수'
+          evaluation: '우수',
+          favorite: false
         },
         {
           id: 11,
@@ -604,7 +619,8 @@
           comments: 3,
           attachments: 1,
           cardId: 11,
-          evaluation: '보통'
+          evaluation: '보통',
+          favorite: false
         },
         {
           id: 12,
@@ -614,7 +630,8 @@
           comments: 2,
           attachments: 3,
           cardId: 12,
-          evaluation: '우수'
+          evaluation: '우수',
+          favorite: false
         },
         {
           id: 13,
@@ -624,7 +641,8 @@
           comments: 1,
           attachments: 2,
           cardId: 13,
-          evaluation: '보통'
+          evaluation: '보통',
+          favorite: false
         }
       ]
     },
@@ -640,7 +658,8 @@
           comments: 6,
           attachments: 4,
           cardId: 14,
-          evaluation: '우수'
+          evaluation: '우수',
+          favorite: false
         },
         {
           id: 15,
@@ -650,7 +669,8 @@
           comments: 4,
           attachments: 2,
           cardId: 15,
-          evaluation: '우수'
+          evaluation: '우수',
+          favorite: false
         },
         {
           id: 16,
@@ -660,7 +680,8 @@
           comments: 2,
           attachments: 3,
           cardId: 16,
-          evaluation: '보통'
+          evaluation: '보통',
+          favorite: false
         },
         {
           id: 17,
@@ -670,7 +691,8 @@
           comments: 5,
           attachments: 1,
           cardId: 17,
-          evaluation: '우수'
+          evaluation: '우수',
+          favorite: false
         },
         {
           id: 18,
@@ -680,7 +702,8 @@
           comments: 7,
           attachments: 5,
           cardId: 18,
-          evaluation: '우수'
+          evaluation: '우수',
+          favorite: false
         },
         {
           id: 19,
@@ -690,7 +713,8 @@
           comments: 3,
           attachments: 1,
           cardId: 19,
-          evaluation: '보통'
+          evaluation: '보통',
+          favorite: false
         }
       ]
     }
@@ -705,12 +729,12 @@
       createdDate: '2022.07.12 | 14:45:57',
       items: [
         `
-      활동종류 : 서비스 기획 및 디자인<br>
-      활동내용<br>
-      - Sgate 화면 분석 및 기능 분석<br>
-      - 와이어프레임으로 프로세스 제작<br>
-      - 와이어프레임에 UI 디자인 적용<br>
-      `
+        활동종류 : 서비스 기획 및 디자인<br>
+        활동내용<br>
+        - Sgate 화면 분석 및 기능 분석<br>
+        - 와이어프레임으로 프로세스 제작<br>
+        - 와이어프레임에 UI 디자인 적용<br>
+        `
       ],
       user: {
         company: 'ABC 회사',
@@ -856,12 +880,12 @@
       createdDate: '2022.07.12 | 14:45:57',
       items: [
         `
-        활동종류 : 서비스 기획 및 디자인<br>
-        활동내용<br>
-        - Sgate 화면 분석 및 기능 분석<br>
-        - 와이어프레임으로 프로세스 제작<br>
-        - 와이어프레임에 UI 디자인 적용<br>
-        `
+          활동종류 : 서비스 기획 및 디자인<br>
+          활동내용<br>
+          - Sgate 화면 분석 및 기능 분석<br>
+          - 와이어프레임으로 프로세스 제작<br>
+          - 와이어프레임에 UI 디자인 적용<br>
+          `
       ],
       user: {
         company: 'ABC 회사',
@@ -876,6 +900,71 @@
    */
   const getEvaluation = card => {
     return card.evaluation || ''
+  }
+
+  /**
+   * 🔥 새로 추가: 즐겨찾기 토글 처리 함수
+   * @param {Object} payload - { cardId, currentFavorite, newFavorite }
+   */
+  function handleFavoriteToggle(payload) {
+    const { cardId, currentFavorite, newFavorite } = payload
+
+    // 카드 찾기
+    let targetCard = null
+    let targetCategory = null
+
+    for (const category of categories.value) {
+      const card = category.cards.find(c => c.id === cardId)
+      if (card) {
+        targetCard = card
+        targetCategory = category
+        break
+      }
+    }
+
+    if (targetCard) {
+      // 🔥 핵심: 상태 업데이트
+      targetCard.favorite = newFavorite
+
+      // 로깅 (개발 시 확인용)
+      console.log(`카드 ${cardId} 즐겨찾기 상태 변경: ${currentFavorite} → ${newFavorite}`)
+
+      // 🔥 실제 프로젝트에서는 API 호출
+      // updateCardFavoriteStatus(cardId, newFavorite)
+      //   .then(response => {
+      //     console.log('즐겨찾기 상태 업데이트 성공')
+      //   })
+      //   .catch(error => {
+      //     // 에러 시 롤백
+      //     targetCard.favorite = currentFavorite
+      //     console.error('즐겨찾기 업데이트 실패:', error)
+      //   })
+    }
+  }
+
+  /**
+   * 🔥 새로 추가: 기타 태스크 액션 처리 함수
+   * @param {Object} payload - { cardId, action, subAction }
+   */
+  function handleTaskAction(payload) {
+    const { cardId, action, subAction } = payload
+
+    switch (action) {
+      case 'delete':
+        deleteCard(cardId)
+        break
+      case 'move':
+        moveCard(cardId, subAction)
+        break
+      case 'transfer':
+        transferCard(cardId, subAction)
+        break
+      case 'merge':
+        mergeCard(cardId, subAction)
+        break
+      default:
+        console.warn('알 수 없는 액션:', action)
+    }
   }
 </script>
 
