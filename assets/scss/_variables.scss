@@ -84,37 +84,37 @@ $heading-xxl: 32px;
 $heading-1: (
   'font-size': $heading-xxl,
   'font-weight': 700,
-  'line-height': 130%
+  'line-height': 150%
 );
 
 $heading-2: (
   'font-size': $heading-xl,
   'font-weight': 700,
-  'line-height': 130%
+  'line-height': 150%
 );
 
 $heading-3: (
   'font-size': $heading-lg,
   'font-weight': 700,
-  'line-height': 130%
+  'line-height': 150%
 );
 
 $heading-4: (
   'font-size': $heading-md,
   'font-weight': 700,
-  'line-height': 130%
+  'line-height': 150%
 );
 
 $heading-5: (
   'font-size': $heading-sm,
   'font-weight': 700,
-  'line-height': 130%
+  'line-height': 150%
 );
 
 $heading-6: (
   'font-size': $heading-xs,
   'font-weight': 700,
-  'line-height': 130%
+  'line-height': 150%
 );
 
 // 텍스트 색상
@@ -296,6 +296,7 @@ $gray-50: #6d7882; // color/gray/50
 $gray-60: #58616a; // color/gray/60
 $gray-70: #464c53; // color/gray/70
 $gray-80: #33363d; // color/gray/80
+$gray-90: #1e2124; // color/gray/90
 
 // Primary color variables
 $primary-5: #e5f6ff; // color/primary/5

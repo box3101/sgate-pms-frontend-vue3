@@ -179,7 +179,7 @@
     &__field {
       width: 100%;
       padding: $spacing-sm;
-      border: 1px solid $border-color-light;
+      border: 1px solid var(--color-gray-20, #cdd1d5);
       border-radius: 6px;
       background-color: var(--color-gray-0, #fff);
       font-size: $font-size-sm;
@@ -257,6 +257,10 @@
         padding: 12px;
         font-size: $font-size-md;
         min-height: 100px;
+
+        &::placeholder {
+          @include font-style($body-small);
+        }
       }
       .ui-textarea__label {
         @include font-style($body-medium);

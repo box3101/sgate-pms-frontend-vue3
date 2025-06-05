@@ -1036,7 +1036,7 @@
     &--medium {
       .ui-datepicker__input,
       .ui-datepicker__range-input {
-        height: $ui-height-md + 2; // 36px
+        height: $ui-height-lg; // 36px
         padding: 5px 6px;
       }
       .ui-datepicker__text,

@@ -11,7 +11,7 @@
           <div>
             <UiTooltip position="top">
               <template #trigger>
-                <UiButton variant="primary" iconOnly @click="openBoardAddModal">
+                <UiButton variant="secondary" iconOnly @click="openBoardAddModal">
                   <i class="icon icon-plus icon-md icon-white"></i>
                 </UiButton>
               </template>
@@ -35,8 +35,8 @@
           <div>
             <UiTooltip position="top">
               <template #trigger>
-                <UiButton variant="secondary" iconOnly @click="openBoardEditModal">
-                  <i class="icon icon-pencil icon-md icon-white"></i>
+                <UiButton variant="secondary-line" iconOnly @click="openBoardEditModal">
+                  <i class="icon icon-pencil icon-md"></i>
                 </UiButton>
               </template>
               <p>보드 편집</p>
@@ -59,21 +59,25 @@
           <UiTooltip position="top">
             <template #trigger>
               <UiButton variant="secondary-line" iconOnly>
-                <i class="icon icon-delete icon-md"></i>
+                <i class="icon icon-delete icon-lg"></i>
               </UiButton>
             </template>
             <p>보드 삭제</p>
           </UiTooltip>
         </div>
 
-        <!-- 검색 필터 및 중요 업무 필터 버튼 -->
+        <!-- 검색 필터 및 중요 업무 필터 버튼, 찾고싶은 업무명 입력 -->
         <div class="flex gap-5">
           <!-- 검색 필터 버튼 및 모달 -->
           <div>
-            <UiButton variant="secondary-line" @click="openFilterModal">
-              <i class="icon icon-filter icon-md"></i>
-              <span>검색필터</span>
-            </UiButton>
+            <UiTooltip position="top">
+              <template #trigger>
+                <UiButton variant="secondary-line" @click="openFilterModal" iconOnly>
+                  <i class="icon icon-filter icon-lg"></i>
+                </UiButton>
+              </template>
+              <p>검색필터</p>
+            </UiTooltip>
             <UiFilterModal
               v-model="isFilterModalOpen"
               :targetRef="filterButton"
@@ -101,15 +105,26 @@
           </div>
 
           <!-- 중요 업무 필터 버튼 -->
-          <UiButton
-            :variant="isImportantTaskActive ? 'secondary-line' : 'secondary-line'"
-            @click="toggleImportantTask"
-          >
-            <i
-              class="icon icon-star icon-md"
-              :class="{ 'icon-star-yellow': isImportantTaskActive }"
-            ></i>
-            <span>중요업무</span>
+          <UiTooltip position="top">
+            <template #trigger>
+              <UiButton
+                :variant="isImportantTaskActive ? 'secondary-line' : 'secondary-line'"
+                @click="toggleImportantTask"
+                iconOnly
+              >
+                <i
+                  class="icon icon-star icon-lg"
+                  :class="{ 'icon-star-yellow': isImportantTaskActive }"
+                ></i>
+              </UiButton>
+            </template>
+            <p>중요업무</p>
+          </UiTooltip>
+
+          <!-- 찾고싶은 업무명 입력 -->
+          <UiInput class="ml-16" placeholder="찾고싶은 업무명을 입력하세요." />
+          <UiButton variant="secondary" iconOnly>
+            <i class="icon icon-search icon-lg icon-white"></i>
           </UiButton>
         </div>
       </article>
@@ -120,9 +135,8 @@
         <div>
           <div class="button-with-badge">
             <span class="badge">3</span>
-            <UiButton variant="secondary" @click="openCollaborationModal">
-              <i class="icon icon-plus icon-md icon-white"></i>
-              <span>협업</span>
+            <UiButton variant="secondary" @click="openCollaborationModal" iconOnly>
+              <i class="icon icon-user-arr-right icon-md icon-white"></i>
             </UiButton>
           </div>
           <UiFilterModal
@@ -183,17 +197,15 @@
           </UiFilterModal>
         </div>
 
-        <!-- 공유 버튼 -->
-        <UiButton variant="secondary">
-          <i class="icon icon-plus icon-md icon-white"></i>
-          <span>공유</span>
-        </UiButton>
-
-        <!-- 전달 버튼 -->
-        <UiButton variant="secondary">
-          <i class="icon icon-plus icon-md icon-white"></i>
-          <span>전달</span>
-        </UiButton>
+        <!-- 셋팅 버튼 -->
+        <UiTooltip position="top">
+          <template #trigger>
+            <UiButton variant="secondary-line" iconOnly>
+              <i class="icon icon-setting icon-xl"></i>
+            </UiButton>
+          </template>
+          <p>설정</p>
+        </UiTooltip>
       </article>
     </section>
   </header>

@@ -108,20 +108,19 @@
     user-select: none;
     border-radius: 8px;
     position: relative;
-    padding-left: 28px !important;
 
-    &::before {
-      content: '';
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--color-primary-50, #6d7882);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
+    // &::before {
+    //   content: '';
+    //   position: absolute;
+    //   left: 12px;
+    //   top: 50%;
+    //   transform: translateY(-50%);
+    //   width: 6px;
+    //   height: 6px;
+    //   border-radius: 50%;
+    //   background: var(--color-primary-50, #6d7882);
+    //   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    // }
 
     // 기본 불릿 스타일 공통 속성
     &.accordion-title-with-bullet {

@@ -376,13 +376,14 @@
     &__control {
       display: flex;
       align-items: center;
-      min-height: 36px;
+      min-height: 38px;
       border: 1px solid var(--color-gray-20, #cdd1d5);
       border-radius: $border-radius-sm;
       background: var(--color-gray-0, #fff);
       cursor: text;
       transition: all $transition-normal ease;
-      padding: 2px;
+      padding-left: 7px;
+      box-sizing: border-box;
 
       &:hover {
         border-color: var(--color-gray-30, #b1b8be);

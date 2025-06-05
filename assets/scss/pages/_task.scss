@@ -1015,18 +1015,19 @@
 //카테고리 컨테이너 스타일
 .category {
   &-column {
+    padding: 8px;
     min-width: 328px;
     width: 328px;
-    border-radius: 8px;
+    border-radius: 4px;
+    background-color: $gray-10;
     display: flex;
     flex-direction: column;
     max-height: 100%;
 
     &:last-of-type {
       .category-header {
-        background: var(--color-gray-5, #f4f5f6);
         &::before {
-          background: var(--color-gray-10, #e6e8ea);
+          background-color: $gray-10;
         }
         &::after {
           background: url('/public/images/meatball-menu-icon-default.svg') no-repeat center;
@@ -1036,51 +1037,42 @@
   }
 
   &-header {
-    padding: 9px 16px;
-    padding-right: 11px;
-    padding-left: 25px;
+    padding: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: var(--color-gray-20, #cdd1d5);
+    border-radius: 4px;
     width: 100%;
-    border-radius: 8px;
-    margin-bottom: 9px;
     position: relative;
     cursor: pointer;
 
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 15px;
-      height: 100%;
-      background-color: #e0e0e0;
-      border-radius: 4px 0px 0px 4px;
-      background: var(--color-gray-30, #b1b8be);
-    }
+    // &::before {
+    //   content: '';
+    //   position: absolute;
+    //   top: 0;
+    //   left: 0;
+    //   width: 15px;
+    //   height: 100%;
+    //   background-color: #e0e0e0;
+    //   border-radius: 4px 0px 0px 4px;
+    //   background: var(--color-gray-30, #b1b8be);
+    // }
 
-    &::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      left: -4px;
-      background: url('/public/images/meatball-menu-icon.svg') no-repeat center;
-      width: 24px;
-      height: 24px;
-      cursor: pointer;
-    }
+    // &::after {
+    //   content: '';
+    //   position: absolute;
+    //   top: 50%;
+    //   transform: translateY(-50%);
+    //   left: -4px;
+    //   background: url('/public/images/meatball-menu-icon.svg') no-repeat center;
+    //   width: 24px;
+    //   height: 24px;
+    //   cursor: pointer;
+    // }
   }
 
   &-title {
-    color: var(--color-gray-90, #1e2124);
-    /* head/small */
-    font-family: Pretendard;
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 150%; /* 30px */
+    font-size: include heading(5);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1113,8 +1105,12 @@
 .cards-container {
   overflow-y: auto;
   flex: 1;
+  height: auto;
   max-height: calc(100vh - 205px);
   margin-bottom: 20px;
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 }
 
 .card-add-btn {

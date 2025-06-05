@@ -8,16 +8,15 @@
       <!-- 카테고리 액션 버튼 영역 -->
       <div class="category-actions">
         <!-- 업무 추가 버튼 (showAddButton이 true일 때만 표시) -->
-        <UiButton v-if="showAddButton" variant="primary" size="small" @click="$emit('add-board')">
-          <i class="icon icon-plus icon-md icon-white"></i>
-          업무
+        <UiButton v-if="showAddButton" variant="ghost" @click="$emit('add-board')" iconOnly>
+          <i class="icon icon-plus icon-md icon-black"></i>
         </UiButton>
 
         <!-- 카테고리 메뉴 영역 -->
         <div>
           <!-- 메뉴 버튼 -->
           <button class="category-menu-btn" @click="openCategoryModal">
-            <i class="icon icon-md icon-dots-vertical"></i>
+            <i class="icon icon-lg icon-dots-vertical"></i>
           </button>
 
           <!-- 카테고리 메뉴 모달 -->

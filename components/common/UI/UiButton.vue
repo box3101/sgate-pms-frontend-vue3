@@ -128,7 +128,7 @@
     &--icon-only {
       min-width: auto;
       &.ui-button--medium {
-        padding: 0 10px;
+        padding: 0 9px;
       }
     }
 
@@ -238,28 +238,32 @@
         cursor: not-allowed;
       }
     }
-
     &--ghost {
       background: transparent;
-      color: var(--color-gray-60, #58616a);
+      color: $gray-70;
+      border: 1px solid transparent; // 테두리 추가로 더 명확하게
       transition: all 0.2s ease-in-out;
 
       &:hover:not(:disabled) {
-        background: var(--color-gray-10, #e6e8ea); // 더 진한 회색으로 변경
-        color: var(--color-gray-60, #58616a);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // 음영 효과 추가
+        background: var(--color-gray-10, #e6e8ea);
+        color: var(--color-gray-80, #33363d); // 더 진한 텍스트로 가독성 향상
+        border-color: var(--color-gray-20, #cdd1d5); // 테두리로 경계 명확화
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12); // 더 강한 그림자
       }
 
       &:active:not(:disabled) {
-        background: var(--color-gray-15, #d9dbde); // 활성 상태 색상 조정
-        color: var(--color-gray-60, #58616a);
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); // 눌렀을 때 약간 작아지는 효과
+        background: var(--color-gray-20, #cdd1d5); // 더 진한 배경
+        color: var(--color-gray-80, #33363d);
+        border-color: var(--color-gray-30, #b1b8be);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15); // 눌림 효과
       }
 
       &:disabled {
         background: transparent;
-        color: var(--color-gray-40, #8a949e);
+        color: var(--color-gray-30, #b1b8be); // 더 연한 색으로 비활성화 표시
+        border-color: transparent;
         cursor: not-allowed;
+        opacity: 0.6; // 투명도로 비활성화 강조
       }
     }
 
