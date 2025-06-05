@@ -969,7 +969,15 @@
     }
 
     .card-date {
-      font-size: 11px;
+      @include font-style($body-xsmall-bold);
+
+      &.date-overdue {
+        color: $system-red;
+      }
+
+      &.date-normal {
+        color: $gray-30;
+      }
     }
 
     // 컨텍스트 메뉴 스타일

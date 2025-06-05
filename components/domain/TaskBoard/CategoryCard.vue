@@ -132,8 +132,16 @@
               {{ attachments || 0 }}
             </span>
           </div>
-          <!-- 날짜 표시 -->
-          <span class="card-date">{{ date }}</span>
+          <!-- 기간 초과 여부에 따른 날짜 표시 -->
+          <span
+            class="card-date"
+            :class="{
+              'date-overdue': isOverdue,
+              'date-normal': !isOverdue
+            }"
+          >
+            {{ isOverdue ? '기간초과' : `~ ${date}` }}
+          </span>
         </div>
       </div>
     </div>
@@ -200,6 +208,11 @@
       type: String,
       default: '진행중',
       validator: value => ['진행중', '완료'].includes(value)
+    },
+    // 기간 초과 여부
+    isOverdue: {
+      type: Boolean,
+      default: false
     }
   })
 
@@ -270,6 +283,7 @@
       cardId: props.cardId,
       newFavorite: !props.favorite
     })
+    closeFilterMenu()
   }
 
   /**

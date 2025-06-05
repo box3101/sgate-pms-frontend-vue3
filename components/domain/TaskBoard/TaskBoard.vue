@@ -37,6 +37,8 @@
               :cardId="card.id"
               :evaluation="getEvaluation(card)"
               :favorite="card.favorite"
+              :status="card.status"
+              :isOverdue="card.isOverdue"
               @click="openCardDetail(card)"
               @favoriteToggle="handleFavoriteToggle"
               @taskAction="handleTaskAction"
@@ -460,7 +462,6 @@
   ]
 
   // 카테고리 목록 데이터
-  // 카테고리 목록 데이터
   const categories = ref([
     {
       id: 1,
@@ -475,8 +476,10 @@
           comments: 3,
           attachments: 2,
           cardId: 1,
-          evaluation: '우수',
-          favorite: false
+          evaluation: '미흡',
+          favorite: false,
+          status: '완료',
+          isOverdue: false
         },
         {
           id: 2,
@@ -487,7 +490,8 @@
           attachments: 5,
           cardId: 2,
           evaluation: '우수',
-          favorite: false
+          favorite: false,
+          isOverdue: false
         },
         {
           id: 3,
@@ -498,7 +502,8 @@
           attachments: 1,
           cardId: 3,
           evaluation: '보통',
-          favorite: false
+          favorite: false,
+          isOverdue: false
         },
         {
           id: 4,
@@ -509,7 +514,8 @@
           attachments: 0,
           cardId: 4,
           evaluation: '우수',
-          favorite: false
+          favorite: false,
+          isOverdue: true
         },
         {
           id: 5,
@@ -540,7 +546,7 @@
       title: '진행중',
       cards: [
         {
-          id: 5,
+          id: 7,
           title: '[신규구축] 인천 중구청 평생학습센터 웹사이트 구축 및 모바일 사이트 구축 사업',
           tags: ['개발', '백엔드'],
           date: '2025-06-08',
@@ -548,10 +554,11 @@
           attachments: 3,
           cardId: 5,
           evaluation: '우수',
-          favorite: false
+          favorite: false,
+          status: '진행중'
         },
         {
-          id: 6,
+          id: 8,
           title: '프론트엔드 컴포넌트 개발',
           tags: ['개발', '프론트엔드'],
           date: '2025-06-12',
@@ -559,10 +566,11 @@
           attachments: 2,
           cardId: 6,
           evaluation: '보통',
-          favorite: false
+          favorite: false,
+          status: '완료'
         },
         {
-          id: 7,
+          id: 9,
           title: '데이터베이스 최적화',
           tags: ['개발', 'DB'],
           date: '2025-06-18',
@@ -573,7 +581,7 @@
           favorite: false
         },
         {
-          id: 8,
+          id: 10,
           title: '소셜미디어 콘텐츠 제작',
           tags: ['마케팅', '콘텐츠'],
           date: '2025-06-22',
@@ -584,7 +592,7 @@
           favorite: false
         },
         {
-          id: 9,
+          id: 11,
           title: '고객 피드백 분석',
           tags: ['분석', '고객'],
           date: '2025-06-16',
@@ -601,7 +609,7 @@
       title: '검토',
       cards: [
         {
-          id: 10,
+          id: 12,
           title: '결제 시스템 보안 점검',
           tags: ['보안', '결제'],
           date: '2025-06-05',
@@ -904,10 +912,10 @@
 
   /**
    * 🔥 새로 추가: 즐겨찾기 토글 처리 함수
-   * @param {Object} payload - { cardId, currentFavorite, newFavorite }
+   * @param {Object} payload - { cardId, newFavorite }
    */
   function handleFavoriteToggle(payload) {
-    const { cardId, currentFavorite, newFavorite } = payload
+    const { cardId, newFavorite } = payload
 
     // 카드 찾기
     let targetCard = null
@@ -927,7 +935,7 @@
       targetCard.favorite = newFavorite
 
       // 로깅 (개발 시 확인용)
-      console.log(`카드 ${cardId} 즐겨찾기 상태 변경: ${currentFavorite} → ${newFavorite}`)
+      console.log(`카드 ${cardId} 즐겨찾기 상태 변경: ${targetCard.favorite} → ${newFavorite}`)
 
       // 🔥 실제 프로젝트에서는 API 호출
       // updateCardFavoriteStatus(cardId, newFavorite)
