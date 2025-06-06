@@ -58,7 +58,6 @@
           >
             <i class="icon-md icon-sort"></i>
           </UiButton>
-          <!-- 저장 버튼을 커스텀 슬롯으로 변경 -->
           <slot name="action-button" v-if="canSave">
             <UiButton type="button" variant="primary" @click="saveChanges">저장</UiButton>
           </slot>
@@ -80,8 +79,27 @@
       행을 드래그하여 순서를 변경할 수 있습니다. <br />완료 후 정렬 버튼을 다시 클릭하세요.
     </div>
 
+    <!-- Empty State -->
+    <div v-if="isEmpty" class="empty-state">
+      <slot name="empty" :add-row="addRow" :editable="editable">
+        <div class="empty-content">
+          <!-- <div class="empty-icon">
+            <i class="icon-lg icon-table"></i>
+          </div> -->
+          <h3 class="empty-title">{{ emptyTitle }}</h3>
+          <p class="empty-description">{{ emptyDescription }}</p>
+          <div v-if="editable && canAddRow" class="empty-actions">
+            <UiButton variant="primary" @click="addRow">
+              <i class="icon-sm icon-plus"></i>
+              첫 번째 항목 추가
+            </UiButton>
+          </div>
+        </div>
+      </slot>
+    </div>
+
     <!-- 스크롤 가능한 테이블 컨테이너 -->
-    <div v-if="scrollable" class="table-scroll-container">
+    <div v-else-if="scrollable" class="table-scroll-container">
       <table class="ui-table" :class="{ 'th-left': isThLeft }">
         <colgroup v-if="$slots.colgroup">
           <slot name="colgroup"></slot>
@@ -116,7 +134,7 @@
     </div>
 
     <!-- 스크롤이 없는 경우 기존 방식 -->
-    <table v-else class="ui-table" :class="{ 'th-left': isThLeft }">
+    <table v-else-if="!isEmpty" class="ui-table" :class="{ 'th-left': isThLeft }">
       <colgroup v-if="$slots.colgroup">
         <slot name="colgroup"></slot>
       </colgroup>
@@ -203,8 +221,6 @@
     },
     /**
      * 테이블 레이아웃 (vertical, horizontal)
-     * vertical: 기본 테이블 형태 (th가 위, td가 아래)
-     * horizontal: th와 td가 좌우로 배치되는 형태 (th가 좌측, td가 우측)
      */
     layout: {
       type: String,
@@ -254,7 +270,6 @@
       type: Boolean,
       default: false
     },
-
     /**
      * 엑셀 컨트롤
      */
@@ -262,17 +277,14 @@
       type: Boolean,
       default: false
     },
-
     excelDownloadLabel: {
       type: String,
       default: '엑셀 다운로드'
     },
-
     excelUploadLabel: {
       type: String,
       default: '엑셀 업로드'
     },
-
     /**
      * 새 행 추가 시 기본 행 데이터
      */
@@ -287,10 +299,6 @@
       type: Boolean,
       default: false
     },
-    title: {
-      type: String,
-      default: ''
-    },
     /**
      * 행 추가 버튼 표시 여부
      */
@@ -298,7 +306,6 @@
       type: Boolean,
       default: true
     },
-
     /**
      * 저장 버튼 표시 여부
      */
@@ -306,11 +313,28 @@
       type: Boolean,
       default: true
     },
-
     /**
      * 구간대 설정 컨트롤
      */
     gradeRangeControls: {
+      type: Boolean,
+      default: false
+    },
+    /**
+     * Empty State 관련 Props
+     */
+    emptyTitle: {
+      type: String,
+      default: '데이터가 없습니다'
+    },
+    emptyDescription: {
+      type: String,
+      default: '표시할 항목이 없습니다.'
+    },
+    /**
+     * Empty State 표시 여부를 강제로 설정 (로딩 상태 등에서 사용)
+     */
+    forceEmpty: {
       type: Boolean,
       default: false
     }
@@ -325,6 +349,11 @@
 
   // 드래그 앤 드롭 관련 상태
   const draggedRowIndex = ref(null)
+
+  // Empty State 계산
+  const isEmpty = computed(() => {
+    return props.forceEmpty || !props.modelValue || props.modelValue.length === 0
+  })
 
   // 모든 행이 선택되었는지 확인
   const isAllSelected = computed(() => {
@@ -344,7 +373,6 @@
 
   /**
    * 특정 행 선택/해제
-   * @param {Object} row - 선택/해제할 행 데이터
    */
   const toggleRowSelection = row => {
     if (sortable.value) return
@@ -359,8 +387,6 @@
 
   /**
    * 행이 선택되었는지 확인
-   * @param {Object} row - 확인할 행 데이터
-   * @returns {Boolean} 선택 여부
    */
   const isRowSelected = row => {
     return selectedRows.value.includes(row)
@@ -370,15 +396,13 @@
    * 기본 행 데이터 생성 함수
    */
   const createDefaultRow = () => {
-    // 고유 ID 생성
     const generateId = () => {
       return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
     }
 
-    // props.defaultRowData를 기반으로 새 행 생성
     return {
-      id: generateId(), // 기본적으로 id는 항상 생성
-      ...props.defaultRowData // props로 받은 기본값들을 스프레드
+      id: generateId(),
+      ...props.defaultRowData
     }
   }
 
@@ -410,7 +434,6 @@
    */
   const toggleSortable = () => {
     sortable.value = !sortable.value
-    // 정렬 모드 비활성화 시 선택된 행 초기화
     if (!sortable.value) {
       selectedRows.value = []
     }
@@ -418,8 +441,6 @@
 
   /**
    * 드래그 시작 핸들러
-   * @param {Event} event - 드래그 이벤트
-   * @param {Number} index - 드래그 시작한 행의 인덱스
    */
   const handleDragStart = (event, index) => {
     if (!sortable.value) return
@@ -428,21 +449,18 @@
     isDragging.value = true
     event.dataTransfer.effectAllowed = 'move'
 
-    // 드래그 중인 요소의 고스트 이미지 설정
     try {
       const dragRow = event.target.closest('tr')
       if (dragRow) {
         event.dataTransfer.setDragImage(dragRow, 0, 0)
       }
     } catch (e) {
-      // 브라우저가 지원하지 않는 경우 무시
       console.warn('Drag image not supported in this browser', e)
     }
   }
 
   /**
    * 드래그 오버 핸들러
-   * @param {Event} event - 드래그 오버 이벤트
    */
   const handleDragOver = event => {
     if (!sortable.value) return
@@ -453,8 +471,6 @@
 
   /**
    * 드롭 핸들러
-   * @param {Event} event - 드롭 이벤트
-   * @param {Number} index - 드롭된 위치의 인덱스
    */
   const handleDrop = (event, targetIndex) => {
     if (!sortable.value || draggedRowIndex.value === null) return
@@ -464,9 +480,8 @@
       const updatedRows = [...props.modelValue]
       const draggedItem = updatedRows[draggedRowIndex.value]
 
-      // 항목 이동 처리
-      updatedRows.splice(draggedRowIndex.value, 1) // 원래 위치에서 제거
-      updatedRows.splice(targetIndex, 0, draggedItem) // 새 위치에 삽입
+      updatedRows.splice(draggedRowIndex.value, 1)
+      updatedRows.splice(targetIndex, 0, draggedItem)
 
       emit('update:modelValue', updatedRows)
       emit('order-changed', {
@@ -479,6 +494,7 @@
     draggedRowIndex.value = null
     isDragging.value = false
   }
+
   /**
    * 드래그 종료 핸들러
    */
@@ -499,7 +515,6 @@
   watch(
     () => props.modelValue,
     () => {
-      // 이미 선택된 행 중 modelValue에 없는 행 제거
       selectedRows.value = selectedRows.value.filter(selected =>
         props.modelValue.some(row => row === selected)
       )
@@ -520,7 +535,7 @@
 <style lang="scss">
   .ui-table-wrapper {
     position: relative;
-    overflow: hidden; // 전체 컨테이너는 overflow 숨김
+    overflow: hidden;
     width: 100%;
     transition: all 0.2s ease;
     display: flex;
@@ -538,17 +553,16 @@
     }
 
     &.scrollable {
-      height: 100%; // 높이 설정 필요
-      // 섹션 헤더는 고정
+      height: 100%;
+
       .section-header {
-        flex-shrink: 0; // 고정
+        flex-shrink: 0;
         position: sticky;
         top: 0;
         z-index: 20;
         background-color: #fff;
       }
 
-      // 테이블 컨테이너만 스크롤
       .table-scroll-container {
         flex: 1;
         overflow-y: auto;
@@ -647,7 +661,7 @@
         display: table;
         width: 100%;
         thead {
-          display: none; // horizontal에서는 thead 숨김
+          display: none;
         }
 
         tbody {
@@ -691,6 +705,7 @@
         }
       }
     }
+
     &.editable {
       .ui-table {
         tbody tr {
@@ -790,11 +805,10 @@
     color: $primary-color !important;
   }
 
-  // 테이블 헤더 sticky 개선
   .sticky-header {
     th {
       position: sticky;
-      top: 0; // 테이블 컨테이너 기준으로 고정
+      top: 0;
       z-index: 10;
       background-color: #f8fafc;
 
@@ -811,24 +825,62 @@
     }
   }
 
-  .sticky-header-no {
-    th {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background-color: #f8fafc;
-    }
-  }
-
   .sort-mode-message {
-    background: #fef3c7; /* 연한 노란색 */
-    border-left: 4px solid #f59e0b; /* 좌측 강조선 */
+    background: #fef3c7;
+    border-left: 4px solid #f59e0b;
     padding: 12px;
     text-align: left;
     font-size: 14px;
     font-weight: 500;
-    color: #92400e; /* 어두운 갈색 텍스트 */
+    color: #92400e;
     z-index: 10;
     margin-bottom: 5px;
+  }
+
+  // Empty State 스타일
+  .empty-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    padding: 2rem;
+    background-color: #fafafa;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+
+    .empty-content {
+      text-align: center;
+      max-width: 400px;
+
+      .empty-icon {
+        margin-bottom: 1rem;
+        color: #9ca3af;
+        font-size: 3rem;
+
+        i {
+          display: inline-block;
+        }
+      }
+
+      .empty-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 0.5rem;
+      }
+
+      .empty-description {
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin-bottom: 1.5rem;
+        line-height: 1.5;
+      }
+
+      .empty-actions {
+        display: flex;
+        justify-content: center;
+        gap: 0.75rem;
+      }
+    }
   }
 </style>
