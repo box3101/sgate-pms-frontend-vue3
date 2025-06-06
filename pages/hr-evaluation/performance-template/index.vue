@@ -82,6 +82,7 @@
             <tr
               v-for="(item, index) in rows"
               :key="item.id"
+              @click="!sortable && toggleRowSelection(item)"
               :class="{
                 selected: isRowSelected(item) || selectedTemplate?.id === item.id,
                 'sortable-row': sortable
@@ -143,7 +144,7 @@
 
       <!-- 오른쪽: 선택된 템플릿 상세 또는 Empty State -->
       <div class="w-60p">
-        <!-- 템플릿이 선택된 경우 -->
+        <!-- 템플릿이 선택된 경우  -->
         <div v-if="selectedTemplate" class="template-detail">
           <div class="flex justify-between items-center mb-12">
             <div class="template-info">
@@ -165,10 +166,86 @@
             </div>
           </div>
 
-          <!-- 템플릿 상세 내용 -->
-          <div class="template-content scrollable-minus-14">
+          <!-- 템플릿 상세 내용 (상하반기(양식) or 상하반기(항목)) -->
+          <div v-if="selectedTemplate.type === '양식'" class="template-content scrollable-minus-14">
             <div class="content-section">
               <TinyEditor :height="'calc(100vh - 230px)'" />
+            </div>
+          </div>
+
+          <div v-else class="template-content">
+            <div class="content-section">
+              <UiTable
+                v-model="tableDataPerformanceItem"
+                hover
+                scrollable
+                editable
+                :max-height="'calc(100vh - 270px)'"
+                :canSave="false"
+                :default-row-data="{
+                  name: '',
+                  type: '',
+                  isRequired: false,
+                  guidance: ''
+                }"
+              >
+                <template #header="{ selectAll, isAllSelected }">
+                  <tr>
+                    <th>
+                      <UiCheckbox
+                        :modelValue="isAllSelected"
+                        @update:modelValue="selectAll"
+                        size="large"
+                      />
+                    </th>
+                    <th v-for="(column, index) in performanceColumnsItem" :key="index">
+                      {{ column.title }}
+                    </th>
+                  </tr>
+                </template>
+                <template
+                  #body="{
+                    rows,
+                    toggleRowSelection,
+                    isRowSelected,
+                    handleDragStart,
+                    handleDragOver,
+                    handleDrop,
+                    handleDragEnd,
+                    sortable
+                  }"
+                >
+                  <tr v-for="(item, index) in rows" :key="index" @click="toggleRowSelection(item)">
+                    <td>
+                      <UiCheckbox :modelValue="isRowSelected(item)" size="large" />
+                    </td>
+                    <td v-for="(column, colIndex) in performanceColumnsItem" :key="colIndex">
+                      <UiInput
+                        v-if="column.editable && column.type === 'input'"
+                        v-model="item[column.key]"
+                        size="large"
+                        :placeholder="column.placeholder || ''"
+                        @click.stop
+                      />
+                      <UiSelect
+                        v-if="column.editable && column.type === 'select'"
+                        v-model="item[column.key]"
+                        size="large"
+                        :options="templateTypeOptions"
+                        :placeholder="column.placeholder || ''"
+                        @click.stop
+                      />
+                      <UiCheckbox
+                        v-if="column.editable && column.type === 'checkbox'"
+                        v-model="item[column.key]"
+                        size="large"
+                        @click.stop
+                      />
+                      <span v-if="!column.editable">{{ item[column.key] }}</span>
+                    </td>
+                  </tr>
+                </template>
+              </UiTable>
             </div>
           </div>
 
@@ -217,9 +294,8 @@
 
   // 템플릿 타입 옵션
   const templateTypeOptions = [
-    { value: '일반', label: '일반' },
-    { value: '영업', label: '영업' },
-    { value: '연구', label: '연구' }
+    { value: '양식', label: '양식' },
+    { value: '항목정의', label: '항목정의' }
   ]
 
   // 년도 옵션 (예시)
@@ -258,28 +334,63 @@
     }
   ])
 
+  // 상하반기(항목) 컬럼 정의
+  const performanceColumnsItem = ref([
+    {
+      key: 'name',
+      title: '항목명',
+      editable: true,
+      type: 'input',
+      align: '',
+      placeholder: '항목명을 입력해주세요'
+    },
+    {
+      key: 'type',
+      title: '입력형태',
+      editable: true,
+      type: 'select',
+      align: 'center',
+      placeholder: '입력형태'
+    },
+    {
+      key: 'isRequired',
+      title: '필수여부',
+      editable: true,
+      type: 'checkbox',
+      align: 'center'
+    },
+    {
+      key: 'guidance',
+      title: '작성가이드',
+      editable: true,
+      type: 'input',
+      align: '',
+      placeholder: '작성가이드를 입력해주세요'
+    }
+  ])
+
   // 테이블 데이터 (실제로는 API에서 가져올 것)
   const tableDataPerformance = ref([
     {
       id: 1,
-      name: '성과기술서 템플릿 1',
-      type: '일반',
+      name: '상하반기(양식)',
+      type: '양식',
       startDate: '2025-01-01',
       endDate: '2025-12-31',
       isActive: true
     },
     {
       id: 2,
-      name: '성과기술서 템플릿 2',
-      type: '영업',
+      name: '상하반기(항목)',
+      type: '항목정의',
       startDate: '2025-01-01',
       endDate: '2025-12-31',
       isActive: false
     },
     {
       id: 3,
-      name: '성과기술서 템플릿 3',
-      type: '연구',
+      name: '하반기(양식)',
+      type: '양식',
       startDate: '2025-01-01',
       endDate: '2025-12-31',
       isActive: false
@@ -287,7 +398,7 @@
     {
       id: 4,
       name: '영업 성과 관리 템플릿',
-      type: '영업',
+      type: '양식',
       startDate: '2025-01-01',
       endDate: '2025-12-31',
       isActive: false
@@ -302,8 +413,8 @@
     },
     {
       id: 6,
-      name: '일반직무 성과평가 템플릿',
-      type: '일반',
+      name: '양식직무 성과평가 템플릿',
+      type: '양식',
       startDate: '2025-01-01',
       endDate: '2025-12-31',
       isActive: false
@@ -312,7 +423,7 @@
     {
       id: 7,
       name: '프로젝트 성과 평가 템플릿',
-      type: '일반',
+      type: '양식',
       startDate: '2025-01-01',
       endDate: '2025-12-31',
       isActive: false
@@ -320,7 +431,7 @@
     {
       id: 8,
       name: '관리자용 성과 평가 템플릿',
-      type: '일반',
+      type: '양식',
       startDate: '2025-01-01',
       endDate: '2025-12-31',
       isActive: false
@@ -418,6 +529,26 @@
       name: '상품 기획 성과 평가 템플릿',
       type: '일반',
       startDate: '2025-01-01',
+      endDate: '2025-12-31',
+      isActive: false
+    }
+  ])
+
+  // 상하반기(항목) 데이터
+  const tableDataPerformanceItem = ref([
+    {
+      id: 1,
+      name: '상반기',
+      type: '양식',
+      startDate: '2025-01-01',
+      endDate: '2025-06-30',
+      isActive: false
+    },
+    {
+      id: 2,
+      name: '하반기',
+      type: '양식',
+      startDate: '2025-07-01',
       endDate: '2025-12-31',
       isActive: false
     }
