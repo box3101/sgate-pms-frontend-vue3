@@ -36,7 +36,7 @@
             @click="addRow"
             title="행 추가"
           >
-            <i class="icon-md icon-plus"></i>
+            <i class="icon-md icon-plus icon-black"></i>
           </UiButton>
           <UiButton
             type="button"

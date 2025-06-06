@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container container-large">
+  <div class="page-container">
     <div class="page-header">
       <div class="header-left">
         <div class="select-group">
@@ -56,19 +56,12 @@
     </div>
     <div class="page-content">
       <div class="flex-container">
-        <div class="w-70p">
+        <div class="w-60p">
           <TinyEditor v-model="content" :height="700" />
         </div>
-        <div class="w-30p">
+        <div class="w-40p">
           <h2 class="mb-10">업무기술서</h2>
-          <UiTabs v-model="activeTab" :tabs="sidebarTabs">
-            <template #default="{ activeTab }">
-              <div class="tab-content">
-                <FeedbackTab v-if="activeTab === 'feedback'" />
-                <ActivityTab v-else-if="activeTab === 'activity'" />
-              </div>
-            </template>
-          </UiTabs>
+          <UiTabs v-model="activeTab" :tabs="sidebarTabs"> </UiTabs>
         </div>
       </div>
     </div>
