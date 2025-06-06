@@ -367,16 +367,26 @@
   }
 
   /**
+   * 기본 행 데이터 생성 함수
+   */
+  const createDefaultRow = () => {
+    // 고유 ID 생성
+    const generateId = () => {
+      return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+    }
+
+    // props.defaultRowData를 기반으로 새 행 생성
+    return {
+      id: generateId(), // 기본적으로 id는 항상 생성
+      ...props.defaultRowData // props로 받은 기본값들을 스프레드
+    }
+  }
+
+  /**
    * 새 행 추가
    */
   const addRow = () => {
-    const newId = Date.now()
-    const newRow = {
-      id: newId,
-      gradeCount: 0,
-      ...props.defaultRowData
-    }
-
+    const newRow = createDefaultRow()
     const updatedRows = [...props.modelValue, newRow]
     emit('update:modelValue', updatedRows)
     emit('row-added', newRow)

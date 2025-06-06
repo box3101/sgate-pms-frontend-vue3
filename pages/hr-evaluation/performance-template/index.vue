@@ -35,10 +35,15 @@
           v-model="tableDataPerformance"
           editable
           hover
-          :canAddRow="true"
-          :default-row-data="defaultRowData"
           @save="handleSave"
-          @row-select="handleRowSelect"
+          :default-row-data="{
+            name: '',
+            type: '',
+            startDate: '',
+            endDate: '',
+            isActive: true,
+            isNewRow: true // 새 행 표시
+          }"
         >
           <template #colgroup>
             <col style="width: 40px" v-if="useCheckbox" />
@@ -122,7 +127,7 @@
                   @click.stop
                 />
                 <UiButton
-                  v-if="column.editable && column.type === 'button'"
+                  v-if="column.editable && column.type === 'button' && !item.isNewRow"
                   type="button"
                   variant="secondary-line"
                   icon-only
@@ -417,8 +422,6 @@
       isActive: false
     }
   ])
-
-  const defaultRowData = { name: '', type: '', edit: '' }
 
   const handleTemplateSelect = template => {
     selectedTemplate.value = template
