@@ -507,7 +507,7 @@
    * 변경사항 저장
    */
   const saveChanges = () => {
-    emit('save', props.modelValue)
+    emit('save', props.modelValue) // 부모에게 현재 테이블 데이터 전달
     sortable.value = false
   }
 

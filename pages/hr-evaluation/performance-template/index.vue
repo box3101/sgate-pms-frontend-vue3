@@ -35,15 +35,9 @@
           v-model="tableDataPerformance"
           editable
           hover
-          @save="handleSave"
-          :default-row-data="{
-            name: '',
-            type: '',
-            startDate: '',
-            endDate: '',
-            isActive: true,
-            isNewRow: true // 새 행 표시
-          }"
+          @save="handleSaveClick"
+          @row-added="handleRowAdded"
+          :default-row-data="defaultRowData"
         >
           <template #colgroup>
             <col style="width: 40px" v-if="useCheckbox" />
@@ -140,6 +134,18 @@
             </tr>
           </template>
         </UiTable>
+
+        <!-- UiConfirm 다이얼로그 -->
+        <UiConfirm
+          v-model="showSaveConfirm"
+          type="info"
+          title="저장 확인"
+          message="변경사항을 저장하시겠습니까?<br/>새로 추가된 행도 함께 저장됩니다."
+          confirm-button-text="저장"
+          cancel-button-text="취소"
+          @confirm="handleConfirmSave"
+          @cancel="handleCancelSave"
+        />
       </div>
 
       <!-- 오른쪽: 선택된 템플릿 상세 또는 Empty State -->
@@ -176,7 +182,8 @@
           <div v-else class="template-content">
             <div class="content-section">
               <UiTable
-                v-model="tableDataPerformanceItem"
+                v-model="currentTemplateItems"
+                @update:model-value="updateCurrentTemplateItems"
                 hover
                 scrollable
                 editable
@@ -291,6 +298,19 @@
   const useCheckbox = ref(true)
   const selectedTemplate = ref(null)
   const selectedYear = ref('')
+  const showSaveConfirm = ref(false)
+  const pendingSaveData = ref(null)
+  const hasNewRows = ref(false)
+
+  // 기본 행 데이터
+  const defaultRowData = {
+    name: '',
+    type: '',
+    startDate: '',
+    endDate: '',
+    isActive: true,
+    isNewRow: true // 새 행 표시용 플래그
+  }
 
   // 템플릿 타입 옵션
   const templateTypeOptions = [
@@ -534,28 +554,98 @@
     }
   ])
 
-  // 상하반기(항목) 데이터
-  const tableDataPerformanceItem = ref([
-    {
-      id: 1,
-      name: '상반기',
-      type: '양식',
-      startDate: '2025-01-01',
-      endDate: '2025-06-30',
-      isActive: false
-    },
-    {
-      id: 2,
-      name: '하반기',
-      type: '양식',
-      startDate: '2025-07-01',
-      endDate: '2025-12-31',
-      isActive: false
-    }
-  ])
+  // 템플릿별 항목 데이터 관리
+  const templateItemsData = ref({
+    // 템플릿 ID별로 데이터 저장
+    1: [
+      // 상하반기(양식) - ID 1
+      {
+        id: 1,
+        name: '상반기 목표',
+        type: '텍스트',
+        isRequired: true,
+        guidance: '상반기 목표를 입력하세요'
+      },
+      {
+        id: 2,
+        name: '하반기 목표',
+        type: '텍스트',
+        isRequired: true,
+        guidance: '하반기 목표를 입력하세요'
+      }
+    ],
+    2: [
+      // 상하반기(항목) - ID 2
+      {
+        id: 1,
+        name: '프로젝트 성과',
+        type: '숫자',
+        isRequired: true,
+        guidance: '프로젝트 완료 건수'
+      },
+      { id: 2, name: '매출 성과', type: '숫자', isRequired: false, guidance: '매출 달성률(%)' }
+    ],
+    3: [
+      // 하반기(양식) - ID 3
+      {
+        id: 1,
+        name: '하반기 성과',
+        type: '텍스트',
+        isRequired: true,
+        guidance: '하반기 성과를 입력하세요'
+      }
+    ]
+    // 다른 템플릿들도 필요시 추가
+  })
 
+  // 현재 선택된 템플릿의 항목 데이터를 반환하는 computed
+  const currentTemplateItems = computed(() => {
+    if (!selectedTemplate.value || !selectedTemplate.value.id) {
+      return []
+    }
+
+    // 해당 템플릿의 데이터가 없으면 빈 배열 반환
+    return templateItemsData.value[selectedTemplate.value.id] || []
+  })
+
+  // 현재 템플릿의 항목 데이터 업데이트 함수
+  const updateCurrentTemplateItems = newItems => {
+    if (!selectedTemplate.value || !selectedTemplate.value.id) {
+      return
+    }
+
+    templateItemsData.value[selectedTemplate.value.id] = newItems
+  }
+
+  // 새 템플릿이 선택될 때 데이터 초기화
   const handleTemplateSelect = template => {
     selectedTemplate.value = template
+
+    // 해당 템플릿의 데이터가 없으면 기본 데이터 생성
+    if (!templateItemsData.value[template.id]) {
+      templateItemsData.value[template.id] = [
+        {
+          id: generateUniqueId(),
+          name: '',
+          type: '',
+          isRequired: false,
+          guidance: ''
+        }
+      ]
+    }
+  }
+
+  // 템플릿별 항목 저장 함수
+  const handleSaveTemplateItems = () => {
+    if (!selectedTemplate.value) {
+      alert('템플릿을 선택해주세요.')
+      return
+    }
+
+    console.log(`템플릿 "${selectedTemplate.value.name}"의 항목 저장:`, currentTemplateItems.value)
+
+    // 여기서 API 호출 등 실제 저장 로직 구현
+    alert(`${selectedTemplate.value.name}의 항목이 저장되었습니다!`)
   }
 
   // 초기 데이터 로딩 시 첫번째 템플릿 자동 선택
@@ -564,6 +654,82 @@
       console.log('초기 로딩: 첫번째 템플릿 자동 선택')
       handleTemplateSelect(tableDataPerformance.value[0])
     }
+  }
+
+  // handleSaveClick
+  const handleSaveClick = tableData => {
+    console.log('handleSaveClick')
+
+    // 저장할 데이터를 임시저장
+    pendingSaveData.value = tableData
+
+    // 확인 모달 표시
+    showSaveConfirm.value = true
+  }
+
+  // 사용자가 저장
+  const handleConfirmSave = () => {
+    console.log('저장 확인됨:', pendingSaveData.value)
+
+    // 새행 플로그 제거 (실제 저장된 것으로 처리)
+    tableDataPerformance.value.forEach(row => {
+      if (row.isNewRow === true) {
+        delete row.isNewRow // 플래그 제거
+        console.log('새 행 저장 완료:', row.name)
+      }
+    })
+
+    // 상태 초기화
+    showSaveConfirm.value = false
+    pendingSaveData.value = null
+
+    alert('저장이 완료되었습니다!')
+  }
+
+  // 새 행 추가 처리
+  const handleRowAdded = newRow => {
+    newRow.id = generateUniqueId()
+    newRow.isNewRow = true
+
+    const currentDate = new Date().toISOString().split('T')[0]
+    newRow.startDate = newRow.startDate || currentDate
+    newRow.endDate = newRow.endDate || `${new Date().getFullYear()}-12-31`
+
+    console.log('새 행 추가됨:', newRow)
+  }
+
+  // 고유 ID 생성 함수
+  const generateUniqueId = () => {
+    return `temp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+  }
+
+  // 우측 상세 화면 버튼 핸들러들
+  const handlePreview = () => {
+    console.log('미리보기:', selectedTemplate.value)
+  }
+
+  const handleCopyTemplate = () => {
+    const newTemplate = {
+      ...selectedTemplate.value,
+      id: generateUniqueId(),
+      name: `${selectedTemplate.value.name} (복사본)`,
+      isNewRow: true
+    }
+    tableDataPerformance.value.push(newTemplate)
+    alert('템플릿이 복사되었습니다!')
+  }
+
+  const handleSaveTemplate = () => {
+    console.log('템플릿 저장:', selectedTemplate.value)
+    alert('템플릿 상세 내용이 저장되었습니다!')
+  }
+
+  const handleCancelSave = () => {
+    console.log('저장 취소됨')
+
+    // 상태만 초기화 (데이터는 변경하지 않음)
+    showSaveConfirm.value = false
+    pendingSaveData.value = null
   }
 
   // 컴포넌트 마운트 후 초기화
