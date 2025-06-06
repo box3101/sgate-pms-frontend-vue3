@@ -86,8 +86,9 @@
 
                 <div class="feedback-cards mt-4 scrollable-minus-27">
                   <div class="card mb-2" v-for="(item, index) in feedbackItems" :key="index">
-                    <div class="flex justify-between items-center">
-                      <div class="user-info">
+                    <div class="flex justify-between items-start">
+                      <!-- 일반 표시 모드 -->
+                      <div v-if="editingIndex !== index" class="user-info flex-1">
                         <div class="flex items-center">
                           <i class="icon-md icon-user mr-2"></i>
                           <span class="user-name">{{ item.userName }}</span>
@@ -96,13 +97,67 @@
                         </div>
                         <p class="mt-2">{{ item.content }}</p>
                       </div>
-                      <div class="actions flex gap-5">
-                        <UiButton variant="secondary-line" size="small" icon-only>
-                          <i class="icon-md icon-pencil"></i>
-                        </UiButton>
-                        <UiButton variant="secondary-line" size="small" icon-only>
-                          <i class="icon-md icon-delete"></i>
-                        </UiButton>
+
+                      <!-- 편집 모드 -->
+                      <div v-else class="edit-form flex-1">
+                        <div class="flex items-center mb-3">
+                          <i class="icon-md icon-user mr-2"></i>
+                          <UiInput
+                            v-model="editForm.userName"
+                            class="edit-input mr-2"
+                            placeholder="사용자명"
+                          />
+                          <UiRating v-model="editForm.rating" :max="5" class="ml-2" />
+                        </div>
+                        <UiTextarea
+                          v-model="editForm.content"
+                          class="edit-textarea w-full"
+                          placeholder="피드백 내용"
+                          rows="3"
+                        />
+                      </div>
+
+                      <!-- 액션 버튼들 -->
+                      <div class="actions flex gap-2 ml-4">
+                        <template v-if="editingIndex !== index">
+                          <!-- 일반 모드 버튼들 -->
+                          <UiButton
+                            variant="secondary-line"
+                            size="small"
+                            icon-only
+                            @click="editFeedback(index)"
+                          >
+                            <i class="icon-md icon-pencil"></i>
+                          </UiButton>
+                          <UiButton
+                            variant="secondary-line"
+                            size="small"
+                            icon-only
+                            @click="deleteFeedback(index)"
+                          >
+                            <i class="icon-md icon-delete"></i>
+                          </UiButton>
+                        </template>
+
+                        <template v-else>
+                          <!-- 편집 모드 버튼들 -->
+                          <UiButton
+                            variant="primary"
+                            size="small"
+                            icon-only
+                            @click="saveEdit(index)"
+                          >
+                            <i class="icon-md icon-check"></i>
+                          </UiButton>
+                          <UiButton
+                            variant="secondary-line"
+                            size="small"
+                            icon-only
+                            @click="cancelEdit"
+                          >
+                            <i class="icon-md icon-close"></i>
+                          </UiButton>
+                        </template>
                       </div>
                     </div>
                   </div>
@@ -139,6 +194,13 @@
   // 폼 데이터
   const feedbackText = ref('')
   const rating = ref(0)
+  const editingIndex = ref(-1)
+  const editForm = ref({
+    userName: '',
+    date: '',
+    rating: 0,
+    content: ''
+  })
 
   // 기본 탭 데이터
   const basicTabs = [
@@ -182,6 +244,48 @@
       content: feedbackText.value
     }
     addFeedack(newFeedback)
+
+    // 폼 초기화
+    feedbackText.value = ''
+    rating.value = 0
+  }
+
+  const deleteFeedback = index => {
+    if (confirm('피드백을 삭제하시겠습니까?')) feedbackItems.value.splice(index, 1)
+  }
+
+  const editFeedback = index => {
+    editingIndex.value = index
+    const item = feedbackItems.value[index]
+
+    // 원본 데이터를 수정 폼에 복사
+    editForm.value = {
+      userName: item.userName,
+      date: item.date,
+      rating: item.rating,
+      content: item.content
+    }
+  }
+
+  const saveEdit = index => {
+    feedbackItems.value[index] = {
+      ...feedbackItems.value[index], // 기존 데이터 유지 (날짜 등)
+      userName: editForm.value.userName, // 새로운 값으로 덮어쓰기
+      rating: parseInt(editForm.value.rating),
+      content: editForm.value.content
+    }
+
+    editingIndex.value = -1 // 수정 모드 종료
+  }
+
+  const cancelEdit = () => {
+    editingIndex.value = -1 // 수정 모드 종료
+    editForm.value = {
+      userName: '',
+      date: '',
+      rating: 0,
+      content: ''
+    }
   }
 </script>
 
