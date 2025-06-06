@@ -354,8 +354,8 @@ button:focus,
 
 // 헤더/푸터 등을 뺀 스크롤 영역
 // 숫자가 클수록 더 많은 공간이 차감됨
-@for $i from 1 through 10 {
-  $space: $i * 40px;
+@for $i from 1 through 100 {
+  $space: $i * 20px;
   .scrollable-minus-#{$i} {
     @include scrollable-area;
     max-height: calc(100vh - #{$space});

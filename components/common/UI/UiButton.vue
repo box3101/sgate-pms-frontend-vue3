@@ -128,7 +128,7 @@
     &--icon-only {
       min-width: auto;
       &.ui-button--medium {
-        padding: 0 9px;
+        // padding: 0 9px;
       }
     }
 

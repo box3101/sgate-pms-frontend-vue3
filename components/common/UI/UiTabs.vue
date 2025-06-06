@@ -179,7 +179,6 @@
 
   .ui-tabs__panel {
     display: none;
-    padding: 20px;
 
     &--active {
       display: block;
