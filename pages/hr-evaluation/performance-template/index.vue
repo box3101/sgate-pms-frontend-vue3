@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container container-large">
+  <div class="page-container">
     <div class="page-header">
       <div class="header-left">
         <div class="select-group">
@@ -26,23 +26,25 @@
     </div>
 
     <div class="flex-container">
+      <!-- 왼쪽: 템플릿 목록 -->
       <div class="w-40p">
         <UiTable
+          scrollable
+          :max-height="'calc(100vh - 180px)'"
           title="성과기술서 템플릿"
-          v-model="tableDataCheckboxDynamic"
+          v-model="tableDataPerformance"
           editable
           hover
-          scrollable
-          maxHeight="calc(100vh - 190px)"
           :canAddRow="true"
           :default-row-data="defaultRowData"
           @save="handleSave"
+          @row-select="handleRowSelect"
         >
           <template #colgroup>
             <col style="width: 40px" v-if="useCheckbox" />
             <col style="width: auto" />
-            <col style="width: 100px" />
-            <col style="width: 50px" />
+            <col style="width: 150px" />
+            <col style="width: 80px" />
           </template>
 
           <template #header="{ selectAll, isAllSelected, sortable }">
@@ -54,7 +56,7 @@
                   size="large"
                 />
               </th>
-              <th v-for="(column, index) in columnsCheckboxDynamic" :key="index">
+              <th v-for="(column, index) in performanceColumns" :key="index">
                 {{ column.title }}
               </th>
             </tr>
@@ -75,9 +77,8 @@
             <tr
               v-for="(item, index) in rows"
               :key="item.id"
-              @click="!sortable && toggleRowSelection(item)"
               :class="{
-                selected: isRowSelected(item),
+                selected: isRowSelected(item) || selectedTemplate?.id === item.id,
                 'sortable-row': sortable
               }"
               :draggable="sortable"
@@ -101,13 +102,12 @@
               </td>
 
               <td
-                v-for="(column, colIndex) in columnsCheckboxDynamic"
+                v-for="(column, colIndex) in performanceColumns"
                 :key="colIndex"
                 :class="column.align ? `text-${column.align}` : ''"
               >
-                <!-- 입력 필드 또는 텍스트 값 조건부 렌더링 -->
                 <UiInput
-                  v-if="column.editable && column.type !== 'select'"
+                  v-if="column.editable && column.type === 'input'"
                   v-model="item[column.key]"
                   size="large"
                   :placeholder="column.placeholder || ''"
@@ -117,117 +117,376 @@
                   v-if="column.editable && column.type === 'select'"
                   v-model="item[column.key]"
                   size="large"
-                  :options="[
-                    { value: '일반', label: '일반' },
-                    { value: '영업', label: '영업' },
-                    { value: '연구', label: '연구' }
-                  ]"
+                  :options="templateTypeOptions"
                   :placeholder="column.placeholder || ''"
                   @click.stop
                 />
-                <template v-else-if="column.key === 'edit'">
-                  <UiButton variant="ghost" size="small" icon-only @click.stop="editItem(item)">
-                    <i class="icon-md icon-pencil icon-gray"></i>
-                  </UiButton>
-                </template>
+                <UiButton
+                  v-if="column.editable && column.type === 'button'"
+                  type="button"
+                  variant="secondary-line"
+                  icon-only
+                  @click.stop="handleTemplateSelect(item)"
+                >
+                  <i class="icon-md icon-pencil icon-gray"></i>
+                </UiButton>
               </td>
             </tr>
           </template>
         </UiTable>
       </div>
-      <div class="w-60p">
-        <!-- 오른쪽 콘텐츠 -->
-        <UiTable title="상하반기(항목)" editable hover scrollable maxHeight="calc(100vh - 190px)">
-          <template #colgroup>
-            <col style="width: 40px" v-if="useCheckbox" />
-            <col style="width: auto" />
-            <col style="width: 100px" />
-            <col style="width: 50px" />
-          </template>
 
-          <template #header></template>
-        </UiTable>
+      <!-- 오른쪽: 선택된 템플릿 상세 또는 Empty State -->
+      <div class="w-60p">
+        <!-- 템플릿이 선택된 경우 -->
+        <div v-if="selectedTemplate" class="template-detail">
+          <div class="flex justify-between items-center mb-12">
+            <div class="template-info">
+              <h3>{{ selectedTemplate.name }}</h3>
+            </div>
+            <div class="action-buttons flex gap-8">
+              <UiButton variant="secondary-line" size="large" @click="handlePreview">
+                <i class="icon-md icon-eye"></i>
+                미리보기
+              </UiButton>
+              <UiButton variant="secondary-line" size="large" @click="handleCopyTemplate">
+                <i class="icon-md icon-copy"></i>
+                템플릿 복사하기
+              </UiButton>
+              <UiButton variant="primary" size="large" @click="handleSaveTemplate">
+                <i class="icon-md icon-save"></i>
+                저장
+              </UiButton>
+            </div>
+          </div>
+
+          <!-- 템플릿 상세 내용 -->
+          <div class="template-content scrollable-minus-14">
+            <div class="content-section">
+              <TinyEditor :height="'calc(100vh - 230px)'" />
+            </div>
+          </div>
+
+          <!-- 성과기술서 작성기간 정보 섹션 -->
+          <div class="writing-period-info mb-16 mt-16">
+            <h4 class="text-md font-medium mb-2">성과기술서 작성기간</h4>
+            <div class="period-dates flex items-center gap-2">
+              <span class="date-label">{{ selectedTemplate.startDate }}</span>
+              <span class="date-separator">~</span>
+              <span class="date-label">{{ selectedTemplate.endDate }}</span>
+              <UiTag variant="primary" size="small" class="ml-2">
+                {{ selectedTemplate.isActive ? '진행중' : '마감' }}
+              </UiTag>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty State: 템플릿이 선택되지 않은 경우 -->
+        <div v-else class="empty-state">
+          <div class="empty-content">
+            <div class="empty-icon">
+              <i class="icon-xl icon-document-text icon-gray-light"></i>
+            </div>
+            <h3 class="empty-title">템플릿을 선택해주세요</h3>
+            <p class="empty-description">
+              왼쪽 목록에서 성과기술서 템플릿을 선택하면<br />
+              상세 정보와 편집 옵션을 확인할 수 있습니다.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+  import { ref, computed } from 'vue'
+
   const logoText = inject('logoText')
-  logoText.value = '성과기술서템플릿 '
+  logoText.value = '성과기술서템플릿'
 
+  // 반응형 데이터
   const useCheckbox = ref(true)
-  import { ref } from 'vue'
+  const selectedTemplate = ref(null)
+  const selectedYear = ref('')
 
-  const columnsCheckboxDynamic = ref([
+  // 템플릿 타입 옵션
+  const templateTypeOptions = [
+    { value: '일반', label: '일반' },
+    { value: '영업', label: '영업' },
+    { value: '연구', label: '연구' }
+  ]
+
+  // 년도 옵션 (예시)
+  const yearOptions = computed(() => {
+    const currentYear = new Date().getFullYear()
+    return Array.from({ length: 5 }, (_, i) => ({
+      value: currentYear - i,
+      label: `${currentYear - i}년`
+    }))
+  })
+
+  // 테이블 컬럼 정의
+  const performanceColumns = ref([
     {
       key: 'name',
       title: '성과기술서 템플릿',
       editable: true,
+      type: 'input',
       align: '',
-      width: '',
       placeholder: '템플릿명을 입력해주세요'
     },
     {
       key: 'type',
-      title: '유형',
+      title: '형식',
       editable: true,
       type: 'select',
       align: 'center',
-      width: '100px'
+      placeholder: '형식'
     },
     {
       key: 'edit',
       title: '편집',
-      editable: false,
-      align: 'center',
-      width: '50px'
+      editable: true,
+      type: 'button',
+      align: 'center'
     }
   ])
 
-  const tableDataCheckboxDynamic = ref([
-    { id: 1, name: '성과기술서 템플릿 1', type: '일반', edit: '' },
-    { id: 2, name: '성과기술서 템플릿 2', type: '영업', edit: '' },
-    { id: 3, name: '성과기술서 템플릿 3', type: '연구', edit: '' }
+  // 테이블 데이터 (실제로는 API에서 가져올 것)
+  const tableDataPerformance = ref([
+    {
+      id: 1,
+      name: '성과기술서 템플릿 1',
+      type: '일반',
+      startDate: '2025-01-01',
+      endDate: '2025-12-31',
+      isActive: true
+    },
+    {
+      id: 2,
+      name: '성과기술서 템플릿 2',
+      type: '영업',
+      startDate: '2025-01-01',
+      endDate: '2025-12-31',
+      isActive: false
+    },
+    {
+      id: 3,
+      name: '성과기술서 템플릿 3',
+      type: '연구',
+      startDate: '2025-01-01',
+      endDate: '2025-12-31',
+      isActive: false
+    },
+    {
+      id: 4,
+      name: '영업 성과 관리 템플릿',
+      type: '영업',
+      startDate: '2025-01-01',
+      endDate: '2025-12-31',
+      isActive: false
+    },
+    {
+      id: 5,
+      name: '연구개발 성과 평가 템플릿',
+      type: '연구',
+      startDate: '2025-01-01',
+      endDate: '2025-12-31',
+      isActive: false
+    },
+    {
+      id: 6,
+      name: '일반직무 성과평가 템플릿',
+      type: '일반',
+      startDate: '2025-01-01',
+      endDate: '2025-12-31',
+      isActive: false
+    },
+    // 추가 템플릿 데이터
+    {
+      id: 7,
+      name: '프로젝트 성과 평가 템플릿',
+      type: '일반',
+      startDate: '2025-01-01',
+      endDate: '2025-12-31',
+      isActive: false
+    },
+    {
+      id: 8,
+      name: '관리자용 성과 평가 템플릿',
+      type: '일반',
+      startDate: '2025-01-01',
+      endDate: '2025-12-31',
+      isActive: false
+    },
+    {
+      id: 9,
+      name: '신입사원 성과 평가 템플릿',
+      type: '일반',
+      startDate: '2025-01-01',
+      endDate: '2025-12-31',
+      isActive: false
+    },
+    {
+      id: 10,
+      name: '해외 영업 성과 템플릿',
+      type: '영업',
+      startDate: '2025-01-01',
+      endDate: '2025-12-31',
+      isActive: false
+    },
+    {
+      id: 11,
+      name: '국내 영업 성과 템플릿',
+      type: '영업',
+      startDate: '2025-01-01',
+      endDate: '2025-12-31',
+      isActive: false
+    },
+    {
+      id: 12,
+      name: 'R&D 성과 평가 템플릿',
+      type: '연구',
+      startDate: '2025-01-01',
+      endDate: '2025-12-31',
+      isActive: false
+    },
+    {
+      id: 13,
+      name: '제품 개발 성과 평가 템플릿',
+      type: '연구',
+      startDate: '2025-01-01',
+      endDate: '2025-12-31',
+      isActive: false
+    },
+    {
+      id: 14,
+      name: '마케팅 성과 평가 템플릿',
+      type: '일반',
+      startDate: '2025-01-01',
+      endDate: '2025-12-31',
+      isActive: false
+    },
+    {
+      id: 15,
+      name: '인사팀 성과 평가 템플릿',
+      type: '일반',
+      startDate: '2025-01-01',
+      endDate: '2025-12-31',
+      isActive: false
+    },
+    {
+      id: 16,
+      name: '재무팀 성과 평가 템플릿',
+      type: '일반',
+      startDate: '2025-01-01',
+      endDate: '2025-12-31',
+      isActive: false
+    },
+    {
+      id: 17,
+      name: '고객 서비스 성과 평가 템플릿',
+      type: '일반',
+      startDate: '2025-01-01',
+      endDate: '2025-12-31',
+      isActive: false
+    },
+    {
+      id: 18,
+      name: '품질 관리 성과 평가 템플릿',
+      type: '일반',
+      startDate: '2025-01-01',
+      endDate: '2025-12-31',
+      isActive: false
+    },
+    {
+      id: 19,
+      name: '생산직 성과 평가 템플릿',
+      type: '일반',
+      startDate: '2025-01-01',
+      endDate: '2025-12-31',
+      isActive: false
+    },
+    {
+      id: 20,
+      name: '상품 기획 성과 평가 템플릿',
+      type: '일반',
+      startDate: '2025-01-01',
+      endDate: '2025-12-31',
+      isActive: false
+    }
   ])
 
   const defaultRowData = { name: '', type: '', edit: '' }
 
-  const tableData = ref([
-    {
-      name: '성과기술서 템플릿 1',
-      inputType: '텍스트',
-      editable: true,
-      required: true,
-      guide: '성과기술서 템플릿 1을 입력해주세요'
-    },
-    {
-      name: '성과기술서 템플릿 2',
-      inputType: '숫자',
-      editable: true,
-      required: false,
-      guide: '성과기술서 템플릿 2를 입력해주세요'
+  const handleTemplateSelect = template => {
+    selectedTemplate.value = template
+  }
+
+  // 초기 데이터 로딩 시 첫번째 템플릿 자동 선택
+  const initializeSelection = () => {
+    if (tableDataPerformance.value.length > 0 && !selectedTemplate.value) {
+      console.log('초기 로딩: 첫번째 템플릿 자동 선택')
+      handleTemplateSelect(tableDataPerformance.value[0])
     }
-  ])
-
-  const columns = ref([
-    { key: 'name', title: '항목명', editable: true },
-    { key: 'inputType', title: '입력형태', editable: true },
-    { key: 'required', title: '필수여부', editable: true },
-    { key: 'guide', title: '작성가이드', editable: true }
-  ])
-
-  const defaultRowData2 = { name: '', inputType: '', required: false, guide: '' }
-
-  const selectRow = item => {
-    console.log('선택된 데이터:', item)
   }
 
-  const handleSave = data => {
-    console.log('저장된 데이터:', data)
-  }
-
-  const handleGradeCount = item => {
-    console.log('등급 수 수정:', item)
-  }
+  // 컴포넌트 마운트 후 초기화
+  onMounted(() => {
+    initializeSelection()
+  })
 </script>
+
+<style scoped>
+  .flex-container {
+    display: flex;
+    height: calc(100vh - 180px);
+  }
+
+  .w-40p {
+    width: 40%;
+  }
+
+  .w-60p {
+    width: 60%;
+  }
+
+  /* Empty State 스타일 */
+  .empty-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background-color: #fafafa;
+    border-radius: 8px;
+    border: 1px dashed #d1d5db;
+  }
+
+  .empty-content {
+    text-align: center;
+    max-width: 400px;
+  }
+
+  .empty-icon {
+    margin-bottom: 1.5rem;
+  }
+
+  .empty-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-description {
+    color: #6b7280;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+
+  .empty-actions {
+    display: flex;
+    justify-content: center;
+  }
+</style>
