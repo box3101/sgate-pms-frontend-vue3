@@ -11,6 +11,7 @@
               size="medium"
               placeholder="선택"
               width="150px"
+              @update:modelValue="handleYearChange"
             />
           </div>
         </div>
@@ -21,26 +22,29 @@
       </div>
     </div>
 
-    <!-- <div class="tab-container">
-      <UiTabs v-model="activePeriod" class="mb-4">
-        <UiTab name="first" label="상반기" />
-        <UiTab name="second" label="하반기" />
-      </UiTabs>
-    </div> -->
-
     <div class="flex-container">
       <!-- 평가대상자 목록 -->
       <div class="w-65p">
         <div class="evaluation-panel">
           <div class="panel-header">
             <h3 class="panel-title">평가대상자</h3>
-            <div class="target-count">{{ evaluationTargets.length }}명</div>
+            <div class="header-actions">
+              <div class="target-count">{{ evaluationTargets.length }}명</div>
+              <!-- 검색 기능 -->
+              <div class="search-box">
+                <UiInput v-model="searchQuery" placeholder="이름으로 검색" width="150px">
+                  <template #suffix>
+                    <i class="icon-sm icon-search"></i>
+                  </template>
+                </UiInput>
+              </div>
+            </div>
           </div>
 
-          <div class="target-list-container scrollable-minus-7">
+          <div class="target-list-container scrollable-minus-14">
             <ul class="target-list">
               <li
-                v-for="target in evaluationTargets"
+                v-for="target in filteredTargets"
                 :key="target.id"
                 :class="{ active: selectedTarget === target.id }"
                 @click="selectTarget(target.id)"
@@ -110,6 +114,12 @@
                 </div>
               </li>
             </ul>
+
+            <!-- 검색 결과 없음 -->
+            <div v-if="filteredTargets.length === 0" class="no-results">
+              <i class="icon-search icon-lg"></i>
+              <p>검색 결과가 없습니다</p>
+            </div>
           </div>
         </div>
       </div>
@@ -121,7 +131,7 @@
             <h3 class="panel-title">평가자 설정</h3>
           </div>
 
-          <div class="config-content scrollable-minus-7" v-if="selectedTargetData">
+          <div class="config-content scrollable-minus-14" v-if="selectedTargetData">
             <!-- 선택된 대상자 정보 -->
             <div class="selected-target-info">
               <div class="selected-profile">
@@ -135,8 +145,15 @@
                 </div>
               </div>
             </div>
+
             <!-- 평가자 설정 테이블 -->
-            <UiTable class="mt-20" layout="horizontal" isThLeft title="평가자 ">
+            <UiTable
+              class="mt-20"
+              v-model="selectedTargetData"
+              layout="horizontal"
+              isThLeft
+              title="평가자"
+            >
               <template #body>
                 <tr>
                   <th>1차 상급자 평가</th>
@@ -162,7 +179,13 @@
             </UiTable>
 
             <!-- 평가 상세 정보 -->
-            <UiTable class="mt-20" layout="horizontal" isThLeft title="성과평가">
+            <UiTable
+              class="mt-20"
+              v-model="selectedTargetData"
+              layout="horizontal"
+              isThLeft
+              title="성과평가"
+            >
               <template #body>
                 <tr>
                   <th>결과</th>
@@ -171,12 +194,18 @@
               </template>
             </UiTable>
 
-            <UiTable class="mt-20" layout="horizontal" isThLeft title="역량평가">
+            <UiTable
+              class="mt-20"
+              v-model="selectedTargetData"
+              layout="horizontal"
+              isThLeft
+              title="역량평가"
+            >
               <template #body>
                 <tr v-for="(category, index) in competencyCategories" :key="index">
                   <th>{{ category.name }}</th>
                   <td>
-                    {{ category.percentage }} %
+                    {{ category.percentage }}%
                     <ul v-if="category.items.length > 0" class="mt-1 pl-4 text-sm">
                       <li v-for="(item, itemIndex) in category.items" :key="itemIndex">
                         - {{ item }}
@@ -192,11 +221,25 @@
             <div class="empty-state">
               <i class="icon-user-check icon-lg"></i>
               <p>평가대상자를 선택해주세요</p>
+              <p class="empty-help">
+                좌측 목록에서 대상자를 클릭하면<br />상세 정보를 확인할 수 있습니다
+              </p>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- UiConfirm 컴포넌트 -->
+    <UiConfirm
+      v-model="showConfirm"
+      :type="confirmConfig.type"
+      :title="confirmConfig.title"
+      :message="confirmConfig.message"
+      :show-cancel-button="false"
+      :confirm-button-text="'확인'"
+      @confirm="handleConfirm"
+    />
   </div>
 </template>
 
@@ -210,6 +253,15 @@
   // 반응형 데이터
   const selectedYear = ref('2025')
   const selectedTarget = ref('isp144')
+  const searchQuery = ref('')
+
+  // 확인 다이얼로그 상태
+  const showConfirm = ref(false)
+  const confirmConfig = ref({
+    type: 'info',
+    title: '데모 기능',
+    message: ''
+  })
 
   const yearOptions = ref([
     { value: '2025', label: '2025년' },
@@ -300,6 +352,15 @@
     return evaluationTargets.value.find(target => target.id === selectedTarget.value)
   })
 
+  const filteredTargets = computed(() => {
+    if (!searchQuery.value.trim()) {
+      return evaluationTargets.value
+    }
+    return evaluationTargets.value.filter(target =>
+      target.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+    )
+  })
+
   const competencyCategories = computed(() => {
     if (!selectedTargetData.value || selectedTargetData.value.id !== 'isp144') {
       return []
@@ -329,23 +390,82 @@
     selectedTarget.value = targetId
   }
 
-  const handleImageError = event => {
-    event.target.src = '/images/default-profile.svg'
+  const handleYearChange = newYear => {
+    // 실제로는 API 호출
+    showDemo(`${newYear}년 데이터 조회`)
   }
 
-  const openPeerSearch = () => {
-    // 동료평가자 검색 모달 열기
-    console.log('동료평가자 검색')
+  const showDemo = action => {
+    confirmConfig.value = {
+      type: 'info',
+      title: '🎯 데모 기능',
+      message: `"${action}" 기능을 클릭하셨습니다.<br>실제 기능은 API 연동 후 구현됩니다.`
+    }
+    showConfirm.value = true
   }
 
-  const openSubordinateSearch = () => {
-    // 부하평가자 검색 모달 열기
-    console.log('부하평가자 검색')
+  const handleConfirm = () => {
+    // 확인 버튼 클릭 시 특별한 처리 없음
   }
 </script>
 
 <style scoped>
-  /* 기본 레이아웃 */
+  /* 기존 스타일 유지 + 추가 스타일 */
+
+  .header-right {
+    display: flex;
+    gap: 8px;
+  }
+
+  /* 패널 헤더 개선 */
+  .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* 검색 박스 */
+  .search-box {
+    display: flex;
+    align-items: center;
+  }
+
+  /* 검색 결과 없음 */
+  .no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: #9ca3af;
+  }
+
+  .no-results .icon-lg {
+    font-size: 48px;
+    margin-bottom: 12px;
+    opacity: 0.5;
+  }
+
+  .no-results p {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  /* Empty state 개선 */
+  .empty-help {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #6b7280;
+    line-height: 1.4;
+  }
+
+  /* 기존 스타일들... (동일하게 유지) */
   .flex-container {
     display: flex;
     gap: 20px;
@@ -360,20 +480,10 @@
     flex: 0 0 calc(35% - 20px);
   }
 
-  /* 패널 공통 스타일 */
   .evaluation-panel,
   .config-panel {
     background: #ffffff;
     border: 1px solid #e5e7eb;
-  }
-
-  .panel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 24px;
-    background: #f8fafc;
-    border-bottom: 1px solid #e5e7eb;
   }
 
   .panel-title {
@@ -392,7 +502,6 @@
     font-weight: 500;
   }
 
-  /* 평가대상자 목록 */
   .target-list-container {
     overflow-y: auto;
   }
@@ -427,7 +536,6 @@
     padding: 15px 24px;
   }
 
-  /* 대상자 기본 정보 */
   .target-main {
     display: flex;
     justify-content: space-between;
@@ -439,14 +547,6 @@
     display: flex;
     align-items: center;
     gap: 12px;
-  }
-
-  .profile-image img {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #e5e7eb;
   }
 
   .target-info {
@@ -487,7 +587,6 @@
     color: #7c3aed;
   }
 
-  /* 평가자 정보 */
   .evaluators-section {
     display: flex;
     gap: 4px;
@@ -508,7 +607,6 @@
     color: #374151;
   }
 
-  /* 평가 결과 */
   .evaluation-results {
     border-top: 1px dashed #e5e7eb;
     padding-top: 10px;
@@ -554,7 +652,6 @@
     font-style: italic;
   }
 
-  /* 설정 패널 */
   .config-content {
     padding: 12px;
   }
@@ -576,7 +673,6 @@
     margin-bottom: 12px;
   }
 
-  /* 선택된 대상자 정보 */
   .selected-target-info {
     padding-bottom: 20px;
     border-bottom: 1px solid #f3f4f6;
@@ -586,14 +682,6 @@
     display: flex;
     align-items: center;
     gap: 16px;
-  }
-
-  .selected-avatar {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #e5e7eb;
   }
 
   .selected-name {
@@ -606,193 +694,5 @@
   .selected-meta {
     font-size: 14px;
     color: #6b7280;
-  }
-
-  /* 평가자 설정 테이블 */
-  .evaluator-config {
-    margin-bottom: 24px;
-  }
-
-  .config-table {
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .config-row {
-    display: flex;
-    align-items: center;
-    min-height: 50px;
-    border-bottom: 1px solid #f3f4f6;
-  }
-
-  .config-row:last-child {
-    border-bottom: none;
-  }
-
-  .config-label {
-    flex: 0 0 140px;
-    padding: 12px 16px;
-    background: #f8fafc;
-    font-weight: 500;
-    color: #374151;
-    font-size: 14px;
-    border-right: 1px solid #e5e7eb;
-  }
-
-  .config-value {
-    flex: 1;
-    padding: 12px 16px;
-  }
-
-  .evaluator-assigned {
-    color: #1f2937;
-    font-weight: 500;
-  }
-
-  .btn-search {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    background: #f3f4f6;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    font-size: 13px;
-    color: #374151;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .btn-search:hover {
-    background: #e5e7eb;
-    border-color: #9ca3af;
-  }
-
-  /* 평가 상세 정보 */
-  .evaluation-details {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .detail-section {
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .detail-title {
-    padding: 12px 16px;
-    background: #f8fafc;
-    border-bottom: 1px solid #e5e7eb;
-    font-size: 15px;
-    font-weight: 600;
-    color: #1f2937;
-    margin: 0;
-  }
-
-  .detail-content {
-    padding: 16px;
-  }
-
-  .performance-result {
-    font-size: 14px;
-    color: #374151;
-  }
-
-  .competency-categories {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .category-item {
-    border-bottom: 1px solid #f3f4f6;
-    padding-bottom: 12px;
-  }
-
-  .category-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-
-  .category-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-  }
-
-  .category-name {
-    font-weight: 500;
-    color: #374151;
-    font-size: 14px;
-  }
-
-  .category-percentage {
-    font-weight: 600;
-    color: #3b82f6;
-    font-size: 14px;
-  }
-
-  .category-items {
-    padding-left: 12px;
-  }
-
-  .competency-item {
-    font-size: 13px;
-    color: #6b7280;
-    line-height: 1.5;
-    margin-bottom: 4px;
-  }
-
-  .competency-item:last-child {
-    margin-bottom: 0;
-  }
-
-  /* 반응형 */
-  @media (max-width: 1024px) {
-    .flex-container {
-      flex-direction: column;
-    }
-
-    .w-65p,
-    .w-35p {
-      flex: none;
-      width: 100%;
-    }
-
-    .target-main {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 12px;
-    }
-
-    .evaluators-section {
-      width: 100%;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .target-content {
-      padding: 16px 20px;
-    }
-
-    .config-content {
-      padding: 20px;
-    }
-
-    .config-row {
-      flex-direction: column;
-      align-items: stretch;
-      min-height: auto;
-    }
-
-    .config-label {
-      flex: none;
-      border-right: none;
-      border-bottom: 1px solid #e5e7eb;
-    }
   }
 </style>
