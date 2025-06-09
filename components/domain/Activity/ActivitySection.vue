@@ -1,168 +1,90 @@
 <template>
   <div class="activity-section">
-    <!-- 활동 카드 목록을 v-for로 반복 -->
-    <div v-if="activities.length > 0" class="activity-cards">
+    <!-- 활동 카드 목록 -->
+    <div class="activity-cards">
+      <!-- 활동 카드 -->
       <ActivityCard
         v-for="activity in activities"
         :key="activity.id"
-        :activity="activity"
-        @edit="handleEditActivity"
-        @delete="handleDeleteActivity"
-        @reply="handleReplyToActivity"
+        :activity-id="activity.id"
+        :status="activity.status"
+        :evaluation="activity.evaluation"
+        :current-date="activity.currentDate"
+        :created-date="activity.createdDate"
+        :user="activity.user"
+        :content="activity.content"
+        @edit="handleEdit"
+        @delete="handleDelete"
+        @reply="handleReply"
       />
-    </div>
-
-    <!-- 댓글 섹션 -->
-    <div class="comments-section">
-      <h4 class="comments-title">댓글 ({{ comments.length }})</h4>
-
-      <!-- 댓글 목록 -->
-      <div class="comments-list">
-        <CommentCard
-          v-for="(comment, index) in comments"
-          :key="index"
-          :comment="comment"
-          @edit="handleEditComment"
-          @delete="handleDeleteComment"
-          @reply="handleReplyToComment"
-          @edit-reply="handleEditReply"
-          @delete-reply="handleDeleteReply"
-        />
-      </div>
-
-      <!-- 댓글 입력 영역 -->
-      <div class="comment-input-area">
-        <textarea
-          v-model="newComment"
-          class="comment-input"
-          placeholder="댓글을 입력하세요..."
-          rows="3"
-        ></textarea>
-        <div class="comment-actions">
-          <UiButton variant="primary" @click="submitComment">등록</UiButton>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-  /**
-   * 활동 섹션 컴포넌트
-   * 활동 카드와 댓글 시스템을 통합한 컴포넌트
-   */
-
   import { ref } from 'vue'
   import ActivityCard from './ActivityCard.vue'
-  import CommentCard from './CommentCard.vue'
 
-  // props 정의
-  const props = defineProps({
-    activities: {
-      type: Array,
-      required: true
-    }
-  })
-
-  // 댓글 데이터
-  const comments = ref([])
-
-  // 새 댓글 입력
-  const newComment = ref('')
-
-  // 댓글 제출
-  const submitComment = () => {
-    if (!newComment.value.trim()) return
-
-    const comment = {
-      id: `${comments.value.length + 1}`,
-      content: newComment.value,
-      date: new Date().toISOString().split('T')[0],
+  // 활동 데이터
+  const activities = ref([
+    {
+      id: 1,
+      status: '진행중',
+      evaluation: '우수',
+      currentDate: '2025-06-09',
+      createdDate: '2025-06-08',
       user: {
-        company: 'ABC 회사',
-        team: '개발팀',
-        name: '홍길동'
+        name: '홍길동',
+        company: 'ABC회사',
+        team: '개발팀'
       },
-      replies: [
-        {
-          id: `${comments.value.length + 1}`,
-          content: newComment.value,
-          date: new Date().toISOString().split('T')[0],
-          user: {
-            company: 'ABC 회사',
-            team: '개발팀',
-            name: '홍길동'
-          }
-        }
-      ]
+      content: `
+     글자테스트자테스트자테스트자테스트자테스트자테스트자테스트자테스트자테스트자테스트자테스트자테스트자테스트자테스트자테스트자테스트자테스트
+    `
+    },
+    {
+      id: 2,
+      status: '완료',
+      evaluation: '보통',
+      currentDate: '2025-06-08',
+      createdDate: '2025-06-07',
+      user: {
+        name: '김철수',
+        company: 'ABC회사',
+        team: '기획팀'
+      },
+      content: `
+          에디터 내용2
+    `
+    },
+    {
+      id: 3,
+      status: '진행중',
+      evaluation: '미흡',
+      currentDate: '2025-06-09',
+      createdDate: '2025-06-08',
+      user: {
+        name: '박영수',
+        company: 'ABC회사',
+        team: '개발팀'
+      },
+      content: `
+      에디터 내용
+    `
     }
-
-    comments.value.push(comment)
-    newComment.value = ''
-  }
-
-  // 활동 수정
-  const handleEditActivity = id => {
-    console.log('활동 수정:', id)
-    // 활동 수정 로직 구현
-  }
-
-  // 활동 삭제
-  const handleDeleteActivity = id => {
-    console.log('활동 삭제:', id)
-    // 활동 삭제 로직 구현
-  }
-
-  // 활동에 댓글 달기
-  const handleReplyToActivity = id => {
-    console.log('활동에 댓글 달기:', id)
-    // 댓글 입력 영역으로 포커스
-    document.querySelector('.comment-input').focus()
-  }
-
-  // 댓글 수정
-  const handleEditComment = id => {
-    console.log('댓글 수정:', id)
-    // 댓글 수정 로직 구현
-  }
-
-  // 댓글 삭제
-  const handleDeleteComment = id => {
-    console.log('댓글 삭제:', id)
-    comments.value = comments.value.filter(comment => comment.id !== id)
-  }
-
-  // 댓글에 대댓글 달기
-  const handleReplyToComment = id => {
-    console.log('댓글에 대댓글 달기:', id)
-    // 대댓글 입력 로직 구현
-    // 예: 대댓글 입력 모달 표시 또는 인라인 입력 영역 표시
-  }
-
-  // 대댓글 수정
-  const handleEditReply = id => {
-    console.log('대댓글 수정:', id)
-    // 대댓글 수정 로직 구현
-  }
-
-  // 대댓글 삭제
-  const handleDeleteReply = id => {
-    console.log('대댓글 삭제:', id)
-    // 대댓글 삭제 로직 구현
-    comments.value.forEach(comment => {
-      if (comment.replies) {
-        comment.replies = comment.replies.filter(reply => reply.id !== id)
-      }
-    })
-  }
+  ])
 </script>
 
 <style lang="scss" scoped>
   .activity-section {
     margin-top: 24px;
 
+    .activity-cards {
+      margin-bottom: 24px;
+    }
+
     .comments-section {
-      margin-top: 24px;
+      margin-top: 0px;
 
       .comments-title {
         font-size: 16px;
@@ -201,5 +123,416 @@
         }
       }
     }
+  }
+
+  /* 활동 카드 스타일 */
+  .activity-card {
+    border-radius: 8px;
+    border: 1px solid #cdd1d5;
+    background: #fff;
+    padding: 16px;
+    margin-bottom: 16px;
+
+    .activity-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #b1b8be;
+
+      .activity-info {
+        .activity-date {
+          font-size: 14px;
+          color: #666;
+          margin-bottom: 4px;
+
+          .activity-type {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 700;
+
+            &--excellent {
+              color: #3b82f6;
+              position: relative;
+              padding-left: 20px;
+
+              &:before {
+                content: '';
+                position: absolute;
+                left: 5px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: #3b82f6;
+              }
+            }
+
+            &--completed {
+              color: #10b981;
+              position: relative;
+              padding-left: 20px;
+
+              &:before {
+                content: '';
+                position: absolute;
+                left: 5px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: #10b981;
+              }
+            }
+
+            &--average {
+              color: #f59e0b;
+              position: relative;
+              padding-left: 20px;
+
+              &:before {
+                content: '';
+                position: absolute;
+                left: 5px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: #f59e0b;
+              }
+            }
+
+            &--poor {
+              color: #ef4444;
+              position: relative;
+              padding-left: 20px;
+
+              &:before {
+                content: '';
+                position: absolute;
+                left: 5px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: #ef4444;
+              }
+            }
+          }
+
+          .current-date {
+            color: #6d7882;
+            text-align: right;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 150%;
+          }
+        }
+
+        .activity-user {
+          font-size: 14px;
+          color: #333;
+
+          .separator {
+            margin: 0 6px;
+            color: #ccc;
+          }
+
+          .team {
+            color: #464c53;
+            font-size: 14px;
+            line-height: 150%;
+          }
+
+          .user-name {
+            color: #464c53;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 140%;
+          }
+
+          .company {
+            color: #464c53;
+            font-size: 14px;
+          }
+        }
+      }
+
+      .activity-actions {
+        display: flex;
+        gap: 8px;
+
+        .created-date {
+          color: #6d7882;
+          text-align: right;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 150%;
+        }
+
+        .action-btn {
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 4px;
+          border-radius: 4px;
+          color: #666;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &:hover {
+            background-color: #f5f5f5;
+            color: #333;
+          }
+
+          &.edit-btn:hover {
+            color: #2196f3;
+          }
+
+          &.delete-btn:hover {
+            color: #f44336;
+          }
+
+          &.reply-btn:hover {
+            color: #4caf50;
+          }
+        }
+      }
+    }
+
+    .activity-content {
+      .activity-list {
+        list-style-type: none;
+        padding-left: 0;
+        margin: 0;
+
+        li {
+          padding: 6px 0;
+          font-size: 14px;
+          color: #555;
+
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+      }
+    }
+  }
+
+  /* 댓글 카드 스타일 */
+  .comment-card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #b1b8be;
+
+      .comment-info {
+        .comment-date {
+          font-size: 14px;
+          color: #666;
+          margin-bottom: 4px;
+        }
+
+        .comment-user {
+          font-size: 14px;
+          color: #333;
+
+          .separator {
+            margin: 0 6px;
+            color: #ccc;
+          }
+
+          .team {
+            color: #464c53;
+            font-size: 14px;
+            line-height: 150%;
+          }
+
+          .user-name {
+            color: #464c53;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 140%;
+          }
+
+          .company {
+            color: #464c53;
+            font-size: 14px;
+          }
+        }
+      }
+
+      .comment-actions {
+        display: flex;
+        gap: 8px;
+
+        .action-btn {
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 4px;
+          border-radius: 4px;
+          color: #666;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &:hover {
+            background-color: #f0f0f0;
+            color: #333;
+          }
+
+          &.edit-btn:hover {
+            color: #2196f3;
+          }
+
+          &.delete-btn:hover {
+            color: #f44336;
+          }
+
+          &.reply-btn:hover {
+            color: #4caf50;
+          }
+        }
+      }
+    }
+
+    .comment-content {
+      color: #464c53;
+      font-size: 16px;
+      line-height: 150%;
+      word-break: break-word;
+    }
+  }
+
+  /* 대댓글 스타일 */
+  .replies-list {
+    margin-top: 12px;
+    margin-left: 24px;
+
+    .reply-card {
+      background-color: #ffffff;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 8px;
+      border-left: 3px solid #e0e0e0;
+
+      .reply-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 8px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #e5e5e5;
+
+        .reply-info {
+          .reply-date {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 2px;
+          }
+
+          .reply-user {
+            font-size: 13px;
+            color: #333;
+
+            .separator {
+              margin: 0 4px;
+              color: #ccc;
+            }
+
+            .team {
+              color: #464c53;
+              font-size: 13px;
+            }
+
+            .user-name {
+              color: #464c53;
+              font-size: 13px;
+              font-weight: 600;
+            }
+
+            .company {
+              color: #464c53;
+              font-size: 13px;
+            }
+          }
+        }
+
+        .reply-actions {
+          display: flex;
+          gap: 6px;
+
+          .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 3px;
+            border-radius: 3px;
+            color: #888;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:hover {
+              background-color: #f5f5f5;
+              color: #555;
+            }
+
+            &.edit-btn:hover {
+              color: #2196f3;
+            }
+
+            &.delete-btn:hover {
+              color: #f44336;
+            }
+          }
+        }
+      }
+
+      .reply-content {
+        color: #464c53;
+        font-size: 14px;
+        line-height: 140%;
+        word-break: break-word;
+      }
+    }
+  }
+
+  /* 유틸리티 클래스 */
+  .flex {
+    display: flex;
+  }
+
+  .flex-col {
+    flex-direction: column;
+  }
+
+  .gap-5 {
+    gap: 5px;
+  }
+
+  .items-center {
+    align-items: center;
+  }
+
+  .justify-end {
+    justify-content: flex-end;
   }
 </style>
