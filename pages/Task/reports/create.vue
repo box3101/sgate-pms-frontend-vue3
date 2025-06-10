@@ -23,11 +23,11 @@
         <!-- 우측: 액션 버튼 -->
         <div class="tbl-btn flex gap-5">
           <UiButton variant="secondary-line" @click="exportToExcel">
-            <i class="icon icon-sm icon-excel"></i>
-            <span>엑셀 다운로드</span>
+            <i class="icon icon-md icon-excel"></i>
+            <span>다운로드</span>
           </UiButton>
           <UiButton variant="primary" @click="isReportConfigModalOpen = true">
-            <i class="icon icon-sm icon-create icon-white"></i>
+            <i class="icon icon-md icon-create icon-white"></i>
             <span>보고서 작성</span>
           </UiButton>
         </div>
