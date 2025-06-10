@@ -164,9 +164,9 @@
     if (!props.showHeader) return false
 
     return {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'dayGridMonth,listMonth'
+      left: '',
+      center: 'prev title next', // 중앙에 모두 배치
+      right: ''
     }
   })
 
@@ -634,5 +634,22 @@
       padding: 0 8px; /* $spacing-xs */
       font-size: 10px; /* $font-size-xs */
     }
+  }
+
+  :deep(.fc-toolbar-chunk) {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  :deep(.fc-toolbar-center) {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  :deep(.fc-toolbar-title) {
+    margin: 0 !important;
+    padding: 0 16px;
   }
 </style>

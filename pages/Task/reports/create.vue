@@ -17,6 +17,16 @@
             </UiButton>
           </li>
         </ul>
+        <div class="tbl-btn flex gap-5">
+          <UiButton variant="secondary-line">
+            <i class="icon icon-sm icon-excel"></i>
+            <span>엑셀 다운로드</span>
+          </UiButton>
+          <UiButton variant="primary" @click="reportConfigModal = true">
+            <i class="icon icon-sm icon-create icon-white"></i>
+            <span>보고서 작성</span>
+          </UiButton>
+        </div>
       </div>
     </header>
     <div class="report-content mt-20">
@@ -29,10 +39,12 @@
             editable
             striped
             scrollable
+            sortable
             :maxHeight="dynamicTableHeight"
             :fixHeader="true"
             :canAddRow="false"
             :canSave="false"
+            :canAddSortableButton="false"
           >
             <!-- 추가 버튼 -->
             <template #action-button>
@@ -50,7 +62,7 @@
             </template>
 
             <!-- 테이블 헤더 -->
-            <template #header="{ selectAll, isAllSelected }">
+            <template #header="{ selectAll, isAllSelected, sortable }">
               <tr>
                 <th v-if="useCheckbox">
                   <UiCheckbox
@@ -87,7 +99,6 @@
             >
               <template v-for="(item, index) in rows" :key="item.id">
                 <tr
-                  @click="!sortable && toggleRowSelection(item)"
                   :class="{ selected: isRowSelected(item), 'sortable-row': sortable }"
                   :draggable="sortable"
                   @dragstart="e => handleDragStart(e, index)"
@@ -144,20 +155,12 @@
           <div class="header flex items-center justify-between">
             <p class="heading-4 mt-5">
               <span>주간보고</span>
+            </p>
+            <p class="heading-4 mt-5">
               <span>2025.05.20</span>
               <span class="ml-5 mt-5">미설정</span>
-              <span class="text-md mt-5 ml-10">제출대상 : srkim테스트</span>
+              <span class="color-gray text-lg mt-5 ml-10">제출대상 : 이은영</span>
             </p>
-            <div class="tbl-btn flex gap-5">
-              <UiButton variant="secondary-line">
-                <i class="icon icon-sm icon-excel"></i>
-                <span>엑셀 다운로드</span>
-              </UiButton>
-              <UiButton variant="primary" @click="reportConfigModal = true">
-                <i class="icon icon-sm icon-create icon-white"></i>
-                <span>보고서 작성</span>
-              </UiButton>
-            </div>
           </div>
           <UiTable
             v-model="tableData"
@@ -1316,3 +1319,9 @@
 
   onMounted(updateTableHeight)
 </script>
+
+<style lang="scss" scoped>
+  .report-creation-container .w-30p tr {
+    cursor: pointer;
+  }
+</style>

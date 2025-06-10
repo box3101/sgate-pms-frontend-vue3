@@ -49,6 +49,7 @@
             <i class="icon-md icon-delete"></i>
           </UiButton>
           <UiButton
+            v-if="canAddSortableButton"
             type="button"
             variant="secondary-line"
             icon-only
@@ -310,6 +311,13 @@
      * 저장 버튼 표시 여부
      */
     canSave: {
+      type: Boolean,
+      default: true
+    },
+    /**
+     * 정렬 버튼 표시 여부
+     */
+    canAddSortableButton: {
       type: Boolean,
       default: true
     },
@@ -881,6 +889,13 @@
         justify-content: center;
         gap: 0.75rem;
       }
+    }
+  }
+
+  .ui-button {
+    &:disabled {
+      cursor: not-allowed;
+      border: 1px solid $system-red !important;
     }
   }
 </style>

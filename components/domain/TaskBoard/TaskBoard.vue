@@ -8,35 +8,47 @@
       <ul class="categories-container">
         <!-- 카테고리 없는 경우 -->
         <div v-if="isFirstVisit && categories.length === 0" class="empty-category full">
-          <div class="welcome-message">
-            <h3 class="welcome-title">보드에 오신걸 환영합니다.</h3>
-            <p class="welcome-description">보드 구조에 대한 간단한 안내드립니다.</p>
+          <div class="welcome-message" :class="{ 'animate-in': showAnimation }">
+            <h3 class="welcome-title animate-fade-up" :style="{ animationDelay: '0.2s' }">
+              보드에 오신걸 환영합니다.
+            </h3>
+            <p class="welcome-description animate-fade-up" :style="{ animationDelay: '0.4s' }">
+              보드 구조에 대한 간단한 안내드립니다.
+            </p>
 
-            <div class="board-guide">
-              <img src="@/public/images/board-structure.png" alt="보드 구조" class="guide-image" />
+            <div class="board-guide animate-fade-up" :style="{ animationDelay: '0.6s' }">
+              <div class="guide-image-container">
+                <img
+                  src="@/public/images/board-structure.png"
+                  alt="보드 구조"
+                  class="guide-image animate-float"
+                />
+                <!-- 이미지 주변 장식 효과 -->
+                <div class="image-glow"></div>
+              </div>
 
               <ul class="guide-list">
-                <li><strong>1. 보드</strong>는 가장 큰 분류 체계입니다.</li>
-                <li><strong>2. 카테고리</strong>는 생성된 보드에 업무들을 분류하는 요소입니다.</li>
-                <li>
-                  <strong>3. 업무</strong>에는 본격적인 업무에 대한 속성을 기입할 수 있는
-                  요소입니다.
-                </li>
-                <li>
-                  <strong>4. 활동</strong>은 해당 업무에 세부적인 부분을 작성할 수 있는 요소입니다.
-                </li>
-                <li>
-                  <strong>5. 활동</strong>에서는 일반 등록과 피드백 등록을 진행할 수 있습니다.
+                <li
+                  v-for="(item, index) in guideItems"
+                  :key="index"
+                  class="guide-item animate-slide-in"
+                  :style="{ animationDelay: `${0.8 + index * 0.1}s` }"
+                >
+                  <div class="item-number">{{ index + 1 }}</div>
+                  <div class="item-content" v-html="item.description"></div>
                 </li>
               </ul>
             </div>
+
             <UiButton
               variant="primary"
               size="large"
-              class="create-board-btn"
-              @click="isFirstVisit = false"
+              class="create-board-btn animate-bounce-in"
+              :style="{ animationDelay: '1.4s' }"
+              @click="handleCreateBoard"
             >
-              업무 보드 생성하기
+              <span class="btn-text">업무 보드 생성하기</span>
+              <div class="btn-shimmer"></div>
             </UiButton>
           </div>
         </div>
@@ -88,14 +100,36 @@
         <li class="category-column" v-if="!isFirstVisit || categories.length > 0">
           <div class="category-header">
             <div class="category-actions w-full gap-7">
-              <UiInput class="w-full" placeholder="카테고리명을 입력하세요." />
-              <UiButton variant="secondary" @click="addNewCategory"> 저장 </UiButton>
+              <UiInput
+                ref="categoryInputRef"
+                v-model="newCategoryName"
+                class="w-full"
+                placeholder="카테고리명을 입력하세요."
+                @keyup.enter="addNewCategory"
+                maxlength="20"
+              />
+              <UiButton
+                variant="secondary"
+                @click="addNewCategory"
+                :disabled="!newCategoryName.trim()"
+              >
+                저장
+              </UiButton>
             </div>
           </div>
         </li>
       </ul>
     </section>
 
+    <!-- // 토스트 메시지  -->
+    <UiToast
+      v-model:visible="toastVisible"
+      :type="toastType"
+      :title="toastTitle"
+      :message="toastMessage"
+      :duration="toastDuration"
+      position="top-center"
+    />
     <!-- 카드 추가 모달 -->
     <UiModal
       v-model="isCardModalOpen"
@@ -412,7 +446,7 @@
    * - 카드 상세 정보 모달
    * - 활동 내역 및 댓글 관리
    */
-  import { ref, provide } from 'vue'
+  import { ref, provide, computed, onMounted, nextTick } from 'vue'
   import TaskBoardHeader from './TaskBoardHeader.vue'
   import CategoryColumn from './CategoryColumn.vue'
   import CategoryCard from './CategoryCard.vue'
@@ -778,16 +812,6 @@
 
   // 첨부파일 모달
   const isAttachmentModalOpen = ref(false)
-  /**
-   * 새 카테고리 추가
-   */
-  function addNewCategory() {
-    categories.value.push({
-      id: categories.value.length + 1,
-      title: '카테고리 ' + (categories.value.length + 1),
-      cards: []
-    })
-  }
 
   /**
    * 카드 생성 모달 열기
@@ -998,6 +1022,99 @@
         console.warn('알 수 없는 액션:', action)
     }
   }
+
+  /** 애니메이션 관련 */
+
+  const showAnimation = ref(false)
+  const newCategoryName = ref('')
+  const categoryInputRef = ref(null)
+
+  // 토스트 상태 추가
+  const toastVisible = ref(false)
+  const toastType = ref('info')
+  const toastTitle = ref('')
+  const toastMessage = ref('')
+  const toastDuration = ref(3000)
+
+  const guideItems = [
+    { description: '<strong>보드</strong>는 가장 큰 분류 체계입니다.' },
+    { description: '<strong>카테고리</strong>는 생성된 보드에 업무들을 분류하는 요소입니다.' },
+    {
+      description:
+        '<strong>업무</strong>에는 본격적인 업무에 대한 속성을 기입할 수 있는 요소입니다.'
+    },
+    {
+      description: '<strong>활동</strong>은 해당 업무에 세부적인 부분을 작성할 수 있는 요소입니다.'
+    },
+    {
+      description:
+        '활동에서는 <strong>일반 등록</strong>과 <strong>피드백 등록</strong>을 진행할 수 있습니다.'
+    }
+  ]
+
+  // 토스트 함수 추가
+  function showToast(type, title, message, duration = 3000) {
+    toastType.value = type
+    toastTitle.value = title
+    toastMessage.value = message
+    toastDuration.value = duration
+    toastVisible.value = true
+  }
+
+  // 업무 보드 생성 함수 추가
+  async function handleCreateBoard() {
+    isFirstVisit.value = false
+
+    showToast('info', '🎉 보드 생성 완료!', '업무 카드를 분류할 카테고리를 생성해보세요.', 4000)
+
+    // 1초 후 카테고리 입력창 포커스
+    setTimeout(async () => {
+      await nextTick()
+      categoryInputRef.value?.focus()
+    }, 1000)
+  }
+
+  // 기존 addNewCategory 함수 수정
+  function addNewCategory() {
+    const name = newCategoryName.value.trim()
+
+    // 검증
+    if (!name) {
+      showToast('error', '입력 오류', '카테고리명을 입력해주세요.')
+      return
+    }
+
+    if (categories.value.some(cat => cat.title === name)) {
+      showToast('warning', '중복 오류', '이미 존재하는 카테고리입니다.')
+      return
+    }
+
+    // 기존 로직 유지하되 ID 생성 방식만 변경
+    const newCategory = {
+      id: Date.now(), // 기존: categories.value.length + 1
+      title: name, // 기존: '카테고리 ' + (categories.value.length + 1)
+      cards: []
+    }
+
+    categories.value.push(newCategory)
+
+    // 성공 메시지
+    if (categories.value.length === 1) {
+      showToast('success', '🎊 첫 카테고리 생성!', `"${name}" 카테고리가 생성되었습니다!`, 4000)
+    } else {
+      showToast('success', '카테고리 추가', `"${name}" 카테고리가 추가되었습니다.`)
+    }
+
+    // 폼 초기화
+    newCategoryName.value = ''
+  }
+
+  onMounted(() => {
+    // 컴포넌트 마운트 후 애니메이션 시작
+    setTimeout(() => {
+      showAnimation.value = true
+    }, 100)
+  })
 </script>
 
 <style lang="scss" scoped>
@@ -1017,22 +1134,6 @@
     list-style: none;
     padding: 0;
     min-height: calc(100vh - 172px);
-  }
-  .empty-category.full {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
-    border-radius: 8px;
-  }
-  .welcome-message {
-    text-align: center;
-    color: #888;
-    p {
-      margin: 0 0 8px 0;
-    }
   }
   .create-board-btn {
     margin-top: 16px;
