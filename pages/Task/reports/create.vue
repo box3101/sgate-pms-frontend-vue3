@@ -36,7 +36,6 @@
             :title="'보고서 리스트'"
             v-model="tableData"
             hover
-            editable
             striped
             scrollable
             sortable
@@ -46,32 +45,15 @@
             :canSave="false"
             :canAddSortableButton="false"
           >
-            <!-- 추가 버튼 -->
-            <template #action-button>
-              <UiButton type="button" variant="primary" @click="showAddModal = true">
-                데이터 추가
-              </UiButton>
-            </template>
-
             <!-- 열 너비 설정 -->
             <template #colgroup>
-              <col v-if="useCheckbox" width="40px" />
               <col v-for="column in columns" :key="column.key" :width="column.width" />
-              <col v-if="showEditButton" width="30px" />
-              <col v-if="showEditButton" width="30px" />
+              <col v-if="showEditButton" width="40px" />
             </template>
 
             <!-- 테이블 헤더 -->
-            <template #header="{ selectAll, isAllSelected, sortable }">
+            <template #header="{ sortable }">
               <tr>
-                <th v-if="useCheckbox">
-                  <UiCheckbox
-                    :modelValue="isAllSelected"
-                    @update:modelValue="selectAll"
-                    size="large"
-                    @click.stop
-                  />
-                </th>
                 <th
                   v-for="column in columns"
                   :key="column.key"
@@ -79,48 +61,20 @@
                 >
                   {{ column.title }}
                 </th>
-                <th v-if="showEditButton">조회</th>
                 <th v-if="showEditButton">수정</th>
               </tr>
             </template>
 
             <!-- 테이블 본문 -->
-            <template
-              #body="{
-                rows,
-                toggleRowSelection,
-                isRowSelected,
-                handleDragStart,
-                handleDragOver,
-                handleDrop,
-                handleDragEnd,
-                sortable
-              }"
-            >
+            <template #body="{ rows, sortable }">
               <template v-for="(item, index) in rows" :key="item.id">
                 <tr
-                  :class="{ selected: isRowSelected(item), 'sortable-row': sortable }"
                   :draggable="sortable"
                   @dragstart="e => handleDragStart(e, index)"
                   @dragover="e => handleDragOver(e)"
                   @drop="e => handleDrop(e, index)"
                   @dragend="handleDragEnd"
                 >
-                  <!-- 체크박스/드래그 핸들 -->
-                  <td v-if="useCheckbox">
-                    <div v-if="!sortable" class="row-checkbox">
-                      <UiCheckbox
-                        :modelValue="isRowSelected(item)"
-                        @update:modelValue="toggleRowSelection(item)"
-                        size="large"
-                        @click.stop
-                      />
-                    </div>
-                    <div v-else class="drag-handle">
-                      <i class="icon-md icon-drag"></i>
-                    </div>
-                  </td>
-
                   <!-- 데이터 셀 -->
                   <td
                     v-for="(column, colIndex) in columns"
@@ -130,21 +84,10 @@
                     {{ item[column.key] }}
                   </td>
 
-                  <!-- 수정/조회 버튼 -->
-                  <td v-if="showEditButton">
-                    <div class="button-group flex items-center">
-                      <UiButton variant="ghost" size="small" icon-only @click.stop="viewItem(item)">
-                        <i class="icon-md icon-magnify icon-gray"></i>
-                      </UiButton>
-                    </div>
-                  </td>
-
-                  <td v-if="showEditButton">
-                    <div class="button-group flex items-center">
-                      <UiButton variant="ghost" size="small" icon-only @click.stop="editItem(item)">
-                        <i class="icon-md icon-pencil icon-gray"></i>
-                      </UiButton>
-                    </div>
+                  <td v-if="showEditButton" class="text-center">
+                    <UiButton variant="ghost" size="small" icon-only @click.stop="editItem(item)">
+                      <i class="icon-md icon-pencil icon-gray"></i>
+                    </UiButton>
                   </td>
                 </tr>
               </template>
