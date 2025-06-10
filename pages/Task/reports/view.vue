@@ -32,26 +32,8 @@
     class="report-viewer-modal"
   >
     <div class="report-viewer-container">
-      <!-- 뷰 모드 선택 탭 -->
-      <div class="view-mode-tabs">
-        <button
-          v-for="mode in viewModes"
-          :key="mode.value"
-          @click="changeViewMode(mode.value)"
-          :class="['tab-button', { active: currentViewMode === mode.value }]"
-        >
-          {{ mode.label }}
-          <span
-            v-if="mode.value === 'single' && selectedDateReports.length > 1"
-            class="report-counter"
-          >
-            {{ currentReportIndex + 1 }}/{{ selectedDateReports.length }}
-          </span>
-        </button>
-      </div>
-
       <!-- 단일 보기 모드 -->
-      <div v-if="currentViewMode === 'single'" class="single-view">
+      <div class="single-view">
         <!-- 다중 보고서 네비게이션 -->
         <div v-if="selectedDateReports.length > 1" class="navigation-bar">
           <button
@@ -107,40 +89,6 @@
           <ReportDetailCard :report="currentReport" />
         </div>
       </div>
-
-      <!-- 타임라인 보기 모드 -->
-      <div v-else-if="currentViewMode === 'timeline'" class="timeline-view">
-        <div class="timeline-container">
-          <div
-            v-for="(report, index) in sortedReportsByTime"
-            :key="report.id"
-            class="timeline-item"
-          >
-            <div class="timeline-marker">
-              <div class="timeline-dot"></div>
-              <div v-if="index < sortedReportsByTime.length - 1" class="timeline-line"></div>
-            </div>
-            <div class="timeline-content">
-              <div class="time-header">
-                <span class="create-time">{{ report.extendedProps.createTime }}</span>
-                <span class="author-name">{{ report.extendedProps.author }}</span>
-                <span :class="['report-type-badge', report.extendedProps.reportType]">
-                  {{ getReportTypeLabel(report.extendedProps.reportType) }}
-                </span>
-              </div>
-              <div
-                class="report-preview"
-                @click="viewSingleReport(selectedDateReports.findIndex(r => r.id === report.id))"
-              >
-                <h4 class="report-title">{{ report.title }}</h4>
-                <p class="report-content">
-                  {{ report.extendedProps.actualContent }}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </UiModal>
 </template>
@@ -156,17 +104,11 @@
   const weeklyReport = ref(true)
   const dateGbnType = ref('w')
   const reportViewerModal = ref(false)
-  const currentViewMode = ref('single')
   const currentReportIndex = ref(0)
 
   const dateGbnOptions = [
     { value: 'w', label: '작성일 기준' },
     { value: 'r', label: '보고일 기준' }
-  ]
-
-  const viewModes = [
-    { value: 'single', label: '단일 보기' },
-    { value: 'timeline', label: '타임라인' }
   ]
 
   const calendarOptions = {
@@ -299,14 +241,6 @@
     return selectedDateReports.value[currentReportIndex.value] || null
   })
 
-  const sortedReportsByTime = computed(() => {
-    return [...selectedDateReports.value].sort((a, b) => {
-      const timeA = a.extendedProps.createTime
-      const timeB = b.extendedProps.createTime
-      return timeA.localeCompare(timeB)
-    })
-  })
-
   const reportViewerTitle = computed(() => {
     if (!selectedDate.value) return '보고서 뷰어'
     const date = formatDate(selectedDate.value)
@@ -318,7 +252,6 @@
   function handleDateClick(info) {
     selectedDate.value = info.date
     currentReportIndex.value = 0
-    currentViewMode.value = 'single'
     reportViewerModal.value = true
   }
 
@@ -326,12 +259,7 @@
     selectedDate.value = info.event.start
     const reportIndex = selectedDateReports.value.findIndex(r => r.id === info.event.id)
     currentReportIndex.value = reportIndex >= 0 ? reportIndex : 0
-    currentViewMode.value = 'single'
     reportViewerModal.value = true
-  }
-
-  function changeViewMode(mode) {
-    currentViewMode.value = mode
   }
 
   function nextReport() {
@@ -350,18 +278,9 @@
     currentReportIndex.value = index
   }
 
-  function viewSingleReport(index) {
-    currentReportIndex.value = index
-    currentViewMode.value = 'single'
-  }
-
   // 유틸리티 함수
   function getReportTooltip(report) {
     return `${report.extendedProps.author} - ${report.extendedProps.createTime}`
-  }
-
-  function getReportTypeLabel(type) {
-    return type === 'daily' ? '일간' : '주간'
   }
 
   function formatDate(date) {
@@ -409,15 +328,6 @@
   onUnmounted(() => {
     window.removeEventListener('keydown', handleKeydown)
   })
-
-  // Watcher
-  watch(currentViewMode, () => {
-    // 뷰 모드 변경 시 필요한 초기화 작업
-    if (currentViewMode.value === 'single') {
-      // 단일 보기로 전환 시 첫 번째 보고서로 이동
-      currentReportIndex.value = 0
-    }
-  })
 </script>
 
 <style scoped>
@@ -440,41 +350,6 @@
 
   .report-viewer-container {
     min-height: 600px;
-  }
-
-  .view-mode-tabs {
-    display: flex;
-    border-bottom: 1px solid #e5e7eb;
-    margin-bottom: 24px;
-  }
-
-  .tab-button {
-    padding: 8px 16px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s;
-    color: #6b7280;
-  }
-
-  .tab-button:hover {
-    color: #374151;
-  }
-
-  .tab-button.active {
-    border-bottom-color: #3b82f6;
-    color: #2563eb;
-    background-color: #eff6ff;
-  }
-
-  .report-counter {
-    margin-left: 8px;
-    background-color: #dbeafe;
-    color: #1e40af;
-    padding: 2px 8px;
-    border-radius: 9999px;
-    font-size: 12px;
   }
 
   .navigation-bar {
@@ -564,99 +439,6 @@
     animation: fadeIn 0.3s ease-out;
   }
 
-  .timeline-container {
-    max-height: 70vh;
-    overflow-y: auto;
-  }
-
-  .timeline-item {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 24px;
-  }
-
-  .timeline-marker {
-    flex-shrink: 0;
-    position: relative;
-  }
-
-  .timeline-dot {
-    width: 16px;
-    height: 16px;
-    background-color: #3b82f6;
-    border-radius: 50%;
-  }
-
-  .timeline-line {
-    width: 2px;
-    height: 64px;
-    background-color: #d1d5db;
-    margin-left: 7px;
-    margin-top: 8px;
-  }
-
-  .timeline-content {
-    flex: 1;
-    animation: slideInRight 0.3s ease-out;
-  }
-
-  .time-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 8px;
-  }
-
-  .create-time {
-    font-weight: 600;
-    color: #2563eb;
-  }
-
-  .report-type-badge {
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-  }
-
-  .report-type-badge.daily {
-    background-color: #dcfce7;
-    color: #166534;
-  }
-
-  .report-type-badge.weekly {
-    background-color: #dbeafe;
-    color: #1e40af;
-  }
-
-  .report-preview {
-    padding: 16px;
-    background-color: #f9fafb;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .report-preview:hover {
-    background-color: #f3f4f6;
-    transform: translateY(-1px);
-  }
-
-  .report-title {
-    font-weight: 500;
-    margin-bottom: 8px;
-    color: #111827;
-  }
-
-  .report-content {
-    font-size: 14px;
-    color: #6b7280;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    line-height: 1.5;
-  }
-
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -665,17 +447,6 @@
     to {
       opacity: 1;
       transform: translateY(0);
-    }
-  }
-
-  @keyframes slideInRight {
-    from {
-      opacity: 0;
-      transform: translateX(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
     }
   }
 </style>

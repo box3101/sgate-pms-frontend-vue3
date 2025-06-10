@@ -14,6 +14,7 @@
     ]"
     :style="scrollable ? { maxHeight: maxHeight } : {}"
   >
+    <!-- 헤더 섹션 -->
     <div
       class="section-header flex items-center justify-between"
       :class="fixHeader && 'sticky-header-btn'"
@@ -26,6 +27,8 @@
           </div>
         </div>
       </div>
+
+      <!-- 편집 가능한 테이블 액션 버튼들 -->
       <div v-if="editable" class="table-actions">
         <div class="button-group flex items-center gap-5">
           <UiButton
@@ -64,6 +67,8 @@
           </slot>
         </div>
       </div>
+
+      <!-- 엑셀 컨트롤 버튼들 -->
       <div v-if="excelControls" class="excel-controls flex items-center gap-5 mr-5">
         <UiButton variant="secondary-line" size="medium">
           <i class="icon-md icon-excel"></i>
@@ -76,17 +81,15 @@
       </div>
     </div>
 
+    <!-- 정렬 모드 안내 메시지 -->
     <div v-if="sortable && editable" class="sort-mode-message">
       행을 드래그하여 순서를 변경할 수 있습니다. <br />완료 후 정렬 버튼을 다시 클릭하세요.
     </div>
 
-    <!-- Empty State -->
+    <!-- 빈 상태 표시 -->
     <div v-if="isEmpty" class="empty-state">
       <slot name="empty" :add-row="addRow" :editable="editable">
         <div class="empty-content">
-          <!-- <div class="empty-icon">
-            <i class="icon-lg icon-table"></i>
-          </div> -->
           <h3 class="empty-title">{{ emptyTitle }}</h3>
           <p class="empty-description">{{ emptyDescription }}</p>
           <div v-if="editable && canAddRow" class="empty-actions">
@@ -99,7 +102,7 @@
       </slot>
     </div>
 
-    <!-- 스크롤 가능한 테이블 컨테이너 -->
+    <!-- 스크롤 가능한 테이블 -->
     <div v-else-if="scrollable" class="table-scroll-container">
       <table class="ui-table" :class="{ 'th-left': isThLeft }">
         <colgroup v-if="$slots.colgroup">
@@ -124,6 +127,7 @@
             :handle-drag-over="handleDragOver"
             :handle-drop="handleDrop"
             :handle-drag-end="handleDragEnd"
+            :handle-row-click="handleRowClick"
             :sortable="sortable"
             :editable="editable"
           ></slot>
@@ -134,7 +138,7 @@
       </table>
     </div>
 
-    <!-- 스크롤이 없는 경우 기존 방식 -->
+    <!-- 일반 테이블 -->
     <table v-else-if="!isEmpty" class="ui-table" :class="{ 'th-left': isThLeft }">
       <colgroup v-if="$slots.colgroup">
         <slot name="colgroup"></slot>
@@ -180,49 +184,32 @@
     'save',
     'row-added',
     'row-deleted',
+    'row-click',
     'order-changed'
   ])
 
   const props = defineProps({
-    /**
-     * 테이블 제목
-     */
     title: {
       type: String,
       default: ''
     },
-    /**
-     * 테이블 테두리 표시 여부
-     */
     bordered: {
       type: Boolean,
       default: false
     },
-    /**
-     * 테이블 줄무늬 표시 여부
-     */
     striped: {
       type: Boolean,
       default: true
     },
-    /**
-     * 테이블 행 호버 효과 적용 여부
-     */
     hover: {
       type: Boolean,
       default: false
     },
-    /**
-     * 테이블 크기 (small, medium, large)
-     */
     size: {
       type: String,
       default: 'medium',
       validator: value => ['small', 'medium', 'large'].includes(value)
     },
-    /**
-     * 테이블 레이아웃 (vertical, horizontal)
-     */
     layout: {
       type: String,
       default: 'vertical',
@@ -236,44 +223,26 @@
       type: Boolean,
       default: false
     },
-    /**
-     * 스크롤 가능 여부
-     */
     scrollable: {
       type: Boolean,
       default: false
     },
-    /**
-     * 테이블 최대 높이 (스크롤 가능할 때만 적용)
-     */
     maxHeight: {
       type: String,
       default: '400px'
     },
-    /**
-     * 테이블 헤더 고정 여부
-     */
     fixHeader: {
       type: Boolean,
       default: false
     },
-    /**
-     * 테이블 데이터 (v-model로 바인딩)
-     */
     modelValue: {
       type: Array,
       default: () => []
     },
-    /**
-     * 테이블 편집 가능 여부
-     */
     editable: {
       type: Boolean,
       default: false
     },
-    /**
-     * 엑셀 컨트롤
-     */
     excelControls: {
       type: Boolean,
       default: false
@@ -286,51 +255,30 @@
       type: String,
       default: '엑셀 업로드'
     },
-    /**
-     * 새 행 추가 시 기본 행 데이터
-     */
     defaultRowData: {
       type: Object,
       default: () => ({})
     },
-    /**
-     * 정렬 옵션 활성화 여부
-     */
     sortableOption: {
       type: Boolean,
       default: false
     },
-    /**
-     * 행 추가 버튼 표시 여부
-     */
     canAddRow: {
       type: Boolean,
       default: true
     },
-    /**
-     * 저장 버튼 표시 여부
-     */
     canSave: {
       type: Boolean,
       default: true
     },
-    /**
-     * 정렬 버튼 표시 여부
-     */
     canAddSortableButton: {
       type: Boolean,
       default: true
     },
-    /**
-     * 구간대 설정 컨트롤
-     */
     gradeRangeControls: {
       type: Boolean,
       default: false
     },
-    /**
-     * Empty State 관련 Props
-     */
     emptyTitle: {
       type: String,
       default: '데이터가 없습니다'
@@ -339,38 +287,32 @@
       type: String,
       default: '표시할 항목이 없습니다.'
     },
-    /**
-     * Empty State 표시 여부를 강제로 설정 (로딩 상태 등에서 사용)
-     */
     forceEmpty: {
+      type: Boolean,
+      default: false
+    },
+    rowClickable: {
       type: Boolean,
       default: false
     }
   })
 
-  // 선택된 행 관리
+  // 상태 관리
   const selectedRows = ref([])
-
-  // 정렬 모드 상태
   const sortable = ref(props.sortableOption)
   const isDragging = ref(false)
-
-  // 드래그 앤 드롭 관련 상태
   const draggedRowIndex = ref(null)
 
-  // Empty State 계산
+  // 계산된 속성
   const isEmpty = computed(() => {
     return props.forceEmpty || !props.modelValue || props.modelValue.length === 0
   })
 
-  // 모든 행이 선택되었는지 확인
   const isAllSelected = computed(() => {
     return props.modelValue.length > 0 && selectedRows.value.length === props.modelValue.length
   })
 
-  /**
-   * 모든 행 선택/해제
-   */
+  // 행 선택 관련 함수들
   const selectAll = () => {
     if (isAllSelected.value) {
       selectedRows.value = []
@@ -379,9 +321,6 @@
     }
   }
 
-  /**
-   * 특정 행 선택/해제
-   */
   const toggleRowSelection = row => {
     if (sortable.value) return
 
@@ -393,16 +332,11 @@
     }
   }
 
-  /**
-   * 행이 선택되었는지 확인
-   */
   const isRowSelected = row => {
     return selectedRows.value.includes(row)
   }
 
-  /**
-   * 기본 행 데이터 생성 함수
-   */
+  // 행 추가/삭제 함수들
   const createDefaultRow = () => {
     const generateId = () => {
       return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
@@ -414,9 +348,6 @@
     }
   }
 
-  /**
-   * 새 행 추가
-   */
   const addRow = () => {
     const newRow = createDefaultRow()
     const updatedRows = [...props.modelValue, newRow]
@@ -424,9 +355,6 @@
     emit('row-added', newRow)
   }
 
-  /**
-   * 선택된 행 삭제
-   */
   const deleteSelectedRows = () => {
     if (selectedRows.value.length === 0) return
 
@@ -437,9 +365,7 @@
     emit('row-deleted', deletedRows)
   }
 
-  /**
-   * 정렬 모드 토글
-   */
+  // 정렬 관련 함수들
   const toggleSortable = () => {
     sortable.value = !sortable.value
     if (!sortable.value) {
@@ -447,9 +373,7 @@
     }
   }
 
-  /**
-   * 드래그 시작 핸들러
-   */
+  // 드래그 앤 드롭 핸들러들
   const handleDragStart = (event, index) => {
     if (!sortable.value) return
 
@@ -467,9 +391,6 @@
     }
   }
 
-  /**
-   * 드래그 오버 핸들러
-   */
   const handleDragOver = event => {
     if (!sortable.value) return
 
@@ -477,9 +398,6 @@
     event.dataTransfer.dropEffect = 'move'
   }
 
-  /**
-   * 드롭 핸들러
-   */
   const handleDrop = (event, targetIndex) => {
     if (!sortable.value || draggedRowIndex.value === null) return
     event.preventDefault()
@@ -503,23 +421,34 @@
     isDragging.value = false
   }
 
-  /**
-   * 드래그 종료 핸들러
-   */
   const handleDragEnd = () => {
     draggedRowIndex.value = null
     isDragging.value = false
   }
 
-  /**
-   * 변경사항 저장
-   */
+  // 행 클릭 핸들러
+  const handleRowClick = (row, index, event) => {
+    if (!props.rowClickable) return
+
+    // 체크박스나 버튼 클릭 시에는 행 클릭 이벤트 무시
+    if (
+      event.target.closest('.ui-checkbox') ||
+      event.target.closest('button') ||
+      event.target.closest('.drag-handle')
+    ) {
+      return
+    }
+
+    emit('row-click', { row, index, event })
+  }
+
+  // 저장 함수
   const saveChanges = () => {
-    emit('save', props.modelValue) // 부모에게 현재 테이블 데이터 전달
+    emit('save', props.modelValue)
     sortable.value = false
   }
 
-  // 모델 값이 변경될 때 선택된 행 초기화
+  // 감시자들
   watch(
     () => props.modelValue,
     () => {
@@ -529,7 +458,6 @@
     }
   )
 
-  // 편집 가능 상태가 변경될 때 정렬 모드 초기화
   watch(
     () => props.editable,
     newValue => {
@@ -548,11 +476,11 @@
     transition: all 0.2s ease;
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid #e2e8f0;
 
     .ui-table {
       width: 100%;
       border-collapse: separate;
+      border-bottom: 1px solid #e2e8f0;
 
       th {
         background-color: $gray-5;
@@ -613,7 +541,7 @@
           transition: background-color 0.15s ease;
 
           &:hover {
-            background-color: rgba(241, 245, 249, 0.8);
+            background-color: #f4f5f6;
           }
         }
       }
@@ -711,6 +639,18 @@
             }
           }
         }
+      }
+    }
+
+    .selected-row {
+      background-color: #e3f2fd !important;
+
+      td:first-child {
+        border-left: 3px solid $primary-color;
+      }
+
+      &:hover {
+        background-color: #bbdefb !important;
       }
     }
 
@@ -845,7 +785,6 @@
     margin-bottom: 5px;
   }
 
-  // Empty State 스타일
   .empty-state {
     display: flex;
     align-items: center;
@@ -858,16 +797,6 @@
     .empty-content {
       text-align: center;
       max-width: 400px;
-
-      .empty-icon {
-        margin-bottom: 1rem;
-        color: #9ca3af;
-        font-size: 3rem;
-
-        i {
-          display: inline-block;
-        }
-      }
 
       .empty-title {
         font-size: 1.25rem;
