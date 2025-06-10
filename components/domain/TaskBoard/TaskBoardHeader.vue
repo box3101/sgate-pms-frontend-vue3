@@ -148,23 +148,18 @@
             <template #fixedActions>
               <UiTabs :tabs="basicTabs" :isScroll="true">
                 <template #협업>
-                  <UiSwitch
-                    v-model="isActive"
-                    label="제외하기"
-                    @update:modelValue="handleSwitchChange"
-                  />
                   <div class="collaboration-content">
                     <div class="search-section">
                       <div class="user-list">
                         <!-- 사용자 목록 -->
                         <div v-for="i in 10" :key="i" class="user-item">
                           <div class="user-info">
-                            <div class="user-avatar">
+                            <!-- <div class="user-avatar">
                               <i class="icon-user-gray icon-xl"></i>
-                            </div>
+                            </div> -->
                             <div class="user-details">
-                              <div class="user-name">[이강표] Contact</div>
-                              <div class="user-role">[2022.03.04 ~ ] Contact - BYC</div>
+                              <div class="user-name">안창주 <span>Marketing Promotion</span></div>
+                              <div class="user-date">~2026.08.29</div>
                             </div>
                           </div>
                           <div class="flex gap-10">
@@ -174,11 +169,11 @@
                                 class="w-200"
                                 rows="2"
                               />
-                              <UiButton variant="secondary">제외</UiButton>
+                              <UiButton variant="secondary-line">제외</UiButton>
                             </template>
                             <template v-else>
                               <UiSelect placeholder="선택하세요" class="w-200" />
-                              <UiButton variant="secondary">이동</UiButton>
+                              <UiButton variant="primary-line">이동</UiButton>
                             </template>
                           </div>
                         </div>
@@ -187,25 +182,36 @@
                   </div>
                 </template>
                 <template #공유>
-                  <h4>공유 콘텐츠</h4>
-                  <p>공유 관련 내용입니다.</p>
+                  <Empty
+                    title="공유 콘텐츠"
+                    description="협업으로 포함된 업무들을 표시합니다. <br/>
+해당 업무들을 원하는 카테고리로 이동 또는 제외 하실 수 있습니다."
+                  />
                 </template>
                 <template #전달>
-                  <h4>전달 콘텐츠</h4>
-                  <p>업무 전달 정보입니다.</p>
+                  <Empty title="전달 콘텐츠" description="이 전달로 포함된 업무들을 표시합니다." />
                 </template>
               </UiTabs>
             </template>
 
             <template #footerActions>
-              <div class="flex items-center gap-4 w-full justify-end">
-                <UiSelect class="w-300" placeholder="선택하세요" />
-                <UiButton variant="secondary" @click="isCollaborationModalOpen = false"
-                  >카테고리 일괄 선택</UiButton
-                >
-                <UiButton variant="primary" @click="isCollaborationModalOpen = false"
-                  >이동</UiButton
-                >
+              <div class="flex items-center gap-4 w-full justify-between">
+                <div class="left">
+                  <UiSwitch
+                    v-model="isActive"
+                    label="제외하기"
+                    @update:modelValue="handleSwitchChange"
+                  />
+                </div>
+                <div class="right flex gap-5 items-center">
+                  <UiSelect class="w-300" placeholder="선택하세요" />
+                  <UiButton variant="secondary" @click="isCollaborationModalOpen = false"
+                    >카테고리 일괄 선택</UiButton
+                  >
+                  <UiButton variant="primary" @click="isCollaborationModalOpen = false"
+                    >이동</UiButton
+                  >
+                </div>
               </div>
             </template>
           </UiFilterModal>

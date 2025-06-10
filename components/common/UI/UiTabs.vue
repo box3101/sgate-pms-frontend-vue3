@@ -142,15 +142,9 @@
 
   .ui-tabs__nav-item {
     flex: 1;
-    padding: 12px 20px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    color: $gray-50;
-    border-bottom: 2px solid transparent;
-    background-color: $gray-5;
+    padding: 8px 20px;
+    @include font-style($body-medium);
+    color: $gray-90;
 
     &:hover {
       background-color: $primary-color;
@@ -163,8 +157,10 @@
     }
 
     &--active {
-      background-color: $primary-color;
-      color: #fff;
+      font-size: 17px;
+      border-bottom: 3px solid $primary-color;
+      font-weight: 700;
+      border-radius: 0px;
     }
   }
 
