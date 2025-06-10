@@ -165,7 +165,7 @@
 
     return {
       left: '',
-      center: 'prev title next', // 중앙에 모두 배치
+      center: 'prev title next today', // 중앙에 모두 배치
       right: ''
     }
   })
@@ -348,7 +348,7 @@
   })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .custom-calendar-wrapper {
     width: 100%;
   }
@@ -405,7 +405,7 @@
     font-size: 14px; /* $font-size-md */
     font-weight: 500;
     height: 32px; /* $ui-height-md */
-    padding: 0 16px; /* $spacing-md */
+    padding: 0 8px; /* $spacing-md */
     transition: all 0.2s ease; /* $transition-normal */
     border-width: 1px; /* $border-width */
     box-shadow: none;
@@ -413,25 +413,20 @@
 
   /* Primary 버튼 (prev, next, month 등) */
   :deep(.fc-button-primary) {
-    background-color: #00aaff; /* $primary-color */
-    border-color: #00aaff;
-    color: #fff;
+    background-color: transparent;
+    border-color: transparent;
+    color: #000;
   }
 
   :deep(.fc-button-primary:hover) {
-    background-color: #0088cc; /* $primary-60 */
-    border-color: #0088cc;
     transform: translateY(-1px);
   }
 
   :deep(.fc-button-primary:active) {
-    background-color: #006699; /* $primary-70 */
-    border-color: #006699;
     transform: translateY(0);
   }
 
   :deep(.fc-button-primary:disabled) {
-    background-color: #b1b8be; /* $gray-30 */
     border-color: #b1b8be;
     color: #fff;
     transform: none;
@@ -440,8 +435,20 @@
 
   /* Today 버튼 - Success 색상 사용 */
   :deep(.fc-today-button) {
-    background-color: #00b248; /* $info-color */
-    border-color: #00b248;
+    border-radius: 4px !important;
+    background: var(--color-primary-50, #0af) !important;
+    border: none !important;
+    color: var(--color-primary-70, #006699) !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    padding: 12px 6px !important;
+    min-width: 72px !important;
+    height: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    @include font-style($body-small-bold);
+    color: #fff !important;
   }
 
   :deep(.fc-today-button:hover) {
@@ -498,12 +505,15 @@
 
   /* 헤더 스타일링 */
   :deep(.fc-col-header-cell) {
-    background-color: #f4f5f6; /* $gray-5 */
+    background-color: #e5f6ff; /* $gray-5 */
     font-weight: 600;
-    border-color: #e6e8ea; /* $gray-10 */
-    padding: 12px 8px;
-    font-size: 12px; /* $font-size-sm */
-    color: #6d7882; /* $gray-50 */
+    padding: 8px;
+    @include font-style($body-large-bold);
+    color: $gray-90;
+  }
+
+  :deep(.fc .fc-daygrid-day-top) {
+    flex-direction: column;
   }
 
   /* 테두리 색상 통일 */
@@ -650,6 +660,166 @@
 
   :deep(.fc-toolbar-title) {
     margin: 0 !important;
-    padding: 0 16px;
+    padding: 0 8px;
+    font-size: 28px;
+    font-weight: 700;
+    color: $gray-90;
+  }
+  :deep(.fc-direction-ltr .fc-toolbar > * > :not(:first-child)) {
+    margin-left: 0px;
+  }
+
+  /* 기존 스타일에 추가 */
+
+  /* 토요일 (6번째 열) - 파란색 */
+  :deep(.fc-day-sat) {
+    .fc-daygrid-day-number {
+      color: #0084ff !important;
+      font-weight: 600;
+    }
+  }
+
+  /* 일요일 (첫 번째 열) - 빨간색 */
+  :deep(.fc-day-sun) {
+    .fc-daygrid-day-number {
+      color: #f30 !important;
+      font-weight: 600;
+    }
+  }
+
+  /* 헤더의 토요일/일요일도 색상 적용 */
+  :deep(.fc-col-header-cell.fc-day-sat) {
+    .fc-col-header-cell-cushion {
+      color: #0084ff !important;
+      font-weight: 700;
+    }
+  }
+
+  :deep(.fc-col-header-cell.fc-day-sun) {
+    .fc-col-header-cell-cushion {
+      color: #f30 !important;
+      font-weight: 700;
+    }
+  }
+
+  /* 더 구체적인 선택자 (필요시) */
+  :deep(.fc-daygrid-day.fc-day-sat .fc-daygrid-day-top .fc-daygrid-day-number) {
+    color: #0084ff !important;
+  }
+
+  :deep(.fc-daygrid-day.fc-day-sun .fc-daygrid-day-top .fc-daygrid-day-number) {
+    color: #f30 !important;
+  }
+
+  /* 오늘이 토요일/일요일인 경우 처리 */
+  :deep(.fc-daygrid-day.fc-day-today.fc-day-sat .fc-daygrid-day-number) {
+    color: #0084ff !important;
+    background-color: rgba(0, 132, 255, 0.1);
+    border-radius: 4px;
+    padding: 4px 6px;
+  }
+
+  :deep(.fc-daygrid-day.fc-day-today.fc-day-sun .fc-daygrid-day-number) {
+    color: #f30 !important;
+    background-color: rgba(255, 51, 0, 0.1);
+    border-radius: 4px;
+    padding: 4px 6px;
+  }
+
+  /* 선택적: 주말 전체 배경색도 살짝 다르게 */
+  :deep(.fc-day-sat) {
+    background-color: rgba(0, 132, 255, 0.02) !important;
+  }
+
+  :deep(.fc-day-sun) {
+    background-color: rgba(255, 51, 0, 0.02) !important;
+  }
+
+  /* 리스트 뷰에서도 적용 */
+  :deep(.fc-list-day-side-text) {
+    &.fc-day-sat {
+      color: #0084ff !important;
+    }
+
+    &.fc-day-sun {
+      color: #f30 !important;
+    }
+  } /* 기존 스타일에 추가 */
+
+  /* 토요일 (6번째 열) - 파란색 */
+  :deep(.fc-day-sat) {
+    .fc-daygrid-day-number {
+      color: #0084ff !important;
+      font-weight: 600;
+    }
+  }
+
+  /* 일요일 (첫 번째 열) - 빨간색 */
+  :deep(.fc-day-sun) {
+    .fc-daygrid-day-number {
+      color: #f30 !important;
+      font-weight: 600;
+    }
+  }
+
+  /* 헤더의 토요일/일요일도 색상 적용 */
+  :deep(.fc-col-header-cell.fc-day-sat) {
+    .fc-col-header-cell-cushion {
+      color: #0084ff !important;
+      font-weight: 700;
+    }
+  }
+
+  :deep(.fc-col-header-cell.fc-day-sun) {
+    .fc-col-header-cell-cushion {
+      color: #f30 !important;
+      font-weight: 700;
+    }
+  }
+
+  /* 더 구체적인 선택자 (필요시) */
+  :deep(.fc-daygrid-day.fc-day-sat .fc-daygrid-day-top .fc-daygrid-day-number) {
+    color: #0084ff !important;
+  }
+
+  :deep(.fc-daygrid-day.fc-day-sun .fc-daygrid-day-top .fc-daygrid-day-number) {
+    color: #f30 !important;
+  }
+
+  /* 오늘이 토요일/일요일인 경우 처리 */
+  :deep(.fc-daygrid-day.fc-day-today.fc-day-sat .fc-daygrid-day-number) {
+    color: #0084ff !important;
+    background-color: rgba(0, 132, 255, 0.1);
+    border-radius: 4px;
+    padding: 4px 6px;
+  }
+
+  :deep(.fc-daygrid-day.fc-day-today.fc-day-sun .fc-daygrid-day-number) {
+    color: #f30 !important;
+    background-color: rgba(255, 51, 0, 0.1);
+    border-radius: 4px;
+    padding: 4px 6px;
+  }
+
+  /* 토요일/일요일 배경색 */
+  :deep(.fc-day-sat) {
+    border-bottom: 1px solid var(--color-gray-20, #cdd1d5) !important;
+    background: var(--color-gray-5, #f4f5f6) !important;
+  }
+
+  :deep(.fc-day-sun) {
+    border-bottom: 1px solid var(--color-gray-20, #cdd1d5) !important;
+    background: var(--color-gray-5, #f4f5f6) !important;
+  }
+
+  /* 리스트 뷰에서도 적용 */
+  :deep(.fc-list-day-side-text) {
+    &.fc-day-sat {
+      color: #0084ff !important;
+    }
+
+    &.fc-day-sun {
+      color: #f30 !important;
+    }
   }
 </style>

@@ -854,7 +854,6 @@
     padding: 2rem;
     background-color: #fafafa;
     border: 1px solid #e2e8f0;
-    border-radius: 8px;
 
     .empty-content {
       text-align: center;

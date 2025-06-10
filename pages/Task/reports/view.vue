@@ -7,7 +7,7 @@
         <UiCheckbox size="large" v-model="weeklyReport" label="주간보고" value="w" />
       </div>
       <div class="select-group">
-        <UiSelect v-model="dateGbnType" class="date-selector" :options="dateGbnOptions" />
+        <UiSelect class="w-150" v-model="dateGbnType" :options="dateGbnOptions" />
       </div>
     </div>
 
@@ -159,7 +159,6 @@
   const currentViewMode = ref('single')
   const currentReportIndex = ref(0)
 
-  // 상수 정의
   const dateGbnOptions = [
     { value: 'w', label: '작성일 기준' },
     { value: 'r', label: '보고일 기준' }
@@ -422,12 +421,7 @@
 </script>
 
 <style scoped>
-  .report-page {
-    padding: 20px;
-  }
-
   .report-controls {
-    margin-top: 20px;
     margin-bottom: 20px;
     display: flex;
     gap: 10px;

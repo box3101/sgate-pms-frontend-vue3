@@ -455,6 +455,7 @@
   }
 
   .collaboration-content {
+    position: relative;
     .search-section {
       padding: 16px 0;
 
@@ -1681,11 +1682,11 @@
   .badge {
     position: absolute;
     top: -8px;
-    left: -8px;
+    left: 27px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
+    min-width: 20px;
     height: 20px;
     background-color: $system-red;
     color: #fff;

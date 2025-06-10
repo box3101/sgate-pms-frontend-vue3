@@ -14,6 +14,7 @@
         @click="setActiveTab(tab.id)"
       >
         {{ tab.label }}
+        <span v-if="badge" class="badge">{{ badge[index] }}</span>
       </button>
     </div>
 
@@ -56,6 +57,10 @@
     isScroll: {
       type: Boolean,
       default: false
+    },
+    badge: {
+      type: Array,
+      default: () => []
     }
   })
 
@@ -144,7 +149,34 @@
     flex: 1;
     padding: 8px 20px;
     @include font-style($body-medium);
-    color: $gray-90;
+    color: $gray-30;
+    position: relative;
+
+    // 모든 상태에서 동일한 높이 유지
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .badge {
+      position: absolute;
+      top: 11px;
+      right: 74px;
+      background-color: #f30;
+      color: white;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      line-height: 1;
+      font-weight: 600;
+      transition: none !important;
+      pointer-events: none;
+      z-index: 1;
+    }
 
     &:hover {
       background-color: $primary-color;
@@ -157,10 +189,14 @@
     }
 
     &--active {
-      font-size: 17px;
-      border-bottom: 3px solid $primary-color;
+      // 🔥 폰트 크기는 그대로 유지, 굵기만 변경
       font-weight: 700;
-      border-radius: 0px;
+      border-bottom: 3px solid $primary-color;
+      color: $gray-90;
+
+      // 🔥 또는 transform으로 크기 변경 (레이아웃 영향 없음)
+      // transform: scale(1.05);
+      // transform-origin: center;
     }
   }
 

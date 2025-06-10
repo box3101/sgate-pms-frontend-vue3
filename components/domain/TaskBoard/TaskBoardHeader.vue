@@ -134,10 +134,10 @@
         <!-- 협업 버튼 및 모달 -->
         <div>
           <div class="button-with-badge">
-            <span class="badge">3</span>
             <UiButton variant="secondary" @click="openCollaborationModal" iconOnly>
-              <i class="icon icon-user-arr-right icon-md icon-white"></i>
+              <i class="icon icon-user-arr-right icon-md"></i>
             </UiButton>
+            <span class="badge">16</span>
           </div>
           <UiFilterModal
             v-model="isCollaborationModalOpen"
@@ -146,7 +146,7 @@
             :showFooter="true"
           >
             <template #fixedActions>
-              <UiTabs :tabs="basicTabs" :isScroll="true">
+              <UiTabs :tabs="basicTabs" :isScroll="true" :badge="[3, 2, 1]">
                 <template #협업>
                   <div class="collaboration-content">
                     <div class="search-section">
@@ -332,3 +332,10 @@
     isSettingModalOpen.value = !isSettingModalOpen.value
   }
 </script>
+
+<style scoped lang="scss">
+  .ui-tabs {
+    position: relative;
+    top: -15px;
+  }
+</style>
