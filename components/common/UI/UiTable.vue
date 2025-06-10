@@ -554,6 +554,7 @@
         th,
         td {
           padding: 0.5rem 0.75rem;
+          word-break: break-word;
         }
       }
     }
@@ -577,6 +578,7 @@
         td {
           padding: 7px;
           font-size: 15px;
+          word-break: break-word;
         }
       }
     }
@@ -588,6 +590,9 @@
         th,
         td {
           padding: 1rem 1.25rem;
+        }
+        td {
+          word-break: break-word;
         }
       }
     }
