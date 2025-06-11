@@ -10,62 +10,67 @@
       scrollable && 'scrollable',
       isDragging && 'dragging',
       editable && 'editable',
-      alignTop && 'align-top'
+      alignTop && 'align-top',
+      rowClickCursor && 'row-clickable' // 새로 추가
     ]"
     :style="scrollable ? { maxHeight: maxHeight } : {}"
   >
     <!-- 헤더 섹션 -->
-    <div
-      class="section-header flex items-center justify-between"
-      :class="fixHeader && 'sticky-header-btn'"
-    >
-      <div class="flex items-center gap-10">
-        <h2 class="heading-4">{{ title }}</h2>
-        <div v-if="gradeRangeControls" class="grade-range-controls flex items-center gap-5 mr-5">
-          <div>
-            <UiCheckbox label="구간대 설정"></UiCheckbox>
+    <div class="section-header" :class="fixHeader && 'sticky-header-btn'">
+      <div class="flex items-center justify-between gap-5">
+        <div class="flex items-center gap-10">
+          <div class="flex items-center gap-10">
+            <h2 class="heading-4">{{ title }}</h2>
+            <slot name="header-action-left"></slot>
+          </div>
+          <div v-if="gradeRangeControls" class="grade-range-controls flex items-center gap-5 mr-5">
+            <div>
+              <UiCheckbox label="구간대 설정"></UiCheckbox>
+            </div>
           </div>
         </div>
-      </div>
-
-      <!-- 편집 가능한 테이블 액션 버튼들 -->
-      <div v-if="editable" class="table-actions">
-        <div class="button-group flex items-center gap-5">
-          <UiButton
-            v-if="canAddRow"
-            type="button"
-            variant="secondary-line"
-            icon-only
-            @click="addRow"
-            title="행 추가"
-          >
-            <i class="icon-md icon-plus icon-black"></i>
-          </UiButton>
-          <UiButton
-            type="button"
-            variant="secondary-line"
-            icon-only
-            @click="deleteSelectedRows"
-            :disabled="selectedRows.length === 0"
-            title="선택한 행 삭제"
-          >
-            <i class="icon-md icon-delete"></i>
-          </UiButton>
-          <UiButton
-            v-if="canAddSortableButton"
-            type="button"
-            variant="secondary-line"
-            icon-only
-            @click="toggleSortable"
-            :class="{ active: sortable }"
-            title="정렬 모드"
-          >
-            <i class="icon-md icon-sort"></i>
-          </UiButton>
-          <slot name="action-button" v-if="canSave">
-            <UiButton type="button" variant="primary" @click="saveChanges">저장</UiButton>
-          </slot>
+        <div class="flex items-center gap-5">
+          <slot name="header-action-right"></slot>
+          <div v-if="editable" class="table-actions">
+            <div class="button-group flex items-center gap-5">
+              <UiButton
+                v-if="canAddRow"
+                type="button"
+                variant="secondary-line"
+                icon-only
+                @click="addRow"
+                title="행 추가"
+              >
+                <i class="icon-md icon-plus icon-black"></i>
+              </UiButton>
+              <UiButton
+                type="button"
+                variant="secondary-line"
+                icon-only
+                @click="deleteSelectedRows"
+                :disabled="selectedRows.length === 0"
+                title="선택한 행 삭제"
+              >
+                <i class="icon-md icon-delete"></i>
+              </UiButton>
+              <UiButton
+                v-if="canAddSortableButton"
+                type="button"
+                variant="secondary-line"
+                icon-only
+                @click="toggleSortable"
+                :class="{ active: sortable }"
+                title="정렬 모드"
+              >
+                <i class="icon-md icon-sort"></i>
+              </UiButton>
+              <slot name="action-button" v-if="canSave">
+                <UiButton type="button" variant="primary" @click="saveChanges">저장</UiButton>
+              </slot>
+            </div>
+          </div>
         </div>
+        <!-- 편집 가능한 테이블 액션 버튼들 -->
       </div>
 
       <!-- 엑셀 컨트롤 버튼들 -->
@@ -294,6 +299,11 @@
     rowClickable: {
       type: Boolean,
       default: false
+    },
+    // 새로 추가할 prop
+    rowClickCursor: {
+      type: Boolean,
+      default: false
     }
   })
 
@@ -476,6 +486,18 @@
     transition: all 0.2s ease;
     display: flex;
     flex-direction: column;
+
+    &.row-clickable {
+      .ui-table {
+        tbody tr {
+          cursor: pointer;
+
+          &:hover {
+            background-color: #f4f5f6;
+          }
+        }
+      }
+    }
 
     .ui-table {
       width: 100%;
