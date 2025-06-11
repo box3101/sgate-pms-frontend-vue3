@@ -822,4 +822,10 @@
       color: #f30 !important;
     }
   }
+
+  /* 이벤트 제목 스타일 - body/small-bold */
+  :deep(.fc-h-event .fc-event-title) {
+    @include font-style($body-small-bold);
+    color: #fff;
+  }
 </style>

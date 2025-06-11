@@ -1,7 +1,7 @@
 <template>
   <div class="report-page">
     <!-- 컨트롤 패널 -->
-    <div class="report-controls com-header">
+    <div class="report-controls">
       <div class="checkbox-group">
         <UiCheckbox size="large" v-model="dailyReport" label="일간보고" value="d" />
         <UiCheckbox size="large" v-model="weeklyReport" label="주간보고" value="w" />
@@ -18,7 +18,7 @@
       @date-click="handleDateClick"
       @event-click="handleEventClick"
       :useViewportHeight="true"
-      :viewportHeight="80"
+      :viewportHeight="85"
       :customOptions="calendarOptions"
     />
   </div>
@@ -124,8 +124,8 @@
       title: '[이찬용] 프로젝트 A 진행상황',
       start: '2025-05-16',
       allDay: true,
-      backgroundColor: '#0084ff',
-      borderColor: '#0084ff',
+      backgroundColor: '#0AF',
+      borderColor: '#0AF',
       extendedProps: {
         reportType: 'weekly',
         author: '이찬용',
@@ -156,8 +156,8 @@
       title: '[김영희] 품질관리 점검',
       start: '2025-05-16',
       allDay: true,
-      backgroundColor: '#ff6b35',
-      borderColor: '#ff6b35',
+      backgroundColor: '#00B248',
+      borderColor: '#00B248',
       extendedProps: {
         reportType: 'daily',
         author: '김영희',
@@ -178,8 +178,8 @@
       title: '[정수민] 회계 업무 처리',
       start: '2025-05-16',
       allDay: true,
-      backgroundColor: '#6f42c1',
-      borderColor: '#6f42c1',
+      backgroundColor: '#00B248',
+      borderColor: '#00B248',
       extendedProps: {
         reportType: 'daily',
         author: '정수민',
@@ -201,8 +201,8 @@
       title: '[박민수] 마케팅 활동 보고',
       start: '2025-05-16',
       allDay: true,
-      backgroundColor: '#28a745',
-      borderColor: '#28a745',
+      backgroundColor: '#00B248',
+      borderColor: '#00B248',
       extendedProps: {
         reportType: 'daily',
         author: '박민수',
@@ -336,6 +336,9 @@
     display: flex;
     gap: 10px;
     align-items: center;
+    position: absolute;
+    margin-top: 30px;
+    margin-left: 23px;
   }
 
   .checkbox-group {
