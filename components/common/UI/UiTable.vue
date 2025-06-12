@@ -541,6 +541,7 @@
 
         td {
           border-left: 0.5px solid $gray-20;
+          border-bottom: 0.5px solid $gray-20;
         }
 
         tbody tr:last-child td {

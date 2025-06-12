@@ -87,7 +87,7 @@
                     size="small"
                     @click.stop="isReportUpdateModalOpen = true"
                   >
-                    <i class="icon-md icon-search"></i>
+                    <i class="icon-md icon-edit"></i>
                   </UiButton>
                 </td>
               </tr>

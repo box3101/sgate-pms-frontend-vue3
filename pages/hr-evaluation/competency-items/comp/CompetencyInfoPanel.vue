@@ -11,21 +11,21 @@
       :canAddRow="false"
       :canSave="false"
     >
-      <template #header-action>
+      <template #header-action-right>
         <div class="flex items-center gap-2">
-          <UiButton variant="secondary-line" size="small">NCS</UiButton>
-          <UiButton variant="secondary-line" size="small">공통/리더십</UiButton>
-          <UiButton variant="secondary" size="small">추가</UiButton>
+          <UiButton variant="secondary-line">NCS</UiButton>
+          <UiButton variant="secondary-line">공통/리더십</UiButton>
+          <UiButton variant="secondary">추가</UiButton>
         </div>
       </template>
 
       <template #colgroup>
         <col style="width: 40px" />
-        <col style="width: 100px" />
-        <col style="width: 40px" />
         <col style="width: 200px" />
-        <col style="width: 40px" />
-        <col style="width: 40px" />
+        <col style="width: 100px" />
+        <col style="width: auto" />
+        <col style="width: 100px" />
+        <col style="width: 100px" />
         <col style="width: 40px" />
       </template>
 
@@ -43,7 +43,7 @@
         <th>행동기준/행동수준/역량정의</th>
         <th>수준/점수</th>
         <th>가중</th>
-        <th>관리</th>
+        <th>수정</th>
       </template>
 
       <template
@@ -83,7 +83,7 @@
           <td
             v-if="row.showDefinition !== false"
             :rowspan="row.rowspanCount || 1"
-            class="pd-trl10 br vertical-top definition-cell"
+            class="vertical-middle"
             :style="{ paddingBottom: row.rowspanCount ? '10px' : 'auto' }"
           >
             <div v-if="row.isRowspanGroup" class="definition-content">
@@ -98,12 +98,7 @@
           </td>
 
           <!-- 구분 - 타입에 따라 rowspan 적용 -->
-          <td
-            v-if="row.showType !== false"
-            :rowspan="row.rowspanCount || 1"
-            class="txt-c pd-trl10 br vertical-top type-cell"
-            :style="{ paddingBottom: row.rowspanCount ? '10px' : 'auto' }"
-          >
+          <td v-if="row.showType !== false" :rowspan="row.rowspanCount || 1" class="text-center">
             {{ row.type }}
           </td>
 
@@ -118,30 +113,20 @@
           </td>
 
           <!-- 수준/점수 -->
-          <td class="txt-c pd-trl10 br level-cell" style="padding-bottom: 10px">
+          <td class="text-center" style="padding-bottom: 10px">
             {{ row.level }}
           </td>
 
           <!-- 가중 -->
-          <td class="txt-c pd-trl10 br weight-cell" style="padding-bottom: 10px">
+          <td class="text-center" style="padding-bottom: 10px">
             {{ row.weight }}
           </td>
 
-          <!-- 관리 버튼 - 타입에 따라 rowspan 적용 -->
-          <td
-            v-if="row.showActions !== false"
-            :rowspan="row.rowspanCount || 1"
-            class="txt-c pd-trl10 br vertical-top action-cell"
-            :style="{ paddingBottom: row.rowspanCount ? '10px' : 'auto' }"
-          >
-            <div class="flex flex-col gap-2">
-              <UiButton variant="secondary-line" size="small" @click="handleDetail(row)">
-                {{ row.isRowspanGroup ? '상세보기' : '수정' }}
-              </UiButton>
-              <UiButton variant="danger-line" size="small" @click="handleDelete(row)">
-                삭제
-              </UiButton>
-            </div>
+          <!-- 수정 버튼 - 타입에 따라 rowspan 적용 -->
+          <td v-if="row.showActions !== false" :rowspan="row.rowspanCount || 1">
+            <UiButton variant="ghost" size="small" @click="handleDetail(row)">
+              <i class="icon icon-md icon-edit"></i>
+            </UiButton>
           </td>
         </tr>
       </template>
