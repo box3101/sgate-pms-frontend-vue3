@@ -75,8 +75,8 @@
             @dragover="handleDragOver"
             @drop="e => handleDrop(e, index)"
             @dragend="handleDragEnd"
-            @click="rowClick(row)"
-            :class="{ 'sortable-row': sortable }"
+            @click.stop="handleRowClick(row, index, $event)"
+            :class="selectedReportIndex === index ? 'selected-row' : ''"
           >
             <td>
               <UiCheckbox
@@ -124,7 +124,22 @@
   // 가중치 사용여부
   const useWeightValue = ref(false)
 
-  const rowClick = row => {
-    console.log('rowClick:', row)
+  // 선택된 템플릿 인덱스
+  const selectedReportIndex = ref(-1)
+
+  // 템플릿 선택 핸들러
+  const handleRowClick = (row, index, event) => {
+    selectedReportIndex.value = index // 클릭된 행의 인덱스 저장
+    handleReportSelect({ row, index, event })
+  }
+
+  // 템플릿 선택 핸들러
+  const handleReportSelect = ({ row, index, event }) => {
+    console.log('보고서 선택됨:', row, index)
+
+    // 선택된 보고서의 상세 내용을 로드하는 로직
+    selectedReportType.value = row.type
+    selectedReportDate.value = row.date
+    selectedReportStatus.value = row.status
   }
 </script>

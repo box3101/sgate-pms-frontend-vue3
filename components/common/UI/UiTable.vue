@@ -486,6 +486,122 @@
     transition: all 0.2s ease;
     display: flex;
     flex-direction: column;
+    &.dragging {
+      .ui-table {
+        tbody tr {
+          transition: all 0.3s ease;
+          position: relative;
+
+          // 드래그 가능한 행 기본 스타일 강화
+          &[draggable='true'] {
+            cursor: grab;
+            border: 2px solid transparent;
+            border-radius: 4px;
+
+            // 드래그 가능한 행에 미묘한 배경색
+            background-color: rgba(59, 130, 246, 0.02);
+
+            &:hover:not(.dragging-source):not(.drag-over) {
+              background-color: #f1f5f9 !important;
+              border-left: 5px solid #3b82f6;
+              transform: translateX(3px);
+              box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+              transition: all 0.2s ease;
+            }
+
+            &:active {
+              cursor: grabbing;
+            }
+          }
+
+          // 드래그 중인 행 스타일 더 강화
+          &.dragging-source {
+            opacity: 0.8;
+            background: linear-gradient(135deg, #3b82f6, #1e40af) !important;
+            color: white;
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.4);
+            z-index: 1000;
+            border: 3px solid #1e40af;
+            border-radius: 8px;
+
+            td {
+              border-color: #1e40af;
+              color: white;
+              font-weight: 500;
+            }
+
+            // 드래그 중인 행에 펄스 효과
+            &::after {
+              content: '';
+              position: absolute;
+              top: -3px;
+              left: -3px;
+              right: -3px;
+              bottom: -3px;
+              background: linear-gradient(45deg, #3b82f6, #1e40af);
+              border-radius: 8px;
+              z-index: -1;
+              animation: dragPulse 2s infinite;
+            }
+          }
+
+          // 드롭 타겟 hover 스타일 더 강화
+          &.drag-over {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe) !important;
+            border: 3px solid #3b82f6;
+            border-radius: 6px;
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+            td {
+              background-color: inherit;
+              border-color: #93c5fd;
+              color: #1e40af;
+              font-weight: 500;
+            }
+
+            // 상단 드롭 인디케이터 더 강화
+            &::before {
+              content: '↓ 여기에 놓기 ↓';
+              position: absolute;
+              left: 50%;
+              top: -25px;
+              transform: translateX(-50%);
+              background: linear-gradient(90deg, #3b82f6, #1e40af, #3b82f6);
+              color: white;
+              padding: 4px 12px;
+              border-radius: 20px;
+              font-size: 12px;
+              font-weight: 600;
+              z-index: 100;
+              animation: dropIndicator 1.2s infinite;
+              box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            }
+
+            // 하단 드롭 라인
+            &::after {
+              content: '';
+              position: absolute;
+              left: 0;
+              right: 0;
+              bottom: -2px;
+              height: 4px;
+              background: linear-gradient(
+                90deg,
+                transparent,
+                #3b82f6 20%,
+                #1e40af 50%,
+                #3b82f6 80%,
+                transparent
+              );
+              border-radius: 2px;
+              animation: dragIndicator 1s infinite;
+            }
+          }
+        }
+      }
+    }
 
     &.row-clickable {
       .ui-table {
@@ -503,6 +619,39 @@
       width: 100%;
       border-collapse: separate;
       border-bottom: 1px solid #e2e8f0;
+
+      &.sortable-active {
+        border: 2px dashed #cbd5e1;
+        border-radius: 8px;
+        background-color: rgba(248, 250, 252, 0.5);
+
+        tbody tr {
+          border: 1px solid transparent;
+          transition: all 0.2s ease;
+          margin: 2px 0;
+
+          &:hover:not(.dragging-source):not(.drag-over) {
+            background-color: #f8fafc !important;
+            border-color: #3b82f6;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+            transform: translateX(2px);
+          }
+
+          // 드래그 핸들 스타일
+          .drag-handle {
+            opacity: 0.6;
+            transition: all 0.2s ease;
+            color: #64748b;
+            font-size: 18px;
+
+            &:hover {
+              opacity: 1;
+              color: #3b82f6;
+              transform: scale(1.2);
+            }
+          }
+        }
+      }
 
       th {
         background-color: $gray-5;
@@ -714,11 +863,6 @@
           background-color: rgba(241, 245, 249, 0.8);
         }
 
-        &.dragging {
-          opacity: 0.5;
-          background-color: #e2e8f0;
-        }
-
         .drag-handle {
           display: inline-block;
           width: 20px;
@@ -852,6 +996,71 @@
     &:disabled {
       cursor: not-allowed;
       border: 1px solid $system-red !important;
+    }
+  }
+
+  // 키프레임 애니메이션 정의
+  @keyframes dragIndicator {
+    0%,
+    100% {
+      opacity: 0.6;
+      transform: scaleX(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scaleX(1.05);
+    }
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.3;
+    }
+  }
+
+  // 드래그 중 글로벌 스타일
+  .dragging-active {
+    * {
+      cursor: grabbing !important;
+    }
+
+    // 드래그 중에는 텍스트 선택 방지
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+
+  // 드롭 존 표시를 위한 추가 스타일
+  .drop-zone-indicator {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: -10px;
+      right: -10px;
+      top: -2px;
+      height: 4px;
+      background: #3b82f6;
+      border-radius: 2px;
+      z-index: 100;
+      animation: dropZoneIndicator 0.8s infinite alternate;
+    }
+  }
+
+  @keyframes dropZoneIndicator {
+    0% {
+      opacity: 0.6;
+      box-shadow: 0 0 0 rgba(59, 130, 246, 0.4);
+    }
+    100% {
+      opacity: 1;
+      box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
     }
   }
 </style>

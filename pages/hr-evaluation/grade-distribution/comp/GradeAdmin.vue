@@ -72,6 +72,11 @@
         <td>
           <UiInput v-model="row.score" placeholder="환산점수" />
         </td>
+        <td>
+          <UiButton variant="ghost" icon-only>
+            <i class="icon-md icon-search"></i>
+          </UiButton>
+        </td>
       </tr>
     </template>
   </UiTable>
@@ -82,7 +87,8 @@
     { key: 'name', title: '등급' },
     { key: 'above', title: '이상' },
     { key: 'below', title: '미만' },
-    { key: 'score', title: '환산점수' }
+    { key: 'score', title: '환산점수' },
+    { key: 'action', title: '선택' }
   ])
 
   const gradeAdminData = ref([

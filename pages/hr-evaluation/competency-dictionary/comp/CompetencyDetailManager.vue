@@ -1,141 +1,139 @@
 <template>
-  <div>
-    <UiTable
-      v-model="processedCompetencyData"
-      title="역량항목 구분 (개선된 멀티행 정렬)"
-      bordered
-      scrollable
-      :sortable="customSortable"
-      editable
-      max-height="calc(100vh - 200px)"
-      :canAddRow="false"
-      :canSave="false"
-      :isDragging="true"
-      @sort="handleCustomSort"
+  <UiTable
+    v-model="processedCompetencyData"
+    title="역량항목 구분 (개선된 멀티행 정렬)"
+    bordered
+    scrollable
+    :sortable="customSortable"
+    editable
+    max-height="calc(100vh - 200px)"
+    :canAddRow="false"
+    :canSave="false"
+    :isDragging="true"
+    @sort="handleCustomSort"
+  >
+    <template #header-action-right>
+      <div class="flex items-center gap-2">
+        <UiButton variant="secondary-line">NCS</UiButton>
+        <UiButton variant="secondary-line">공통/리더십</UiButton>
+        <UiButton variant="secondary">추가</UiButton>
+      </div>
+    </template>
+
+    <template #colgroup>
+      <col style="width: 40px" />
+      <col style="width: 200px" />
+      <col style="width: 100px" />
+      <col style="width: auto" />
+      <col style="width: 100px" />
+      <col style="width: 100px" />
+      <col style="width: 40px" />
+    </template>
+
+    <template #header="{ selectAll, isAllSelected }">
+      <th>
+        <UiCheckbox
+          size="large"
+          @click.stop
+          :modelValue="isAllSelected"
+          @update:modelValue="selectAll"
+        />
+      </th>
+      <th>역량정의/역량항목</th>
+      <th>구분</th>
+      <th>행동기준/행동수준/역량정의</th>
+      <th>수준/점수</th>
+      <th>가중</th>
+      <th>수정</th>
+    </template>
+
+    <template
+      #body="{
+        rows,
+        toggleRowSelection,
+        isRowSelected,
+        handleDragStart: originalDragStart,
+        handleDragOver: originalDragOver,
+        handleDrop: originalDrop,
+        handleDragEnd: originalDragEnd
+      }"
     >
-      <template #header-action-right>
-        <div class="flex items-center gap-2">
-          <UiButton variant="secondary-line">NCS</UiButton>
-          <UiButton variant="secondary-line">공통/리더십</UiButton>
-          <UiButton variant="secondary">추가</UiButton>
-        </div>
-      </template>
-
-      <template #colgroup>
-        <col style="width: 40px" />
-        <col style="width: 200px" />
-        <col style="width: 100px" />
-        <col style="width: auto" />
-        <col style="width: 100px" />
-        <col style="width: 100px" />
-        <col style="width: 40px" />
-      </template>
-
-      <template #header="{ selectAll, isAllSelected }">
-        <th>
+      <tr
+        v-for="(row, index) in rows"
+        :key="`${row.groupId || 'single'}-${row.id}-${row.subIndex || 0}`"
+        :class="getRowClasses(row)"
+        :draggable="isDraggable(row)"
+        @dragstart="event => handleEnhancedDragStart(event, index, row)"
+        @dragover="event => handleDragOver(event)"
+        @drop="event => handleEnhancedDrop(event, index)"
+        @dragend="handleDragEnd"
+      >
+        <!-- 체크박스 -->
+        <td
+          v-if="shouldShowCell(row, 'checkbox')"
+          :rowspan="getRowspan(row, 'checkbox')"
+          class="txt-c vertical-top checkbox-cell"
+        >
           <UiCheckbox
             size="large"
             @click.stop
-            :modelValue="isAllSelected"
-            @update:modelValue="selectAll"
+            :modelValue="isRowSelected(row)"
+            @update:modelValue="() => toggleRowSelection(row)"
           />
-        </th>
-        <th>역량정의/역량항목</th>
-        <th>구분</th>
-        <th>행동기준/행동수준/역량정의</th>
-        <th>수준/점수</th>
-        <th>가중</th>
-        <th>수정</th>
-      </template>
+        </td>
 
-      <template
-        #body="{
-          rows,
-          toggleRowSelection,
-          isRowSelected,
-          handleDragStart: originalDragStart,
-          handleDragOver: originalDragOver,
-          handleDrop: originalDrop,
-          handleDragEnd: originalDragEnd
-        }"
-      >
-        <tr
-          v-for="(row, index) in rows"
-          :key="`${row.groupId || 'single'}-${row.id}-${row.subIndex || 0}`"
-          :class="getRowClasses(row)"
-          :draggable="isDraggable(row)"
-          @dragstart="event => handleEnhancedDragStart(event, index, row)"
-          @dragover="event => handleDragOver(event)"
-          @drop="event => handleEnhancedDrop(event, index)"
-          @dragend="handleDragEnd"
+        <!-- 역량정의/역량항목 -->
+        <td
+          v-if="shouldShowCell(row, 'definition')"
+          :rowspan="getRowspan(row, 'definition')"
+          class="vertical-middle"
         >
-          <!-- 체크박스 -->
-          <td
-            v-if="shouldShowCell(row, 'checkbox')"
-            :rowspan="getRowspan(row, 'checkbox')"
-            class="txt-c vertical-top checkbox-cell"
-          >
-            <UiCheckbox
-              size="large"
-              @click.stop
-              :modelValue="isRowSelected(row)"
-              @update:modelValue="() => toggleRowSelection(row)"
-            />
-          </td>
+          <div v-if="row.isRowspanGroup && row.isGroupHeader" class="definition-content">
+            <strong>[{{ row.competencyName }}]</strong><br />
+            {{ row.definition }}
+          </div>
+          <div v-else-if="!row.isRowspanGroup" class="category-content">
+            <span class="category-badge" :class="getCategoryClass(row.category)">
+              {{ row.category }}
+            </span>
+          </div>
+        </td>
 
-          <!-- 역량정의/역량항목 -->
-          <td
-            v-if="shouldShowCell(row, 'definition')"
-            :rowspan="getRowspan(row, 'definition')"
-            class="vertical-middle"
-          >
-            <div v-if="row.isRowspanGroup && row.isGroupHeader" class="definition-content">
-              <strong>[{{ row.competencyName }}]</strong><br />
-              {{ row.definition }}
-            </div>
-            <div v-else-if="!row.isRowspanGroup" class="category-content">
-              <span class="category-badge" :class="getCategoryClass(row.category)">
-                {{ row.category }}
-              </span>
-            </div>
-          </td>
+        <!-- 구분 -->
+        <td
+          v-if="shouldShowCell(row, 'type')"
+          :rowspan="getRowspan(row, 'type')"
+          class="text-center"
+        >
+          {{ row.type }}
+        </td>
 
-          <!-- 구분 -->
-          <td
-            v-if="shouldShowCell(row, 'type')"
-            :rowspan="getRowspan(row, 'type')"
-            class="text-center"
-          >
-            {{ row.type }}
-          </td>
+        <!-- 행동기준 -->
+        <td class="pd-trl10 br vertical-top behavior-cell">
+          <div :class="row.isRowspanGroup ? 'behavior-rowspan' : 'behavior-normal'">
+            {{ row.behavior }}
+          </div>
+        </td>
 
-          <!-- 행동기준 -->
-          <td class="pd-trl10 br vertical-top behavior-cell">
-            <div :class="row.isRowspanGroup ? 'behavior-rowspan' : 'behavior-normal'">
-              {{ row.behavior }}
-            </div>
-          </td>
+        <!-- 수준/점수 -->
+        <td class="text-center">
+          {{ row.level }}
+        </td>
 
-          <!-- 수준/점수 -->
-          <td class="text-center">
-            {{ row.level }}
-          </td>
+        <!-- 가중 -->
+        <td class="text-center">
+          {{ row.weight }}
+        </td>
 
-          <!-- 가중 -->
-          <td class="text-center">
-            {{ row.weight }}
-          </td>
-
-          <!-- 수정 버튼 -->
-          <td v-if="shouldShowCell(row, 'actions')" :rowspan="getRowspan(row, 'actions')">
-            <UiButton variant="ghost" size="small" @click="handleDetail(row)">
-              <i class="icon icon-md icon-edit"></i>
-            </UiButton>
-          </td>
-        </tr>
-      </template>
-    </UiTable>
-  </div>
+        <!-- 수정 버튼 -->
+        <td v-if="shouldShowCell(row, 'actions')" :rowspan="getRowspan(row, 'actions')">
+          <UiButton variant="ghost" size="small" @click="handleDetail(row)">
+            <i class="icon icon-md icon-edit"></i>
+          </UiButton>
+        </td>
+      </tr>
+    </template>
+  </UiTable>
 </template>
 
 <script setup>
@@ -470,41 +468,3 @@
     { deep: true }
   )
 </script>
-
-<style scoped>
-  .rowspan-group.group-header {
-    border-top: 2px solid #e2e8f0;
-  }
-
-  .category-badge {
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 500;
-  }
-
-  .category-core {
-    background-color: #e3f2fd;
-    color: #1976d2;
-  }
-
-  .category-job {
-    background-color: #f3e5f5;
-    color: #7b1fa2;
-  }
-
-  .category-default {
-    background-color: #f5f5f5;
-    color: #666;
-  }
-
-  .definition-content {
-    padding: 8px 0;
-  }
-
-  .behavior-rowspan,
-  .behavior-normal {
-    padding: 4px 0;
-    line-height: 1.4;
-  }
-</style>
