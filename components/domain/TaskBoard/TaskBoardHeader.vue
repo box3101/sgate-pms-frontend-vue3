@@ -146,7 +146,7 @@
             :showFooter="true"
           >
             <template #fixedActions>
-              <UiTabs :tabs="basicTabs" :isScroll="true" :badge="[3, 2, 1]">
+              <UiTabs :tabs="basicTabs" :isScroll="true" :isBadge="true" :badge="[3, 2, 1]">
                 <template #협업>
                   <div class="collaboration-content">
                     <div class="search-section">

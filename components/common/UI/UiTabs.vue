@@ -14,7 +14,7 @@
         @click="setActiveTab(tab.id)"
       >
         {{ tab.label }}
-        <span v-if="badge" class="badge">{{ badge[index] }}</span>
+        <span v-if="isBadge" class="badge">{{ badge[index] }}</span>
       </button>
     </div>
 
@@ -61,6 +61,10 @@
     badge: {
       type: Array,
       default: () => []
+    },
+    isBadge: {
+      type: Boolean,
+      default: false
     }
   })
 
