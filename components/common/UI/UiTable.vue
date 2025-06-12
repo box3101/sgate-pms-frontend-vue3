@@ -94,8 +94,18 @@
     <div v-if="isEmpty" class="empty-state">
       <slot name="empty" :add-row="addRow" :editable="editable">
         <div class="empty-content">
+          <!-- 메인 아이콘 -->
+          <div class="empty-icon">
+            <i class="icon-xxl icon-table"></i>
+            <!-- 또는 다른 아이콘들 -->
+            <!-- <i class="icon-xxl icon-file-text"></i> -->
+            <!-- <i class="icon-xxl icon-database"></i> -->
+            <!-- <i class="icon-xxl icon-grid"></i> -->
+          </div>
+
           <h3 class="empty-title">{{ emptyTitle }}</h3>
           <p class="empty-description">{{ emptyDescription }}</p>
+
           <div v-if="editable && canAddRow" class="empty-actions">
             <UiButton variant="primary" @click="addRow">
               <i class="icon-sm icon-plus"></i>
@@ -1060,6 +1070,53 @@
     100% {
       opacity: 1;
       box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+    }
+  }
+
+  // 또는 SCSS 루프 사용
+  .ui-table {
+    tr {
+      &:hover {
+        background-color: #f1f5f9 !important;
+      }
+    }
+    // 체크박스가 체크된 행 자체
+    tr:has(.ui-checkbox__input:checked) {
+      background-color: #e3f2fd !important;
+
+      td {
+        background-color: #e3f2fd !important;
+      }
+
+      td:first-child {
+        border-left: 3px solid #1976d2;
+      }
+    }
+  }
+
+  .ui-table tbody {
+    tr.group-header:has(.ui-checkbox__input:checked) {
+      background-color: #e3f2fd !important;
+      td {
+        background-color: #e3f2fd !important;
+      }
+      td[rowspan] {
+        background-color: #e3f2fd !important;
+      }
+
+      // 연속된 형제 선택자 체인
+      $selector: '';
+      @for $i from 1 through 5 {
+        // 최대 5개 하위 행 가정
+        $selector: $selector + ' + tr.rowspan-group:not(.group-header)';
+
+        #{$selector} {
+          background-color: #e3f2fd !important;
+          td {
+            background-color: #e3f2fd !important;
+          }
+        }
+      }
     }
   }
 </style>

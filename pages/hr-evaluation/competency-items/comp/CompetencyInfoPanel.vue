@@ -12,6 +12,8 @@
       :canSave="false"
       :isDragging="true"
       @sort="handleCustomSort"
+      @row-deleted="handleRowDeleted"
+      @update:modelValue="updateTableData"
     >
       <template #header-action-right>
         <div class="flex items-center gap-2">
@@ -53,6 +55,7 @@
           rows,
           toggleRowSelection,
           isRowSelected,
+
           handleDragStart: originalDragStart,
           handleDragOver: originalDragOver,
           handleDrop: originalDrop,
@@ -456,6 +459,42 @@
 
   const handleDetail = row => {
     console.log('상세보기/수정:', row)
+  }
+
+  const handleTableUpdate = updatedData => {
+    // processedCompetencyData는 computed라서 직접 수정 불가
+    // rawCompetencyData를 업데이트해야 함
+    console.log('테이블 업데이트:', updatedData)
+  }
+
+  const handleRowDeleted = deletedRows => {
+    console.log('삭제된 행들:', deletedRows)
+
+    deletedRows.forEach(row => {
+      if (row.isRowspanGroup) {
+        // 그룹 행 삭제 처리
+        const groupIndex = rawCompetencyData.value.findIndex(item => item.id === row.groupId)
+        if (groupIndex !== -1) {
+          if (row.isGroupHeader) {
+            // 헤더 삭제 = 전체 그룹 삭제
+            rawCompetencyData.value.splice(groupIndex, 1)
+          } else {
+            // 개별 behavior 삭제
+            const group = rawCompetencyData.value[groupIndex]
+            group.behaviors.splice(row.subIndex, 1)
+            if (group.behaviors.length === 0) {
+              rawCompetencyData.value.splice(groupIndex, 1)
+            }
+          }
+        }
+      } else {
+        // 단일 행 삭제
+        const index = rawCompetencyData.value.findIndex(item => item.id === row.id)
+        if (index !== -1) {
+          rawCompetencyData.value.splice(index, 1)
+        }
+      }
+    })
   }
 
   // 데이터 변경 감지 및 디버깅
