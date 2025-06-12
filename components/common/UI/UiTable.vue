@@ -71,18 +71,17 @@
           </div>
         </div>
         <!-- 편집 가능한 테이블 액션 버튼들 -->
-      </div>
-
-      <!-- 엑셀 컨트롤 버튼들 -->
-      <div v-if="excelControls" class="excel-controls flex items-center gap-5 mr-5">
-        <UiButton variant="secondary-line" size="medium">
-          <i class="icon-md icon-excel"></i>
-          {{ excelDownloadLabel }}
-        </UiButton>
-        <UiButton variant="secondary-line" size="medium">
-          <i class="icon-md icon-excel"></i>
-          {{ excelUploadLabel }}
-        </UiButton>
+        <!-- 엑셀 컨트롤 버튼들 -->
+        <div v-if="excelControls" class="excel-controls flex items-center gap-5 mr-5">
+          <UiButton variant="secondary-line" size="medium">
+            <i class="icon-md icon-excel"></i>
+            {{ excelDownloadLabel }}
+          </UiButton>
+          <UiButton variant="secondary-line" size="medium">
+            <i class="icon-md icon-excel"></i>
+            {{ excelUploadLabel }}
+          </UiButton>
+        </div>
       </div>
     </div>
 

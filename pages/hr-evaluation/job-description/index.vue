@@ -84,7 +84,7 @@
                 </div>
 
                 <!-- 피드백 목록 -->
-                <div class="feedback-list scrollable-minus-140">
+                <div class="feedback-list scrollable-minus-27">
                   <div v-for="(feedback, index) in feedbackList" :key="index" class="feedback-card">
                     <div class="feedback-header">
                       <div class="user-info">
@@ -94,16 +94,11 @@
                         <UiRating :modelValue="feedback.rating" :max="5" readonly />
                       </div>
                       <div class="actions">
-                        <UiButton
-                          variant="secondary-line"
-                          size="small"
-                          icon-only
-                          @click="showDemo('편집')"
-                        >
+                        <UiButton variant="ghost" size="small" icon-only @click="showDemo('편집')">
                           <i class="icon-md icon-pencil"></i>
                         </UiButton>
                         <UiButton
-                          variant="secondary-line"
+                          variant="ghost"
                           size="small"
                           icon-only
                           @click="deleteFeedback(index)"
@@ -179,6 +174,25 @@
 
   // 데모용 피드백 데이터
   const feedbackList = ref([
+    {
+      userName: '김매니저',
+      date: '2025-06-06',
+      rating: 4,
+      content:
+        '업무 수행 내용이 상세하게 잘 작성되었습니다. 다음번에는 개선사항이나 학습한 내용도 추가해주시면 좋겠습니다.'
+    },
+    {
+      userName: '이팀장',
+      date: '2025-06-05',
+      rating: 5,
+      content: '프로젝트 진행 상황을 명확하게 파악할 수 있어서 좋습니다.'
+    },
+    {
+      userName: '박부장',
+      date: '2025-06-04',
+      rating: 3,
+      content: '전반적으로 양호하나, 성과 측정 지표를 좀 더 구체적으로 작성해주세요.'
+    },
     {
       userName: '김매니저',
       date: '2025-06-06',
@@ -275,75 +289,11 @@
 </script>
 
 <style scoped lang="scss">
-  .page-container {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 20px;
-    border-bottom: 1px solid #e5e7eb;
-    background: #fff;
-  }
-
-  .header-left {
-    .select-group {
-      display: flex;
-      gap: 24px;
-      align-items: center;
-    }
-
-    .select-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .select-label {
-      color: #6b7280;
-    }
-
-    .user-name {
-      font-weight: 500;
-      color: #374151;
-    }
-  }
-
   .header-right {
     .button-group {
       display: flex;
       gap: 8px;
     }
-  }
-
-  .page-content {
-    flex: 1;
-    padding: 20px;
-    overflow: hidden;
-  }
-
-  .flex-container {
-    display: flex;
-    gap: 20px;
-    height: 100%;
-  }
-
-  .w-60p {
-    width: 60%;
-  }
-  .w-40p {
-    width: 40%;
-  }
-
-  .sidebar-title {
-    margin: 0 0 16px 0;
-    font-size: 20px;
-    font-weight: 600;
-    color: #374151;
   }
 
   .feedback-section {
