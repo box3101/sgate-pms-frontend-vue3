@@ -4,10 +4,6 @@
     <div v-if="selectedTemplate" class="editor-content">
       <div class="editor-header">
         <h2>{{ selectedTemplate.name }}</h2>
-        <div class="header-actions">
-          <UiButton variant="secondary-line" size="small"> 미리보기 </UiButton>
-          <UiButton variant="secondary-line" size="small"> 복사 </UiButton>
-        </div>
       </div>
 
       <UiTable
@@ -16,6 +12,10 @@
         :defaultRowData="defaultItemData"
         @save="handleSaveItems"
       >
+        <template #header-action-right>
+          <UiButton variant="secondary-line"> 미리보기 </UiButton>
+          <UiButton variant="secondary-line"> 복사 </UiButton>
+        </template>
         <template #colgroup>
           <col style="width: 40px" />
           <col style="width: auto" />
