@@ -88,7 +88,7 @@
     { key: 'above', title: '이상' },
     { key: 'below', title: '미만' },
     { key: 'score', title: '환산점수' },
-    { key: 'action', title: '선택' }
+    { key: 'action', title: '조회' }
   ])
 
   const gradeAdminData = ref([

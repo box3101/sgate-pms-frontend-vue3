@@ -23,7 +23,7 @@
         </th>
         <th>성과기술서 템플릿</th>
         <th>형식</th>
-        <th>편집</th>
+        <th>조회</th>
       </template>
 
       <template
@@ -63,13 +63,8 @@
             <UiSelect v-model="row.type" :options="typeOptions" />
           </td>
           <td class="text-center">
-            <UiButton
-              v-if="!row.isNewRow"
-              variant="secondary-line"
-              icon-only
-              @click="selectTemplate(row)"
-            >
-              <i class="icon-md icon-edit"></i>
+            <UiButton v-if="!row.isNewRow" variant="ghost" icon-only @click="selectTemplate(row)">
+              <i class="icon-md icon-search"></i>
             </UiButton>
             <span v-else class="text-gray-400">-</span>
           </td>
