@@ -25,7 +25,7 @@
       default: ''
     },
 
-    // 에디터 높이
+    // 에디터 높이 - CSS calc() 지원
     height: {
       type: [Number, String],
       default: 400
@@ -53,9 +53,32 @@
   // Emits 정의
   const emit = defineEmits(['update:modelValue', 'init', 'change'])
 
+  // height 값 처리 함수
+  const processHeight = height => {
+    if (typeof height === 'string') {
+      // CSS calc() 함수나 다른 CSS 단위가 포함된 경우
+      if (
+        height.includes('calc') ||
+        height.includes('vh') ||
+        height.includes('vw') ||
+        height.includes('%')
+      ) {
+        return height
+      }
+      // 숫자 문자열인 경우
+      if (!isNaN(height)) {
+        return parseInt(height)
+      }
+      // 기타 CSS 단위 (px, em, rem 등)
+      return height
+    }
+    // 숫자인 경우 그대로 반환 (TinyMCE가 px로 처리)
+    return height
+  }
+
   // 에디터 기본 설정
   const editorConfig = computed(() => ({
-    height: props.height,
+    height: processHeight(props.height),
     menubar: props.showMenubar,
     plugins: 'lists link image table code',
     toolbar: props.showToolbar

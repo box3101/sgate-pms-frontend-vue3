@@ -628,7 +628,8 @@
       width: 100%;
       border-collapse: separate;
       border-bottom: 1px solid #e2e8f0;
-
+      position: relative;
+      z-index: 0;
       &.sortable-active {
         border: 2px dashed #cbd5e1;
         border-radius: 8px;

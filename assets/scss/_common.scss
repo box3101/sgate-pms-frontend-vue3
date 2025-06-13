@@ -405,3 +405,7 @@ button:focus,
 .vertical-top {
   vertical-align: top !important;
 }
+.button-group {
+  display: flex;
+  gap: 8px;
+}

@@ -525,6 +525,11 @@
               name: '성과기술서 작성',
               path: '/hr-evaluation/performance-description',
               icon: 'mdi:file-edit-outline'
+            },
+            {
+              name: '성과기술서 작성 현황',
+              path: '/hr-evaluation/performance-description-status',
+              icon: 'mdi:file-edit-outline'
             }
           ]
         },
