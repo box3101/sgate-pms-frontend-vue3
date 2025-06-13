@@ -88,6 +88,7 @@
     animation: fade-in 0.3s ease-out;
     overflow-y: auto;
     overflow-x: auto;
+    z-index: 0;
 
     &.expanded {
       padding-left: 290px; /* 핀 고정 시 사이드바 너비(80px) + 서브메뉴 너비(200px) */
