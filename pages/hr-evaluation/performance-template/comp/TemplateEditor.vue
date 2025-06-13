@@ -1,11 +1,7 @@
 <!-- 템플릿 편집기 컴포넌트 - UI만 -->
 <template>
-  <div class="template-editor">
+  <div class="page-cont">
     <div v-if="selectedTemplate" class="editor-content">
-      <div class="editor-header">
-        <h2>{{ selectedTemplate.name }}</h2>
-      </div>
-
       <UiTable
         v-model="demoItems"
         editable
@@ -71,7 +67,7 @@
               <UiSelect v-model="row.itemType" :options="itemTypeOptions" />
             </td>
             <td>
-              <div class="required-cell">
+              <div class="required-cell flex items-center gap-5 text-center">
                 <UiCheckbox size="large" v-model="row.isRequired" />
                 <span class="required-label">필수</span>
               </div>
@@ -173,48 +169,6 @@
 </script>
 
 <style scoped>
-  .template-editor {
-    background: #fff;
-    border-radius: 8px;
-    border: 1px solid #e5e7eb;
-  }
-
-  .editor-content {
-    padding: 20px;
-  }
-
-  .editor-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  .editor-header h2 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 600;
-    color: #333;
-  }
-
-  .header-actions {
-    display: flex;
-    gap: 8px;
-  }
-
-  .required-cell {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .required-label {
-    font-size: 12px;
-    color: #666;
-  }
-
   .editor-actions {
     margin-top: 20px;
     display: flex;

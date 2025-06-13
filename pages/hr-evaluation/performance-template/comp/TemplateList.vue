@@ -1,14 +1,15 @@
 <!-- 템플릿 목록 컴포넌트 - 정적 데이터로 UI만 -->
 <template>
   <div class="template-list">
-    <h2>성과기술서 템플릿</h2>
-
     <UiTable
+      title="성과기술서 템플릿"
       v-model="demoTemplates"
       editable
       isDragging
       :defaultRowData="defaultRowData"
       @save="handleSave"
+      :scrollable="true"
+      :max-height="'calc(100vh - 270px)'"
     >
       <template #colgroup>
         <col style="width: 40px" />
@@ -95,6 +96,78 @@
       id: 3,
       name: '특허 관련 템플릿',
       type: '양식',
+      isNewRow: false
+    },
+    {
+      id: 4,
+      name: '영업부서 성과 템플릿',
+      type: '양식',
+      isNewRow: false
+    },
+    {
+      id: 5,
+      name: '마케팅 성과 템플릿',
+      type: '항목정의',
+      isNewRow: false
+    },
+    {
+      id: 6,
+      name: '인사부서 성과 템플릿',
+      type: '양식',
+      isNewRow: false
+    },
+    {
+      id: 7,
+      name: '재무부서 성과 템플릿',
+      type: '항목정의',
+      isNewRow: false
+    },
+    {
+      id: 8,
+      name: '고객서비스 성과 템플릿',
+      type: '양식',
+      isNewRow: false
+    },
+    {
+      id: 9,
+      name: '프로젝트 관리 템플릿',
+      type: '항목정의',
+      isNewRow: false
+    },
+    {
+      id: 10,
+      name: 'IT부서 성과 템플릿',
+      type: '양식',
+      isNewRow: false
+    },
+    {
+      id: 11,
+      name: '제품개발 성과 템플릿',
+      type: '항목정의',
+      isNewRow: false
+    },
+    {
+      id: 12,
+      name: '품질관리 성과 템플릿',
+      type: '양식',
+      isNewRow: false
+    },
+    {
+      id: 13,
+      name: '생산부서 성과 템플릿',
+      type: '항목정의',
+      isNewRow: false
+    },
+    {
+      id: 14,
+      name: '물류관리 성과 템플릿',
+      type: '양식',
+      isNewRow: false
+    },
+    {
+      id: 15,
+      name: '구매부서 성과 템플릿',
+      type: '항목정의',
       isNewRow: false
     }
   ])
