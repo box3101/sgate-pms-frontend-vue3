@@ -9,7 +9,7 @@
       :defaultRowData="defaultRowData"
       @save="handleSave"
       :scrollable="true"
-      :max-height="'calc(100vh - 270px)'"
+      :max-height="'calc(100vh - 230px)'"
     >
       <template #colgroup>
         <col style="width: 40px" />

@@ -7,6 +7,8 @@
         editable
         :defaultRowData="defaultItemData"
         @save="handleSaveItems"
+        :scrollable="true"
+        :max-height="'calc(100vh - 230px)'"
       >
         <template #header-action-right>
           <UiButton variant="secondary-line"> 미리보기 </UiButton>
@@ -114,14 +116,14 @@
       id: 1,
       itemName: '프로젝트명',
       itemType: 'text',
-      isRequired: true,
+      isRequired: false,
       guide: '수행한 프로젝트의 정확한 명칭을 입력하세요'
     },
     {
       id: 2,
       itemName: '개발기간',
       itemType: 'date',
-      isRequired: true,
+      isRequired: false,
       guide: '프로젝트 시작일부터 종료일까지의 기간을 선택하세요'
     },
     {
@@ -137,6 +139,118 @@
       itemType: 'number',
       isRequired: false,
       guide: '프로젝트에 참여한 전체 팀원 수를 입력하세요'
+    },
+    {
+      id: 5,
+      itemName: '성과지표',
+      itemType: 'text',
+      isRequired: false,
+      guide: '프로젝트의 주요 성과지표를 작성하세요'
+    },
+    {
+      id: 6,
+      itemName: '담당역할',
+      itemType: 'text',
+      isRequired: false,
+      guide: '프로젝트에서 본인의 역할을 구체적으로 작성하세요'
+    },
+    {
+      id: 7,
+      itemName: '주요성과',
+      itemType: 'text',
+      isRequired: false,
+      guide: '프로젝트를 통해 달성한 주요 성과를 작성하세요'
+    },
+    {
+      id: 8,
+      itemName: '기여도',
+      itemType: 'number',
+      isRequired: false,
+      guide: '전체 프로젝트에서 본인의 기여도를 백분율로 작성하세요'
+    },
+    {
+      id: 9,
+      itemName: '난이도',
+      itemType: 'select',
+      isRequired: false,
+      guide: '프로젝트의 난이도를 선택하세요'
+    },
+    {
+      id: 10,
+      itemName: '수행결과',
+      itemType: 'select',
+      isRequired: false,
+      guide: '프로젝트 수행 결과를 선택하세요'
+    },
+    {
+      id: 11,
+      itemName: '배운점',
+      itemType: 'text',
+      isRequired: false,
+      guide: '프로젝트를 통해 배운 주요 내용을 작성하세요'
+    },
+    {
+      id: 12,
+      itemName: '개선사항',
+      itemType: 'text',
+      isRequired: false,
+      guide: '향후 개선이 필요한 사항을 작성하세요'
+    },
+    {
+      id: 13,
+      itemName: '관련문서',
+      itemType: 'text',
+      isRequired: false,
+      guide: '관련 문서나 자료의 링크를 첨부하세요'
+    },
+    {
+      id: 14,
+      itemName: '목표달성률',
+      itemType: 'number',
+      isRequired: false,
+      guide: '목표 대비 달성률을 백분율로 입력하세요'
+    },
+    {
+      id: 15,
+      itemName: '고객만족도',
+      itemType: 'select',
+      isRequired: false,
+      guide: '프로젝트에 대한 고객 만족도를 선택하세요'
+    },
+    {
+      id: 16,
+      itemName: '협업부서',
+      itemType: 'text',
+      isRequired: false,
+      guide: '함께 협업한 부서명을 입력하세요'
+    },
+    {
+      id: 17,
+      itemName: '예산준수율',
+      itemType: 'number',
+      isRequired: false,
+      guide: '계획된 예산 대비 실제 사용률을 입력하세요'
+    },
+    {
+      id: 18,
+      itemName: '일정준수율',
+      itemType: 'number',
+      isRequired: false,
+      guide: '계획된 일정 대비 실제 준수율을 입력하세요'
+    },
+    {
+      id: 19,
+      itemName: '주요장애사항',
+      itemType: 'text',
+      isRequired: false,
+      guide: '프로젝트 수행 중 발생한 주요 장애사항을 작성하세요'
+    },
+    {
+      id: 20,
+      itemName: '자기평가',
+      itemType: 'select',
+      isRequired: false,
+      guide: '본인의 프로젝트 수행에 대한 자기평가를 선택하세요'
     }
   ])
 
