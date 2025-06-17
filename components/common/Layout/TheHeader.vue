@@ -334,6 +334,12 @@
       { name: '역량사전', path: '/hr-evaluation/competency-dictionary' }
     ],
 
+    // 인사 평가 산출
+    hrEvaluationCalculation: [
+      { name: '성과평가', path: '/hr-evaluation/calculation' },
+      { name: '역량평가', path: '/hr-evaluation/final-results' }
+    ],
+
     // 기본값: 빈 배열 (탭 없음)
     default: []
   }
@@ -1052,6 +1058,13 @@
       hasLink.value = false
       hasLinkIcon.value = ''
       return tabMenus.hrEvaluation
+    } else if (
+      route.path.startsWith('/hr-evaluation/calculation') ||
+      route.path.startsWith('/hr-evaluation/final-results')
+    ) {
+      hasLink.value = false
+      hasLinkIcon.value = ''
+      return tabMenus.hrEvaluationCalculation
     } else {
       // 해당하는 탭 메뉴가 없으면 빈 배열 반환
       hasLink.value = false

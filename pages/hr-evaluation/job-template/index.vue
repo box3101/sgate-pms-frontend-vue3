@@ -4,9 +4,7 @@
       <div class="header-left">
         <div class="select-group">
           <div class="select-item flex items-center">
-            <span class="select-label flex items-center">
-              <i class="icon-md icon-calendar"></i>
-            </span>
+            <span class="select-label flex items-center"> 기준년도 </span>
             <UiSelect
               v-model="selectedYear"
               :options="yearOptions"
