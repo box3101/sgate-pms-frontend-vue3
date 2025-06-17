@@ -409,3 +409,22 @@ button:focus,
   display: flex;
   gap: 8px;
 }
+
+.author-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 20px;
+  background: var(--color-system-b30, #0084ff);
+  padding: 4px 16px 4px 4px;
+
+  .icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  span {
+    @include font-style($body-medium);
+    color: $gray-0;
+  }
+}
