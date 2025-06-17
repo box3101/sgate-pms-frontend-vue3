@@ -116,7 +116,7 @@
     &--medium {
       height: $ui-height-md;
       height: 34px;
-      padding: 5px 12px;
+      padding: 5px 9px;
       justify-content: center;
       align-items: center;
       gap: 2px;

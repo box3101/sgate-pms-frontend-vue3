@@ -169,29 +169,32 @@
                         <span class="feedback-date">{{ formatDateTime(feedback.createdAt) }}</span>
                       </div>
                       <div class="feedback-actions">
-                        <button
+                        <UiButton
                           v-if="feedback.author === getCurrentUser()"
-                          class="feedback-action-btn"
+                          variant="ghost"
+                          iconOnly
                           @click="editFeedback(feedback)"
                           title="수정"
                         >
-                          <i class="icon icon-pencil icon-sm"></i>
-                        </button>
-                        <button
+                          <i class="icon icon-pencil icon-md"></i>
+                        </UiButton>
+                        <UiButton
                           v-if="feedback.author === getCurrentUser()"
-                          class="feedback-action-btn"
+                          variant="ghost"
+                          iconOnly
                           @click="deleteFeedback(feedback.id)"
                           title="삭제"
                         >
-                          <i class="icon icon-delete icon-sm"></i>
-                        </button>
-                        <button
-                          class="feedback-action-btn"
+                          <i class="icon icon-delete icon-md"></i>
+                        </UiButton>
+                        <UiButton
+                          variant="ghost"
+                          iconOnly
                           @click="toggleReplyInput(feedback.id)"
                           title="댓글"
                         >
-                          <i class="icon icon-reply icon-sm"></i>
-                        </button>
+                          <i class="icon icon-reply icon-md"></i>
+                        </UiButton>
                       </div>
                     </div>
 
@@ -204,14 +207,10 @@
                         placeholder="피드백을 수정해주세요."
                       />
                       <div class="feedback-edit-actions">
-                        <UiButton size="small" variant="secondary" @click="cancelEditFeedback">
+                        <UiButton iconOnly variant="secondary" @click="cancelEditFeedback">
                           취소
                         </UiButton>
-                        <UiButton
-                          size="small"
-                          variant="primary"
-                          @click="saveFeedbackEdit(feedback.id)"
-                        >
+                        <UiButton iconOnly variant="primary" @click="saveFeedbackEdit(feedback.id)">
                           저장
                         </UiButton>
                       </div>
@@ -229,22 +228,24 @@
                             <span class="reply-date">{{ formatDateTime(reply.createdAt) }}</span>
                           </div>
                           <div class="reply-actions">
-                            <button
+                            <UiButton
                               v-if="reply.author === getCurrentUser()"
-                              class="reply-action-btn"
+                              variant="ghost"
+                              iconOnly
                               @click="editReply(reply)"
                               title="수정"
                             >
-                              <i class="icon icon-pencil icon-xs"></i>
-                            </button>
-                            <button
+                              <i class="icon icon-pencil icon-md"></i>
+                            </UiButton>
+                            <UiButton
                               v-if="reply.author === getCurrentUser()"
-                              class="reply-action-btn"
+                              variant="ghost"
+                              iconOnly
                               @click="deleteReply(feedback.id, reply.id)"
                               title="삭제"
                             >
-                              <i class="icon icon-delete icon-xs"></i>
-                            </button>
+                              <i class="icon icon-delete icon-md"></i>
+                            </UiButton>
                           </div>
                         </div>
 
@@ -257,11 +258,17 @@
                             placeholder="댓글을 수정해주세요."
                           />
                           <div class="reply-edit-actions">
-                            <UiButton size="small" variant="secondary" @click="cancelEditReply">
+                            <UiButton
+                              size="small"
+                              iconOnly
+                              variant="secondary"
+                              @click="cancelEditReply"
+                            >
                               취소
                             </UiButton>
                             <UiButton
                               size="small"
+                              iconOnly
                               variant="primary"
                               @click="saveReplyEdit(feedback.id, reply.id)"
                             >
@@ -284,10 +291,10 @@
                         placeholder="댓글을 입력해주세요."
                       />
                       <div class="reply-input-actions">
-                        <UiButton size="small" variant="secondary" @click="cancelReply">
+                        <UiButton iconOnly variant="secondary" @click="cancelReply">
                           취소
                         </UiButton>
-                        <UiButton size="small" variant="primary" @click="submitReply(feedback.id)">
+                        <UiButton iconOnly variant="primary" @click="submitReply(feedback.id)">
                           댓글 등록
                         </UiButton>
                       </div>
@@ -927,7 +934,6 @@ Vue.js 컴포넌트 리팩토링
 
   .feedback-actions {
     display: flex;
-    gap: 4px;
   }
 
   .feedback-action-btn {
