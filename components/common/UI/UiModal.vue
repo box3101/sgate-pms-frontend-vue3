@@ -857,31 +857,35 @@
       justify-content: flex-end;
       gap: $spacing-md;
     }
-
-    // Sizes
+    // Sizes - 모든 해상도 대응 비율 기반
     &--small {
-      width: 400px;
-      max-width: 400px;
+      width: min(400px, max(30vw, 320px));
+      max-width: min(400px, 90vw);
     }
 
     &--xmedium {
-      max-width: 440px;
+      width: min(440px, max(35vw, 360px));
+      max-width: min(440px, 85vw);
     }
 
     &--medium {
-      width: 640px;
+      width: min(640px, max(40vw, 480px));
+      max-width: min(640px, 80vw);
     }
 
     &--large {
-      max-width: 800px;
+      width: min(800px, max(50vw, 600px));
+      max-width: min(800px, 75vw);
     }
 
     &--mlarge {
-      max-width: 1100px;
+      width: min(1100px, max(60vw, 800px));
+      max-width: min(1100px, 70vw);
     }
 
     &--xlarge {
-      max-width: 1400px;
+      width: min(1400px, max(70vw, 1000px));
+      max-width: min(1400px, 85vw);
     }
 
     &--full {
