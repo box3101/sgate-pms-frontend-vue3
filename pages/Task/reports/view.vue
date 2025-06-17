@@ -24,12 +24,7 @@
   </div>
 
   <!-- 보고서 뷰어 모달 -->
-  <UiModal
-    v-model="reportViewerModal"
-    size="xlarge"
-    :showFooter="false"
-    class="report-viewer-modal"
-  >
+  <UiModal v-model="reportViewerModal" size="xlarge" height="90vh" :showFooter="false">
     <template #title>
       <div class="modal-title">
         {{ formatDate(selectedDate) }} 보고서

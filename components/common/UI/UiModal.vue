@@ -240,6 +240,10 @@
     allowFloating: {
       type: Boolean,
       default: false
+    },
+    height: {
+      type: [String, Number],
+      default: null
     }
   })
 
@@ -307,7 +311,16 @@
       }
     }
 
-    return {}
+    const style = {}
+
+    // 높이 설정
+    if (props.height) {
+      const heightValue = typeof props.height === 'number' ? `${props.height}px` : props.height
+      style.height = heightValue
+      style.maxHeight = heightValue
+    }
+
+    return style
   })
 
   let isResizing = false
@@ -646,6 +659,13 @@
       .ui-popup__content {
         position: fixed;
         z-index: 1000;
+        &:has([style*='height']) {
+          .ui-popup__body {
+            overflow-y: auto;
+            height: 0;
+            flex-grow: 1;
+          }
+        }
       }
     }
 
