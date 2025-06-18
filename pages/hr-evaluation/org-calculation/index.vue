@@ -108,7 +108,7 @@
   </div>
 
   <!-- 조직조회 모달 -->
-  <UiModal :title="'조직추가'" v-model="isOrgModalOpen" size="medium" :showFooter="true">
+  <UiModal :title="'조직선택'" v-model="isOrgModalOpen" size="medium" :showFooter="true">
     <OrgTeamSelector />
     <template #footerActions>
       <UiButton variant="primary" @click="isOrgModalOpen = false">확인</UiButton>

@@ -729,7 +729,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 10;
+    z-index: 9999;
     border-right: 1px solid #eaeaea;
   }
 
@@ -840,7 +840,7 @@
     left: 75px; /* 사이드바 너비와 동일하게 설정 */
     top: -1px; /* 사이드바 컨테이너 상단 기준 */
     width: 168px; /* 너비 증가 */
-    z-index: 100;
+    z-index: 10000; // 기존: 100 → 변경: 10000
     border: 1px solid #eaeaea;
     height: calc(100vh - 96px); /* 헤더 높이(56px)를 뺌 */
     overflow-y: auto; /* 내용이 많을 경우 스크롤 가능하도록 */
@@ -851,7 +851,7 @@
   /* 핀 고정 시 서브메뉴 스타일 */
   .submenu-sections.pinned-submenu {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 99;
+    z-index: 10001; // 기존: 99 → 변경: 10001
   }
 
   /* 핀 버튼 스타일 */
@@ -859,7 +859,7 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    z-index: 110;
+    z-index: 10002; // 새로 추가
     display: flex;
     align-items: center;
     justify-content: center;
