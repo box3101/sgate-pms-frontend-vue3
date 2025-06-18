@@ -1034,10 +1034,6 @@
 
   // 드래그 중 글로벌 스타일
   .dragging-active {
-    * {
-      cursor: grabbing !important;
-    }
-
     // 드래그 중에는 텍스트 선택 방지
     user-select: none;
     -webkit-user-select: none;

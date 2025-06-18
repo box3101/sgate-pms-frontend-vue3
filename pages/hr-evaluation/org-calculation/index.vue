@@ -4,7 +4,7 @@
     <div class="page-content">
       <!-- 조직점수산출 테이블 -->
       <UiTable
-        v-model="조직점수산출데이터"
+        v-model="orgScoreData"
         title="조직점수산출"
         editable
         bordered
@@ -47,7 +47,7 @@
               @update:modelValue="selectAll"
             />
           </th>
-          <th v-for="header in 조직점수산출데이터바디" :key="header.key">
+          <th v-for="header in tableHeaders" :key="header.key">
             {{ header.title }}
           </th>
         </template>
@@ -92,7 +92,12 @@
             <td class="text-center">
               <UiSelect :options="monthOptions" />
             </td>
-            <td class="text-center">{{ row.performanceOrg }}</td>
+            <td class="text-center items-center gap-5 justify-center">
+              <UiButton @click="isOrgModalOpen = true" variant="ghost" size="small" icon-only>
+                <i class="icon-md icon-search" style="position: relative; top: 3px"></i>
+              </UiButton>
+              {{ row.performanceOrg }}
+            </td>
             <td class="text-center">{{ row.monthCount }}</td>
             <td class="text-center">{{ row.totalMonths }}</td>
             <td class="text-center">{{ row.orgScore }}</td>
@@ -101,12 +106,33 @@
       </UiTable>
     </div>
   </div>
+
+  <!-- 조직조회 모달 -->
+  <UiModal :title="'조직추가'" v-model="isOrgModalOpen" size="medium" :showFooter="true">
+    <OrgTeamSelector />
+    <template #footerActions>
+      <UiButton variant="primary" @click="isOrgModalOpen = false">확인</UiButton>
+    </template>
+  </UiModal>
 </template>
 
 <script setup>
+  /**
+   * 조직점수산출 페이지 컴포넌트
+   * 목적: 조직 점수를 산출하고 관리하는 페이지
+   */
   import PageHeader from './comp/PageHeader.vue'
+  import OrgTeamSelector from '@/components/user/OrgTeamSelector.vue'
 
-  const 조직점수산출데이터 = ref([
+  // 조직 모달 표시 상태
+  const isOrgModalOpen = ref(false)
+
+  /**
+   * 조직점수산출 데이터
+   * 목적: 직원별 조직 점수 정보를 관리
+   * @type {Ref<Array>} 조직 점수 데이터 배열
+   */
+  const orgScoreData = ref([
     {
       id: 1,
       empId: '1001',
@@ -330,7 +356,12 @@
     }
   ])
 
-  const 조직점수산출데이터바디 = ref([
+  /**
+   * 테이블 헤더 구성
+   * 목적: 조직점수산출 테이블의 컬럼 정보 정의
+   * @type {Ref<Array>} 테이블 헤더 정보 배열
+   */
+  const tableHeaders = ref([
     { key: 'empId', title: '사번' },
     { key: 'name', title: '이름' },
     { key: 'position', title: '직위' },
@@ -343,6 +374,11 @@
     { key: 'orgScore', title: '조직점수' }
   ])
 
+  /**
+   * 월 옵션 데이터
+   * 목적: 월 선택 드롭다운의 옵션 데이터 제공
+   * @type {Ref<Array>} 월 옵션 배열
+   */
   const monthOptions = ref([
     { value: '1월', label: '1월' },
     { value: '2월', label: '2월' },
@@ -358,14 +394,21 @@
     { value: '12월', label: '12월' }
   ])
 
+  /**
+   * 행 수정 처리 함수
+   * 목적: 테이블 행의 데이터를 수정 처리
+   * @param {Object} row - 수정할 행 데이터
+   * @returns {void}
+   */
   const handleEdit = row => {
     console.log('수정:', row)
-    // 수정 로직 구현
+    // 수정 로직 구현 필요
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .page-container {
+    // 페이지 기본 컨테이너 스타일
     padding: 20px;
   }
 </style>
