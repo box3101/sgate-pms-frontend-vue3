@@ -450,38 +450,7 @@
       title: '인사평가',
       icon: 'account-check-icon',
       expanded: false,
-      items: [
-        {
-          name: '평가하기',
-          path: '/hr-evaluation/evaluate',
-          icon: 'mdi:clipboard-check-outline'
-        },
-        {
-          name: '평가진행현황',
-          path: '/hr-evaluation/progress',
-          icon: 'mdi:progress-check'
-        },
-        {
-          name: '조정평가',
-          path: '/hr-evaluation/adjustment',
-          icon: 'mdi:tune-vertical'
-        },
-        {
-          name: '내평가결과',
-          path: '/hr-evaluation/my-results',
-          icon: 'mdi:account-details-outline'
-        },
-        {
-          name: '평가정합성 진단',
-          path: '/hr-evaluation/diagnosis',
-          icon: 'mdi:stethoscope'
-        },
-        {
-          name: '이의신청관리',
-          path: '/hr-evaluation/objections',
-          icon: 'mdi:hand-back-right-outline'
-        }
-      ],
+      items: [],
       submenus: [
         {
           title: '평가설정',
@@ -527,9 +496,29 @@
               icon: 'mdi:file-edit-outline'
             },
             {
-              name: '성과기술서 작성 현황',
+              name: '기술서 작성현황',
               path: '/hr-evaluation/performance-description-status',
               icon: 'mdi:file-edit-outline'
+            }
+          ]
+        },
+        {
+          title: '평가하기',
+          items: [
+            {
+              name: '평가하기',
+              path: '/hr-evaluation/evaluate',
+              icon: 'mdi:clipboard-check-outline'
+            }
+          ]
+        },
+        {
+          title: '평가진행현황',
+          items: [
+            {
+              name: '평가진행현황',
+              path: '/hr-evaluation/progress',
+              icon: 'mdi:progress-check'
             }
           ]
         },
@@ -554,6 +543,26 @@
           ]
         },
         {
+          title: '조정평가',
+          items: [
+            {
+              name: '조정평가',
+              path: '/hr-evaluation/adjustment',
+              icon: 'mdi:tune-vertical'
+            }
+          ]
+        },
+        {
+          title: '내평가결과',
+          items: [
+            {
+              name: '내평가결과',
+              path: '/hr-evaluation/my-results',
+              icon: 'mdi:account-details-outline'
+            }
+          ]
+        },
+        {
           title: '평가결과',
           items: [
             {
@@ -570,6 +579,26 @@
               name: '평가레포트',
               path: '/hr-evaluation/report',
               icon: 'mdi:file-chart-outline'
+            }
+          ]
+        },
+        {
+          title: '평가정합성 진단',
+          items: [
+            {
+              name: '평가정합성 진단',
+              path: '/hr-evaluation/diagnosis',
+              icon: 'mdi:stethoscope'
+            }
+          ]
+        },
+        {
+          title: '이의신청관리',
+          items: [
+            {
+              name: '이의신청관리',
+              path: '/hr-evaluation/objections',
+              icon: 'mdi:hand-back-right-outline'
             }
           ]
         }
