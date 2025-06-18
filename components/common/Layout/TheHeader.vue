@@ -334,6 +334,12 @@
       { name: '역량사전', path: '/hr-evaluation/competency-dictionary' }
     ],
 
+    // 평가진행현황
+    hrEvaluationProgress: [
+      { name: '평가대상자 설정 진행현황', path: '/hr-evaluation/progress' },
+      { name: '평가자평가 진행현황', path: '/hr-evaluation/progress-evaluator' }
+    ],
+
     // 인사 평가 산출
     hrEvaluationCalculation: [
       { name: '성과평가', path: '/hr-evaluation/calculation' },
@@ -1065,6 +1071,13 @@
       hasLink.value = false
       hasLinkIcon.value = ''
       return tabMenus.hrEvaluationCalculation
+    } else if (
+      route.path.startsWith('/hr-evaluation/progress') ||
+      route.path.startsWith('/hr-evaluation/progress-evaluator')
+    ) {
+      hasLink.value = false
+      hasLinkIcon.value = ''
+      return tabMenus.hrEvaluationProgress
     } else {
       // 해당하는 탭 메뉴가 없으면 빈 배열 반환
       hasLink.value = false

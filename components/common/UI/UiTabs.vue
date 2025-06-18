@@ -127,7 +127,7 @@
   })
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
   // 기본 색상 변수
   $primary-color: #00aaff;
 
@@ -155,6 +155,10 @@
     @include font-style($body-medium);
     color: $gray-30;
     position: relative;
+
+    // 🔥 border-radius 명시적 제거
+    border-radius: 0 !important;
+    border: none !important;
 
     // 모든 상태에서 동일한 높이 유지
     min-height: 44px;
@@ -185,18 +189,28 @@
     &:hover {
       background-color: $primary-color;
       color: #fff;
+      // 🔥 호버 시에도 border-radius 제거
+      border-radius: 0 !important;
     }
 
     &:focus {
       outline: 2px solid $primary-color;
       outline-offset: -2px;
+      // 🔥 포커스 시에도 border-radius 제거
+      border-radius: 0 !important;
     }
 
     &--active {
       // 🔥 폰트 크기는 그대로 유지, 굵기만 변경
       font-weight: 700;
-      border-bottom: 3px solid $primary-color;
+      border-bottom: 3px solid #00aaff !important;
       color: $gray-90;
+
+      // 🔥 액티브 상태에서 border-radius 완전 제거
+      border-radius: 0 !important;
+      border-top: none !important;
+      border-left: none !important;
+      border-right: none !important;
 
       // 🔥 또는 transform으로 크기 변경 (레이아웃 영향 없음)
       // transform: scale(1.05);
@@ -239,10 +253,25 @@
       min-width: 100px;
       padding: 10px 16px;
       font-size: 13px;
+
+      // 🔥 모바일에서도 border-radius 제거
+      border-radius: 0 !important;
     }
 
     .ui-tabs__panel {
       padding: 16px;
+    }
+  }
+
+  // 🔥 추가: 전역 스타일 재정의 방지
+  * {
+    &.ui-tabs__nav-item {
+      border-radius: 0 !important;
+
+      &:before,
+      &:after {
+        border-radius: 0 !important;
+      }
     }
   }
 </style>
