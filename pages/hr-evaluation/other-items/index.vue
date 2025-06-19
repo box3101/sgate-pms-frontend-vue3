@@ -10,13 +10,15 @@
           editable
           :canAddSortableButton="false"
           scrollable
+          bordered
           max-height="calc(100vh - 200px)"
         >
           <template #colgroup>
             <col style="width: 40px" />
             <col style="width: auto" />
             <col style="width: 150px" />
-            <col style="width: 70px" />
+            <col style="width: 40px" />
+            <col style="width: 40px" />
           </template>
           <template #header="{ isAllSelected, selectAll }">
             <th>

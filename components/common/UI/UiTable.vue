@@ -1006,6 +1006,7 @@
     &:disabled {
       cursor: not-allowed;
       border: 1px solid $system-red !important;
+      opacity: 0.4;
     }
   }
 

@@ -48,7 +48,6 @@
                     <th>부서</th>
                     <th style="width: auto">건수</th>
                     <th style="width: 50px">상태</th>
-                    <th style="width: 50px">조회</th>
                   </tr>
                 </template>
 
@@ -70,11 +69,6 @@
                     <td class="text-center">{{ row.count }}</td>
                     <td class="text-center">
                       <span class="status-badge">{{ row.status }}</span>
-                    </td>
-                    <td class="text-center">
-                      <UiButton size="small" variant="ghost" icon-only>
-                        <i class="icon-md icon-search" />
-                      </UiButton>
                     </td>
                   </tr>
                 </template>

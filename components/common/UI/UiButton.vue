@@ -171,6 +171,7 @@
         background-color: #e6e8ea;
         color: var(--color-gray-40, #8a949e);
         cursor: not-allowed;
+        opacity: 0.4;
       }
     }
 
