@@ -428,3 +428,388 @@ button:focus,
     color: $gray-0;
   }
 }
+/**
+ * 동적 필터 그리드 정렬 해결책
+ * 필터 개수가 변해도 깔끔하게 정렬되는 CSS Grid 솔루션
+ */
+
+.filter-section {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 24px;
+  position: relative;
+
+  /**
+   * 필터 헤더 영역
+   * 제목과 접기/펼치기 토글 버튼 포함
+   */
+  .filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e9ecef;
+
+    .filter-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #212529;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .filter-toggle {
+      display: flex;
+      align-items: center;
+
+      .ui-button {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 14px;
+        color: #495057;
+
+        i {
+          width: 16px;
+          height: 16px;
+          transition: transform 0.2s ease;
+        }
+
+        &:hover {
+          color: #0084ff;
+
+          i {
+            transform: scale(1.1);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * 필터 그리드 - 동적 개수 대응
+   * CSS Grid의 auto-fit을 사용해서 개수에 관계없이 정렬
+   */
+  .filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px 8px;
+    margin-bottom: 24px;
+    transition: all 0.3s ease;
+
+    /**
+     * 데스크톱 (1400px 이상)
+     * 최대 5열까지만 허용, 그 이상은 다음 줄로
+     */
+    @media (min-width: 1400px) {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+
+      // 5개 이상일 때 최대 5열 제한
+      &[data-filter-count='5'],
+      &[data-filter-count='6'],
+      &[data-filter-count='7'],
+      &[data-filter-count='8'],
+      &[data-filter-count='9'] {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+
+    /**
+     * 대형 데스크톱 (1200px - 1399px)
+     * 최대 4열까지 허용
+     */
+    @media (max-width: 1399px) and (min-width: 1200px) {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
+      &[data-filter-count='4'],
+      &[data-filter-count='5'],
+      &[data-filter-count='6'],
+      &[data-filter-count='7'] {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    /**
+     * 일반 데스크톱 (992px - 1199px)
+     * 최대 3열까지 허용
+     */
+    @media (max-width: 1199px) and (min-width: 992px) {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+      &[data-filter-count='3'],
+      &[data-filter-count='4'],
+      &[data-filter-count='5'],
+      &[data-filter-count='6'],
+      &[data-filter-count='7'] {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /**
+     * 태블릿 (768px - 991px)
+     * 최대 2열까지 허용
+     */
+    @media (max-width: 991px) and (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px 12px;
+    }
+
+    /**
+     * 모바일 (767px 이하)
+     * 1열로 세로 배치
+     */
+    @media (max-width: 767px) {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+
+  /**
+   * 개별 필터 항목 스타일
+   */
+  .filter-item {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    position: relative;
+    min-width: 0; // Grid 아이템이 축소될 수 있도록
+
+    label {
+      flex: none;
+      font-size: 14px;
+      font-weight: 600;
+      color: #495057;
+      margin-bottom: 0;
+      line-height: 1.4;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      &.required::after {
+        content: '*';
+        color: #dc3545;
+        margin-left: 2px;
+      }
+    }
+
+    &.has-value {
+      label {
+        color: #0084ff;
+        font-weight: 700;
+      }
+    }
+
+    &.error {
+      label {
+        color: #dc3545;
+      }
+
+      &::after {
+        content: attr(data-error);
+        position: absolute;
+        bottom: -18px;
+        left: 0;
+        font-size: 12px;
+        color: #dc3545;
+        line-height: 1.2;
+      }
+    }
+  }
+
+  /**
+   * 액션 버튼 영역은 기존과 동일
+   */
+  .filter-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+    gap: 16px;
+
+    .filter-result-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      flex-shrink: 0;
+
+      .result-count {
+        font-weight: 600;
+        color: #212529;
+        white-space: nowrap;
+      }
+
+      .active-filters {
+        color: #0084ff;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+    }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-shrink: 0;
+
+      .ui-button {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        min-width: 90px;
+        white-space: nowrap;
+
+        i {
+          width: 16px;
+          height: 16px;
+          flex-shrink: 0;
+        }
+      }
+    }
+
+    @media (max-width: 767px) {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+
+      .filter-result-info {
+        order: 2;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .button-group {
+        order: 1;
+        justify-content: stretch;
+
+        .ui-button {
+          flex: 1;
+          justify-content: center;
+          min-width: auto;
+        }
+      }
+    }
+  }
+
+  /**
+   * 특별한 경우들을 위한 추가 스타일
+   */
+
+  // 필터가 1개일 때 - 전체 너비의 1/3만 차지
+  .filter-grid[data-filter-count='1'] {
+    @media (min-width: 768px) {
+      grid-template-columns: minmax(200px, 300px);
+      justify-content: start;
+    }
+  }
+
+  // 필터가 2개일 때 - 각각 절반씩
+  .filter-grid[data-filter-count='2'] {
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, minmax(200px, 1fr));
+      max-width: 600px;
+    }
+  }
+
+  // 홀수 개일 때 마지막 줄 왼쪽 정렬
+  .filter-grid[data-filter-count='3'],
+  .filter-grid[data-filter-count='5'],
+  .filter-grid[data-filter-count='7'] {
+    justify-items: start;
+
+    @media (max-width: 767px) {
+      justify-items: stretch;
+    }
+  }
+
+  /**
+   * 로딩/컴팩트/접힌 상태는 기존과 동일
+   */
+  &.loading {
+    opacity: 0.6;
+    pointer-events: none;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      z-index: 10;
+    }
+  }
+
+  &.compact {
+    padding: 16px;
+    margin-bottom: 16px;
+
+    .filter-header {
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+
+      .filter-title {
+        font-size: 14px;
+      }
+    }
+
+    .filter-grid {
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .filter-actions {
+      padding-top: 12px;
+      gap: 12px;
+
+      .filter-result-info {
+        font-size: 13px;
+      }
+
+      .button-group {
+        gap: 8px;
+
+        .ui-button {
+          min-width: 70px;
+          font-size: 13px;
+
+          i {
+            width: 14px;
+            height: 14px;
+          }
+        }
+      }
+    }
+  }
+
+  &.collapsed {
+    .filter-grid {
+      display: none;
+    }
+
+    .filter-actions {
+      border-top: none;
+      padding-top: 0;
+    }
+  }
+
+  :deep(.ui-select),
+  :deep(.ui-input),
+  :deep(.ui-date-picker) {
+    &:focus-within {
+      outline: 2px solid #0084ff;
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+  }
+}

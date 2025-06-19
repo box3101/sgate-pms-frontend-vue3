@@ -91,32 +91,20 @@
 
             <!-- 필터 섹션 -->
             <div class="filter-section">
-              <div class="filter-grid">
-                <div class="filter-item">
-                  <label>평가군</label>
-                  <UiSelect
-                    v-model="filters.evalGroup"
-                    :options="evalGroupOptions"
-                    placeholder="전체"
-                  />
+              <div class="filter-header">
+                <h3 class="filter-title">검색 조건</h3>
+                <div class="filter-toggle">
+                  <UiButton variant="ghost" size="small" @click="toggleExpanded">
+                    <i
+                      class="icon-sm"
+                      :class="isExpanded ? 'icon-chevron-up' : 'icon-chevron-down'"
+                    ></i>
+                    {{ isExpanded ? '접기' : '더보기' }}
+                  </UiButton>
                 </div>
-                <div class="filter-item">
-                  <label>미설정구분</label>
-                  <UiSelect
-                    v-model="filters.notSetType"
-                    :options="notSetTypeOptions"
-                    placeholder="선택안함"
-                  />
-                </div>
-                <div class="filter-item">
-                  <label>부서</label>
-                  <UiSelect
-                    v-model="filters.departments"
-                    :options="departmentOptions"
-                    multiple
-                    placeholder="조회 및 선택 하세요"
-                  />
-                </div>
+              </div>
+
+              <div class="filter-grid" v-show="isExpanded">
                 <div class="filter-item">
                   <label>직위</label>
                   <UiSelect
@@ -124,6 +112,7 @@
                     :options="positionOptions"
                     multiple
                     placeholder="조회 및 선택 하세요"
+                    size="medium"
                   />
                 </div>
                 <div class="filter-item">
@@ -133,6 +122,27 @@
                     :options="gradeOptions"
                     multiple
                     placeholder="조회 및 선택 하세요"
+                    size="medium"
+                  />
+                </div>
+                <div class="filter-item">
+                  <label>직무</label>
+                  <UiSelect
+                    v-model="filters.jobs"
+                    :options="jobOptions"
+                    multiple
+                    placeholder="조회 및 선택 하세요"
+                    size="medium"
+                  />
+                </div>
+                <div class="filter-item">
+                  <label>부서</label>
+                  <UiSelect
+                    v-model="filters.departments"
+                    :options="departmentOptions"
+                    multiple
+                    placeholder="조회 및 선택 하세요"
+                    size="medium"
                   />
                 </div>
                 <div class="filter-item">
@@ -142,15 +152,28 @@
                     :options="employeeOptions"
                     multiple
                     placeholder="조회 및 선택 하세요"
+                    size="medium"
                   />
                 </div>
               </div>
 
               <div class="filter-actions">
-                <UiButton variant="primary" class="search-btn" @click="searchTargets">
-                  <i class="ico ico-search"></i>
-                  검색
-                </UiButton>
+                <div class="filter-result-info">
+                  <span class="result-count">총 {{ totalCount }}건</span>
+                  <span class="active-filters" v-if="activeFilterCount > 0">
+                    ({{ activeFilterCount }}개 조건 적용)
+                  </span>
+                </div>
+                <div class="button-group">
+                  <UiButton variant="secondary-line" size="medium" @click="handleReset">
+                    <i class="icon-sm icon-refresh"></i>
+                    초기화
+                  </UiButton>
+                  <UiButton variant="primary" size="medium" @click="handleSearch">
+                    <i class="icon-sm icon-search icon-white"></i>
+                    검색
+                  </UiButton>
+                </div>
               </div>
             </div>
             <!-- 대상자 테이블 -->
@@ -253,16 +276,6 @@
 
   // 선택된 매니저
   const selectedManagerId = ref('isp123')
-
-  // 필터 상태
-  const filters = ref({
-    evalGroup: '',
-    notSetType: '',
-    departments: [],
-    positions: [],
-    grades: [],
-    employees: []
-  })
 
   // 매니저 테이블 컬럼 정의
   const managerColumns = [
@@ -515,58 +528,73 @@
     }
   ])
 
-  // 셀렉트 옵션들
-  const evalGroupOptions = [
-    { value: '', label: '전체' },
-    { value: 'G000024', label: '이즈파크 - 영업' },
-    { value: 'G000025', label: '이즈파크 - 팀원' },
-    { value: 'G000026', label: '이즈파크 - 팀징' },
-    { value: 'G000058', label: 'DSV 테스트' }
-  ]
+  const isExpanded = ref(true)
+  const totalCount = ref(0)
+  const activeFilterCount = ref(0)
 
-  const notSetTypeOptions = [
-    { value: '', label: '선택안함' },
-    { value: 'fir', label: '1차 상급자 평가' },
-    { value: 'sec', label: '2차 상급자 평가' },
-    { value: 'thr', label: '3차 상급자 평가' },
-    { value: 'mate', label: '동료평가' },
-    { value: 'jnr', label: '부하(상향) 평가' },
-    { value: 'performRate', label: '성과평과비율 미설정' },
-    { value: 'capaRate', label: '역량평가비율 미설정' },
-    { value: 'capaItem', label: '역량평가항목 미설정' }
-  ]
-
-  const departmentOptions = ref([])
-  const positionOptions = ref([])
-  const gradeOptions = ref([])
-  const employeeOptions = ref([])
-
-  // 계산된 속성
-  const totalManagers = computed(() => managers.value.length)
-  const completedManagers = computed(() => managers.value.filter(m => m.status === '완료').length)
-  const incompleteManagers = computed(
-    () => managers.value.filter(m => m.status === '미완료').length
-  )
-
-  // 메서드
-  const handleTabChange = tabId => {
-    activeTabId.value = tabId
-  }
-
-  const selectManager = row => {
-    selectedManagerId.value = row.id
-    // 선택된 매니저에 따라 대상자 목록 필터링 로직 추가
-  }
-
-  const searchTargets = () => {
-    // 검색 로직 구현
-    console.log('검색 실행:', filters.value)
-  }
-
-  // 컴포넌트 마운트 시 초기 데이터 로드
-  onMounted(() => {
-    // 부서, 직위, 직급, 직원 옵션 데이터 로드
+  const filters = ref({
+    positions: [],
+    grades: [],
+    jobs: [],
+    departments: [],
+    employees: []
   })
+
+  const positionOptions = ref([
+    { value: 'p1', label: '사원' },
+    { value: 'p2', label: '대리' },
+    { value: 'p3', label: '과장' },
+    { value: 'p4', label: '차장' },
+    { value: 'p5', label: '부장' }
+  ])
+
+  const gradeOptions = ref([
+    { value: 'g1', label: '1급' },
+    { value: 'g2', label: '2급' },
+    { value: 'g3', label: '3급' },
+    { value: 'g4', label: '4급' },
+    { value: 'g5', label: '5급' }
+  ])
+
+  const jobOptions = ref([
+    { value: 'j1', label: '영업' },
+    { value: 'j2', label: '마케팅' },
+    { value: 'j3', label: '인사' },
+    { value: 'j4', label: '개발' },
+    { value: 'j5', label: '디자인' }
+  ])
+
+  const departmentOptions = ref([
+    { value: 'd1', label: '영업부' },
+    { value: 'd2', label: '마케팅부' },
+    { value: 'd3', label: '인사부' },
+    { value: 'd4', label: 'IT부서' }
+  ])
+
+  const employeeOptions = ref([
+    { value: 'e1', label: '홍길동' },
+    { value: 'e2', label: '김철수' },
+    { value: 'e3', label: '이영희' }
+  ])
+
+  const toggleExpanded = () => {
+    isExpanded.value = !isExpanded.value
+  }
+
+  const handleSearch = () => {
+    // 검색 로직 구현
+    totalCount.value = 15
+    activeFilterCount.value = Object.values(filters.value).filter(val =>
+      Array.isArray(val) ? val.length > 0 : !!val
+    ).length
+  }
+
+  const handleReset = () => {
+    Object.keys(filters.value).forEach(key => {
+      filters.value[key] = []
+    })
+    activeFilterCount.value = 0
+  }
 </script>
 
 <style scoped>
@@ -693,111 +721,6 @@
     margin-left: auto;
   }
 
-  /* 필터 섹션 */
-  .filter-section {
-    padding: 24px;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-radius: 12px;
-    margin-bottom: 16px;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
-  }
-
-  .filter-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px 12px;
-    margin-bottom: 20px;
-  }
-
-  .filter-item {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-
-  .filter-item--wide {
-    grid-column: span 2;
-  }
-
-  .filter-item label {
-    font-size: 15px;
-    font-weight: 500;
-    color: #202124;
-    margin-bottom: 4px;
-    flex: none;
-    /* width 제거 */
-    text-align: right;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
-    margin-right: 8px; /* 라벨과 셀렉트 간격 조정 */
-  }
-
-  .filter-actions {
-    display: flex;
-    justify-content: flex-end;
-    padding-top: 16px;
-    border-top: 1px solid #e0e0e0;
-  }
-
-  .search-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-weight: 500;
-    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
-    transition: all 0.2s ease;
-    min-width: 100px;
-    justify-content: center;
-  }
-
-  .search-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4);
-  }
-
-  /* Select 컴포넌트 전체 크기 조정 */
-  :deep(.filter-section .ui-select) {
-    width: 100%;
-    font-size: 14px;
-  }
-
-  :deep(.filter-section .ui-select__control) {
-    min-height: 42px;
-    font-size: 14px;
-  }
-
-  :deep(.filter-section .ui-select__placeholder) {
-    font-size: 14px;
-  }
-
-  :deep(.filter-section .ui-select__single-value) {
-    font-size: 14px;
-  }
-
-  /* 반응형 필터 그리드 */
-  @media (max-width: 1400px) {
-    .filter-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px 20px;
-    }
-
-    .filter-item--wide {
-      grid-column: span 1;
-    }
-  }
-
-  @media (max-width: 1000px) {
-    .filter-grid {
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
-
-    .filter-item--wide {
-      grid-column: span 1;
-    }
-  }
   /* 대상자 테이블 */
   .target-table-container {
     flex: 1;

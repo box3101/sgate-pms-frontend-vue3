@@ -346,6 +346,13 @@
       { name: '역량평가', path: '/hr-evaluation/final-results' }
     ],
 
+    // 평가 종합 산출
+    hrEvaluationTotalCalculation: [
+      { name: '기타평가항목', path: '/hr-evaluation/other-items' },
+      { name: '종합산출', path: '/hr-evaluation/total-calculation' },
+      { name: '종합결과', path: '/hr-evaluation/total-results' }
+    ],
+
     // 기본값: 빈 배열 (탭 없음)
     default: []
   }
@@ -1078,6 +1085,14 @@
       hasLink.value = false
       hasLinkIcon.value = ''
       return tabMenus.hrEvaluationProgress
+    } else if (
+      route.path.startsWith('/hr-evaluation/other-items') ||
+      route.path.startsWith('/hr-evaluation/total-calculation') ||
+      route.path.startsWith('/hr-evaluation/total-results')
+    ) {
+      hasLink.value = false
+      hasLinkIcon.value = ''
+      return tabMenus.hrEvaluationTotalCalculation
     } else {
       // 해당하는 탭 메뉴가 없으면 빈 배열 반환
       hasLink.value = false

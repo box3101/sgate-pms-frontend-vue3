@@ -537,7 +537,7 @@
             },
             {
               name: '평가종합산출',
-              path: '/hr-evaluation/total-calculation',
+              path: '/hr-evaluation/other-items',
               icon: 'mdi:calculator-variant-outline'
             }
           ]
