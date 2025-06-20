@@ -196,12 +196,12 @@
       }
 
       &::placeholder {
-        color: var(--color-gray-30, #b1b8be);
-        font-family: Pretendard;
-        font-size: 16px;
+        color: $placeholder-color;
+        font-family: $placeholder-font-family;
+        font-size: $ui-font-md;
         font-style: normal;
-        font-weight: 400;
-        line-height: 150%;
+        font-weight: $placeholder-font-weight;
+        line-height: $placeholder-line-height;
       }
     }
 
@@ -230,21 +230,16 @@
       color: var(--color-gray-60, #58616a);
     }
 
-    // 크기 변형 - Large
-    &--large {
-      .ui-textarea__field {
-        padding: 3px 12px;
-        font-size: $font-size-lg;
-        @include font-style($body-medium);
-      }
-    }
-
     // 크기 변형 - Small
     &--small {
       .ui-textarea__field {
-        padding: 6px 9px;
-        font-size: $font-size-sm;
+        padding: $ui-padding-sm;
+        font-size: $ui-font-sm;
         min-height: 80px;
+
+        &::placeholder {
+          font-size: $ui-font-sm;
+        }
       }
       .ui-textarea__label {
         @include font-style($body-small);
@@ -254,12 +249,12 @@
     // 크기 변형 - Medium
     &--medium {
       .ui-textarea__field {
-        padding: 12px;
-        font-size: $font-size-md;
+        padding: $ui-padding-md;
+        font-size: $ui-font-md;
         min-height: 100px;
 
         &::placeholder {
-          @include font-style($body-small);
+          font-size: $ui-font-md;
         }
       }
       .ui-textarea__label {
@@ -270,9 +265,13 @@
     // 크기 변형 - Large
     &--large {
       .ui-textarea__field {
-        padding: 10px 12px;
-        font-size: $font-size-lg;
+        padding: $ui-padding-lg;
+        font-size: $ui-font-lg;
         min-height: 120px;
+
+        &::placeholder {
+          font-size: $ui-font-lg;
+        }
       }
       .ui-textarea__label {
         @include font-style($body-large-bold);
@@ -282,10 +281,14 @@
     // 크기 변형 - XLarge
     &--xlarge {
       .ui-textarea__field {
-        padding: 12px 16px;
-        font-size: $font-size-xl;
+        padding: $ui-padding-xl;
+        font-size: $ui-font-xl;
         min-height: 140px;
         border-radius: 4px;
+
+        &::placeholder {
+          font-size: $ui-font-xl;
+        }
       }
       .ui-textarea__label {
         @include font-style($body-xlarge-bold);
@@ -320,6 +323,8 @@
         color: var(--color-gray-70, #464c53);
 
         &:focus {
+          outline: none;
+          border-color: var(--color-system-r30, #f30);
         }
       }
     }

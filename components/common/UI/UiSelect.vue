@@ -5,7 +5,7 @@
       `ui-select--${size}`,
       {
         'ui-select--open': isOpen,
-        'ui-select--selected': selectedValue,
+        'ui-select--selected': selectedValue && selectedValue !== '',
         'ui-select--error': error,
         'ui-select--disabled': disabled,
         'ui-select--view': viewOnly
@@ -362,12 +362,12 @@
     }
 
     &__placeholder {
-      color: var(--color-gray-30, #b1b8be);
-      font-family: Pretendard;
-      font-size: 16px;
+      color: $placeholder-color;
+      font-family: $placeholder-font-family;
+      font-size: $ui-font-md;
       font-style: normal;
-      font-weight: 400;
-      line-height: 150%;
+      font-weight: $placeholder-font-weight;
+      line-height: $placeholder-line-height;
     }
 
     &__selected-text {
@@ -416,54 +416,55 @@
     &--small {
       .ui-select__header {
         height: $ui-height-sm; // 32px
-        padding: 3px 9px;
+        padding: $ui-padding-sm;
+        box-sizing: border-box;
       }
 
       .ui-select__selected-text,
       .ui-select__placeholder {
-        @include font-style($body-xsmall-bold);
+        font-size: $ui-font-sm;
       }
     }
 
-    // 크기 변형 - Medium (36px)
+    // 크기 변형 - Medium (40px)
     &--medium {
       .ui-select__header {
-        height: $ui-height-md; // 36px
-        padding: 5px 12px;
+        height: $ui-height-md; // 40px
+        padding: $ui-padding-md;
+        box-sizing: border-box;
       }
 
       .ui-select__selected-text,
       .ui-select__placeholder {
-        position: relative;
-        top: -1px;
-        @include font-style($body-small);
+        font-size: $ui-font-md;
       }
     }
 
+    // 크기 변형 - Large (48px)
     &--large {
       .ui-select__header {
-        height: $ui-height-lg;
-        padding: 3px 12px;
+        height: $ui-height-lg; // 48px
+        padding: $ui-padding-lg;
+        box-sizing: border-box;
       }
 
       .ui-select__placeholder,
       .ui-select__selected-text {
-        @include font-style($body-medium);
+        font-size: $ui-font-lg;
       }
     }
 
-    // 크기 변형 - XLarge (40px)
+    // 크기 변형 - XLarge (56px)
     &--xlarge {
       .ui-select__header {
-        height: $ui-height-lg; // 40px
-        padding: 4px 16px;
-        border-radius: 4px;
+        height: $ui-height-xl; // 56px
+        padding: $ui-padding-xl;
+        box-sizing: border-box;
       }
 
       .ui-select__selected-text,
       .ui-select__placeholder {
-        @include font-style($body-large-bold);
-        font-size: $font-size-xxl;
+        font-size: $ui-font-xl;
       }
     }
 
@@ -471,25 +472,25 @@
     @media (max-width: 768px) {
       &--small {
         .ui-select__header {
-          padding: 5px 10px;
+          padding: $ui-padding-sm;
         }
       }
 
       &--medium {
         .ui-select__header {
-          padding: 6px 12px;
+          padding: $ui-padding-md;
         }
       }
 
       &--large {
         .ui-select__header {
-          padding: 8px 14px;
+          padding: $ui-padding-lg;
         }
       }
 
       &--xlarge {
         .ui-select__header {
-          padding: 10px 16px;
+          padding: $ui-padding-xl;
         }
       }
     }

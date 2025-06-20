@@ -5,7 +5,7 @@
       `ui-select--${size}`,
       {
         'ui-select--open': isOpen,
-        'ui-select--selected': selectedValue,
+        'ui-select--selected': selectedValue && selectedValue !== '',
         'ui-select--error': error,
         'ui-select--disabled': disabled,
         'ui-select--view': viewOnly
@@ -228,14 +228,14 @@
   }
 
   .ui-select {
-    height: $ui-height-md; // 36px
+    height: $ui-height-md; // 36px - 기본 medium 크기
     position: relative;
-    font-family: Pretendard;
-    border-radius: 4px;
-    border: 1px solid var(--color-gray-40, #8a949e);
+    font-family: $font-family;
+    border-radius: $border-radius-sm;
+    border: 1px solid $border-color-light;
     background: var(--color-gray-0, #fff);
     color: var(--color-gray-40, #8a949e);
-    transition: all 0.2s ease;
+    transition: all $transition-normal ease;
     box-sizing: border-box;
 
     // 아이콘 스타일
@@ -256,9 +256,11 @@
     &__header {
       display: flex;
       width: 100%;
+      height: 100%;
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
+      padding: $ui-padding-md;
       box-sizing: border-box;
 
       &:focus {
@@ -275,11 +277,17 @@
     }
 
     &__placeholder {
-      color: var(--color-gray-40, #8a949e);
+      color: $placeholder-color;
+      font-family: $placeholder-font-family;
+      font-size: $ui-font-md;
+      font-style: normal;
+      font-weight: $placeholder-font-weight;
+      line-height: $placeholder-line-height;
     }
 
     &__selected-text {
       color: var(--color-gray-70, #464c53);
+      font-size: $ui-font-md;
       font-weight: 500;
     }
 
@@ -363,100 +371,102 @@
       height: $ui-height-sm; // 32px
 
       .ui-select__header {
-        height: $ui-height-sm; // 32px
-        padding: 3px 9px;
+        height: 100%;
+        padding: $ui-padding-sm;
+        box-sizing: border-box;
       }
 
       .ui-select__option {
-        padding: 3px 9px;
-        font-size: 14px;
+        padding: $ui-padding-sm;
+        font-size: $ui-font-sm;
       }
 
       .ui-select__selected-text,
       .ui-select__placeholder {
-        font-size: 14px;
+        font-size: $ui-font-sm;
       }
 
       .ui-select__search-input {
-        padding: 3px 6px;
-        font-size: 14px;
+        padding: $ui-padding-sm;
+        font-size: $ui-font-sm;
       }
     }
 
     // 크기 변형 - Medium (36px)
     &--medium {
-      height: $ui-height-md + 2; // 36px
+      height: $ui-height-md; // 36px
 
       .ui-select__header {
-        height: $ui-height-md + 2; // 36px
-        padding: 5px 12px;
+        height: 100%;
+        padding: $ui-padding-md;
+        box-sizing: border-box;
       }
 
       .ui-select__option {
-        padding: 5px 12px;
-        font-size: 16px;
+        padding: $ui-padding-md;
+        font-size: $ui-font-md;
       }
 
       .ui-select__selected-text,
       .ui-select__placeholder {
-        font-size: 16px;
-        font-weight: 300;
+        font-size: $ui-font-md;
       }
 
       .ui-select__search-input {
-        padding: 5px 8px;
-        font-size: 14px;
+        padding: $ui-padding-md;
+        font-size: $ui-font-md;
       }
     }
 
-    // 크기 변형 - Large (40px)
+    // 크기 변형 - Large (48px)
     &--large {
-      height: $ui-height-lg + 2; // 40px
+      height: $ui-height-lg; // 48px
 
       .ui-select__header {
-        height: $ui-height-lg + 2; // 40px
-        padding: 3px 12px;
+        height: 100%;
+        padding: $ui-padding-lg;
+        box-sizing: border-box;
       }
 
       .ui-select__option {
-        padding: 6px 12px;
-        font-size: 16px;
+        padding: $ui-padding-lg;
+        font-size: $ui-font-lg;
       }
 
       .ui-select__selected-text,
       .ui-select__placeholder {
-        font-size: 16px;
+        font-size: $ui-font-lg;
       }
 
       .ui-select__search-input {
-        padding: 6px 10px;
-        font-size: 16px;
+        padding: $ui-padding-lg;
+        font-size: $ui-font-lg;
       }
     }
 
-    // 크기 변형 - XLarge (40px)
+    // 크기 변형 - XLarge (56px)
     &--xlarge {
-      height: $ui-height-lg + 2; // 40px
+      height: $ui-height-xl; // 56px
 
       .ui-select__header {
-        height: $ui-height-lg + 2; // 40px
-        padding: 4px 16px;
-        border-radius: 4px;
+        height: 100%;
+        padding: $ui-padding-xl;
+        box-sizing: border-box;
       }
 
       .ui-select__option {
-        padding: 8px 16px;
-        font-size: 18px;
+        padding: $ui-padding-xl;
+        font-size: $ui-font-xl;
       }
 
       .ui-select__selected-text,
       .ui-select__placeholder {
-        font-size: 18px;
+        font-size: $ui-font-xl;
       }
 
       .ui-select__search-input {
-        padding: 8px 12px;
-        font-size: 18px;
+        padding: $ui-padding-xl;
+        font-size: $ui-font-xl;
       }
     }
 

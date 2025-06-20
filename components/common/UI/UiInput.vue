@@ -298,11 +298,12 @@
       height: 100%;
 
       &::placeholder {
-        color: var(--color-gray-30, #b1b8be);
-        font-family: Pretendard;
+        color: $placeholder-color;
+        font-family: $placeholder-font-family;
+        font-size: $ui-font-md;
         font-style: normal;
-        font-weight: 400;
-        line-height: 150%;
+        font-weight: $placeholder-font-weight;
+        line-height: $placeholder-line-height;
       }
 
       &--with-prefix-icon {
@@ -355,54 +356,68 @@
     &--small {
       .ui-input__wrapper {
         height: $ui-height-sm; // 32px
-        padding: 3px 9px;
+        padding: $ui-padding-sm;
       }
       .ui-input__field {
-        font-size: $font-size-sm;
+        font-size: $ui-font-sm;
+        
+        &::placeholder {
+          font-size: $ui-font-sm;
+        }
       }
       .ui-input__label {
         @include font-style($body-small);
       }
     }
 
-    // 크기 변형 - Medium (36px)
+    // 크기 변형 - Medium (40px)
     &--medium {
       .ui-input__wrapper {
-        height: $ui-height-md + 2; // 36px
-        padding: 5px 12px;
+        height: $ui-height-md; // 40px
+        padding: $ui-padding-md;
       }
       .ui-input__field {
-        font-size: $font-size-lg;
+        font-size: $ui-font-md;
+        
+        &::placeholder {
+          font-size: $ui-font-md;
+        }
       }
       .ui-input__label {
         @include font-style($body-medium);
       }
     }
 
-    // 크기 변형 - Large
+    // 크기 변형 - Large (48px)
     &--large {
       .ui-input__wrapper {
-        height: $ui-height-lg;
-        padding: 3px 12px;
+        height: $ui-height-lg; // 48px
+        padding: $ui-padding-lg;
       }
       .ui-input__field {
-        font-size: $font-size-lg;
-        @include font-style($body-medium);
+        font-size: $ui-font-lg;
+        
+        &::placeholder {
+          font-size: $ui-font-lg;
+        }
       }
       .ui-input__label {
         @include font-style($body-medium);
       }
     }
 
-    // 크기 변형 - XLarge (40px)
+    // 크기 변형 - XLarge (56px)
     &--xlarge {
       .ui-input__wrapper {
-        height: $ui-height-xlg; // 40px
-        padding: 4px 16px;
-        border-radius: 4px;
+        height: $ui-height-xl; // 56px
+        padding: $ui-padding-xl;
       }
       .ui-input__field {
-        font-size: $font-size-xl;
+        font-size: $ui-font-xl;
+        
+        &::placeholder {
+          font-size: $ui-font-xl;
+        }
       }
       .ui-input__label {
         @include font-style($body-xlarge-bold);

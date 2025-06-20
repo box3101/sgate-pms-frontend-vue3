@@ -18,8 +18,10 @@ $system-green: #00b248;
 // 중립 색상
 $text-color: #333;
 $placeholder-color: #888;
-$border-color-light: #b1b8be; // UI 컴포넌트 테두리 색상
-$border-color-filled: #6d7882; // UI 컴포넌트 값이 입력되었을 때 테두리 색상
+$icon-color: #b1b8be;
+$border-color: #b1b8be;
+$border-color-light: #cdd1d5; // UI 컴포넌트 기본 테두리 색상 (연한 회색)
+$border-color-filled: #6d7882; // UI 컴포넌트 값이 입력되었을 때 테두리 색상 (진한 회색)
 
 // UItag
 // UI 태그 색상 변수
@@ -34,14 +36,30 @@ $tag-shared: #023; // 공유
 // 모든 UI 컴포넌트(버튼, 입력 필드, 셀렉트 등)에 일관되게 적용되는 높이 값
 
 $ui-height-xs: 24px; // XSmall 사이즈 컴포넌트 높이
-$ui-height-sm: 28px; // Small 사이즈 컴포넌트 높이
-$ui-height-md: 32px; // Medium 사이즈 컴포넌트 높이 (기본값)
-$ui-height-lg: 36px; // Large 사이즈 컴포넌트 높이
-$ui-height-xlg: 40px; // XLarge 사이즈 컴포넌트 높이
+$ui-height-sm: 32px; // Small 사이즈 컴포넌트 높이
+$ui-height-md: 36px; // Medium 사이즈 컴포넌트 높이 (기본값)
+$ui-height-lg: 48px; // Large 사이즈 컴포넌트 높이
+$ui-height-xl: 56px; // XLarge 사이즈 컴포넌트 높이
 
-$icon-color: #666;
-$border-color: #e0e0e0;
-$border-hover-color: #d0d0d0;
+// UI 컴포넌트 패딩 규격
+$ui-padding-xs: 4px 8px; // XSmall 사이즈 패딩
+$ui-padding-sm: 6px 12px; // Small 사이즈 패딩
+$ui-padding-md: 8px 16px; // Medium 사이즈 패딩
+$ui-padding-lg: 12px 20px; // Large 사이즈 패딩
+$ui-padding-xl: 16px 24px; // XLarge 사이즈 패딩
+
+// UI 컴포넌트 폰트 크기 규격
+$ui-font-xs: 12px; // XSmall 폰트 크기
+$ui-font-sm: 14px; // Small 폰트 크기
+$ui-font-md: 16px; // Medium 폰트 크기 (기본값)
+$ui-font-lg: 18px; // Large 폰트 크기
+$ui-font-xl: 20px; // XLarge 폰트 크기
+
+// Placeholder 공통 스타일
+$placeholder-color: #b1b8be; // placeholder 텍스트 색상
+$placeholder-font-family: Pretendard; // placeholder 폰트 패밀리
+$placeholder-font-weight: 400; // placeholder 폰트 굵기
+$placeholder-line-height: 150%; // placeholder 라인 높이
 
 // 배경 색상
 $background-color: #eee;

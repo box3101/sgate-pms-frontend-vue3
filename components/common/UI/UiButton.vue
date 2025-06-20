@@ -105,53 +105,80 @@
     &--small {
       height: $ui-height-sm; // 32px
       display: inline-flex;
-      padding: 3px 5px;
+      padding: $ui-padding-sm;
       justify-content: center;
       align-items: center;
       gap: 2px;
       min-width: 64px;
+      font-size: $ui-font-sm;
       @include font-style($body-small-bold);
     }
 
     &--medium {
-      height: $ui-height-md;
-      height: 34px;
-      padding: 5px 9px;
+      height: $ui-height-md; // 40px
+      padding: $ui-padding-md;
       justify-content: center;
       align-items: center;
       gap: 2px;
       flex-shrink: 0;
       min-width: 72px;
+      font-size: $ui-font-md;
       @include font-style($body-small-bold);
     }
 
     &--icon-only {
       min-width: auto;
+      
+      // 아이콘만 있는 버튼은 정사각형으로 설정
+      &.ui-button--small {
+        width: $ui-height-sm;
+        height: $ui-height-sm;
+        padding: 0;
+      }
+      
       &.ui-button--medium {
-        // padding: 0 9px;
+        width: $ui-height-md;
+        height: $ui-height-md;
+        padding: 0;
+      }
+      
+      &.ui-button--large {
+        width: $ui-height-lg;
+        height: $ui-height-lg;
+        padding: 0;
+      }
+      
+      &.ui-button--xlarge {
+        width: $ui-height-xl;
+        height: $ui-height-xl;
+        padding: 0;
+      }
+      
+      .ui-button__icon {
+        margin: 0;
       }
     }
 
     &--large {
-      height: $ui-height-lg;
-      padding: 3px 12px;
+      height: $ui-height-lg; // 48px
+      padding: $ui-padding-lg;
       justify-content: center;
       align-items: center;
       gap: 2px;
       min-width: 88px;
-      font-size: $font-size-lg;
+      font-size: $ui-font-lg;
       @include font-style($body-medium);
     }
 
     &--xlarge {
-      height: $ui-height-xlg; // 40px로 변경
+      height: $ui-height-xl; // 56px
       border-radius: 4px;
-      padding: 4px 16px;
+      padding: $ui-padding-xl;
       justify-content: center;
       align-items: center;
       gap: 2px;
+      font-size: $ui-font-xl;
       @include font-style($body-large-bold);
-      font-size: $font-size-xxl;
     }
 
     // 색상 변형
@@ -274,33 +301,26 @@
       width: 100%;
     }
 
-    // 아이콘만 버튼
-    &--icon-only {
-      min-width: auto;
-      .ui-button__icon {
-        margin-right: 0;
-      }
-    }
-
     // 반응형 스타일
     @media (max-width: 768px) {
       &--small {
-        padding: 5px 10px;
+        height: $ui-height-sm;
+        padding: $ui-padding-sm;
       }
 
       &--medium {
-        height: 32px;
-        padding: 6px 12px;
+        height: $ui-height-md;
+        padding: $ui-padding-md;
       }
 
       &--large {
-        height: 38px;
-        padding: 8px 16px;
+        height: $ui-height-lg;
+        padding: $ui-padding-lg;
       }
 
       &--xlarge {
-        height: 44px;
-        padding: 10px 20px;
+        height: $ui-height-xl;
+        padding: $ui-padding-xl;
       }
     }
   }

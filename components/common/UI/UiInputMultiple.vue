@@ -241,13 +241,18 @@
       width: 100%;
       border: none;
       background: transparent;
-      font-size: $font-size-sm;
+      font-size: $ui-font-md;
       color: var(--color-gray-70, #464c53);
       outline: none;
       height: 100%;
 
       &::placeholder {
-        color: var(--color-gray-40, #8a949e);
+        color: $placeholder-color;
+        font-family: $placeholder-font-family;
+        font-size: $ui-font-md;
+        font-style: normal;
+        font-weight: $placeholder-font-weight;
+        line-height: $placeholder-line-height;
       }
     }
 
@@ -318,10 +323,14 @@
     &--small {
       .ui-input-multiple__wrapper {
         height: $ui-height-sm; // 32px
-        padding: 3px 9px;
+        padding: $ui-padding-sm;
       }
       .ui-input-multiple__field {
-        font-size: $font-size-sm;
+        font-size: $ui-font-sm;
+
+        &::placeholder {
+          font-size: $ui-font-sm;
+        }
       }
       .ui-input-multiple__label {
         @include font-style($body-small);
@@ -332,14 +341,18 @@
       }
     }
 
-    // 크기 변형 - Medium (36px)
+    // 크기 변형 - Medium (40px)
     &--medium {
       .ui-input-multiple__wrapper {
-        height: $ui-height-md; // 36px
-        padding: 5px 12px;
+        height: $ui-height-md; // 40px
+        padding: $ui-padding-md;
       }
       .ui-input-multiple__field {
-        font-size: $font-size-md;
+        font-size: $ui-font-md;
+
+        &::placeholder {
+          font-size: $ui-font-md;
+        }
       }
       .ui-input-multiple__label {
         @include font-style($body-medium);
@@ -350,14 +363,18 @@
       }
     }
 
-    // 크기 변형 - Large (40px)
+    // 크기 변형 - Large (48px)
     &--large {
       .ui-input-multiple__wrapper {
-        height: $ui-height-lg; // 40px
-        padding: 3px 12px;
+        height: $ui-height-lg; // 48px
+        padding: $ui-padding-lg;
       }
       .ui-input-multiple__field {
-        font-size: $font-size-lg;
+        font-size: $ui-font-lg;
+
+        &::placeholder {
+          font-size: $ui-font-lg;
+        }
       }
       .ui-input-multiple__label {
         @include font-style($body-large-bold);
@@ -368,15 +385,19 @@
       }
     }
 
-    // 크기 변형 - XLarge (40px)
+    // 크기 변형 - XLarge (56px)
     &--xlarge {
       .ui-input-multiple__wrapper {
-        height: $ui-height-lg; // 40px
-        padding: 4px 16px;
+        height: $ui-height-xl; // 56px
+        padding: $ui-padding-xl;
         border-radius: 4px;
       }
       .ui-input-multiple__field {
-        font-size: $font-size-xl;
+        font-size: $ui-font-xl;
+
+        &::placeholder {
+          font-size: $ui-font-xl;
+        }
       }
       .ui-input-multiple__label {
         @include font-style($body-xlarge-bold);
