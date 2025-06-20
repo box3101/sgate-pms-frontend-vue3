@@ -1,19 +1,22 @@
+// 사이드바 스타일 정의
+@use "sass:color";
+
 .sidebar {
-  width: 60px;
+  margin-top: 56px;
+  width: 80px; /* 기본 너비 */
   height: 100vh;
   background-color: #ffff;
   color: white;
+  transition: width 0.2s;
   position: fixed;
-  left: 0;
   top: 0;
-  z-index: 50;
-  transition: width 0.3s;
-  overflow: hidden;
-  border-right: 1px solid #fff;
-}
+  left: 0;
+  z-index: 999;
+  border-right: 1px solid #eaeaea;
 
-.sidebar:hover {
-  width: 180px;
+  &:hover {
+    width: 80px; /* hover 시에도 너비 유지 */
+  }
 }
 
 .sidebar-container {
@@ -21,6 +24,7 @@
   flex-direction: column;
   height: 100%;
   border: 1px solid #fff;
+  position: relative; /* 서브메뉴의 기준점으로 설정 */
 }
 
 .menu-list {
@@ -30,56 +34,239 @@
   width: 100%;
 }
 
+/* 메인 메뉴 아이템 스타일 */
 .menu-item {
   width: 100%;
-  margin-bottom: 4px;
   border-bottom: 1px solid #fff;
+  z-index: 15; /* 서브메뉴가 다른 메뉴 아이템 위에 표시되도록 z-index 설정 */
+  
+  &:first-of-type {
+    .menu-link {
+      padding-top: 16px;
+    }
+  }
+
+  /* 활성화된 메뉴 스타일 */
+  &.active-menu {
+    .menu-link {
+      background-color: #e6f7ff;
+      color: var(--primary-color, #00aaff);
+      border-left: 2px solid var(--primary-color, #00aaff);
+
+      .menu-text {
+        color: var(--primary-color, #00aaff);
+      }
+    }
+  }
 }
 
 .menu-link {
   display: flex;
   align-items: center;
-  padding: 12px 16px;
+  justify-content: center; /* 중앙 정렬로 변경 */
+  padding: 8px 0; /* 좌우 패딩 제거 */
+  padding-top: 12px;
   text-decoration: none;
-  color: #a0aec0;
+  color: #333;
   white-space: nowrap;
   transition: all 0.2s;
   border-left: 2px solid #fff;
-}
+  cursor: pointer;
 
-.menu-link:hover {
- background-color: #4a5568; /* 세련된 다크 그레이 */
-  color: white;
-  span{
-    background: #fff;
+  &.active {
+    background-color: #e6f7ff;
+    color: var(--primary-color, #00aaff);
+    border-left: 2px solid var(--primary-color, #00aaff);
+
+    .menu-text {
+      color: var(--primary-color, #00aaff);
+    }
   }
 }
 
+.menu-icon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* 컨테이너 너비 100%로 설정 */
+}
+
 .menu-icon {
-  min-width: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  span{
-    background: #333;
+  
+  img {
+    width: 28px;
+    height: 28px;
   }
 }
 
 .menu-text {
-  margin-left: 12px;
-  font-size: 14px;
-  border-bottom: 1px dashed #fff;
-}
-.menu-item.active .menu-link {
-  color: #38b2ac; /* 청록색 - 강조색으로 추천 */
-  border-left: 3px solid #38b2ac;
+  color: var(--color-gray-30, #b1b8be);
+  text-align: center;
+  font-family: Pretendard;
+  font-size: var(--font_size-font_S, 12px);
+  font-weight: 700;
 }
 
-/* 상단에 파란색 바 스타일 추가 */
-.sidebar::before {
-  content: "";
-  display: block;
-  height: 4px;
-  width: 100%;
-  border-bottom: 1px solid #fff;
+.menu-arrow {
+  display: none; /* 화살표 숨김 */
+}
+
+/* 서브메뉴 섹션 스타일 */
+.submenu-sections {
+  padding: 16px 8px;
+  margin: 0;
+  background-color: #fff;
+  position: absolute;
+  left: 75px; /* 사이드바 너비와 동일하게 설정 */
+  top: -1px; /* 사이드바 컨테이너 상단 기준 */
+  width: 168px; /* 너비 증가 */
+  z-index: 10000;
+  border: 1px solid #eaeaea;
+  height: calc(100vh - 96px); /* 헤더 높이(56px)를 뺌 */
+  overflow-y: auto; /* 내용이 많을 경우 스크롤 가능하도록 */
+  padding-top: 40px; /* 핀 버튼을 위한 상단 여백 */
+  box-sizing: content-box;
+
+  /* 핀 고정 시 서브메뉴 스타일 */
+  &.pinned-submenu {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 10001;
+  }
+}
+
+/* 핀 버튼 스타일 */
+.pin-button-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pin-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: #e0e0e0;
+    color: var(--primary-color, #00aaff);
+    transform: scale(1.05);
+  }
+}
+
+/* 서브메뉴 섹션 스타일 */
+.submenu-section {
+  margin-bottom: 20px; /* 여백 증가 */
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.submenu-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #8a949e;
+}
+
+.section-indicator {
+  display: none;
+  color: var(--primary-color, #00aaff);
+  margin-right: 10px; /* 여백 증가 */
+  font-size: 18px; /* 크기 증가 */
+}
+
+/* 중첩된 서브메뉴 스타일 */
+.nested-submenu {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 0 12px; /* 왼쪽 여백 증가 */
+  padding-bottom: 8px;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.submenu-section:last-child {
+  .nested-submenu {
+    border-bottom: none;
+  }
+}
+
+.nested-submenu-item {
+  margin-bottom: 4px; /* 여백 증가 */
+}
+
+.nested-submenu-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #464c53;
+  white-space: nowrap;
+  transition: all 0.2s;
+  border-radius: 4px;
+  padding: 6px 8px;
+  margin-bottom: 8px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &:hover {
+    border-radius: 4px;
+    background: var(--color-primary-10, #cef);
+    color: var(--primary-color, #00aaff);
+    font-weight: 500; /* 호버 시 글자 굵기 증가 */
+
+    .menu-text {
+      color: var(--primary-color, #00aaff);
+    }
+  }
+
+  /* 활성 링크 스타일 */
+  &.router-link-active {
+    .menu-text {
+      position: relative;
+      color: #00aaff;
+      padding-left: 12px;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 48%;
+        transform: translateY(-50%);
+        left: 0;
+        width: 8px;
+        height: 8px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='8' viewBox='0 0 7 8' fill='none'%3E%3Cpath d='M0 1.61803C0 0.874652 0.782313 0.391156 1.44721 0.723607L6.21115 3.10557C6.94819 3.4741 6.94819 4.5259 6.21115 4.89443L1.44721 7.27639C0.782312 7.60884 0 7.12535 0 6.38197V1.61803Z' fill='%2300AAFF'/%3E%3C/svg%3E");
+        background-size: cover;
+        background-position: center;
+      }
+    }
+  }
+
+  .menu-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-70, #464c53);
+    width: auto;
+  }
+}
+
+.nested-submenu-bullet {
+  display: none;
+  margin-right: 10px; /* 여백 증가 */
+  font-size: 15px; /* 크기 증가 */
+  color: var(--primary-color, #00aaff);
 }
