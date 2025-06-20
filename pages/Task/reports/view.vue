@@ -24,7 +24,7 @@
   </div>
 
   <!-- 보고서 뷰어 모달 -->
-  <UiModal v-model="reportViewerModal" size="xlarge" height="90vh" :showFooter="false">
+  <UiModal v-model="reportViewerModal" size="xxlarge" height="90vh" :showFooter="false">
     <template #title>
       <div class="modal-title">
         {{ formatDate(selectedDate) }} 보고서
@@ -43,6 +43,10 @@
             {{ report.extendedProps.author }}
           </span>
         </div>
+
+        <div class="report-counter" v-if="currentAuthorReports.length > 0">
+          {{ currentAuthorReportIndex + 1 }} / {{ currentAuthorReports.length }}
+        </div>
       </div>
     </template>
 
@@ -52,17 +56,22 @@
         <!-- 보고서 헤더 -->
         <div class="report-header">
           <div class="author-info">
-            <i class="icon icon-xlg icon-user icon-white"></i>
-            <span>{{ currentReport.extendedProps.author }}</span>
+            <i class="icon icon-md icon-user2"></i>
+            <div class="author-info-text">
+              <p>{{ currentReport.extendedProps.author }}</p>
+              <span>{{ currentReport.extendedProps.group }}1</span>
+            </div>
           </div>
           <div class="report-actions">
             <div class="left-actions">
-              <UiTooltip position="left">
+              <UiTooltip position="bottom">
                 <template #trigger>
-                  제출대상
-                  <i class="icon-md icon-user" style="position: relative; top: 2px"></i>
+                  <div class="report-submit-target">
+                    제출대상
+                    <i class="icon-md icon-user" style="position: relative; top: 2px"></i>
+                  </div>
                 </template>
-                <p>{{ currentReport.extendedProps.submitTarget }} 외 10명</p>
+                <p>{{ currentReport.extendedProps.submitTarget }}</p>
               </UiTooltip>
             </div>
           </div>
@@ -321,6 +330,30 @@
       <div v-else class="no-report">선택된 보고서가 없습니다.</div>
     </div>
   </UiModal>
+  <!-- 스와이퍼 스타일 네비게이션 버튼들 -->
+  <div v-if="reportViewerModal" class="swiper-navigation">
+    <!-- 이전 버튼 (왼쪽) -->
+    <button
+      class="swiper-button swiper-button-prev"
+      @click="goToPreviousReport"
+      :disabled="!canGoToPrevious"
+      :class="{ 'swiper-button-disabled': !canGoToPrevious }"
+      title="이전 보고서"
+    >
+      <i class="icon icon-arrow-left icon-xxl"></i>
+    </button>
+
+    <!-- 다음 버튼 (오른쪽) -->
+    <button
+      class="swiper-button swiper-button-next"
+      @click="goToNextReport"
+      :disabled="!canGoToNext"
+      :class="{ 'swiper-button-disabled': !canGoToNext }"
+      title="다음 보고서"
+    >
+      <i class="icon icon-arrow-right icon-xxl"></i>
+    </button>
+  </div>
 </template>
 
 <script setup>
@@ -359,10 +392,11 @@
 
   // 보고서 데이터
   const reportEvents = ref([
+    // 기존 5/16 이찬용 보고서
     {
       id: '1',
       title: '[이찬용] 프로젝트 A 진행상황',
-      start: '2025-05-16',
+      start: '2025-06-16',
       allDay: true,
       backgroundColor: '#0AF',
       borderColor: '#0AF',
@@ -370,6 +404,7 @@
         reportType: 'weekly',
         author: '이찬용',
         submitTarget: '한성진',
+        group: 'UX/UI 팀',
         actualContent: `리타게팅 랜딩페이지 수정
 우체국뱅킹 ui/ux 개선 퍼블리싱 작업
 Sgate 아카데미 퍼블리싱
@@ -390,13 +425,13 @@ Vue.js 컴포넌트 리팩토링
             id: 1,
             author: '한성진',
             content: '수고하셨습니다. 다음 주 일정 조율이 필요할 것 같습니다.',
-            createdAt: '2025-05-16T16:30:00',
+            createdAt: '2025-06-16T16:30:00',
             replies: [
               {
                 id: 101,
                 author: '이찬용',
                 content: '네, 알겠습니다. 월요일에 미팅 잡겠습니다.',
-                createdAt: '2025-05-16T17:00:00'
+                createdAt: '2025-06-16T17:00:00'
               }
             ]
           }
@@ -405,17 +440,201 @@ Vue.js 컴포넌트 리팩토링
         createTime: '09:30'
       }
     },
+
+    // 👇 이찬용 추가 보고서들 (다른 날짜)
+    {
+      id: '5',
+      title: '[이찬용] 프로젝트 B 기획',
+      start: '2025-06-18',
+      allDay: true,
+      backgroundColor: '#00B248',
+      borderColor: '#00B248',
+      extendedProps: {
+        reportType: 'daily',
+        author: '이찬용',
+        submitTarget: '한성진',
+        group: 'UX/UI 팀',
+        actualContent: `신규 프로젝트 기획서 작성
+- 요구사항 분석 완료
+- 기술 스택 검토 (Vue.js, Nuxt.js)
+- 일정 계획 수립
+- 팀 역할 분담 논의`,
+        planContent: `내일 계획:
+- 프로젝트 킥오프 미팅
+- 개발 환경 설정
+- 초기 구조 설계
+- 디자인 시스템 구축`,
+        etcContent: '기획 단계 순조롭게 진행되고 있습니다.',
+        attachments: [{ id: 7, name: '프로젝트B_기획서.pdf', size: 1234567 }],
+        feedbacks: [],
+        summary: '프로젝트 B 기획 완료',
+        createTime: '16:30'
+      }
+    },
+
+    {
+      id: '6',
+      title: '[이찬용] 코드 리뷰 및 최적화',
+      start: '2025-06-14',
+      allDay: true,
+      backgroundColor: '#0AF',
+      borderColor: '#0AF',
+      extendedProps: {
+        reportType: 'weekly',
+        author: '이찬용',
+        submitTarget: '한성진',
+        group: 'UX/UI 팀',
+        actualContent: `기존 코드 리뷰 및 최적화 작업
+- 성능 개선사항 적용 (로딩 속도 30% 향상)
+- 코드 품질 향상 (ESLint 규칙 적용)
+- 테스트 커버리지 증가 (85% 달성)
+- 컴포넌트 재사용성 개선`,
+        planContent: `차주 계획:
+- 추가 최적화 작업 진행
+- 새로운 기능 개발 시작
+- 디자인 시스템 업데이트
+- 문서화 작업`,
+        etcContent: '코드 품질이 크게 향상되었습니다. 팀 내 코드 리뷰 문화도 정착되고 있습니다.',
+        attachments: [
+          { id: 8, name: '성능최적화_보고서.pdf', size: 567890 },
+          { id: 9, name: '테스트_커버리지_리포트.html', size: 123456 }
+        ],
+        feedbacks: [
+          {
+            id: 2,
+            author: '한성진',
+            content: '성능 개선이 눈에 띄게 좋아졌네요. 좋은 작업이었습니다.',
+            createdAt: '2025-06-14T18:00:00',
+            replies: []
+          }
+        ],
+        summary: '코드 리뷰 및 최적화 완료',
+        createTime: '14:00'
+      }
+    },
+
+    {
+      id: '7',
+      title: '[이찬용] 회의 및 협업',
+      start: '2025-06-13',
+      allDay: true,
+      backgroundColor: '#00B248',
+      borderColor: '#00B248',
+      extendedProps: {
+        reportType: 'daily',
+        author: '이찬용',
+        submitTarget: '한성진',
+        group: 'UX/UI 팀',
+        actualContent: `팀 회의 참석 및 협업 작업
+- 주간 스프린트 회의 참석
+- 디자인팀과 UI/UX 협업
+- 백엔드팀과 API 규격 논의
+- QA팀과 테스트 시나리오 검토`,
+        planContent: `내일 계획:
+- API 연동 작업 진행
+- UI 컴포넌트 개발
+- 반응형 레이아웃 구현
+- 크로스 브라우징 테스트`,
+        etcContent: '팀 협업이 원활하게 진행되고 있으며, 소통이 많이 개선되었습니다.',
+        attachments: [{ id: 10, name: '회의록_0513.docx', size: 67890 }],
+        feedbacks: [],
+        summary: '팀 회의 및 협업 활동',
+        createTime: '17:15'
+      }
+    },
+
+    {
+      id: '8',
+      title: '[이찬용] 신기술 학습 및 적용',
+      start: '2025-06-10',
+      allDay: true,
+      backgroundColor: '#0AF',
+      borderColor: '#0AF',
+      extendedProps: {
+        reportType: 'weekly',
+        author: '이찬용',
+        submitTarget: '한성진',
+        group: 'UX/UI 팀',
+        actualContent: `신기술 학습 및 프로젝트 적용
+- Vue 3 Composition API 심화 학습
+- TypeScript 도입 검토 및 테스트
+- Vite 빌드 도구 성능 테스트
+- 모던 CSS 기법 연구 (Container Queries)`,
+        planContent: `차주 계획:
+- TypeScript 점진적 도입
+- Vite 빌드 시스템 적용
+- 모던 CSS 기법 적용
+- 팀 내 기술 공유 세션`,
+        etcContent:
+          '새로운 기술들이 프로젝트에 도움이 될 것 같습니다. 점진적으로 적용해 나가겠습니다.',
+        attachments: [
+          { id: 11, name: 'TypeScript_도입_계획서.pdf', size: 234567 },
+          { id: 12, name: 'Vite_성능_테스트_결과.xlsx', size: 345678 }
+        ],
+        feedbacks: [
+          {
+            id: 3,
+            author: '한성진',
+            content: '신기술 학습에 적극적이시네요. 팀에도 공유 부탁드립니다.',
+            createdAt: '2025-06-10T19:30:00',
+            replies: [
+              {
+                id: 102,
+                author: '이찬용',
+                content: '네, 다음 주에 기술 공유 세션을 진행하겠습니다.',
+                createdAt: '2025-06-10T20:00:00'
+              }
+            ]
+          }
+        ],
+        summary: '신기술 학습 및 적용 연구',
+        createTime: '18:45'
+      }
+    },
+
+    {
+      id: '9',
+      title: '[이찬용] 사용자 피드백 반영',
+      start: '2025-06-09',
+      allDay: true,
+      backgroundColor: '#00B248',
+      borderColor: '#00B248',
+      extendedProps: {
+        reportType: 'daily',
+        author: '이찬용',
+        submitTarget: '한성진',
+        group: 'UX/UI 팀',
+        actualContent: `사용자 피드백 분석 및 개선사항 적용
+- 사용자 인터페이스 개선 (버튼 크기, 색상 조정)
+- 접근성 향상 (키보드 네비게이션, 스크린 리더 지원)
+- 모바일 반응형 이슈 수정
+- 로딩 성능 개선`,
+        planContent: `내일 계획:
+- 추가 피드백 수집
+- A/B 테스트 설계
+- 사용성 테스트 진행
+- 개선사항 문서화`,
+        etcContent: '사용자 만족도가 크게 향상되었습니다. 지속적인 개선이 필요합니다.',
+        attachments: [{ id: 13, name: '사용자_피드백_분석.pdf', size: 456789 }],
+        feedbacks: [],
+        summary: '사용자 피드백 반영 완료',
+        createTime: '15:20'
+      }
+    },
+
+    // 기존 다른 작성자들 보고서
     {
       id: '2',
       title: '[김영희] 품질관리 점검',
-      start: '2025-05-16',
+      start: '2025-06-16',
       allDay: true,
       backgroundColor: '#00B248',
       borderColor: '#00B248',
       extendedProps: {
         reportType: 'daily',
         author: '김영희',
-        submitTarget: '이부장',
+        submitTarget: '이부장, 김영희, 홍길동, 김민수, 김정민',
+        group: '품질관리 팀',
         actualContent: `생산라인 전체 점검 완료
 - 1라인: 정상 가동
 - 2라인: 미세 조정 필요
@@ -431,10 +650,11 @@ Vue.js 컴포넌트 리팩토링
         createTime: '16:45'
       }
     },
+
     {
       id: '3',
       title: '[정수민] 회계 업무 처리',
-      start: '2025-05-16',
+      start: '2025-06-16',
       allDay: true,
       backgroundColor: '#00B248',
       borderColor: '#00B248',
@@ -442,6 +662,7 @@ Vue.js 컴포넌트 리팩토링
         reportType: 'daily',
         author: '정수민',
         submitTarget: '최팀장',
+        group: '회계 팀',
         actualContent: `월간 회계 마감 완료
 - 매출/매입 정리
 - 비용 분석
@@ -460,17 +681,19 @@ Vue.js 컴포넌트 리팩토링
         createTime: '11:30'
       }
     },
+
     {
       id: '4',
       title: '[박민수] 마케팅 활동 보고',
-      start: '2025-05-16',
+      start: '2025-06-16',
       allDay: true,
       backgroundColor: '#00B248',
       borderColor: '#00B248',
       extendedProps: {
         reportType: 'daily',
         author: '박민수',
-        submitTarget: '김과장',
+        submitTarget: '이부장, 김영희, 홍길동, 김민수, 김정민',
+        group: '마케팅 팀',
         actualContent: `고객사 3곳 방문 완료
 - A사: 제품 데모 진행
 - B사: 계약 조건 협의
@@ -510,7 +733,68 @@ Vue.js 컴포넌트 리팩토링
     return selectedDateReports.value[currentReportIndex.value] || null
   })
 
+  const currentAuthorReports = computed(() => {
+    if (!currentReport.value) return []
+
+    const currentAuthor = currentReport.value.extendedProps.author
+
+    return filteredReportEvents.value
+      .filter(event => event.extendedProps.author === currentAuthor)
+      .sort((a, b) => new Date(a.start) - new Date(b.start)) // 🔄 변경: 오래된 순서로 정렬
+  })
+  const currentAuthorReportIndex = computed(() => {
+    if (!currentReport.value || currentAuthorReports.value.length === 0) return 0
+
+    return currentAuthorReports.value.findIndex(report => report.id === currentReport.value.id)
+  })
+
+  const canGoToPrevious = computed(() => {
+    return currentAuthorReportIndex.value > 0
+  })
+
+  const canGoToNext = computed(() => {
+    return currentAuthorReportIndex.value < currentAuthorReports.value.length - 1
+  })
+
   // 이벤트 핸들러
+
+  // 👇 이 함수들 추가
+  function goToPreviousReport() {
+    if (!canGoToPrevious.value) return
+
+    const previousReport = currentAuthorReports.value[currentAuthorReportIndex.value - 1]
+    if (previousReport) {
+      selectedDate.value = new Date(previousReport.start)
+
+      const targetDate = formatDateForComparison(previousReport.start)
+      const dateReports = filteredReportEvents.value.filter(event => {
+        const eventDate = formatDateForComparison(event.start)
+        return eventDate === targetDate
+      })
+
+      const reportIndex = dateReports.findIndex(r => r.id === previousReport.id)
+      currentReportIndex.value = reportIndex >= 0 ? reportIndex : 0
+    }
+  }
+
+  function goToNextReport() {
+    if (!canGoToNext.value) return
+
+    const nextReport = currentAuthorReports.value[currentAuthorReportIndex.value + 1]
+    if (nextReport) {
+      selectedDate.value = new Date(nextReport.start)
+
+      const targetDate = formatDateForComparison(nextReport.start)
+      const dateReports = filteredReportEvents.value.filter(event => {
+        const eventDate = formatDateForComparison(event.start)
+        return eventDate === targetDate
+      })
+
+      const reportIndex = dateReports.findIndex(r => r.id === nextReport.id)
+      currentReportIndex.value = reportIndex >= 0 ? reportIndex : 0
+    }
+  }
+
   function handleDateClick(info) {
     selectedDate.value = info.date
     currentReportIndex.value = 0
@@ -706,18 +990,29 @@ Vue.js 컴포넌트 리팩토링
   }
 
   // 키보드 이벤트 핸들러
+  // 👇 기존 handleKeydown 함수를 이렇게 수정
   function handleKeydown(event) {
     if (!reportViewerModal.value) return
 
     switch (event.key) {
       case 'ArrowLeft':
         event.preventDefault()
+        goToPreviousReport() // ← 이전 보고서 (더 오래된)
+        break
+      case 'ArrowRight':
+        event.preventDefault()
+        goToNextReport() // → 다음 보고서 (더 최근)
+        break
+      case 'ArrowUp':
+        event.preventDefault()
+        // 🆕 추가: 같은 날짜 내에서 이전 작성자
         if (currentReportIndex.value > 0) {
           currentReportIndex.value--
         }
         break
-      case 'ArrowRight':
+      case 'ArrowDown':
         event.preventDefault()
+        // 🆕 추가: 같은 날짜 내에서 다음 작성자
         if (currentReportIndex.value < selectedDateReports.value.length - 1) {
           currentReportIndex.value++
         }
@@ -821,9 +1116,9 @@ Vue.js 컴포넌트 리팩토링
     padding-left: 23px;
     padding-right: 23px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    gap: 10px;
     padding: 16px;
     background-color: #f8f9fa;
     border-radius: 8px;
@@ -1085,5 +1380,76 @@ Vue.js 컴포넌트 리팩토링
 
   .w-150 {
     width: 150px;
+  }
+  :deep(.ui-popup__title) {
+    max-width: max-content !important;
+  }
+  .swiper-navigation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    pointer-events: none;
+
+    .swiper-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px !important;
+      height: 50px !important;
+      border-radius: 50% !important;
+      background: #fff;
+      z-index: 1000 !important;
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+
+      &:hover:not(.swiper-button-disabled) {
+        transform: translateY(-50%) scale(1.1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .icon {
+        color: #333;
+      }
+    }
+
+    .swiper-button-prev {
+      left: calc(50vw - 850px); /* 🔄 변경: 화면 중앙에서 850px 뺀 위치 */
+
+      /* 반응형 조정 */
+      @media (max-width: 1400px) {
+        left: 2vw; /* 작은 화면에서는 2% 여백 */
+      }
+
+      @media (max-width: 768px) {
+        left: 16px; /* 모바일에서는 고정값 */
+      }
+    }
+
+    .swiper-button-next {
+      right: calc(50vw - 850px); /* 🔄 변경: 화면 중앙에서 900px 뺀 위치 */
+
+      /* 반응형 조정 */
+      @media (max-width: 1400px) {
+        right: 2vw; /* 작은 화면에서는 2% 여백 */
+      }
+
+      @media (max-width: 768px) {
+        right: 16px; /* 모바일에서는 고정값 */
+      }
+    }
+    .swiper-button-disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
   }
 </style>

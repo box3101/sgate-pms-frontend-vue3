@@ -116,6 +116,10 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s, visibility 0.3s;
+    max-width: 300px;
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-all;
 
     // 툴팁 화살표 공통 스타일
     &::before {
@@ -159,7 +163,7 @@
       top: calc(100% + 10px);
       left: 50%;
       transform: translateX(-50%);
-
+      width: max-content;
       &::before {
         bottom: 100%;
         left: 50%;
@@ -192,7 +196,6 @@
     // 툴팁 내용
     &-content {
       padding: 12px 16px;
-      width: max-content;
 
       strong {
         display: block;

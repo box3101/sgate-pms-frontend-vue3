@@ -415,18 +415,37 @@ button:focus,
   align-items: center;
   gap: 4px;
   border-radius: 20px;
-  background: var(--color-system-b30, #0084ff);
   padding: 4px 16px 4px 4px;
 
   .icon {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
+    background-color: #e5f6ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
   }
 
-  span {
-    @include font-style($body-medium);
-    color: $gray-0;
+  .author-info-text {
+    display: flex;
+    flex-direction: column;
+    p {
+      @include font-style($body-medium-bold);
+      color: #0084ff;
+    }
+    span {
+      @include font-style($body-small-bold);
+      color: #4b5563;
+    }
   }
+}
+
+.report-submit-target {
+  align-items: center;
+  @include font-style($body-medium-bold);
+  color: $gray-50;
 }
 /**
  * 동적 필터 그리드 정렬 해결책

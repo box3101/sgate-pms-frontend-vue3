@@ -198,7 +198,9 @@
       type: String,
       default: 'medium',
       validator: value =>
-        ['small', 'xmedium', 'medium', 'large', 'mlarge', 'xlarge', 'full'].includes(value)
+        ['small', 'xmedium', 'medium', 'large', 'mlarge', 'xlarge', 'xxlarge', 'full'].includes(
+          value
+        )
     },
     centered: {
       type: Boolean,
@@ -886,6 +888,11 @@
     &--xlarge {
       width: min(1400px, max(70vw, 1000px));
       max-width: min(1400px, 85vw);
+    }
+
+    &--xxlarge {
+      width: min(1600px, max(80vw, 1200px));
+      max-width: min(1600px, 95vw);
     }
 
     &--full {
