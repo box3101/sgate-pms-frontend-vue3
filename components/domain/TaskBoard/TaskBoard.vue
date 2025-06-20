@@ -42,7 +42,6 @@
 
             <UiButton
               variant="primary"
-              size="large"
               class="create-board-btn animate-bounce-in"
               :style="{ animationDelay: '1.4s' }"
               @click="handleCreateBoard"
@@ -280,29 +279,22 @@
           <template #content-1>
             <UiFormLayout :showFooter="true">
               <UiFormItem label="카테고리">
-                <UiSelect size="large" placeholder="업무 보드명입니다." />
+                <UiSelect placeholder="업무 보드명입니다." />
               </UiFormItem>
               <UiFormItem label="실행기간">
-                <UiDatePicker full isRange size="large" />
+                <UiDatePicker full isRange />
               </UiFormItem>
               <UiFormItem label="협업">
                 <div class="flex gap-5">
                   <UiMultiSelect
-                    size="large"
                     placeholder="협업자 이름을 입력해주세요"
                     v-model="selectedUsers"
                     :options="allOptions"
                   />
-                  <UiButton
-                    size="large"
-                    variant="secondary"
-                    icon-only
-                    @click="openOrganizationUserSelector"
-                  >
+                  <UiButton variant="secondary" icon-only @click="openOrganizationUserSelector">
                     <Icon name="heroicons:user" size="20" />
                   </UiButton>
                   <UiButton
-                    size="large"
                     variant="secondary"
                     icon-only
                     @click="isOrganizationUserSelectorOpen = true"
@@ -314,7 +306,6 @@
               <UiFormItem label="공유">
                 <div class="flex gap-5">
                   <UiMultiSelect
-                    size="large"
                     placeholder="공유자 이름을 입력해주세요"
                     :options="[
                       { label: '마케팅팀', value: 'marketing' },
@@ -322,10 +313,10 @@
                       { label: '디자인팀', value: 'design' }
                     ]"
                   />
-                  <UiButton size="large" variant="secondary" icon-only>
+                  <UiButton variant="secondary" icon-only>
                     <Icon name="heroicons:user" size="20" />
                   </UiButton>
-                  <UiButton size="large" variant="secondary" icon-only>
+                  <UiButton variant="secondary" icon-only>
                     <Icon name="heroicons:magnifying-glass" size="20" />
                   </UiButton>
                 </div>
@@ -333,7 +324,6 @@
               <UiFormItem label="내용">
                 <UiTextarea
                   v-model="textContent"
-                  size="large"
                   placeholder="업무에 대한 구체적인 내용을 입력해주세요."
                 />
               </UiFormItem>
@@ -352,11 +342,10 @@
               <div class="flex justify-between gap-5 mb-4">
                 <div class="flex gap-10 items-center">
                   <p class="flex-none">일자</p>
-                  <UiDatePicker size="large" placeholder="날짜 선택" />
+                  <UiDatePicker placeholder="날짜 선택" />
                 </div>
                 <div class="flex gap-10 items-center">
                   <UiSelect
-                    size="large"
                     placeholder="업무상태"
                     class="w-200"
                     :options="[
@@ -366,7 +355,6 @@
                     ]"
                   />
                   <UiSelect
-                    size="large"
                     placeholder="진행만족도"
                     class="w-200"
                     :options="[
@@ -382,7 +370,6 @@
               <!-- 내용 입력 영역 -->
               <UiTextarea
                 placeholder="업무에 대한 구체적인 내용을 입력해주세요."
-                size="xlarge"
                 class="mt-10 my-4"
               />
 
@@ -420,12 +407,7 @@
   </div>
 
   <!-- ================== 직원 찾기 모달 ================== -->
-  <UiModal
-    v-model="isOrganizationUserSelectorOpen"
-    title="직원 찾기"
-    size="large"
-    :show-footer="true"
-  >
+  <UiModal v-model="isOrganizationUserSelectorOpen" title="직원 찾기" :show-footer="true">
     <OrganizationUserSelector v-model="orgSelectedUsers" />
     <template #footerActions>
       <UiButton variant="primary" @click="saveData">저장</UiButton>
