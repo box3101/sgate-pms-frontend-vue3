@@ -249,7 +249,7 @@
     // 크기 변형 - Medium
     &--medium {
       .ui-textarea__field {
-        padding: $ui-padding-md;
+        padding: $ui-padding-sm;
         font-size: $ui-font-md;
         min-height: 100px;
 
