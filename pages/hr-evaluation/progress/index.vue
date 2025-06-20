@@ -40,14 +40,24 @@
                 :row-clickable="true"
                 :row-click-cursor="true"
                 @row-click="selectManager"
-                class="manager-table"
+                :scrollable="true"
+                :max-height="'calc(100vh - 300px)'"
               >
+                <template #colgroup>
+                  <colgroup>
+                    <col style="width: 120px" />
+                    <col style="width: auto" />
+                    <col style="width: 60px" />
+                    <col style="width: 50px" />
+                  </colgroup>
+                </template>
+
                 <template #header>
                   <tr>
-                    <th style="width: 120px">매니저</th>
+                    <th>매니저</th>
                     <th>부서</th>
-                    <th style="width: auto">건수</th>
-                    <th style="width: 50px">상태</th>
+                    <th>건수</th>
+                    <th>상태</th>
                   </tr>
                 </template>
 
@@ -106,7 +116,7 @@
                     :options="positionOptions"
                     multiple
                     placeholder="조회 및 선택 하세요"
-                    size="medium"
+                    size="small"
                   />
                 </div>
                 <div class="filter-item">
@@ -116,7 +126,7 @@
                     :options="gradeOptions"
                     multiple
                     placeholder="조회 및 선택 하세요"
-                    size="medium"
+                    size="small"
                   />
                 </div>
                 <div class="filter-item">
@@ -126,7 +136,7 @@
                     :options="jobOptions"
                     multiple
                     placeholder="조회 및 선택 하세요"
-                    size="medium"
+                    size="small"
                   />
                 </div>
                 <div class="filter-item">
@@ -136,7 +146,7 @@
                     :options="departmentOptions"
                     multiple
                     placeholder="조회 및 선택 하세요"
-                    size="medium"
+                    size="small"
                   />
                 </div>
                 <div class="filter-item">
@@ -146,7 +156,7 @@
                     :options="employeeOptions"
                     multiple
                     placeholder="조회 및 선택 하세요"
-                    size="medium"
+                    size="small"
                   />
                 </div>
               </div>
@@ -180,19 +190,35 @@
                   :max-height="'calc(100vh - 400px)'"
                   class="target-table"
                 >
+                  <template #colgroup>
+                    <colgroup>
+                      <col style="width: 200px" />
+                      <col style="width: 300px" />
+                      <col style="width: 100px" />
+                      <col style="width: 100px" />
+                      <col style="width: 100px" />
+                      <col style="width: 100px" />
+                      <col style="width: 100px" />
+                      <col style="width: 100px" />
+                      <col style="width: 100px" />
+                      <col style="width: 100px" />
+                      <col style="width: 250px" />
+                    </colgroup>
+                  </template>
+
                   <template #header>
                     <tr>
-                      <th style="width: 200px">평가대상</th>
-                      <th style="width: 300px">부서</th>
-                      <th style="width: 100px">매니저</th>
-                      <th style="width: 100px">평가군</th>
-                      <th style="width: 100px">1차 상급자 평가</th>
-                      <th style="width: 100px">2차 상급자 평가</th>
-                      <th style="width: 100px">3차 상급자 평가</th>
-                      <th style="width: 100px">동료평가</th>
-                      <th style="width: 100px">부하(상향) 평가</th>
-                      <th style="width: 100px">성과평가비율</th>
-                      <th style="width: 250px">역량평가비율</th>
+                      <th>평가대상</th>
+                      <th>부서</th>
+                      <th>매니저</th>
+                      <th>평가군</th>
+                      <th>1차 상급자 평가</th>
+                      <th>2차 상급자 평가</th>
+                      <th>3차 상급자 평가</th>
+                      <th>동료평가</th>
+                      <th>부하(상향) 평가</th>
+                      <th>성과평가비율</th>
+                      <th>역량평가비율</th>
                     </tr>
                   </template>
 
@@ -453,6 +479,104 @@
       department: 'OEM 생산부>프로젝트팀2',
       count: 1,
       status: '미완료'
+    },
+    {
+      id: 'isp141',
+      name: '이영희',
+      department: '마케팅팀>디지털마케팅팀',
+      count: 8,
+      status: '완료'
+    },
+    {
+      id: 'isp142',
+      name: '박민수',
+      department: '개발팀>프론트엔드팀',
+      count: 12,
+      status: '미완료'
+    },
+    {
+      id: 'isp143',
+      name: '최지원',
+      department: '개발팀>백엔드팀',
+      count: 9,
+      status: '완료'
+    },
+    {
+      id: 'isp144',
+      name: '정수연',
+      department: '디자인팀>UI/UX팀',
+      count: 6,
+      status: '미완료'
+    },
+    {
+      id: 'isp145',
+      name: '김태현',
+      department: '품질관리팀>QA팀',
+      count: 5,
+      status: '완료'
+    },
+    {
+      id: 'isp146',
+      name: '송미영',
+      department: '고객서비스팀>CS팀',
+      count: 10,
+      status: '미완료'
+    },
+    {
+      id: 'isp147',
+      name: '윤성호',
+      department: '영업팀>기업영업팀',
+      count: 15,
+      status: '미완료'
+    },
+    {
+      id: 'isp148',
+      name: '한지수',
+      department: '재무팀>회계팀',
+      count: 4,
+      status: '완료'
+    },
+    {
+      id: 'isp149',
+      name: '조현우',
+      department: '법무팀>계약관리팀',
+      count: 3,
+      status: '미완료'
+    },
+    {
+      id: 'isp150',
+      name: '신예린',
+      department: '전략기획팀>사업기획팀',
+      count: 7,
+      status: '완료'
+    },
+    {
+      id: 'isp151',
+      name: '강동훈',
+      department: '운영팀>시스템운영팀',
+      count: 11,
+      status: '미완료'
+    },
+    {
+      id: 'isp152',
+      name: '임소희',
+      department: '교육팀>인재개발팀',
+      count: 6,
+      status: '완료'
+    },
+    {
+      id: 'isp153',
+      name: '배준호',
+      department: '보안팀>정보보안팀',
+      count: 8,
+      status: '미완료'
+    },
+    {
+      id: 'isp154',
+      name: '류지은',
+      department: '구매팀>자재구매팀',
+      count: 5,
+      status: '완료'
     }
   ])
 
@@ -519,6 +643,244 @@
       subordinateEvaluator: '',
       performanceRate: null,
       competencyRates: null
+    },
+    {
+      id: 'emp001',
+      name: '이영희',
+      department: '마케팅팀>디지털마케팅팀',
+      manager: '박민수',
+      evalGroup: '마케팅 - 팀원',
+      firstEvaluator: '박민수',
+      secondEvaluator: '최지원',
+      thirdEvaluator: '',
+      peerEvaluator: '정수연',
+      subordinateEvaluator: '',
+      performanceRate: 85,
+      competencyRates: [
+        { type: '창의성', ratio: 30, itemCount: 3 },
+        { type: '커뮤니케이션', ratio: 40, itemCount: 4 }
+      ]
+    },
+    {
+      id: 'emp002',
+      name: '박민수',
+      department: '개발팀>프론트엔드팀',
+      manager: '최지원',
+      evalGroup: '개발 - 팀장',
+      firstEvaluator: '최지원',
+      secondEvaluator: '김태현',
+      thirdEvaluator: '송미영',
+      peerEvaluator: '정수연',
+      subordinateEvaluator: '이영희',
+      performanceRate: 90,
+      competencyRates: [
+        { type: '기술역량', ratio: 50, itemCount: 5 },
+        { type: '리더쉽', ratio: 30, itemCount: 3 }
+      ]
+    },
+    {
+      id: 'emp003',
+      name: '최지원',
+      department: '개발팀>백엔드팀',
+      manager: '윤성호',
+      evalGroup: '개발 - 팀장',
+      firstEvaluator: '윤성호',
+      secondEvaluator: '한지수',
+      thirdEvaluator: '',
+      peerEvaluator: '박민수',
+      subordinateEvaluator: '정수연',
+      performanceRate: 88,
+      competencyRates: [
+        { type: '기술역량', ratio: 45, itemCount: 4 },
+        { type: '문제해결', ratio: 35, itemCount: 3 }
+      ]
+    },
+    {
+      id: 'emp004',
+      name: '정수연',
+      department: '디자인팀>UI/UX팀',
+      manager: '김태현',
+      evalGroup: '디자인 - 팀원',
+      firstEvaluator: '김태현',
+      secondEvaluator: '송미영',
+      thirdEvaluator: '',
+      peerEvaluator: '이영희',
+      subordinateEvaluator: '',
+      performanceRate: 82,
+      competencyRates: [
+        { type: '창의성', ratio: 40, itemCount: 4 },
+        { type: '협업', ratio: 30, itemCount: 3 }
+      ]
+    },
+    {
+      id: 'emp005',
+      name: '김태현',
+      department: '품질관리팀>QA팀',
+      manager: '송미영',
+      evalGroup: '품질관리 - 팀장',
+      firstEvaluator: '송미영',
+      secondEvaluator: '윤성호',
+      thirdEvaluator: '한지수',
+      peerEvaluator: '최지원',
+      subordinateEvaluator: '정수연',
+      performanceRate: 87,
+      competencyRates: [
+        { type: '분석력', ratio: 35, itemCount: 3 },
+        { type: '꼼꼼함', ratio: 40, itemCount: 4 }
+      ]
+    },
+    {
+      id: 'emp006',
+      name: '송미영',
+      department: '고객서비스팀>CS팀',
+      manager: '윤성호',
+      evalGroup: '고객서비스 - 팀장',
+      firstEvaluator: '윤성호',
+      secondEvaluator: '한지수',
+      thirdEvaluator: '조현우',
+      peerEvaluator: '김태현',
+      subordinateEvaluator: '신예린',
+      performanceRate: 91,
+      competencyRates: [
+        { type: '고객지향', ratio: 45, itemCount: 5 },
+        { type: '커뮤니케이션', ratio: 35, itemCount: 3 }
+      ]
+    },
+    {
+      id: 'emp007',
+      name: '윤성호',
+      department: '영업팀>기업영업팀',
+      manager: '한지수',
+      evalGroup: '영업 - 팀장',
+      firstEvaluator: '한지수',
+      secondEvaluator: '조현우',
+      thirdEvaluator: '신예린',
+      peerEvaluator: '송미영',
+      subordinateEvaluator: '강동훈',
+      performanceRate: 93,
+      competencyRates: [
+        { type: '영업력', ratio: 50, itemCount: 5 },
+        { type: '협상력', ratio: 30, itemCount: 3 }
+      ]
+    },
+    {
+      id: 'emp008',
+      name: '한지수',
+      department: '재무팀>회계팀',
+      manager: '조현우',
+      evalGroup: '재무 - 팀원',
+      firstEvaluator: '조현우',
+      secondEvaluator: '신예린',
+      thirdEvaluator: '',
+      peerEvaluator: '윤성호',
+      subordinateEvaluator: '',
+      performanceRate: 86,
+      competencyRates: [
+        { type: '정확성', ratio: 45, itemCount: 4 },
+        { type: '분석력', ratio: 35, itemCount: 3 }
+      ]
+    },
+    {
+      id: 'emp009',
+      name: '조현우',
+      department: '법무팀>계약관리팀',
+      manager: '신예린',
+      evalGroup: '법무 - 팀원',
+      firstEvaluator: '신예린',
+      secondEvaluator: '강동훈',
+      thirdEvaluator: '',
+      peerEvaluator: '한지수',
+      subordinateEvaluator: '',
+      performanceRate: 84,
+      competencyRates: [
+        { type: '전문성', ratio: 40, itemCount: 4 },
+        { type: '신중함', ratio: 35, itemCount: 3 }
+      ]
+    },
+    {
+      id: 'emp010',
+      name: '신예린',
+      department: '전략기획팀>사업기획팀',
+      manager: '강동훈',
+      evalGroup: '기획 - 팀장',
+      firstEvaluator: '강동훈',
+      secondEvaluator: '임소희',
+      thirdEvaluator: '배준호',
+      peerEvaluator: '조현우',
+      subordinateEvaluator: '류지은',
+      performanceRate: 89,
+      competencyRates: [
+        { type: '기획력', ratio: 40, itemCount: 4 },
+        { type: '통찰력', ratio: 35, itemCount: 3 }
+      ]
+    },
+    {
+      id: 'emp011',
+      name: '강동훈',
+      department: '운영팀>시스템운영팀',
+      manager: '임소희',
+      evalGroup: '운영 - 팀장',
+      firstEvaluator: '임소희',
+      secondEvaluator: '배준호',
+      thirdEvaluator: '류지은',
+      peerEvaluator: '신예린',
+      subordinateEvaluator: '이영희',
+      performanceRate: 88,
+      competencyRates: [
+        { type: '안정성', ratio: 45, itemCount: 4 },
+        { type: '효율성', ratio: 30, itemCount: 3 }
+      ]
+    },
+    {
+      id: 'emp012',
+      name: '임소희',
+      department: '교육팀>인재개발팀',
+      manager: '배준호',
+      evalGroup: '교육 - 팀원',
+      firstEvaluator: '배준호',
+      secondEvaluator: '류지은',
+      thirdEvaluator: '',
+      peerEvaluator: '강동훈',
+      subordinateEvaluator: '',
+      performanceRate: 85,
+      competencyRates: [
+        { type: '교육역량', ratio: 40, itemCount: 4 },
+        { type: '소통능력', ratio: 35, itemCount: 3 }
+      ]
+    },
+    {
+      id: 'emp013',
+      name: '배준호',
+      department: '보안팀>정보보안팀',
+      manager: '류지은',
+      evalGroup: '보안 - 팀원',
+      firstEvaluator: '류지은',
+      secondEvaluator: '이영희',
+      thirdEvaluator: '',
+      peerEvaluator: '임소희',
+      subordinateEvaluator: '',
+      performanceRate: 92,
+      competencyRates: [
+        { type: '보안전문성', ratio: 50, itemCount: 5 },
+        { type: '위험관리', ratio: 30, itemCount: 3 }
+      ]
+    },
+    {
+      id: 'emp014',
+      name: '류지은',
+      department: '구매팀>자재구매팀',
+      manager: '이영희',
+      evalGroup: '구매 - 팀원',
+      firstEvaluator: '이영희',
+      secondEvaluator: '박민수',
+      thirdEvaluator: '',
+      peerEvaluator: '배준호',
+      subordinateEvaluator: '',
+      performanceRate: 83,
+      competencyRates: [
+        { type: '협상력', ratio: 35, itemCount: 3 },
+        { type: '비용관리', ratio: 40, itemCount: 4 }
+      ]
     }
   ])
 
@@ -682,28 +1044,6 @@
   .stat-incomplete {
     color: #ff9800;
   }
-
-  .manager-table {
-    flex: 1;
-    overflow: auto;
-  }
-
-  :deep(.manager-table .ui-table__row--selected) {
-    background-color: #e3f2fd;
-  }
-
-  .manager-department {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 150px;
-  }
-
-  .status-badge {
-    font-size: 12px;
-    color: #ff9800;
-  }
-
   /* 대상자 섹션 */
   .target-section {
     flex: 1;

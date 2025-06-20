@@ -85,7 +85,7 @@
                 :options="positionOptions"
                 multiple
                 placeholder="조회 및 선택 하세요"
-                size="medium"
+                size="small"
               />
             </div>
             <div class="filter-item">
@@ -95,7 +95,7 @@
                 :options="gradeOptions"
                 multiple
                 placeholder="조회 및 선택 하세요"
-                size="medium"
+                size="small"
               />
             </div>
             <div class="filter-item">
@@ -105,7 +105,7 @@
                 :options="jobOptions"
                 multiple
                 placeholder="조회 및 선택 하세요"
-                size="medium"
+                size="small"
               />
             </div>
             <div class="filter-item">
@@ -115,7 +115,7 @@
                 :options="departmentOptions"
                 multiple
                 placeholder="조회 및 선택 하세요"
-                size="medium"
+                size="small"
               />
             </div>
             <div class="filter-item">
@@ -125,7 +125,7 @@
                 :options="employeeOptions"
                 multiple
                 placeholder="조회 및 선택 하세요"
-                size="medium"
+                size="small"
               />
             </div>
           </div>
@@ -138,11 +138,11 @@
               </span>
             </div>
             <div class="button-group">
-              <UiButton variant="secondary-line" size="medium" @click="handleReset">
+              <UiButton variant="secondary-line" @click="handleReset">
                 <i class="icon-sm icon-refresh"></i>
                 초기화
               </UiButton>
-              <UiButton variant="primary" size="medium" @click="handleSearch">
+              <UiButton variant="primary" @click="handleSearch">
                 <i class="icon-sm icon-search icon-white"></i>
                 검색
               </UiButton>

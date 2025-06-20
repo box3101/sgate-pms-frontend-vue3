@@ -118,19 +118,17 @@
             </div>
           </div>
 
-          <!-- 의견/기타 -->
-          <div class="mt-20">
-            <div class="report-section">
+          <div class="flex mt-20 gap-20">
+            <!-- 의견/기타 -->
+            <div class="report-section flex-1">
               <h2 class="report-section-title">의견/기타</h2>
               <div class="content-body">
                 {{ currentReport.extendedProps.etcContent || '특별한 의견 없음' }}
               </div>
             </div>
-          </div>
 
-          <!-- 첨부파일 -->
-          <div class="mt-20">
-            <div class="report-section">
+            <!-- 첨부파일 -->
+            <div class="report-section flex-1">
               <h2 class="report-section-title">첨부파일</h2>
               <div class="content-body">
                 <div

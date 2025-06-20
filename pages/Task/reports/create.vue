@@ -7,7 +7,6 @@
         <ul class="my_menu flex gap-23 items-center">
           <li class="tbl-btn flex gap-5">
             <UiDatePicker
-              class="w-270"
               v-model="searchDateRange"
               isRange
               startPlaceholder="시작일"

@@ -698,7 +698,6 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    max-width: 250px;
 
     &--full {
       max-width: 100%;
