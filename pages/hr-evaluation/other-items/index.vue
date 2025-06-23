@@ -149,6 +149,45 @@
             </div>
           </div>
         </div>
+
+        <!-- 평가대상, 부서 , 직위, 직급,점수/가감점 테이블 -->
+        <UiTable
+          v-model="evaluationData"
+          title="평가 항목 관리"
+          scrollable
+          bordered
+          max-height="calc(100vh - 200px)"
+          excelControls
+          excelDownloadLabel="엑셀 다운로드"
+          excelUploadLabel="엑셀 업로드"
+        >
+          <template #colgroup>
+            <col style="width: 150px" />
+            <col style="width: 150px" />
+            <col style="width: 120px" />
+            <col style="width: 120px" />
+            <col style="width: 150px" />
+          </template>
+          <template #header>
+            <th v-for="header in evaluationHeaders" :key="header.key">
+              {{ header.title }}
+            </th>
+          </template>
+          <template #header-right-end>
+            <UiButton variant="primary" size="medium"> 저장 </UiButton>
+          </template>
+          <template #body="{ rows }">
+            <tr v-for="row in rows" :key="row.id">
+              <td class="text-center">{{ row.target }}</td>
+              <td>{{ row.department }}</td>
+              <td class="text-center">{{ row.position }}</td>
+              <td class="text-center">{{ row.rank }}</td>
+              <td class="text-center">
+                <UiInput v-model="row.score" type="number" size="small" />
+              </td>
+            </tr>
+          </template>
+        </UiTable>
       </div>
     </div>
   </div>
@@ -236,5 +275,26 @@
       filters.value[key] = []
     })
     activeFilterCount.value = 0
+  }
+
+  const evaluationHeaders = [
+    { key: 'target', title: '평가대상' },
+    { key: 'department', title: '부서' },
+    { key: 'position', title: '직위' },
+    { key: 'rank', title: '직급' },
+    { key: 'score', title: '점수/가감점' }
+  ]
+
+  const evaluationData = ref([
+    { id: 1, target: '홍길동', department: '영업부', position: '사원', rank: '1급', score: '5' },
+    { id: 2, target: '김철수', department: '마케팅부', position: '대리', rank: '2급', score: '4' },
+    { id: 3, target: '이영희', department: '인사부', position: '과장', rank: '3급', score: '3' },
+    { id: 4, target: '최민수', department: 'IT부서', position: '차장', rank: '4급', score: '2' },
+    { id: 5, target: '박영희', department: '영업부', position: '부장', rank: '5급', score: '1' }
+  ])
+
+  const handleEdit = row => {
+    console.log('수정:', row)
+    // 수정 로직 구현
   }
 </script>

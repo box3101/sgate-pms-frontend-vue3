@@ -74,7 +74,7 @@
         <td
           v-if="shouldShowCell(row, 'checkbox')"
           :rowspan="getRowspan(row, 'checkbox')"
-          class="txt-c vertical-top checkbox-cell"
+          class="txt-c checkbox-cell"
         >
           <UiCheckbox
             size="large"

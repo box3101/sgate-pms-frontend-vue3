@@ -87,10 +87,10 @@
             <td class="text-center">{{ row.position }}</td>
             <td class="text-center">{{ row.grade }}</td>
             <td class="text-center">
-              <UiSelect :options="monthOptions" />
+              <UiSelect :options="monthOptions" size="small" />
             </td>
             <td class="text-center">
-              <UiSelect :options="monthOptions" />
+              <UiSelect :options="monthOptions" size="small" />
             </td>
             <td class="text-center items-center gap-5 justify-center">
               <UiButton @click="isOrgModalOpen = true" variant="ghost" size="small" icon-only>

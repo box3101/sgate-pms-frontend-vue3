@@ -81,6 +81,7 @@
             <i class="icon-md icon-excel"></i>
             {{ excelUploadLabel }}
           </UiButton>
+          <slot name="header-right-end"></slot>
         </div>
       </div>
     </div>
@@ -754,11 +755,11 @@
         }
 
         th {
-          padding: 10px 7px;
+          padding: 10px;
         }
 
         td {
-          padding: 7px;
+          padding: 6px 10px;
           font-size: 15px;
           word-break: break-word;
         }

@@ -116,6 +116,7 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s, visibility 0.3s;
+    width: max-content;
     max-width: 300px;
     white-space: normal;
     word-wrap: break-word;
