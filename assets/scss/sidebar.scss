@@ -1,5 +1,5 @@
 // 사이드바 스타일 정의
-@use "sass:color";
+@use 'sass:color';
 
 .sidebar {
   margin-top: 56px;
@@ -11,7 +11,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 999;
+  z-index: 10;
   border-right: 1px solid #eaeaea;
 
   &:hover {
@@ -39,7 +39,7 @@
   width: 100%;
   border-bottom: 1px solid #fff;
   z-index: 15; /* 서브메뉴가 다른 메뉴 아이템 위에 표시되도록 z-index 설정 */
-  
+
   &:first-of-type {
     .menu-link {
       padding-top: 16px;
@@ -96,7 +96,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   img {
     width: 28px;
     height: 28px;
@@ -124,7 +124,7 @@
   left: 75px; /* 사이드바 너비와 동일하게 설정 */
   top: -1px; /* 사이드바 컨테이너 상단 기준 */
   width: 168px; /* 너비 증가 */
-  z-index: 10000;
+  z-index: 999;
   border: 1px solid #eaeaea;
   height: calc(100vh - 96px); /* 헤더 높이(56px)를 뺌 */
   overflow-y: auto; /* 내용이 많을 경우 스크롤 가능하도록 */
