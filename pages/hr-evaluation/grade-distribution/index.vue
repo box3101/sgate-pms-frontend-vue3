@@ -14,7 +14,6 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue'
   import PageHeader from './comp/PageHeader.vue'
   import GradeAdmin from './comp/GradeAdmin.vue'
   import GradeDistributionManager from './comp/GradeDistributionManager.vue'

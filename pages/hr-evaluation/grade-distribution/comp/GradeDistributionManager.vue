@@ -86,9 +86,4 @@
     { id: 32, name: 200, S: 20, B: 60, C: 80, D: 40 },
     { id: 33, name: 250, S: 25, B: 75, C: 100, D: 50 }
   ])
-
-  const handleEdit = row => {
-    console.log('수정:', row)
-    // 수정 로직 구현
-  }
 </script>

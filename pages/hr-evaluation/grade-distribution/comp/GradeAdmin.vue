@@ -2,6 +2,7 @@
   <!-- 등급관리 테이블 -->
   <UiTable
     v-model="gradeAdminData"
+    @save="handleSave"
     title="등급관리"
     editable
     sortable
@@ -11,9 +12,9 @@
   >
     <template #colgroup>
       <col style="width: 40px" />
+      <col style="width: 60px" />
       <col style="width: auto" />
       <col style="width: 150px" />
-      <col style="width: 80px" />
     </template>
 
     <template #header="{ selectAll, isAllSelected }">
@@ -61,21 +62,16 @@
           />
         </td>
         <td>
-          <UiInput v-model="row.name" placeholder="등급" />
+          <UiInput type="text" v-model="row.name" placeholder="등급" />
         </td>
         <td>
-          <UiInput v-model="row.above" placeholder="이상" />
+          <UiInput type="number" v-model="row.above" placeholder="이상" />
         </td>
         <td>
-          <UiInput v-model="row.below" placeholder="미만" />
+          <UiInput type="number" v-model="row.below" placeholder="미만" />
         </td>
         <td>
-          <UiInput v-model="row.score" placeholder="환산점수" />
-        </td>
-        <td>
-          <UiButton variant="ghost" icon-only>
-            <i class="icon-md icon-search"></i>
-          </UiButton>
+          <UiInput type="number" v-model="row.score" placeholder="환산점수" />
         </td>
       </tr>
     </template>
@@ -87,8 +83,7 @@
     { key: 'name', title: '등급' },
     { key: 'above', title: '이상' },
     { key: 'below', title: '미만' },
-    { key: 'score', title: '환산점수' },
-    { key: 'action', title: '조회' }
+    { key: 'score', title: '환산점수' }
   ])
 
   const gradeAdminData = ref([
@@ -107,4 +102,9 @@
     { id: 13, name: 'M', above: '-20', below: '-30', score: '-20' },
     { id: 14, name: 'N', above: '-30', below: '-40', score: '-30' }
   ])
+
+  // 저장 버튼 클릭 시
+  const handleSave = () => {
+    alert('등급관리 데이터가 저장되었습니다!')
+  }
 </script>
