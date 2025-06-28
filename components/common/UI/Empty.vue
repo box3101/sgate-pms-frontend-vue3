@@ -14,6 +14,10 @@
     description: {
       type: String,
       default: '표시할 내용이 없습니다.'
+    },
+    scrollable: {
+      type: Boolean,
+      default: false
     }
   })
 </script>
@@ -27,6 +31,7 @@
     min-height: 200px;
     padding: 40px 20px;
     text-align: center;
+    height: 100%;
 
     &__title {
       font-size: 18px;

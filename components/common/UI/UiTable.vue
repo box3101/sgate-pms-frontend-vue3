@@ -11,7 +11,7 @@
       isDragging && 'dragging',
       editable && 'editable',
       alignTop && 'align-top',
-      rowClickCursor && 'row-clickable' // 새로 추가
+      rowClickCursor && 'row-clickable'
     ]"
     :style="scrollable ? { maxHeight: maxHeight } : {}"
   >
@@ -70,7 +70,6 @@
             </div>
           </div>
         </div>
-        <!-- 편집 가능한 테이블 액션 버튼들 -->
         <!-- 엑셀 컨트롤 버튼들 -->
         <div v-if="excelControls" class="excel-controls flex items-center gap-5 mr-5">
           <UiButton variant="secondary-line" size="medium">
@@ -194,15 +193,23 @@
 <script setup>
   import { ref, computed, watch } from 'vue'
 
+  /**
+   * 컴포넌트 이벤트 정의
+   * 목적: 부모 컴포넌트로 데이터 변경사항과 사용자 액션을 전달
+   */
   const emit = defineEmits([
-    'update:modelValue',
-    'save',
-    'row-added',
-    'row-deleted',
-    'row-click',
-    'order-changed'
+    'update:modelValue', // 테이블 데이터 업데이트
+    'save', // 저장 이벤트
+    'row-added', // 행 추가 이벤트
+    'row-deleted', // 행 삭제 이벤트
+    'row-click', // 행 클릭 이벤트
+    'order-changed' // 행 순서 변경 이벤트
   ])
 
+  /**
+   * 컴포넌트 Props 정의
+   * 목적: 테이블의 외관과 동작을 제어하는 모든 설정값들
+   */
   const props = defineProps({
     title: {
       type: String,
@@ -310,20 +317,22 @@
       type: Boolean,
       default: false
     },
-    // 새로 추가할 prop
     rowClickCursor: {
       type: Boolean,
       default: false
     }
   })
 
-  // 상태 관리
+  // 반응형 상태 관리
   const selectedRows = ref([])
   const sortable = ref(props.sortableOption)
   const isDragging = ref(false)
   const draggedRowIndex = ref(null)
 
-  // 계산된 속성
+  /**
+   * 계산된 속성들
+   * 목적: props와 상태에 기반한 파생 데이터 제공
+   */
   const isEmpty = computed(() => {
     return props.forceEmpty || !props.modelValue || props.modelValue.length === 0
   })
@@ -332,7 +341,10 @@
     return props.modelValue.length > 0 && selectedRows.value.length === props.modelValue.length
   })
 
-  // 행 선택 관련 함수들
+  /**
+   * 전체 선택/해제 토글 함수
+   * 목적: 헤더 체크박스 클릭 시 모든 행 선택 상태 변경
+   */
   const selectAll = () => {
     if (isAllSelected.value) {
       selectedRows.value = []
@@ -341,6 +353,11 @@
     }
   }
 
+  /**
+   * 개별 행 선택 토글 함수
+   * 목적: 특정 행의 선택 상태를 변경
+   * @param {Object} row - 선택할 행 데이터
+   */
   const toggleRowSelection = row => {
     if (sortable.value) return
 
@@ -352,12 +369,27 @@
     }
   }
 
+  /**
+   * 행 선택 상태 확인 함수
+   * 목적: 특정 행이 선택되어 있는지 확인
+   * @param {Object} row - 확인할 행 데이터
+   * @returns {Boolean} 선택 여부
+   */
   const isRowSelected = row => {
     return selectedRows.value.includes(row)
   }
 
-  // 행 추가/삭제 함수들
+  /**
+   * 기본 행 데이터 생성 함수
+   * 목적: 새로운 행 추가 시 사용할 기본 데이터 구조 생성
+   * @returns {Object} 기본 행 데이터 (ID + defaultRowData)
+   */
   const createDefaultRow = () => {
+    /**
+     * 고유 ID 생성 함수
+     * 목적: 각 행에 대한 고유 식별자 생성
+     * @returns {String} 타임스탬프와 랜덤 문자열 조합의 고유 ID
+     */
     const generateId = () => {
       return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
     }
@@ -368,6 +400,10 @@
     }
   }
 
+  /**
+   * 새 행 추가 함수
+   * 목적: 테이블에 새로운 행을 추가하고 관련 이벤트 발생
+   */
   const addRow = () => {
     const newRow = createDefaultRow()
     const updatedRows = [...props.modelValue, newRow]
@@ -375,6 +411,10 @@
     emit('row-added', newRow)
   }
 
+  /**
+   * 선택된 행들 삭제 함수
+   * 목적: 체크박스로 선택된 행들을 일괄 삭제
+   */
   const deleteSelectedRows = () => {
     if (selectedRows.value.length === 0) return
 
@@ -385,7 +425,10 @@
     emit('row-deleted', deletedRows)
   }
 
-  // 정렬 관련 함수들
+  /**
+   * 정렬 모드 토글 함수
+   * 목적: 드래그 앤 드롭 정렬 모드 활성화/비활성화
+   */
   const toggleSortable = () => {
     sortable.value = !sortable.value
     if (!sortable.value) {
@@ -393,7 +436,12 @@
     }
   }
 
-  // 드래그 앤 드롭 핸들러들
+  /**
+   * 드래그 시작 핸들러
+   * 목적: 행 드래그 시작 시 필요한 데이터 설정 및 드래그 이미지 설정
+   * @param {Event} event - 드래그 이벤트
+   * @param {Number} index - 드래그하는 행의 인덱스
+   */
   const handleDragStart = (event, index) => {
     if (!sortable.value) return
 
@@ -407,10 +455,15 @@
         event.dataTransfer.setDragImage(dragRow, 0, 0)
       }
     } catch (e) {
-      console.warn('Drag image not supported in this browser', e)
+      console.warn('드래그 이미지가 이 브라우저에서 지원되지 않습니다', e)
     }
   }
 
+  /**
+   * 드래그 오버 핸들러
+   * 목적: 드래그 중인 요소가 드롭 영역 위에 있을 때의 시각적 피드백 처리
+   * @param {Event} event - 드래그 오버 이벤트
+   */
   const handleDragOver = event => {
     if (!sortable.value) return
 
@@ -418,6 +471,12 @@
     event.dataTransfer.dropEffect = 'move'
   }
 
+  /**
+   * 드롭 핸들러
+   * 목적: 행을 새로운 위치에 드롭했을 때 실제 순서 변경 처리
+   * @param {Event} event - 드롭 이벤트
+   * @param {Number} targetIndex - 드롭 대상 위치의 인덱스
+   */
   const handleDrop = (event, targetIndex) => {
     if (!sortable.value || draggedRowIndex.value === null) return
     event.preventDefault()
@@ -441,12 +500,22 @@
     isDragging.value = false
   }
 
+  /**
+   * 드래그 종료 핸들러
+   * 목적: 드래그 작업 완료 후 상태 초기화
+   */
   const handleDragEnd = () => {
     draggedRowIndex.value = null
     isDragging.value = false
   }
 
-  // 행 클릭 핸들러
+  /**
+   * 행 클릭 핸들러
+   * 목적: 행 클릭 이벤트 처리 (단, 체크박스나 버튼 클릭은 제외)
+   * @param {Object} row - 클릭된 행의 데이터
+   * @param {Number} index - 클릭된 행의 인덱스
+   * @param {Event} event - 클릭 이벤트
+   */
   const handleRowClick = (row, index, event) => {
     if (!props.rowClickable) return
 
@@ -462,13 +531,19 @@
     emit('row-click', { row, index, event })
   }
 
-  // 저장 함수
+  /**
+   * 저장 함수
+   * 목적: 테이블의 변경사항을 저장하고 정렬 모드 해제
+   */
   const saveChanges = () => {
     emit('save', props.modelValue)
     sortable.value = false
   }
 
-  // 감시자들
+  /**
+   * modelValue 변화 감시자
+   * 목적: 테이블 데이터가 변경될 때 선택된 행들을 동기화하여 데이터 일관성 유지
+   */
   watch(
     () => props.modelValue,
     () => {
@@ -478,6 +553,10 @@
     }
   )
 
+  /**
+   * editable 상태 변화 감시자
+   * 목적: 편집 모드가 비활성화되면 정렬 모드도 함께 해제
+   */
   watch(
     () => props.editable,
     newValue => {
@@ -496,6 +575,7 @@
     transition: all 0.2s ease;
     display: flex;
     flex-direction: column;
+
     &.dragging {
       .ui-table {
         tbody tr {
@@ -631,6 +711,7 @@
       border-bottom: 1px solid #e2e8f0;
       position: relative;
       z-index: 0;
+
       &.sortable-active {
         border: 2px dashed #cbd5e1;
         border-radius: 8px;
@@ -1034,6 +1115,28 @@
     }
   }
 
+  @keyframes dragPulse {
+    0%,
+    100% {
+      opacity: 0.8;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes dropIndicator {
+    0%,
+    100% {
+      opacity: 0.6;
+      transform: translateX(-50%) scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: translateX(-50%) scale(1.05);
+    }
+  }
+
   // 드래그 중 글로벌 스타일
   .dragging-active {
     // 드래그 중에는 텍스트 선택 방지
@@ -1072,13 +1175,14 @@
     }
   }
 
-  // 또는 SCSS 루프 사용
+  // 체크박스가 체크된 행 자체 (:has 선택자 사용)
   .ui-table {
     tr {
       &:hover {
         background-color: #f1f5f9 !important;
       }
     }
+
     // 체크박스가 체크된 행 자체
     tr:has(.ui-checkbox__input:checked) {
       background-color: #e3f2fd !important;

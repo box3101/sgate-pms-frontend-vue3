@@ -1,73 +1,42 @@
 <template>
   <div class="container-large">
-    <pageHeader />
+    <PageHeader />
 
-    <div class="flex-container">
-      <!-- 등급척도 그룹 -->
+    <div class="flex-container scrollable-minus-10">
       <div class="w-40p">
-        <RatingGroup />
+        <RatingGroup @row-selected="handleRowSelect" />
       </div>
-      <!-- 등급척도 그룹 EEE-->
 
-      <div class="w-60p">
+      <div class="w-60p" v-if="selectedRow">
         <RatingPanel />
+      </div>
+      <div class="w-60p" v-else>
+        <Empty />
       </div>
     </div>
   </div>
-
-  <!-- 등급척도그룹 가져오기 -->
-  <UiModal
-    v-model="showGroupSelectModal"
-    title="등급척도그룹 가져오기"
-    size="medium"
-    :show-footer="true"
-  >
-    <div class="flex items-center gap-10">
-      <h2 class="heading-6">기준년도</h2>
-      <UiSelect
-        v-model="selectedYear"
-        :options="yearOptions"
-        size="medium"
-        placeholder="선택"
-        width="150px"
-      />
-    </div>
-
-    <UiTable striped hover>
-      <template #colgroup>
-        <col style="width: 40px" />
-        <col style="width: auto" />
-        <col style="width: 40px" />
-      </template>
-      <template #header>
-        <tr>
-          <th></th>
-          <th>등급척도</th>
-          <th>평가등급수</th>
-        </tr>
-      </template>
-      <template #body>
-        <tr v-for="(grade, index) in 7" :key="index">
-          <td>
-            <UiRadio v-model="selectedGroup" :value="index" size="large" @click.stop />
-          </td>
-          <td>성과평가등급그룹</td>
-          <td class="text-center">5</td>
-        </tr>
-      </template>
-    </UiTable>
-    <template #footerActions>
-      <UiButton variant="primary" @click="showGroupSelectModal = false">가져오기</UiButton>
-    </template>
-  </UiModal>
 </template>
 
 <script setup>
-  import { ref } from 'vue'
   import PageHeader from './comp/PageHeader.vue'
   import RatingGroup from './comp/RatingGroup.vue'
   import RatingPanel from './comp/RatingPanel.vue'
 
   const logoText = inject('logoText')
   logoText.value = '평가기본항목관리'
+
+  /**
+   * 선택된 행 데이터
+   * 목적: 테이블에서 선택된 행의 데이터를 관리
+   */
+  const selectedRow = ref(null)
+
+  /**
+   * 선택된 행 핸들러
+   * 목적: 테이블에서 선택된 행의 데이터를 관리
+   */
+  const handleRowSelect = row => {
+    selectedRow.value = row
+    console.log('선택된 행:', row)
+  }
 </script>
