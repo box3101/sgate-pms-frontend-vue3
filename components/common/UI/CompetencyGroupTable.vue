@@ -786,8 +786,9 @@
   }
 
   .competency-table td {
-    border-bottom: 1px solid #e2e8f0;
-    border-right: 1px solid #e2e8f0;
+    border: 1px solid #e2e8f0;
+    border-bottom: none;
+    border-right: none;
     padding: 8px 10px;
     vertical-align: middle;
   }
