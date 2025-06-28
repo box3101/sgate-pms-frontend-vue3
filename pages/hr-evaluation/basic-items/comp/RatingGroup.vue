@@ -1,5 +1,4 @@
 <template>
-  <!-- Table Type1: 기본 편집 가능한 테이블 -->
   <UiTable
     v-model="ratingScaleGroupData"
     title="등급척도 그룹"
@@ -40,8 +39,7 @@
         handleDragOver,
         handleDrop,
         handleDragEnd,
-        sortable,
-        editable
+        sortable
       }"
     >
       <tr
@@ -108,18 +106,18 @@
    * 목적: 등급척도별 평가등급수 정보를 관리하는 테이블 데이터
    */
   const ratingScaleGroupData = ref([
-    { id: 1, name: '등급척도', ratingCount: 5 },
-    { id: 2, name: '평가등급수', ratingCount: 5 },
-    { id: 3, name: '평가항목', ratingCount: 5 },
-    { id: 4, name: '역량평가', ratingCount: 4 },
+    { id: 1, name: '등급척도', ratingCount: 0 },
+    { id: 2, name: '평가등급수', ratingCount: 0 },
+    { id: 3, name: '평가항목', ratingCount: 0 },
+    { id: 4, name: '역량평가', ratingCount: 0 },
     { id: 5, name: '성과평가', ratingCount: 3 },
     { id: 6, name: '다면평가', ratingCount: 5 },
     { id: 7, name: '리더십평가', ratingCount: 4 },
     { id: 8, name: '업적평가', ratingCount: 3 },
-    { id: 9, name: '핵심가치평가', ratingCount: 5 },
+    { id: 9, name: '핵심가치평가', ratingCount: 0 },
     { id: 10, name: '직무역량평가', ratingCount: 4 },
     { id: 11, name: '업무성과평가', ratingCount: 3 },
-    { id: 12, name: '행동역량평가', ratingCount: 5 },
+    { id: 12, name: '행동역량평가', ratingCount: 0 },
     { id: 13, name: '종합평가', ratingCount: 4 },
     { id: 14, name: '직무수행평가', ratingCount: 5 },
     { id: 15, name: '팀워크평가', ratingCount: 3 },

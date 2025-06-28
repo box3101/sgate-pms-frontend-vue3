@@ -1,8 +1,7 @@
 <template>
-  <!-- Table Type2: 두 개의 입력필드를 가진 편집 테이블 -->
   <UiTable
     v-model="ratingPanelData"
-    title="평가등급 설정"
+    @save="handleSave"
     editable
     sortable
     scrollable
@@ -79,7 +78,14 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue'
+  import { ref, defineProps, watch } from 'vue'
+
+  const props = defineProps({
+    selectedRow: {
+      type: Object,
+      default: null
+    }
+  })
 
   /**
    * 테이블 헤더 정의
@@ -90,30 +96,38 @@
     { key: 'gradeScore', title: '평가등급점수' }
   ])
 
+  const ratingPanelData = ref([])
+
   /**
-   * 평가등급 데이터
-   * 목적: 평가등급명과 해당 점수를 관리하는 테이블 데이터
+   * 선택된 행이 변경될 때 데이터 업데이트
    */
-  const ratingPanelData = ref([
-    { id: 1, gradeName: 'S등급', gradeScore: '95' },
-    { id: 2, gradeName: 'A등급', gradeScore: '85' },
-    { id: 3, gradeName: 'B등급', gradeScore: '75' },
-    { id: 4, gradeName: 'C등급', gradeScore: '65' },
-    { id: 5, gradeName: 'D등급', gradeScore: '55' },
-    { id: 6, gradeName: '', gradeScore: '' },
-    { id: 7, gradeName: '', gradeScore: '' },
-    { id: 8, gradeName: '', gradeScore: '' },
-    { id: 9, gradeName: '', gradeScore: '' },
-    { id: 10, gradeName: '', gradeScore: '' },
-    { id: 11, gradeName: '', gradeScore: '' },
-    { id: 12, gradeName: '', gradeScore: '' },
-    { id: 13, gradeName: '', gradeScore: '' },
-    { id: 14, gradeName: '', gradeScore: '' },
-    { id: 15, gradeName: '', gradeScore: '' },
-    { id: 16, gradeName: '', gradeScore: '' },
-    { id: 17, gradeName: '', gradeScore: '' },
-    { id: 18, gradeName: '', gradeScore: '' }
-  ])
+  watch(
+    () => props.selectedRow,
+    newRow => {
+      if (!newRow) {
+        ratingPanelData.value = []
+        return
+      }
+
+      // ratingCount만큼 빈 행 생성
+      const emptyRows = Array.from({ length: newRow.ratingCount }, (_, index) => ({
+        id: Date.now() + index, // 고유 ID 생성
+        gradeName: '',
+        gradeScore: ''
+      }))
+
+      ratingPanelData.value = emptyRows
+    },
+    { immediate: true }
+  )
+
+  /**
+   * 저장 버튼 클릭 이벤트 핸들러
+   * 목적: 테이블 데이터를 저장하는 이벤트 핸들러
+   */
+  function handleSave(data) {
+    alert('저장되었습니다.')
+  }
 </script>
 
 <style lang="scss" scoped>

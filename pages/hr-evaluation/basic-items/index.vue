@@ -8,7 +8,7 @@
       </div>
 
       <div class="w-60p" v-if="selectedRow">
-        <RatingPanel />
+        <RatingPanel :selected-row="selectedRow" />
       </div>
       <div class="w-60p" v-else>
         <Empty />
@@ -31,10 +31,6 @@
    */
   const selectedRow = ref(null)
 
-  /**
-   * 선택된 행 핸들러
-   * 목적: 테이블에서 선택된 행의 데이터를 관리
-   */
   const handleRowSelect = row => {
     selectedRow.value = row
     console.log('선택된 행:', row)
