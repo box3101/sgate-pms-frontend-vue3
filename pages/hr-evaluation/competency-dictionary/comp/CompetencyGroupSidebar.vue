@@ -1,41 +1,18 @@
 <template>
   <div>
-    <div class="flex justify-end mb-10">
-      <UiButton type="button" variant="primary" @click="showAddGroupModal = true">
-        그룹 추가
-      </UiButton>
-    </div>
-    <!-- 공통 테이블 -->
     <div class="is-border">
       <UiTable
         v-model="evaluationTemplateData"
         title="공통"
-        editable
         bordered
         striped
         hover
-        :canAddRow="false"
         :canSave="false"
-        :canAddSortableButton="false"
       >
-        <template #header-action-left>
-          <UiSwitch v-model="useWeightValue" label="가중치 사용여부" />
-        </template>
         <template #header-action-right>
-          <div class="flex items-center">
-            <UiButton
-              type="button"
-              variant="secondary"
-              class="mr-2"
-              @click="showAddDictionaryModal = true"
-            >
-              역량사전추가
-            </UiButton>
-            <UiButton type="button" variant="secondary" @click="showAddModal = true">
-              추가
-            </UiButton>
-          </div>
+          <UiButton type="button" variant="primary" @click="handleAddModal"> 추가 </UiButton>
         </template>
+
         <template #colgroup>
           <col style="width: 40px" />
           <col style="width: auto" />
@@ -56,6 +33,7 @@
             {{ header.title }}
           </th>
         </template>
+
         <template
           #body="{
             rows,
@@ -90,12 +68,12 @@
               {{ row.name }}
             </td>
             <td class="text-center">
-              <UiButton variant="ghost" icon-only @click.stop="showEditModal = true">
+              <UiButton variant="ghost" icon-only @click.stop="handleEditModal(row)">
                 <i class="icon-md icon-edit"></i>
               </UiButton>
             </td>
             <td class="text-center">
-              <UiButton variant="ghost" icon-only>
+              <UiButton variant="ghost" icon-only @click.stop="handleViewModal(row)">
                 <i class="icon-md icon-search"></i>
               </UiButton>
             </td>
@@ -103,45 +81,32 @@
         </template>
       </UiTable>
     </div>
-    <!-- 공통 테이블 EEE -->
   </div>
 
-  <!-- 그룹 추가 모달 -->
-  <UiModal v-model="showAddGroupModal" title="그룹 추가" showFooter>
+  <!-- 추가 모달 -->
+  <UiModal v-model="showAddModal" title="템플릿 추가" showFooter>
     <template #body>
-      <UiInput v-model="newGroupName" placeholder="그룹명" />
+      <div class="form-group">
+        <label class="form-label">템플릿명</label>
+        <UiInput v-model="newTemplateName" placeholder="템플릿명을 입력하세요" />
+      </div>
     </template>
     <template #footerActions>
-      <UiButton variant="primary" @click="handleAddGroup">저장</UiButton>
-    </template>
-  </UiModal>
-
-  <!-- 역량사전추가모달 -->
-  <UiModal v-model="showAddDictionaryModal" title="역량사전추가" showFooter>
-    <template #body>
-      <UiInput v-model="newDictionaryName" placeholder="사전명" />
-    </template>
-    <template #footerActions>
-      <UiButton variant="primary" @click="handleAddDictionary">저장</UiButton>
-    </template>
-  </UiModal>
-
-  <!-- 추가모달 -->
-  <UiModal v-model="showAddModal" title="추가" showFooter>
-    <template #body>
-      <UiInput v-model="newName" placeholder="이름" />
-    </template>
-    <template #footerActions>
-      <UiButton variant="primary" @click="handleAdd">저장</UiButton>
+      <UiButton variant="secondary" @click="showAddModal = false">취소</UiButton>
+      <UiButton variant="primary" @click="handleAddSave">저장</UiButton>
     </template>
   </UiModal>
 
   <!-- 수정 모달 -->
-  <UiModal v-model="showEditModal" title="수정" showFooter>
+  <UiModal v-model="showEditModal" title="템플릿 수정" showFooter>
     <template #body>
-      <UiInput v-model="newName" placeholder="이름" />
+      <div class="form-group">
+        <label class="form-label">템플릿명</label>
+        <UiInput v-model="editTemplateName" placeholder="템플릿명을 입력하세요" />
+      </div>
     </template>
     <template #footerActions>
+      <UiButton variant="secondary" @click="showEditModal = false">취소</UiButton>
       <UiButton variant="primary" @click="handleEditSave">저장</UiButton>
     </template>
   </UiModal>
@@ -162,51 +127,26 @@
     { id: 3, name: '샘플 템플릿 3' }
   ])
 
-  const handleEditButton = row => {
-    console.log('수정:', row)
-    // 수정 로직 구현
-  }
-
-  // 가중치 사용여부
-  const useWeightValue = ref(false)
-
-  // 그룹 추가 모달
-  const showAddGroupModal = ref(false)
-  const newGroupName = ref('')
-
-  const handleAddGroup = () => {
-    console.log('그룹 추가:', newGroupName.value)
-    // 추가 로직 구현
-    showAddGroupModal.value = false
-    newGroupName.value = ''
-  }
-
-  // 역량사전추가 모달
-  const showAddDictionaryModal = ref(false)
-  const newDictionaryName = ref('')
-
-  const handleAddDictionary = () => {
-    console.log('사전 추가:', newDictionaryName.value)
-    // 추가 로직 구현
-    showAddDictionaryModal.value = false
-  }
-
-  // 추가 모달
+  // ⭐ 추가 모달 관련
   const showAddModal = ref(false)
-  const newName = ref('')
 
-  const handleAdd = () => {
-    console.log('추가:', newName.value)
-    // 추가 로직 구현
+  const handleAddModal = () => {
+    showAddModal.value = true
+  }
+
+  const handleAddSave = () => {
     showAddModal.value = false
   }
 
-  // 수정 모달
+  // ⭐ 수정 모달 관련
   const showEditModal = ref(false)
 
-  const handleEditSave = row => {
-    console.log('수정:', row)
-    // 수정 로직 구현
+  const handleEditSave = () => {
     showEditModal.value = false
+  }
+
+  // ⭐ 기타 핸들러들 (기존 함수명 유지)
+  const handleEditButton = row => {
+    handleEditModal(row)
   }
 </script>
