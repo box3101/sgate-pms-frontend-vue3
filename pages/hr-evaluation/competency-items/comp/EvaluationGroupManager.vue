@@ -31,13 +31,16 @@
             >
               역량사전추가
             </UiButton>
-            <UiButton type="button" variant="secondary" @click="addNewItem"> 추가 </UiButton>
+            <UiButton type="button" variant="secondary" @click="showAddModal = true">
+              추가
+            </UiButton>
           </div>
         </template>
         <template #colgroup>
           <col style="width: 40px" />
           <col style="width: auto" />
-          <col style="width: 80px" />
+          <col style="width: 40px" />
+          <col style="width: 40px" />
         </template>
 
         <template #header="{ selectAll, isAllSelected }">
@@ -87,8 +90,13 @@
               {{ row.name }}
             </td>
             <td class="text-center">
-              <UiButton variant="ghost" icon-only @click.stop="handleEdit(row)">
+              <UiButton variant="ghost" icon-only @click.stop="showEditModal = true">
                 <i class="icon-md icon-edit"></i>
+              </UiButton>
+            </td>
+            <td class="text-center">
+              <UiButton variant="ghost" icon-only>
+                <i class="icon-md icon-search"></i>
               </UiButton>
             </td>
           </tr>
@@ -97,6 +105,46 @@
     </div>
     <!-- 공통 테이블 EEE -->
   </div>
+
+  <!-- 그룹 추가 모달 -->
+  <UiModal v-model="showAddGroupModal" title="그룹 추가" showFooter>
+    <template #body>
+      <UiInput v-model="newGroupName" placeholder="그룹명" />
+    </template>
+    <template #footerActions>
+      <UiButton variant="primary" @click="handleAddGroup">저장</UiButton>
+    </template>
+  </UiModal>
+
+  <!-- 역량사전추가모달 -->
+  <UiModal v-model="showAddDictionaryModal" title="역량사전추가" showFooter>
+    <template #body>
+      <UiInput v-model="newDictionaryName" placeholder="사전명" />
+    </template>
+    <template #footerActions>
+      <UiButton variant="primary" @click="handleAddDictionary">저장</UiButton>
+    </template>
+  </UiModal>
+
+  <!-- 추가모달 -->
+  <UiModal v-model="showAddModal" title="추가" showFooter>
+    <template #body>
+      <UiInput v-model="newName" placeholder="이름" />
+    </template>
+    <template #footerActions>
+      <UiButton variant="primary" @click="handleAdd">저장</UiButton>
+    </template>
+  </UiModal>
+
+  <!-- 수정 모달 -->
+  <UiModal v-model="showEditModal" title="수정" showFooter>
+    <template #body>
+      <UiInput v-model="newName" placeholder="이름" />
+    </template>
+    <template #footerActions>
+      <UiButton variant="primary" @click="handleEditSave">저장</UiButton>
+    </template>
+  </UiModal>
 </template>
 
 <script setup>
@@ -104,7 +152,8 @@
 
   const evaluationTemplateHeaders = ref([
     { key: 'name', title: '템플릿명' },
-    { key: 'actions', title: '수정' }
+    { key: 'edit', title: '수정' },
+    { key: 'view', title: '조회' }
   ])
 
   const evaluationTemplateData = ref([
@@ -113,11 +162,51 @@
     { id: 3, name: '샘플 템플릿 3' }
   ])
 
-  const handleEdit = row => {
+  const handleEditButton = row => {
     console.log('수정:', row)
     // 수정 로직 구현
   }
 
   // 가중치 사용여부
   const useWeightValue = ref(false)
+
+  // 그룹 추가 모달
+  const showAddGroupModal = ref(false)
+  const newGroupName = ref('')
+
+  const handleAddGroup = () => {
+    console.log('그룹 추가:', newGroupName.value)
+    // 추가 로직 구현
+    showAddGroupModal.value = false
+    newGroupName.value = ''
+  }
+
+  // 역량사전추가 모달
+  const showAddDictionaryModal = ref(false)
+  const newDictionaryName = ref('')
+
+  const handleAddDictionary = () => {
+    console.log('사전 추가:', newDictionaryName.value)
+    // 추가 로직 구현
+    showAddDictionaryModal.value = false
+  }
+
+  // 추가 모달
+  const showAddModal = ref(false)
+  const newName = ref('')
+
+  const handleAdd = () => {
+    console.log('추가:', newName.value)
+    // 추가 로직 구현
+    showAddModal.value = false
+  }
+
+  // 수정 모달
+  const showEditModal = ref(false)
+
+  const handleEditSave = row => {
+    console.log('수정:', row)
+    // 수정 로직 구현
+    showEditModal.value = false
+  }
 </script>
