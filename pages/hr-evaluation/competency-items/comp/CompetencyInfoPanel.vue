@@ -29,9 +29,7 @@
   import { ref } from 'vue'
   import CompetencyGroupTable from '@/components/common/UI/CompetencyGroupTable.vue'
 
-  // ✅ CompetencyGroupTable이 예상하는 올바른 데이터 구조
   const competencyData = ref([
-    // 🎯 그룹 타입 - type: 'group'과 behaviors 배열 사용
     {
       id: 'group_1', // 고유 ID 필수
       type: 'group', // 'group' 타입 명시
@@ -40,7 +38,6 @@
         '회사의 목표에 따라 부하의 능력을 최대한으로 발휘 시키려고 노력하며, 평소에 부하의 능력, 적성을 정확히 파악하여 그에 따라 일을 맡기고 지속적으로 육성하는가.',
       category: 'BARS', // categoryType이 아닌 category
       behaviors: [
-        // items가 아닌 behaviors 배열
         {
           behavior:
             '업무 수행에 있어 높은 수준의 원칙과 완성도를 보이며, 체계적이고 독자적인 자기개발에 매진함은 물론, 동료들 또한 적극적으로 업무에 임하도록 기준을 만들고 격려, 유도한다.',
