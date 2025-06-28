@@ -3,6 +3,7 @@
   <UiTable
     v-model="evaluationGroupItems"
     title="평가항목 그룹"
+    @save="handleSave"
     editable
     sortable
     scrollable
@@ -61,7 +62,7 @@
           <UiInput v-model="row.name" placeholder="템플릿명" />
         </td>
         <td class="text-center color-primary">
-          <UiButton variant="ghost" size="medium">
+          <UiButton variant="ghost" size="medium" @click="handleEdit(row)">
             {{ row.type }}
           </UiButton>
         </td>
@@ -72,6 +73,8 @@
 
 <script setup>
   import { ref } from 'vue'
+
+  const emit = defineEmits(['row-selected'])
 
   const evaluationGroupHeaders = ref([
     { key: 'name', title: '평가항목 그룹명' },
@@ -95,8 +98,13 @@
     { id: 14, name: '팀워크평가', type: 3 }
   ])
 
+  // 평가항목 그룹 저장
+  const handleSave = () => {
+    alert('평가항목 그룹 데이터가 저장되었습니다!')
+  }
+
+  // 평가항목 그룹 수정
   const handleEdit = row => {
-    console.log('수정:', row)
-    // 수정 로직 구현
+    emit('row-selected', row)
   }
 </script>

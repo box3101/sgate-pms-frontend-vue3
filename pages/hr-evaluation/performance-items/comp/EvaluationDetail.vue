@@ -1,8 +1,7 @@
 <template>
-  <!--  테이블 -->
   <UiTable
     v-model="evaluationTemplateData"
-    title=""
+    @save="handleSave"
     editable
     sortable
     scrollable
@@ -64,17 +63,29 @@
           <UiInput type="number" v-model="row.type" placeholder="배점" />
         </td>
         <td class="text-center color-primary">
-          <UiButton variant="ghost" size="medium">
+          <UiButton variant="ghost" size="medium" @click="handleEdit(row)">
             {{ row.scale }}
           </UiButton>
         </td>
       </tr>
     </template>
   </UiTable>
+
+  <!-- 평가척도설정 모달 -->
+  <UiModal v-model="showModal" title="평가척도설정" showFooter>
+    <template #body>
+      <UiInput v-model="scale" placeholder="평가척도" />
+    </template>
+    <template #footerActions>
+      <UiButton variant="primary" @click="handleSave">저장</UiButton>
+    </template>
+  </UiModal>
 </template>
 
 <script setup>
   import { ref } from 'vue'
+
+  const emit = defineEmits(['save'])
 
   const evaluationTemplateHeaders = ref([
     { key: 'name', title: '평가항목' },
@@ -107,4 +118,22 @@
     { id: 22, name: '윤리의식', type: 30, scale: 'S(100),A(90),B(80),C(70),D(60)' },
     { id: 23, name: '직무 전문성', type: 40, scale: 'S(100),A(90),B(80),C(70),D(60)' }
   ])
+
+  const showModal = ref(false) // 평가척도설정 모달
+
+  /**
+   * 평가항목 저장
+   * 목적: 테이블에서 선택된 행의 데이터를 관리
+   */
+  const handleSave = () => {
+    alert('평가항목 데이터가 저장되었습니다!')
+  }
+
+  /**
+   * 평가항목 수정
+   * 목적: 테이블에서 선택된 행의 데이터를 관리
+   */
+  const handleEdit = row => {
+    showModal.value = true
+  }
 </script>
