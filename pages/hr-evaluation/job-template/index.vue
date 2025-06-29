@@ -17,9 +17,9 @@
       </div>
       <div class="header-right">
         <div class="button-group">
-          <UiButton type="button" variant="secondary-line" size="medium" class="mr-2">
-            첨부파일
-            <i class="icon-md icon-excel"></i>
+          <UiButton type="button" variant="secondary-line" size="medium" @click="handleAttachment">
+            <i class="icon-md icon-paper-clip"></i>
+            파일첨부
           </UiButton>
           <UiButton type="button" variant="primary-line" size="medium" @click="handleSave">
             저장
@@ -53,6 +53,14 @@
     { value: '2024', label: '2024년' },
     { value: '2023', label: '2023년' }
   ])
+
+  const handleExcelDownload = () => {
+    // 엑셀 다운로드 로직 구현
+  }
+
+  const handleSave = () => {
+    // 저장 로직 구현
+  }
 </script>
 
 <style scoped>

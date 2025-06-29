@@ -1,71 +1,19 @@
 <template>
   <div class="page-container">
     <!-- 헤더 영역 -->
-    <div class="page-header">
-      <div class="header-left">
-        <div class="select-group flex gap-10">
-          <div class="select-item flex items-center">
-            <span class="select-label flex items-center"> 기준년도 </span>
-            <UiSelect
-              v-model="selectedYear"
-              :options="yearOptions"
-              size="medium"
-              placeholder="선택"
-              width="150px"
-            />
-          </div>
-          <div class="select-item flex gap-1">
-            <span class="select-label flex items-center">
-              <i class="icon-lg icon-user"></i>
-            </span>
-            <span class="user-name">홍길동</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="header-right">
-        <div class="button-group">
-          <UiButton variant="secondary-line" size="medium" @click="showDemo('PDF 다운로드')">
-            PDF 다운로드
-          </UiButton>
-          <UiButton variant="secondary-line" size="medium" @click="showDemo('양식파일 다운로드')">
-            양식파일 다운로드
-          </UiButton>
-          <UiButton variant="secondary-line" size="medium" @click="showDemo('양식 불러오기')">
-            양식 불러오기
-          </UiButton>
-          <UiButton variant="secondary-line" size="medium" @click="showDemo('저장')">
-            저장
-          </UiButton>
-          <UiButton variant="secondary-line" size="medium" @click="showDemo('파일첨부')">
-            파일첨부
-          </UiButton>
-          <UiButton variant="secondary-line" size="medium" @click="showDemo('MY')">
-            MY
-            <i class="icon-md icon-user"></i>
-          </UiButton>
-          <UiButton variant="secondary-line" size="medium" @click="showDemo('조회')">
-            조회
-            <i class="icon-md icon-search"></i>
-          </UiButton>
-          <UiButton variant="secondary-line" size="medium" icon-only @click="showDemo('설정')">
-            <i class="icon-md icon-setting"></i>
-          </UiButton>
-        </div>
-      </div>
-    </div>
+    <PageHeader />
 
     <!-- 메인 컨텐츠 -->
     <div class="page-content">
       <div class="flex-container">
         <!-- 에디터 영역 -->
         <div class="w-60p">
-          <TinyEditor v-model="content" :height="700" />
+          <TinyEditor v-model="content" :height="'calc(100vh - 200px)'" />
         </div>
 
         <!-- 사이드바 영역 -->
         <div class="w-40p">
-          <h2 class="sidebar-title">업무기술서</h2>
+          <div class="heading-3 mb-10">업무기술서</div>
 
           <UiTabs :tabs="tabs" v-model="activeTab">
             <!-- 피드백 탭 -->
@@ -91,7 +39,7 @@
                 </div>
 
                 <!-- 피드백 목록 -->
-                <div class="feedback-list scrollable-minus-27">
+                <div class="feedback-list scrollable-minus-26">
                   <div v-for="(feedback, index) in feedbackList" :key="index" class="feedback-card">
                     <div class="feedback-header">
                       <div class="user-info">
@@ -136,36 +84,16 @@
         </div>
       </div>
     </div>
-
-    <!-- UiConfirm 컴포넌트 -->
-    <UiConfirm
-      v-model="showConfirm"
-      :type="confirmConfig.type"
-      :title="confirmConfig.title"
-      :message="confirmConfig.message"
-      :show-cancel-button="!!confirmConfig.action"
-      :show-confirm-button="true"
-      :confirm-button-text="confirmConfig.action ? '확인' : '닫기'"
-      @confirm="handleConfirm"
-      @cancel="handleCancel"
-    />
   </div>
 </template>
 
 <script setup>
   import { ref, inject } from 'vue'
+  import PageHeader from './comp/PageHeader.vue'
 
   // 로고 텍스트 설정
   const logoText = inject('logoText')
   logoText.value = '업무기술서'
-
-  // 기본 데이터
-  const selectedYear = ref('2025')
-  const yearOptions = [
-    { value: '2025', label: '2025년' },
-    { value: '2024', label: '2024년' },
-    { value: '2023', label: '2023년' }
-  ]
 
   const content = ref('<p>업무기술서 내용을 작성해주세요...</p>')
   const activeTab = ref('feedback')
@@ -220,193 +148,161 @@
       content: '전반적으로 양호하나, 성과 측정 지표를 좀 더 구체적으로 작성해주세요.'
     }
   ])
-
-  // 확인 다이얼로그 상태
-  const showConfirm = ref(false)
-  const confirmConfig = ref({
-    type: 'info',
-    title: '확인',
-    message: '',
-    action: null
-  })
-
-  // 함수들
-  const addFeedback = () => {
-    if (!newFeedback.value.trim()) {
-      showAlert('warning', '알림', '피드백 내용을 입력해주세요')
-      return
-    }
-
-    const feedback = {
-      userName: '홍길동',
-      date: new Date().toLocaleDateString(),
-      rating: newRating.value,
-      content: newFeedback.value
-    }
-
-    feedbackList.value.unshift(feedback)
-
-    // 폼 초기화
-    newFeedback.value = ''
-    newRating.value = 0
-
-    showAlert('success', '완료', '피드백이 추가되었습니다!')
-  }
-
-  const deleteFeedback = index => {
-    confirmConfig.value = {
-      type: 'warning',
-      title: '삭제 확인',
-      message: '선택한 피드백을 삭제하시겠습니까?<br>삭제된 피드백은 복구할 수 없습니다.',
-      action: () => {
-        feedbackList.value.splice(index, 1)
-        showAlert('success', '완료', '피드백이 삭제되었습니다')
-      }
-    }
-    showConfirm.value = true
-  }
-
-  const showDemo = action => {
-    showAlert(
-      'info',
-      '🎯 데모 기능',
-      `"${action}" 기능을 클릭하셨습니다.<br>실제 기능은 API 연동 후 구현됩니다.`
-    )
-  }
-
-  const showAlert = (type, title, message) => {
-    confirmConfig.value = {
-      type,
-      title,
-      message,
-      action: null
-    }
-    showConfirm.value = true
-  }
-
-  const handleConfirm = () => {
-    if (confirmConfig.value.action) {
-      confirmConfig.value.action()
-    }
-  }
-
-  const handleCancel = () => {
-    // 취소 시 특별한 처리 없음
-  }
 </script>
 
-<style scoped lang="scss">
-  .header-right {
-    .button-group {
-      display: flex;
-      gap: 8px;
-    }
-  }
-
+<style scoped>
+  /* 피드백 섹션 */
   .feedback-section {
-    padding: 20px;
-    background: #f9fafb;
-    border-radius: 8px;
     height: 100%;
     display: flex;
     flex-direction: column;
   }
 
+  /* 피드백 폼 */
   .feedback-form {
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #e5e7eb;
-
-    .form-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .form-help {
-      margin: 0;
-      font-size: 14px;
-      color: #6b7280;
-    }
+    margin-top: 10px;
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
   }
 
+  /* 폼 액션 */
+  .form-actions {
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  /* 폼 도움말 */
+  .form-help {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* 피드백 목록 */
   .feedback-list {
     flex: 1;
     overflow-y: auto;
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
   }
 
+  /* 피드백 카드 */
   .feedback-card {
-    background: #fff;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
     border-radius: 8px;
-    padding: 16px;
+    padding: 12px;
     margin-bottom: 12px;
-    border: 1px solid #e5e7eb;
-
-    &:hover {
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    }
+    transition: all 0.2s ease;
   }
 
+  .feedback-card:hover {
+    background: #f1f3f4;
+    border-color: #dee2e6;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .feedback-card:last-child {
+    margin-bottom: 0;
+  }
+
+  /* 피드백 헤더 */
   .feedback-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 8px;
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14px;
-
-      .user-name {
-        font-weight: 500;
-      }
-
-      .date {
-        color: #6b7280;
-      }
-    }
-
-    .actions {
-      display: flex;
-      gap: 4px;
-    }
   }
 
+  /* 사용자 정보 */
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .user-name {
+    font-weight: 600;
+    color: #1a1a1a;
+    font-size: 0.9rem;
+  }
+
+  .date {
+    font-size: 0.8rem;
+    color: #6c757d;
+  }
+
+  /* 액션 버튼 */
+  .actions {
+    display: flex;
+    gap: 4px;
+  }
+
+  /* 피드백 내용 */
   .feedback-content {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #495057;
     margin: 0;
-    color: #374151;
+    word-break: break-word;
+  }
+
+  /* 활동 섹션 */
+  .activity-section {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 12px;
+    height: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  }
+
+  .activity-section h4 {
+    margin: 0 0 16px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+
+  .activity-section p {
+    color: #6c757d;
+    margin-bottom: 8px;
     line-height: 1.5;
   }
 
-  .activity-section {
-    padding: 20px;
-
-    h4 {
-      margin: 0 0 16px 0;
-      font-size: 16px;
-      font-weight: 600;
-    }
-  }
-
+  /* 활동 플레이스홀더 */
   .activity-placeholder {
     text-align: center;
     padding: 40px 20px;
-    background: #f9fafb;
+    background: #f8f9fa;
+    border: 2px dashed #dee2e6;
     border-radius: 8px;
-    margin-top: 20px;
+    margin-top: 8px;
+  }
 
-    .placeholder-icon {
-      font-size: 48px;
-      margin-bottom: 16px;
-    }
+  .placeholder-icon {
+    font-size: 3rem;
+    margin-bottom: 8px;
+    opacity: 0.7;
+  }
 
-    p {
-      margin: 0;
-      color: #6b7280;
-      line-height: 1.5;
-    }
+  .activity-placeholder p {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin: 0;
+    line-height: 1.6;
   }
 </style>

@@ -16,9 +16,15 @@
     </div>
     <div class="header-right">
       <div class="button-group">
-        <UiButton type="button" variant="secondary-line" size="medium">
-          검색
+        <UiButton
+          type="button"
+          variant="secondary-line"
+          size="medium"
+          @click="handleSearch"
+          :loading="isSearching"
+        >
           <i class="icon-md icon-search"></i>
+          조회
         </UiButton>
       </div>
     </div>
@@ -31,4 +37,8 @@
     { value: '2024', label: '2024' },
     { value: '2025', label: '2025' }
   ])
+
+  const handleSearch = () => {
+    console.log('Search clicked')
+  }
 </script>

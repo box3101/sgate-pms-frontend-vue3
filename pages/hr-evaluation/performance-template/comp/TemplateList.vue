@@ -9,7 +9,7 @@
       :defaultRowData="defaultRowData"
       @save="handleSave"
       :scrollable="true"
-      :max-height="'calc(100vh - 230px)'"
+      :max-height="'calc(100vh - 170px)'"
     >
       <template #colgroup>
         <col style="width: 40px" />
@@ -188,22 +188,11 @@
 
   const selectTemplate = template => {
     emit('template-selected', template)
-
-    // UI 피드백
-    alert(`"${template.name}" 템플릿을 선택했습니다`)
   }
 
-  const handleSave = () => {
-    // UI 피드백만
-    alert('저장되었습니다! (실제로는 API 연동 후 동작)')
-  }
+  const handleSave = () => {}
 
-  const handleReset = () => {
-    // 단순히 확인만
-    if (confirm('초기화하시겠습니까?')) {
-      alert('초기화되었습니다!')
-    }
-  }
+  const handleReset = () => {}
 </script>
 
 <style scoped>
