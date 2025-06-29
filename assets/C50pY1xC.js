@@ -1,1 +1,0 @@
-import{e as o,c as a,a as l,o as t}from"./CQYeoH51.js";const c={__name:"index",setup(n){return o(()=>{console.log("메인 페이지 마운트됨"),console.log("메인 페이지에서 localStorage 값:",localStorage.getItem("sidebarExpanded"))}),(r,e)=>(t(),a("div",null,e[0]||(e[0]=[l("h1",null," 홈페이지 메인 입니다.",-1)])))}};export{c as default};
