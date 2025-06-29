@@ -968,6 +968,12 @@
       text-align: left;
       vertical-align: middle;
       line-height: 1.5;
+
+      &.text-center {
+        .ui-checkbox {
+          justify-content: center;
+        }
+      }
     }
 
     th {
@@ -1023,6 +1029,10 @@
       top: 0;
       z-index: 10;
       background-color: #f8fafc;
+
+      .ui-checkbox {
+        justify-content: center;
+      }
 
       &::after {
         content: '';

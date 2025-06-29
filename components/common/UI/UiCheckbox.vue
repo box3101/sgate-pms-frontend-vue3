@@ -53,7 +53,7 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-    width: fit-content;
+    // width: fit-content;
     gap: 3px;
 
     &--small {
