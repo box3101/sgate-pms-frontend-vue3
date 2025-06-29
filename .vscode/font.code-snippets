@@ -1,0 +1,29 @@
+{
+	"Heading Mixin": {
+		"scope": "scss",
+		"prefix": "heading",
+		"body": [
+			"@include heading(${1:1});$0"
+		],
+		"description": "헤딩 믹스인 적용 (1-6 레벨)"
+	},
+	"Font Size Color Combo": {
+		"scope": "scss",
+		"prefix": "f",
+		"body": [
+			"font-size: $font-size-${1|xs,sm,md,lg,xl,xxl|};",
+			"color: $${2|text-default-color,gray-70,gray-50,gray-30,primary-color,system-red,system-green|};",
+			"font-weight: ${3|400,500,600,700|};$0",
+			"line-height: 150%;"
+		],
+		"description": "폰트 크기 + 색상 + 굵기 조합"
+	},
+	"Div Heading Style": {
+		"scope": "vue-html,html,template",
+		"prefix": "heading",
+		"body": [
+			"<div class=\"heading-${1|1,2,3,4,5,6|}\">${2:제목 텍스트}</div>$0"
+		],
+		"description": "div 태그에 헤딩 스타일 적용"
+	}
+}

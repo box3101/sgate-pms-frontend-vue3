@@ -835,3 +835,284 @@ button:focus,
     }
   }
 }
+// 사용자 정보 표시 컴포넌트
+.user-info {
+  .user-name {
+    font-size: font-size-md;
+    color: $gray-70;
+    font-weight: 500;
+    line-height: 150%;
+  }
+}
+
+// 수직 테이블 스타일 - tbl-type02-v
+.tbl-type02-v {
+  width: 100%;
+  background: #fff;
+  border: 1px solid $border-color-light;
+  overflow: hidden;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+
+    colgroup {
+      col {
+        &:first-child {
+          min-width: 120px; // 최소 너비 보장
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px solid $border-color-light;
+        transition: background-color $transition-fast;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        &:hover {
+          background-color: $hover-background;
+        }
+
+        th {
+          background-color: $gray-5;
+          padding: $spacing-sm $spacing-md;
+          text-align: left;
+          vertical-align: middle;
+          border-right: 1px solid $border-color-light;
+          word-break: keep-all;
+
+          label {
+            @include font-style($body-small-bold);
+            color: $text-default-color;
+            display: block;
+            margin: 0;
+            cursor: default;
+
+            // 필수 항목 표시
+            .required {
+              color: $system-red;
+              margin-left: 2px;
+              font-weight: 700;
+            }
+          }
+        }
+
+        td {
+          padding: $spacing-sm $spacing-md;
+          vertical-align: middle;
+          background-color: #fff;
+          @include font-style($body-small);
+          color: $text-default-color;
+          line-height: 1.5;
+          word-break: break-word;
+
+          // 빈 셀 처리
+          &:empty::after {
+            content: '-';
+            color: $gray-30;
+          }
+
+          // 인풋 필드가 들어갈 때
+          .ui-input,
+          .ui-select,
+          .ui-textarea {
+            width: 100%;
+          }
+
+          // 플렉스 레이아웃 (검색 버튼 등)
+          .flex {
+            display: flex;
+
+            &.items-center {
+              align-items: center;
+            }
+
+            &.gap-3 {
+              gap: $spacing-sm;
+            }
+
+            .flex-1 {
+              flex: 1;
+            }
+          }
+
+          // 숨겨진 인풋 (hidden input)
+          input[type='hidden'] {
+            display: none;
+          }
+
+          // 사용자 이름 등 표시 텍스트
+          span {
+            @include font-style($body-small);
+            color: $text-default-color;
+
+            &#firEvalUserNm,
+            &#secEvalUserNm,
+            &#thrEvalUserNm {
+              font-weight: 500;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // 반응형 스타일
+  @media (max-width: 768px) {
+    table {
+      colgroup col:first-child {
+        width: 100px !important;
+      }
+
+      tbody tr {
+        th {
+          padding: $spacing-xs $spacing-sm;
+          @include font-style($body-xsmall-bold);
+        }
+
+        td {
+          padding: $spacing-xs $spacing-sm;
+          @include font-style($body-xsmall);
+        }
+      }
+    }
+  }
+
+  // 소형 버전
+  &.small {
+    table tbody tr {
+      th {
+        padding: $spacing-xs $spacing-sm;
+        @include font-style($body-xsmall-bold);
+      }
+
+      td {
+        padding: $spacing-xs $spacing-sm;
+        @include font-style($body-xsmall);
+      }
+    }
+  }
+
+  // 대형 버전
+  &.large {
+    table tbody tr {
+      th {
+        padding: $spacing-md $spacing-lg;
+        @include font-style($body-medium-bold);
+      }
+
+      td {
+        padding: $spacing-md $spacing-lg;
+        @include font-style($body-medium);
+      }
+    }
+  }
+
+  // 테두리 없는 버전
+  &.borderless {
+    border: none;
+
+    table tbody tr {
+      border-bottom: 1px solid $gray-10;
+
+      th {
+        border-right: none;
+        background-color: transparent;
+      }
+    }
+  }
+
+  // 압축 버전 (패딩 최소화)
+  &.compact {
+    table tbody tr {
+      th,
+      td {
+        padding: $spacing-xxs $spacing-xs;
+      }
+    }
+  }
+}
+
+// 폼 관련 추가 스타일
+.form-table {
+  @extend .tbl-type02-v;
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xxs;
+
+    .form-error {
+      @include font-style($body-xsmall);
+      color: $system-red;
+      margin-top: $spacing-xxs;
+    }
+
+    .form-help {
+      @include font-style($body-xsmall);
+      color: $gray-50;
+      margin-top: $spacing-xxs;
+    }
+  }
+}
+
+// 검색 관련 스타일
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  .search-input {
+    flex: 1;
+  }
+
+  .search-button {
+    flex-shrink: 0;
+  }
+}
+
+// 평가자 정보 특화 스타일
+.evaluator-info {
+  .evaluator-name {
+    @include font-style($body-small-bold);
+    color: $primary-color;
+  }
+
+  .evaluator-position {
+    @include font-style($body-xsmall);
+    color: $gray-50;
+    margin-left: $spacing-xs;
+  }
+}
+
+// 상태 표시 스타일
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xxs;
+
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: $gray-30;
+  }
+
+  &.active::before {
+    background-color: $system-green;
+  }
+
+  &.pending::before {
+    background-color: $system-yellow;
+  }
+
+  &.error::before {
+    background-color: $system-red;
+  }
+}

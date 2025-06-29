@@ -1,0 +1,30 @@
+{
+	"Vertical Table Multi Row": {
+		"prefix": "v-table",
+		"body": [
+			"<div class=\"tbl-type02-v\">",
+			"  <table>",
+			"    <colgroup>",
+			"      <col width=\"${1:150px}\">",
+			"      <col width=\"${2:calc(100% - 150px)}\">",
+			"    </colgroup>",
+			"    <tbody>",
+			"      <tr>",
+			"        <th scope=\"row\"><label for=\"${3:field1}\">${4:첫 번째 항목}</label></th>",
+			"        <td>${5:첫 번째 컨텐츠}</td>",
+			"      </tr>",
+			"      <tr>",
+			"        <th scope=\"row\"><label for=\"${6:field2}\">${7:두 번째 항목}</label></th>",
+			"        <td>${8:두 번째 컨텐츠}</td>",
+			"      </tr>",
+			"      <tr>",
+			"        <th scope=\"row\"><label for=\"${9:field3}\">${10:세 번째 항목}</label></th>",
+			"        <td>${11:세 번째 컨텐츠}</td>",
+			"      </tr>",
+			"    </tbody>",
+			"  </table>",
+			"</div>$0"
+		],
+		"description": "다중 행 수직 테이블"
+	}
+}

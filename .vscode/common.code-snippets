@@ -1,0 +1,78 @@
+{
+	"Set Logo Text with Inject": {
+		"prefix": "logo",
+		"body": [
+			"const ${1:logoText} = inject('${2:logoText}')",
+			"${1:logoText}.value = '${3:평가기본항목관리}'$0"
+		],
+		"description": "Vue 3 inject를 사용하여 로고 텍스트 설정"
+	},
+	"Simple Page Header": {
+		"prefix": "pageheader",
+		"body": [
+			"<template>",
+			"  <div class=\"page-header\">",
+			"    <div class=\"header-left\">",
+			"      <div class=\"select-group\">",
+			"        <div class=\"select-item\">",
+			"          <span class=\"select-label\">${1:라벨}</span>",
+			"          <UiSelect",
+			"            v-model=\"${2:selectedValue}\"",
+			"            :options=\"${3:options}\"",
+			"            size=\"medium\"",
+			"            placeholder=\"선택\"",
+			"            width=\"150px\"",
+			"          />",
+			"        </div>",
+			"      </div>",
+			"    </div>",
+			"    <div class=\"header-right\">",
+			"      <div class=\"button-group\">",
+			"        <UiButton type=\"button\" variant=\"${4:secondary-line}\" size=\"medium\">",
+			"          ${5:버튼명}",
+			"          <i class=\"icon-md ${6:icon-class}\"></i>",
+			"        </UiButton>",
+			"      </div>",
+			"    </div>",
+			"  </div>",
+			"</template>",
+			"",
+		],
+		"description": "간단한 페이지 헤더 템플릿"
+	},
+	"User Info Display": {
+		"prefix": "userinfo",
+		"body": [
+			"<div class=\"user-info flex items-center gap-${1:5}\">",
+			"  <i class=\"icon-${2:user} icon-${3:xl}\"></i>",
+			"  <span class=\"user-name\">${4:사용자명}</span>",
+			"</div>$0"
+		],
+		"description": "사용자 아이콘 + 이름 표시"
+	},
+	"UiTabs Component": {
+		"prefix": "uitabs",
+		"body": [
+			"<template>",
+			"  <UiTabs :tabs=\"tabItems\" v-model=\"activeTab\">",
+			"    <template #${1:tab1}>",
+			"      ${2:<!-- 첫 번째 탭 컨텐츠 -->}",
+			"    </template>",
+			"    <template #${3:tab2}>",
+			"      ${4:<!-- 두 번째 탭 컨텐츠 -->}",
+			"    </template>",
+			"  </UiTabs>",
+			"</template>",
+			"",
+			"<script setup>",
+			"const activeTab = ref('${1:tab1}')",
+			"",
+			"const tabItems = ref([",
+			"  { id: '${1:tab1}', label: '${5:첫 번째 탭}' },",
+			"  { id: '${3:tab2}', label: '${6:두 번째 탭}' }",
+			"])",
+			"</script>$0"
+		],
+		"description": "UiTabs 컴포넌트 기본 구조"
+	}
+}

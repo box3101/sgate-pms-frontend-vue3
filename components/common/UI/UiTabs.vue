@@ -10,6 +10,7 @@
         :aria-controls="`panel-${tab.id}`"
         :aria-selected="activeTab === tab.id"
         :class="['ui-tabs__nav-item', { 'ui-tabs__nav-item--active': activeTab === tab.id }]"
+        :style="getTabItemStyle()"
         role="tab"
         @click="setActiveTab(tab.id)"
       >
@@ -65,6 +66,14 @@
     isBadge: {
       type: Boolean,
       default: false
+    },
+    maxWidth: {
+      type: [String, Number],
+      default: null
+    },
+    minWidth: {
+      type: [String, Number],
+      default: null
     }
   })
 
@@ -116,6 +125,21 @@
     setActiveTab(props.tabs[newIndex].id)
   }
 
+  // 👇 스타일 계산 함수 추가
+  const getTabItemStyle = () => {
+    const style = {}
+
+    if (props.maxWidth) {
+      style.maxWidth = typeof props.maxWidth === 'number' ? `${props.maxWidth}px` : props.maxWidth
+    }
+
+    if (props.minWidth) {
+      style.minWidth = typeof props.minWidth === 'number' ? `${props.minWidth}px` : props.minWidth
+    }
+
+    return style
+  }
+
   onMounted(() => {
     const navElement = document.querySelector('.ui-tabs__nav')
     navElement?.addEventListener('keydown', handleKeydown)
@@ -165,6 +189,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    // 👇 동적 width 스타일 추가
+    &[data-max-width] {
+      max-width: var(--max-width);
+    }
+
+    &[data-min-width] {
+      min-width: var(--min-width);
+    }
 
     .badge {
       position: absolute;
