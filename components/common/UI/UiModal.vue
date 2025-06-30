@@ -871,22 +871,22 @@
     }
 
     &--medium {
-      width: min(640px, max(40vw, 480px));
-      max-width: min(640px, 80vw);
+      width: min(900px, max(40vw, 480px));
+      max-width: min(900px, 80vw);
     }
 
     &--large {
-      width: min(800px, max(50vw, 600px));
-      max-width: min(800px, 75vw);
+      width: min(1200px, max(50vw, 600px));
+      max-width: min(1200px, 75vw);
     }
 
     &--mlarge {
-      width: min(1100px, max(60vw, 800px));
-      max-width: min(1100px, 70vw);
+      width: min(1400px, max(60vw, 800px));
+      max-width: min(1400px, 70vw);
     }
 
     &--xlarge {
-      width: min(1400px, max(70vw, 1000px));
+      width: min(1600px, max(70vw, 1000px));
       max-width: min(1400px, 85vw);
     }
 
