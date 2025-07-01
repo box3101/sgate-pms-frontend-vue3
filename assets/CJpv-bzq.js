@@ -1,1 +1,0 @@
-import a from"./ZW3e-B5g.js";import{c as o,a as t,b as r,F as l,o as n}from"./CsjvRKW8.js";const p={__name:"CollaborationItem",setup(s){return(m,e)=>(n(),o(l,null,[e[0]||(e[0]=t("div",null,"item",-1)),r(a)],64))}};export{p as default};
