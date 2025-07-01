@@ -76,7 +76,7 @@
   .task-sidebar-fixed {
     position: absolute;
     left: -120px;
-    top: 40px;
+    top: 72px;
     overflow-y: auto;
 
     .task-nav {
