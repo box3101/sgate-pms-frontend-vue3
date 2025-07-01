@@ -362,6 +362,7 @@ button:focus,
   $space: $i * 20px;
   .scrollable-minus-#{$i} {
     @include scrollable-area;
+    overflow-x: hidden;
     max-height: calc(100vh - #{$space});
     min-height: calc(100vh - #{$space});
   }
@@ -1115,4 +1116,35 @@ button:focus,
   &.error::before {
     background-color: $system-red;
   }
+}
+.arrow-btn {
+  text-decoration: underline;
+  text-decoration-style: solid;
+  text-underline-position: under;
+  .ui-button__text {
+    @include font-style($body-medium-bold);
+    color: $gray-60;
+  }
+}
+.page-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.page-title__icon {
+  height: 32px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8' fill='none'%3E%3Ccircle cx='4' cy='4' r='3' stroke='%2300AAFF' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-title__text {
+  @include font-style($body-xlarge-bold);
+  color: $gray-90;
+  flex: none;
 }

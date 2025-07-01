@@ -1,0 +1,68 @@
+{
+	"Date Picker (Single)": {
+		"prefix": "datepicker-single",
+		"body": [
+			"<UiDatePicker ",
+			"  v-model=\"${1:selectedDate}\" ",
+			"  placeholder=\"${2:날짜 선택}\"",
+			"  label=\"${3:날짜}\"",
+			"  size=\"${4|medium,small,large,xlarge|}\"",
+			"  class=\"${6:min-w-260}\"",
+			"/>"
+		],
+		"description": "단일 날짜 선택 컴포넌트"
+	},
+	"Date Picker (Range)": {
+		"prefix": "datepicker-range",
+		"body": [
+			"<UiDatePicker ",
+			"  v-model=\"${1:dateRange}\" ",
+			"  :isRange=\"true\"",
+			"  startPlaceholder=\"${2:시작일}\"",
+			"  endPlaceholder=\"${3:종료일}\"",
+			"  label=\"${4:기간}\"",
+			"  size=\"${5|medium,small,large,xlarge|}\"",
+			"  class=\"${6:min-w-244}\"",
+			"/>"
+		],
+		"description": "날짜 범위 선택 컴포넌트"
+	},
+	"Select Component": {
+		"prefix": "select-component",
+		"body": [
+			"<UiSelect ",
+			"  v-model=\"${1:selectedValue}\" ",
+			"  :options=\"${2:options}\"",
+			"  placeholder=\"${3:선택해주세요}\"",
+			"  size=\"${4|medium,small,large,xlarge|}\"",
+			"/>"
+		],
+		"description": "기본 셀렉트 컴포넌트"
+	},
+	"UI Input Component": {
+		"prefix": "input",
+		"body": [
+			"<UiInput ",
+			"  v-model=\"${1:inputValue}\" ",
+			"  placeholder=\"${2:입력해주세요}\"",
+			"  label=\"${3:}\"",
+			"  size=\"${4|medium,small,large,xlarge|}\"",
+			"  class=\"${5:min-w-200}\"",
+			"/>"
+		],
+		"description": "기본 입력 컴포넌트"
+	},
+	"UI Button Component": {
+		"prefix": "button-search",
+		"body": [
+			"<UiButton ",
+			"  variant=\"${1|primary,secondary,primary-line,secondary-line,ghost|}\" ",
+			"  size=\"${2|medium,small,large,xlarge|}\"",
+			"  ${3:iconOnly}",
+			">",
+			"  ${4:<i class=\"icon-md icon-search icon-white\"></i>}",
+			"</UiButton>"
+		],
+		"description": "기본 버튼 컴포넌트"
+	},
+}

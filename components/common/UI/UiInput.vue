@@ -289,7 +289,7 @@
     }
 
     &__field {
-      width: 100%;
+      width: inherit;
       border: none;
       background: transparent;
       font-size: $font-size-sm;
@@ -360,7 +360,7 @@
       }
       .ui-input__field {
         font-size: $ui-font-sm;
-        
+
         &::placeholder {
           font-size: $ui-font-sm;
         }
@@ -378,7 +378,7 @@
       }
       .ui-input__field {
         font-size: $ui-font-md;
-        
+
         &::placeholder {
           font-size: $ui-font-md;
         }
@@ -396,7 +396,7 @@
       }
       .ui-input__field {
         font-size: $ui-font-lg;
-        
+
         &::placeholder {
           font-size: $ui-font-lg;
         }
@@ -414,7 +414,7 @@
       }
       .ui-input__field {
         font-size: $ui-font-xl;
-        
+
         &::placeholder {
           font-size: $ui-font-xl;
         }

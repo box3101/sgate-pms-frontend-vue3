@@ -342,12 +342,11 @@
     // 헤더 스타일
     &__header {
       display: flex;
-      width: 100%;
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
       box-sizing: border-box;
-
+      width: inherit;
       &:focus {
         outline: none;
       }

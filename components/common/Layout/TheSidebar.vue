@@ -255,7 +255,7 @@
       items: [
         {
           name: '업무/협업',
-          path: '/task/collaboration/home',
+          path: '/task/home',
           icon: 'mdi:account-group'
         },
         {

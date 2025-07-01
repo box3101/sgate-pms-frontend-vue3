@@ -393,7 +393,10 @@
   @extend .icon;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='17' viewBox='0 0 20 17' fill='none'%3E%3Ccircle cx='7' cy='4' r='3' stroke='white' stroke-width='2'/%3E%3Crect x='14' y='8' width='2' height='6' rx='1' transform='rotate(-90 14 8)' fill='white'/%3E%3Cpath d='M6 10H8C10.7614 10 13 12.2386 13 15V16H1V15C1 12.2386 3.23858 10 6 10Z' stroke='white' stroke-width='2'/%3E%3Cpath d='M11.3536 6.64645L14.1464 3.85355C14.4614 3.53857 15 3.76165 15 4.20711V9.79289C15 10.2383 14.4614 10.4614 14.1464 10.1464L11.3536 7.35355C11.1583 7.15829 11.1583 6.84171 11.3536 6.64645Z' fill='white'/%3E%3C/svg%3E");
 }
-
+.icon-arrow-down {
+  @extend .icon;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M3.38732 6.17113C3.11364 6.41743 3.09145 6.83896 3.33775 7.11264L9.3375 13.7793C9.46393 13.9198 9.64403 14 9.83302 14C10.022 14 10.2021 13.9198 10.3286 13.7793L16.329 7.11267C16.5753 6.839 16.5531 6.41747 16.2794 6.17116C16.0058 5.92484 15.5843 5.94701 15.3379 6.22068L9.83307 12.3368L4.32882 6.2207C4.08252 5.94703 3.661 5.92483 3.38732 6.17113Z' fill='%2358616A'/%3E%3C/svg%3E");
+}
 // 아이콘 크기 추가
 .icon-xs {
   width: 12px;

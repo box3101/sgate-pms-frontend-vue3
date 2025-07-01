@@ -887,12 +887,12 @@
 
     &--xlarge {
       width: min(1600px, max(70vw, 1000px));
-      max-width: min(1400px, 85vw);
+      max-width: min(1600px, 85vw);
     }
 
     &--xxlarge {
-      width: min(1600px, max(80vw, 1200px));
-      max-width: min(1600px, 95vw);
+      width: min(1800px, max(80vw, 1200px));
+      max-width: min(1800px, 95vw);
     }
 
     &--full {

@@ -14,5 +14,17 @@
 			"</div>$0"
 		],
 		"description": "사이드바 + 메인 레이아웃"
+	},
+	"Page Title with Icon": {
+		"prefix": "page-title",
+		"body": [
+			"<div class=\"page-title\">",
+			"  <div class=\"page-title__icon\">",
+			"    <i class=\"icon-md icon-${1:list} icon-white\"></i>",
+			"  </div>",
+			"  <div class=\"page-title__text\">${2:페이지 제목}</div>",
+			"</div>$0"
+		],
+		"description": "아이콘이 포함된 페이지 타이틀"
 	}
 }

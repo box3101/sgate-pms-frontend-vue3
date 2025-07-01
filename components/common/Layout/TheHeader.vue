@@ -315,8 +315,8 @@
   const tabMenus = {
     // 업무 섹션 탭
     tasks: [
-      { name: '홈', path: '/task/collaboration/home' },
-      { name: '보드', path: '/task/collaboration/board' }
+      { name: '홈', path: '/task/home' },
+      { name: '보드', path: '/task/collaboration' }
     ],
 
     // 보고 섹션 탭
@@ -1047,8 +1047,8 @@
     // 경로 기반으로 섹션 결정
     if (
       route.path === '/task' ||
-      route.path.startsWith('/task/collaboration/home') ||
-      route.path.startsWith('/task/collaboration/board') ||
+      route.path.startsWith('/task/home') ||
+      route.path.startsWith('/task/collaboration') ||
       route.path.startsWith('/task/repots/daily')
     ) {
       hasLink.value = true
