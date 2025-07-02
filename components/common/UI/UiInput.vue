@@ -239,6 +239,7 @@
     display: flex;
     flex-direction: column;
     gap: $spacing-xs;
+    width: 100%;
 
     // 값이 입력되었을 때 스타일
     &--has-value {

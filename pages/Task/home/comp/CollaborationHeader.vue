@@ -8,7 +8,7 @@
             :isRange="true"
             startPlaceholder="시작일"
             endPlaceholder="종료일"
-            class="min-w-260"
+            class="w-260"
           />
           <UiSelect
             v-model="selectedBoard"
