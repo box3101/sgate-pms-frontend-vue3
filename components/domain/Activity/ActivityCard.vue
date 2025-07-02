@@ -18,27 +18,23 @@
             </div>
             <span class="current-date">{{ currentDate }}</span>
           </div>
-          <div class="activity-user">
-            <span class="user-name">{{ user.name }}</span>
-            &nbsp;
-            <span class="user-info">
-              <span class="company">{{ user.company }}</span>
-              <span class="separator">></span>
-              <span class="team">{{ user.team }}</span>
-            </span>
-          </div>
         </div>
-        <div class="activity-actions flex flex-col gap-5">
-          <span class="created-date">{{ createdDate }}</span>
-          <div class="comment-actions flex gap-1">
+
+        <div class="activity-user-section">
+          <div class="activity-user">
+            <div class="user-avatar">
+              <!-- <img src="/images/avatar-placeholder.png" alt="사용자 아바타" /> -->
+            </div>
+            <span class="user-name">{{ user.name }}</span>
+            <div class="user-divider"></div>
+            <span class="user-team">{{ user.company }} > {{ user.team }}</span>
+          </div>
+          <div class="activity-actions flex gap-1">
             <UiButton iconOnly variant="ghost" size="small" @click="startEdit">
               <i class="icon icon-pencil icon-lg"></i>
             </UiButton>
             <UiButton iconOnly variant="ghost" size="small" @click="$emit('delete', activityId)">
               <i class="icon icon-delete icon-md"></i>
-            </UiButton>
-            <UiButton iconOnly variant="ghost" size="small" @click="$emit('reply', activityId)">
-              <i class="icon icon-reply icon-lg"></i>
             </UiButton>
           </div>
         </div>
@@ -48,231 +44,281 @@
       <!-- 활동 내용 -->
       <div class="activity-content">
         <!-- 수정 모드: TinyEditor 표시 -->
-        <div class="editor-container">
+        <div v-if="isEditing" class="editor-container">
+          <!-- 에디터 상단 컨트롤 -->
+          <div class="editor-top-controls flex justify-between mb-16 items-center">
+            <div class="left-controls flex gap-2 items-center">
+              <!-- ui-date-picker 컴포넌트 -->
+              <div class="date-picker-wrapper">
+                <span class="control-label">날짜:</span>
+                <UiDatePicker
+                  class="date-picker"
+                  startPlaceholder="시작일"
+                  endPlaceholder="마지막날짜"
+                />
+              </div>
+            </div>
+            <div class="right-controls flex gap-2 items-center">
+              <div class="select-group flex gap-2">
+                <div class="select-wrapper">
+                  <UiSelect
+                    class="min-w-130"
+                    :options="[
+                      { value: 'progress', label: '진행중' },
+                      { value: 'completed', label: '완료' },
+                      { value: 'before', label: '진행전' },
+                      { value: 'hold', label: '취소/보류' }
+                    ]"
+                  />
+                </div>
+                <div class="select-wrapper">
+                  <UiSelect
+                    class="min-w-130"
+                    v-model="progressStatus"
+                    :options="[
+                      { value: 'excellent', label: '우수' },
+                      { value: 'normal', label: '보통' },
+                      { value: 'poor', label: '미흡' }
+                    ]"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TinyEditor -->
           <TinyEditor
             v-model="editedContent"
             :height="400"
             placeholder="활동 내용을 입력하세요..."
           />
-          <!-- 수정 모드일 때는 저장/취소 버튼 -->
-          <div class="comment-input-actions flex justify-between mt-20 items-center">
+
+          <!-- 에디터 하단 컨트롤 -->
+          <div class="editor-bottom-actions flex justify-between mt-20 items-center">
             <div class="left-actions">
               <UiButton iconOnly variant="ghost" size="small" title="파일 첨부">
                 <i class="icon icon-paper-clip icon-md"></i>
               </UiButton>
             </div>
             <div class="right-actions flex gap-2">
-              <UiSelect
-                class="min-w-130"
-                :options="[
-                  { value: 'progress', label: '진행중' },
-                  { value: 'completed', label: '완료' },
-                  { value: 'before', label: '진행전' },
-                  { value: 'hold', label: '취소/보류' }
-                ]"
-              />
-              <UiSelect
-                class="mr-10 min-w-130"
-                v-model="progressStatus"
-                :options="[
-                  { value: 'excellent', label: '우수' },
-                  { value: 'normal', label: '보통' },
-                  { value: 'poor', label: '미흡' }
-                ]"
-              />
-              <UiButton variant="primary" @click="saveEdit"> 저장 </UiButton>
               <UiButton variant="secondary-line" @click="cancelEdit"> 취소 </UiButton>
+              <UiButton variant="primary" @click="saveEdit"> 저장 </UiButton>
             </div>
           </div>
         </div>
-        <!-- 일반 모드:  HTML 내용 표시 -->
-        <div class="activity-list" v-html="content"></div>
+        <!-- 일반 모드: HTML 내용 표시 -->
+        <div v-else class="activity-list" v-html="content"></div>
       </div>
       <!-- 활동 내용 EEE -->
+
+      <!-- 활동 하단 정보 - 수정 모드가 아닐 때만 표시 -->
+      <div v-if="!isEditing" class="activity-footer">
+        <div class="activity-timestamp">
+          <span class="timestamp-text">{{ createdDate }}</span>
+          <button class="comment-btn">
+            <i class="icon icon-comment"></i>
+          </button>
+        </div>
+      </div>
     </div>
 
-    <!-- 해당 활동에 대한 댓글 섹션 -->
-    <div class="activity-comments">
-      <!-- 댓글 입력 영역 -->
-      <div class="comment-input-area">
-        <textarea
-          v-model="newComment"
-          :style="{ height: '100px' }"
-          class="comment-input"
-          :placeholder="`${user.name}님의 활동에 댓글을 남겨보세요...`"
-          rows="2"
-        ></textarea>
-        <div class="comment-input-actions flex gap-5">
-          <UiButton variant="primary" @click="addComment"> 등록 </UiButton>
-          <UiButton variant="secondary-line"> 취소 </UiButton>
+    <!-- Figma 기반 댓글 섹션 -->
+    <div class="comment-section">
+      <!-- 첫 번째 댓글 -->
+      <div class="comment-container">
+        <div class="comment-card">
+          <div class="comment-content">
+            피드백 내용이 들어가면 여기에서 나타납니다.<br />
+            그냥 순서를 붙여봤습니다.<br />
+            내일은 금요일입니다. 화이팅.
+          </div>
+          <div class="comment-footer">
+            <div class="comment-user">
+              <div class="user-details">
+                <div class="user-avatar">
+                  <!-- <img src="/images/avatar-placeholder.png" alt="사용자 아바타" /> -->
+                </div>
+                <span class="user-name">신해인 책임</span>
+                <span class="user-team">AX Group > UXUI팀</span>
+                <div class="comment-actions flex gap-1">
+                  <UiButton
+                    iconOnly
+                    variant="ghost"
+                    size="small"
+                    @click="$emit('edit-comment', 'comment-1')"
+                    title="댓글 수정"
+                  >
+                    <i class="icon icon-pencil icon-sm"></i>
+                  </UiButton>
+                  <UiButton
+                    iconOnly
+                    variant="ghost"
+                    size="small"
+                    @click="$emit('delete-comment', 'comment-1')"
+                    title="댓글 삭제"
+                  >
+                    <i class="icon icon-delete icon-sm"></i>
+                  </UiButton>
+                  <UiButton
+                    iconOnly
+                    variant="ghost"
+                    size="small"
+                    @click="$emit('reply-comment', 'comment-1')"
+                    title="댓글 답글"
+                  >
+                    <i class="icon icon-comment icon-sm"></i>
+                  </UiButton>
+                </div>
+              </div>
+              <div class="comment-actions-group">
+                <span class="comment-date">2025.08.30</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <!-- 댓글 입력 영역 EEE -->
 
-      <!-- 댓글 목록 -->
-      <div class="comments-list mt-20">
-        <!-- 댓글 1 -->
-        <div class="comment-card">
-          <!-- 댓글 헤더 -->
-          <div class="comment-header">
-            <div class="comment-info">
-              <div class="comment-date">2025-06-09</div>
-              <div class="comment-user">
-                <span class="user-name">이영희</span>
-                &nbsp;
-                <span class="user-info">
-                  <span class="company">ABC회사</span>
-                  <span class="separator">></span>
-                  <span class="team">디자인팀</span>
-                </span>
-              </div>
+      <!-- 두 번째 댓글 (중첩 구조) - 내가 작성한 댓글 -->
+      <div class="comment-container comment-container--nested">
+        <div class="comment-card comment-card--my-comment">
+          <!-- 이전 댓글 참조 - 헤더와 내용 순서 변경 -->
+          <div class="comment-reference">
+            <div class="reference-content">
+              피드백 내용이 들어가면 여기에서 나타납니다.<br />
+              그냥 순서를 붙여봤습니다.<br />
+              내일은 금요일입니다. 화이팅.
             </div>
-            <div class="comment-actions flex gap-1">
-              <UiButton
-                iconOnly
-                variant="ghost"
-                size="small"
-                @click="$emit('edit-comment', `${activityId}-comment-1`)"
-              >
-                <i class="icon icon-pencil icon-lg"></i>
-              </UiButton>
-              <UiButton
-                iconOnly
-                variant="ghost"
-                size="small"
-                @click="$emit('delete-comment', `${activityId}-comment-1`)"
-              >
-                <i class="icon icon-delete icon-md"></i>
-              </UiButton>
-              <UiButton
-                iconOnly
-                variant="ghost"
-                size="small"
-                @click="$emit('reply-comment', `${activityId}-comment-1`)"
-              >
-                <i class="icon icon-reply icon-lg"></i>
-              </UiButton>
+            <div class="reference-header">
+              <div class="reference-user">
+                <span class="user-name">신해인 책임</span>
+                <span class="user-team">AX Group > UXUI팀</span>
+              </div>
+              <span class="reference-date">2025.08.30</span>
             </div>
           </div>
-          <!-- 댓글 헤더 EEE -->
 
-          <!-- 댓글 내용 -->
+          <!-- 현재 댓글 내용 -->
           <div class="comment-content">
-            <!-- 이전 댓글 -->
-            <div class="previous-comment">
-              <div class="comment-user">
-                <p class="comment-date">2025.06.09</p>
-                <span class="user-name">홍길동</span>
-                &nbsp;
-                <span class="user-info">
-                  <span class="company">ABC회사</span>
-                  <span class="separator">></span>
-                  <span class="team">디자인팀</span>
-                </span>
+            피드백에 대한 내용을 다시 피드백하는 대댓글 같은 기능입니다.<br />
+            상단에는 1차 피드백이 담길것이고, 지금은 아래와 같은 내용입니다.<br />
+            1차 피드백에 대한 추가 피드백입니다.
+          </div>
+
+          <div class="comment-footer">
+            <div class="comment-user">
+              <div class="user-details">
+                <div class="user-avatar">
+                  <!-- <img src="/images/avatar-placeholder.png" alt="사용자 아바타" /> -->
+                </div>
+                <span class="user-name">이은영 책임</span>
+                <span class="user-team">AX Group > UXUI팀</span>
+                <div class="comment-actions flex gap-1">
+                  <UiButton
+                    iconOnly
+                    variant="ghost"
+                    size="small"
+                    @click="$emit('edit-comment', 'comment-2')"
+                    title="댓글 수정"
+                  >
+                    <i class="icon icon-pencil icon-sm"></i>
+                  </UiButton>
+                  <UiButton
+                    iconOnly
+                    variant="ghost"
+                    size="small"
+                    @click="$emit('delete-comment', 'comment-2')"
+                    title="댓글 삭제"
+                  >
+                    <i class="icon icon-delete icon-sm"></i>
+                  </UiButton>
+                  <UiButton
+                    iconOnly
+                    variant="ghost"
+                    size="small"
+                    @click="$emit('reply-comment', 'comment-2')"
+                    title="댓글 답글"
+                  >
+                    <i class="icon icon-comment icon-sm"></i>
+                  </UiButton>
+                </div>
               </div>
-              <p>이 활동에 대한 피드백입니다. 진행 상황이 좋아 보입니다.</p>
-            </div>
-            <!-- 이전 댓글 EEE -->
-
-            <!-- 현재 댓글 -->
-            <div class="current-comment">
-              <p>윗내용</p>
-            </div>
-            <!-- 현재 댓글 EEE -->
-          </div>
-          <!-- 댓글 내용 EEE -->
-        </div>
-
-        <!-- 댓글달기 버튼 클릭 시 나타나는 댓글 입력 영역 -->
-        <div class="comment-input-area">
-          <textarea
-            v-model="newComment"
-            :style="{ height: '100px' }"
-            class="comment-input"
-            :placeholder="`${user.name}님의 활동에 댓글을 남겨보세요...`"
-            rows="2"
-          ></textarea>
-          <div class="comment-input-actions flex gap-5">
-            <UiButton variant="primary" @click="addComment"> 등록 </UiButton>
-            <UiButton variant="secondary-line"> 취소 </UiButton>
-          </div>
-        </div>
-        <!-- 댓글 입력 영역 EEE -->
-
-        <!-- 댓글 2 -->
-        <div class="comment-card">
-          <!-- 댓글 헤더 -->
-          <div class="comment-header">
-            <div class="comment-info">
-              <div class="comment-date">2025-06-09</div>
-              <div class="comment-user">
-                <span class="user-name">댓글2사용자</span>
-                &nbsp;
-                <span class="user-info">
-                  <span class="company">ABC회사</span>
-                  <span class="separator">></span>
-                  <span class="team">디자인팀</span>
-                </span>
+              <div class="comment-actions-group">
+                <span class="comment-date">2025.08.31</span>
               </div>
             </div>
-            <div class="comment-actions flex gap-1">
-              <UiButton
-                iconOnly
-                variant="ghost"
-                size="small"
-                @click="$emit('edit-comment', `${activityId}-comment-1`)"
-              >
-                <i class="icon icon-pencil icon-lg"></i>
-              </UiButton>
-              <UiButton
-                iconOnly
-                variant="ghost"
-                size="small"
-                @click="$emit('delete-comment', `${activityId}-comment-1`)"
-              >
-                <i class="icon icon-delete icon-md"></i>
-              </UiButton>
-              <UiButton
-                iconOnly
-                variant="ghost"
-                size="small"
-                @click="$emit('reply-comment', `${activityId}-comment-1`)"
-              >
-                <i class="icon icon-reply icon-lg"></i>
-              </UiButton>
-            </div>
           </div>
-          <!-- 댓글 헤더 EEE -->
-
-          <!-- 댓글 내용 -->
-          <div class="comment-content">
-            <!-- 이전 댓글 -->
-            <div class="previous-comment">
-              <div class="comment-user">
-                <p class="comment-date">2025.06.09</p>
-                <span class="user-name">이영희 </span>
-                &nbsp;
-                <span class="user-info">
-                  <span class="company">ABC회사</span>
-                  <span class="separator">></span>
-                  <span class="team">디자인팀</span>
-                </span>
-              </div>
-              <p>윗내용</p>
-            </div>
-            <!-- 이전 댓글 EEE -->
-
-            <!-- 현재 댓글 -->
-            <div class="current-comment">
-              <p>이 활동에 대한 피드백입니다. 진행 상황이 좋아 보입니다.</p>
-            </div>
-            <!-- 현재 댓글 EEE -->
-          </div>
-          <!-- 댓글 내용 EEE -->
         </div>
-        <!-- 댓글 2 EEE -->
       </div>
-      <!-- 댓글 목록 EEE -->
+
+      <!-- 세 번째 댓글 (더 깊은 중첩) - 내가 작성한 댓글 -->
+      <div class="comment-container comment-container--deep-nested">
+        <div class="comment-card comment-card--my-comment">
+          <!-- 이전 댓글 참조 - 헤더와 내용 순서 변경 -->
+          <div class="comment-reference">
+            <div class="reference-content">
+              1차 피드백에 대한 내용 1차 피드백에 대한 내용 1차 피드백에 대한 내용 1차 피드백...
+            </div>
+            <div class="reference-header">
+              <div class="reference-user">
+                <span class="user-name">이은영 책임</span>
+                <span class="user-team">AX Group > UXUI팀</span>
+              </div>
+              <span class="reference-date">2025.08.29</span>
+            </div>
+          </div>
+
+          <!-- 현재 댓글 내용 -->
+          <div class="comment-content">
+            1차 피드백 + 추가 내용입니다.<br />
+            진행 상황이 좋아 보입니다.<br />
+            계속 이렇게 진행해 주세요.
+          </div>
+
+          <div class="comment-footer">
+            <div class="comment-user">
+              <div class="user-details">
+                <div class="user-avatar">
+                  <!-- <img src="/images/avatar-placeholder.png" alt="사용자 아바타" /> -->
+                </div>
+                <span class="user-name">이은영 책임</span>
+                <span class="user-team">AX Group > UXUI팀</span>
+                <div class="comment-actions flex gap-1">
+                  <UiButton
+                    iconOnly
+                    variant="ghost"
+                    size="small"
+                    @click="$emit('edit-reply', 'comment-3')"
+                    title="댓글 수정"
+                  >
+                    <i class="icon icon-pencil icon-sm"></i>
+                  </UiButton>
+                  <UiButton
+                    iconOnly
+                    variant="ghost"
+                    size="small"
+                    @click="$emit('delete-reply', 'comment-3')"
+                    title="댓글 삭제"
+                  >
+                    <i class="icon icon-delete icon-sm"></i>
+                  </UiButton>
+                  <UiButton
+                    iconOnly
+                    variant="ghost"
+                    size="small"
+                    @click="$emit('reply-comment', 'comment-3')"
+                    title="댓글 답글"
+                  >
+                    <i class="icon icon-comment icon-sm"></i>
+                  </UiButton>
+                </div>
+              </div>
+              <div class="comment-actions-group">
+                <span class="comment-date">2025.08.31</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -285,16 +331,8 @@
    */
 
   // 수정 모드 상태
-  const isEditing = ref(true)
+  const isEditing = ref(false)
   const editedContent = ref('')
-
-  /**
-   * ActivityCard 컴포넌트
-   * 활동 정보와 해당 활동의 댓글을 함께 표시하는 컴포넌트
-   */
-
-  // 댓글 입력 상태
-  const newComment = ref('')
 
   // Props 정의
   const props = defineProps({
@@ -353,19 +391,28 @@
     'add-comment'
   ])
 
-  // 댓글 추가 함수
-  const addComment = () => {
-    if (!newComment.value.trim()) {
-      alert('댓글 내용을 입력해주세요')
-      return
-    }
+  /**
+   * 수정 모드 시작
+   */
+  const startEdit = () => {
+    isEditing.value = true
+    editedContent.value = props.content
+  }
 
-    emit('add-comment', {
-      activityId: props.activityId,
-      content: newComment.value
-    })
+  /**
+   * 수정 저장
+   */
+  const saveEdit = () => {
+    // 저장 로직
+    isEditing.value = false
+  }
 
-    newComment.value = ''
+  /**
+   * 수정 취소
+   */
+  const cancelEdit = () => {
+    isEditing.value = false
+    editedContent.value = ''
   }
 </script>
 
@@ -374,292 +421,351 @@
     margin-bottom: 32px;
   }
 
+  /* Figma 기반 활동 카드 스타일 */
   .activity-card {
-    border-radius: 8px;
-    border: 1px solid #cdd1d5;
-    background: #fff;
+    background: #e5f6ff; // 확인된 배경색
+    border-radius: 4px;
     padding: 16px;
     margin-bottom: 16px;
 
     .activity-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 12px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #b1b8be;
+      margin-bottom: 8px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #cdd1d5;
+    }
 
-      .activity-info {
-        .activity-date {
+    .activity-info {
+      width: 100%;
+      margin-bottom: 8px;
+      .activity-date {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 4px;
+
+        .activity-type {
+          display: flex;
+          align-items: center;
+          flex: none;
+          gap: 4px;
+          font-family: 'Pretendard', sans-serif;
+          font-weight: 700;
           font-size: 14px;
-          color: #666;
-          margin-bottom: 4px;
+          line-height: 1.4;
+          color: #0084ff;
 
-          .activity-type {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 700;
-
-            &--excellent {
-              color: #3b82f6;
-              position: relative;
-              padding-left: 20px;
-
-              &:before {
-                content: '';
-                position: absolute;
-                left: 5px;
-                top: 50%;
-                transform: translateY(-50%);
-                width: 10px;
-                height: 10px;
-                border-radius: 50%;
-                background-color: #3b82f6;
-              }
-            }
-
-            &--average {
-              color: #f59e0b;
-              position: relative;
-              padding-left: 20px;
-
-              &:before {
-                content: '';
-                position: absolute;
-                left: 5px;
-                top: 50%;
-                transform: translateY(-50%);
-                width: 10px;
-                height: 10px;
-                border-radius: 50%;
-                background-color: #f59e0b;
-              }
-            }
-
-            &--poor {
-              color: #ef4444;
-              position: relative;
-              padding-left: 20px;
-
-              &:before {
-                content: '';
-                position: absolute;
-                left: 5px;
-                top: 50%;
-                transform: translateY(-50%);
-                width: 10px;
-                height: 10px;
-                border-radius: 50%;
-                background-color: #ef4444;
-              }
-            }
+          &::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #0084ff;
           }
 
-          .current-date {
-            color: #6d7882;
-            text-align: right;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 150%;
+          &--excellent::before {
+            background-color: #0084ff;
+          }
+
+          &--average::before {
+            background-color: #f59e0b;
+          }
+
+          &--poor::before {
+            background-color: #ef4444;
           }
         }
-      }
 
-      .activity-actions {
-        display: flex;
-        gap: 8px;
-
-        .created-date {
+        .current-date {
+          flex: none;
+          font-family: 'Pretendard', sans-serif;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 1.5;
           color: #6d7882;
           text-align: right;
-          font-size: 14px;
-          font-weight: 400;
-          line-height: 150%;
         }
       }
+    }
+
+    .activity-user-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .activity-user {
+      display: flex;
+      align-items: center;
+      gap: 2px; // 확인된 간격
+
+      .user-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #898989;
+        border: 1px solid #cdd1d5;
+        margin-right: 6px;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .user-name {
+        font-family: 'Pretendard', sans-serif;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 1.4;
+        color: #00aaff; // 확인된 사용자명 색상
+      }
+
+      .user-divider {
+        width: 2px;
+        height: 16px;
+        background-color: #b1b8be;
+        margin: 0 8px;
+      }
+
+      .user-team {
+        font-family: 'Pretendard', sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 1.5;
+        color: #6d7882;
+      }
+    }
+
+    .activity-actions {
+      display: flex;
+      gap: 4px;
     }
 
     .activity-content {
+      margin: 8px 0;
+
       .activity-list {
-        :deep(ul) {
-          list-style-type: none;
-          padding-left: 0;
-          margin: 0;
-
-          li {
-            padding: 6px 0;
-            font-size: 14px;
-            color: #555;
-
-            &:last-child {
-              border-bottom: none;
-            }
-          }
-        }
+        font-family: 'Pretendard', sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #464c53;
       }
     }
-  }
-  /* 활동별 댓글 섹션 */
-  .activity-comments {
-    margin-left: 24px;
-    padding-left: 16px;
-    border-left: 2px solid #f3f4f6;
 
-    .comments-list {
-      margin-bottom: 16px;
-    }
+    .activity-footer {
+      border-top: 1px solid #cdd1d5;
+      padding-top: 8px;
 
-    /* 댓글 카드 */
-    .comment-card {
-      margin-top: 8px;
-      border-radius: 4px;
-      border: 1px solid var(--color-gray-20, #cdd1d5);
-      background: var(--color-gray-0, #fff);
-      padding: 16px;
-
-      .comment-header {
+      .activity-timestamp {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
-        padding-bottom: 8px;
-      }
+        align-items: center;
 
-      .previous-comment {
-        padding: 16px;
-        gap: 8px;
-        border-radius: 4px;
-        border: 1px solid var(--color-gray-20, #cdd1d5);
-        background: var(--color-system-y10, #ffeacc);
-        margin-bottom: 8px;
-        .comment-date {
-          margin-bottom: 5px;
-          @include font-style($body-small);
-          color: $gray-50;
+        .timestamp-text {
+          font-family: 'Pretendard', sans-serif;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 1.5;
+          color: #6d7882;
         }
-        .comment-user {
-          padding-bottom: 8px;
-          border-bottom: 1px solid var(--color-gray-20, #cdd1d5);
-          margin-bottom: 8px;
-          .user-name {
-            @include font-style($body-small-bold);
-            color: $gray-90;
-          }
-          .user-info {
-            @include font-style($body-small);
-            color: $gray-70;
-          }
-        }
-      }
-
-      .current-comment {
-        margin-top: 8px;
-        padding-top: 7px;
-        border-top: 1px solid var(--color-gray-20, #cdd1d5);
-      }
-    }
-
-    /* 대댓글 */
-    .replies-list {
-      margin-left: 16px;
-
-      .reply-card {
-        background-color: #ffffff;
-        border-radius: 6px;
-        padding: 10px;
-        margin-bottom: 8px;
-        border-left: 3px solid #e0e0e0;
-
-        .reply-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          margin-bottom: 6px;
-          padding-bottom: 6px;
-          border-bottom: 1px solid #f0f0f0;
-
-          .reply-info {
-            .reply-date {
-              font-size: 11px;
-              color: #999;
-              margin-bottom: 2px;
-            }
-
-            .reply-user {
-              font-size: 12px;
-              color: #333;
-
-              .separator {
-                margin: 0 3px;
-                color: #ccc;
-              }
-
-              .team,
-              .user-name,
-              .company {
-                color: #464c53;
-                font-size: 12px;
-              }
-
-              .user-name {
-                font-weight: 600;
-              }
-            }
-          }
-        }
-
-        .reply-content {
-          color: #464c53;
-          font-size: 13px;
-          line-height: 130%;
-          word-break: break-word;
-        }
-      }
-    }
-
-    /* 댓글 입력 영역 */
-    .comment-input-area {
-      margin-top: 16px;
-      .comment-input {
-        width: 100%;
-        padding: 8px 12px;
-        border: 1px solid #e0e0e0;
-        border-radius: 6px;
-        resize: vertical;
-        font-size: 13px;
-        font-family: inherit;
-
-        &:focus {
-          outline: none;
-          border-color: #3b82f6;
-          box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
-        }
-
-        &::placeholder {
-          color: #999;
-        }
-      }
-
-      .comment-input-actions {
-        display: flex;
-        justify-content: flex-end;
-        margin-top: 8px;
       }
     }
   }
 
-  .separator {
-    margin: 0 4px;
-    color: #ccc;
+  /* Figma 기반 댓글 섹션 */
+  .comment-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
+
+  .comment-card {
+    background: #f4f5f6; // 확인된 배경색
+    border-radius: 4px;
+    padding: 16px;
+    margin-left: 16px;
+
+    &--simple {
+      background: #ffffff;
+      border: 1px solid #cdd1d5;
+    }
+
+    // 내가 작성한 댓글 스타일
+    &--my-comment {
+      background: #e5f6ff; // 파란색 배경
+
+      // 내 댓글의 사용자명은 메인 컬러로
+      .user-name {
+        color: #0084ff; // 메인 파란색
+      }
+    }
+  }
+
+  .comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #cdd1d5;
+  }
+
+  .comment-content {
+    font-family: 'Pretendard', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #464c53;
+    margin-bottom: 8px;
+  }
+
+  .comment-footer {
+    border-top: 1px solid #cdd1d5;
+    padding-top: 8px;
+  }
+
+  .comment-user {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    flex-direction: row-reverse;
+  }
+
+  .user-details {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+
+    .comment-header & {
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+
   .user-name {
-    @include font-style($body-small-bold);
-    color: $gray-90;
+    font-family: 'Pretendard', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #464c53;
   }
-  .user-info {
-    @include font-style($body-small);
-    color: $gray-50;
+
+  .user-team {
+    font-family: 'Pretendard', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #6d7882;
+  }
+
+  .comment-date {
+    font-family: 'Pretendard', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #6d7882;
+  }
+
+  .comment-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* 댓글 참조 부분 - 수정된 스타일 */
+  .comment-reference {
+    background: #ffffff;
+    border: 1px solid #cdd1d5;
+    border-radius: 4px;
+    padding: 16px;
+    margin-bottom: 8px;
+
+    &--highlighted {
+      background: #ffffff;
+      border: 1px solid #cdd1d5;
+      border-radius: 8px; // 하이라이트된 참조는 더 둥근 모서리
+    }
+  }
+
+  .reference-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px; // 변경: margin-bottom에서 margin-top으로
+    padding-top: 8px; // 변경: padding-bottom에서 padding-top으로
+    border-top: 1px solid #cdd1d5; // 변경: border-bottom에서 border-top으로
+  }
+
+  .reference-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    .user-name {
+      color: #1e2124; // 참조된 사용자명은 더 진한 색
+    }
+  }
+
+  .reference-date {
+    font-family: 'Pretendard', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #6d7882;
+  }
+
+  .reference-content {
+    font-family: 'Pretendard', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #464c53;
+  }
+
+  /* 버튼 스타일 */
+  .comment-btn {
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6d7882;
+
+    &:hover {
+      background: rgba(109, 120, 130, 0.1);
+    }
+  }
+
+  .icon-btn {
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #464c53; // 단순 댓글의 아이콘은 더 진한 색
+
+    &:hover {
+      background: rgba(70, 76, 83, 0.1);
+    }
+  }
+
+  .comment-icon {
+    width: 14px;
+    height: 14px;
+    color: inherit;
   }
 
   /* 유틸리티 클래스 */
@@ -681,5 +787,78 @@
 
   .items-center {
     align-items: center;
+  }
+
+  /* 에디터 컨테이너 스타일 */
+  .editor-container {
+    .editor-top-controls {
+      border-bottom: 1px solid #cdd1d5;
+      padding-bottom: 16px;
+
+      .control-label {
+        font-family: 'Pretendard', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        color: #464c53;
+        margin-right: 8px;
+        white-space: nowrap;
+      }
+
+      .date-picker-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .date-picker {
+          background: #ffffff;
+          border-radius: 4px;
+
+          :deep(.ui-datepicker__range-input) {
+            background: #ffffff;
+            border: 1px solid #cdd1d5;
+            border-radius: 4px;
+            padding: 8px 12px;
+            min-width: 200px;
+
+            .ui-datepicker__icon {
+              color: #6d7882;
+            }
+
+            .ui-datepicker__placeholder {
+              color: #6d7882;
+              font-size: 14px;
+            }
+
+            .ui-datepicker__range-separator {
+              color: #6d7882;
+              margin: 0 8px;
+            }
+          }
+        }
+      }
+
+      .select-group {
+        display: flex;
+        gap: 16px;
+
+        .select-wrapper {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+      }
+    }
+
+    .editor-bottom-actions {
+      border-top: 1px solid #cdd1d5;
+      padding-top: 16px;
+    }
+  }
+
+  .user-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #cdd1d5;
   }
 </style>

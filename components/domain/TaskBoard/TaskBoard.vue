@@ -120,15 +120,6 @@
       </ul>
     </section>
 
-    <!-- // 토스트 메시지  -->
-    <UiToast
-      v-model:visible="toastVisible"
-      :type="toastType"
-      :title="toastTitle"
-      :message="toastMessage"
-      :duration="toastDuration"
-      position="top-center"
-    />
     <!-- 카드 추가 모달 -->
     <UiModal
       v-model="isCardModalOpen"

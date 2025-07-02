@@ -375,6 +375,7 @@
       .ui-input__wrapper {
         height: $ui-height-md; // 40px
         padding: $ui-padding-md;
+        width: 100%;
       }
       .ui-input__field {
         font-size: $ui-font-md;
