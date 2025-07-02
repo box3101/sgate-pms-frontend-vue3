@@ -8,6 +8,7 @@
       scrollable
       max-height="calc(100vh - 200px)"
       :canSave="false"
+      @add-row="handleAddRow"
     >
       <!-- 컬럼 너비 설정 -->
       <template #colgroup>
@@ -194,6 +195,16 @@
     }
   }
 
+  const handleAddRow = async newRow => {
+    // DOM 업데이트 대기
+    await nextTick()
+
+    // 새로 추가된 행을 바로 편집 모드로 전환
+    if (newRow && newRow.id) {
+      startEditing(newRow.id, 'name')
+    }
+  }
+
   /**
    * 편집 종료 (즉시 저장)
    */
@@ -325,7 +336,7 @@
     padding: 4px;
 
     .ui-input {
-      border: 2px solid #2563eb;
+      border: 1px solid #2563eb;
 
       input {
         font-size: 14px;

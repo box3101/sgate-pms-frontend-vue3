@@ -203,7 +203,8 @@
     'row-added', // 행 추가 이벤트
     'row-deleted', // 행 삭제 이벤트
     'row-click', // 행 클릭 이벤트
-    'order-changed' // 행 순서 변경 이벤트
+    'order-changed', // 행 순서 변경 이벤트
+    'add-row' // ← 이거 추가
   ])
 
   /**
@@ -409,6 +410,7 @@
     const updatedRows = [...props.modelValue, newRow]
     emit('update:modelValue', updatedRows)
     emit('row-added', newRow)
+    emit('add-row', newRow)
   }
 
   /**
@@ -538,6 +540,21 @@
   const saveChanges = () => {
     emit('save', props.modelValue)
     sortable.value = false
+  }
+
+  // UiTable.vue 내부
+  const addNewRow = () => {
+    const newRow = {
+      id: Date.now(), // 또는 다른 유니크 ID 생성 방식
+      name: '', // 빈 값으로 시작
+      ratingCount: 0
+    }
+
+    // 데이터에 새로운 행 추가
+    modelValue.value.push(newRow)
+
+    // 부모에게 새로운 행 정보 전달
+    emit('add-row', newRow)
   }
 
   /**
