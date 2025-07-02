@@ -31,3 +31,12 @@
 <script setup>
   import CollaborationItem from './CollaborationItem.vue'
 </script>
+
+<style scoped lang="scss">
+  li {
+    margin-bottom: 8px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+</style>

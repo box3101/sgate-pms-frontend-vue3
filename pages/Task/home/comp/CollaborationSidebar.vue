@@ -58,8 +58,8 @@
       title: '[컨대건설] 보전 및 성산 관리',
       author: '관리 | 총괄팀',
       date: '2026년 8월 29일',
-      status: 'progress',
-      statusText: '진행중',
+      status: 'excellent',
+      statusText: '우수',
       selected: false
     },
     {
@@ -67,8 +67,8 @@
       title: '[컨대설기계] 보전/생산/품질 파트 MES 시스템...',
       author: '내 업무',
       date: '2026년 8월 29일',
-      status: 'completed',
-      statusText: '완료',
+      status: 'excellent',
+      statusText: '우수',
       selected: false
     },
     {
@@ -76,8 +76,8 @@
       title: '[컨대설기계] 보전/생산/품질 파트 MES 시스템...',
       author: '내 업무',
       date: '2026년 8월 29일',
-      status: 'progress-important',
-      statusText: '진행중',
+      status: 'good',
+      statusText: '보통',
       selected: false
     },
     {
@@ -85,8 +85,8 @@
       title: 'Sgate UX/UI 리뉴얼',
       author: '내 업무',
       priority: '기간초과',
-      status: 'progress-urgent',
-      statusText: '진행중',
+      status: 'poor',
+      statusText: '미흡',
       selected: true
     },
     {
@@ -94,8 +94,8 @@
       title: '[신규구축] 인천 중구청 평생학습센터 웹사이트 구...',
       author: '관리 | 전략팀',
       priority: '기간초과',
-      status: 'completed',
-      statusText: '완료',
+      status: 'excellent',
+      statusText: '우수',
       selected: false
     },
     {
@@ -103,8 +103,8 @@
       title: '업무명 TEST 업무명 TEST 업무명 TEST 업무...',
       author: '내 업무',
       date: '2026년 8월 29일',
-      status: 'progress',
-      statusText: '진행중',
+      status: 'good',
+      statusText: '보통',
       selected: false
     },
     {
@@ -112,8 +112,8 @@
       title: '업무명 TEST 업무명 TEST 업무명 TEST 업무...',
       author: '내 업무',
       date: '2026년 8월 29일',
-      status: 'progress',
-      statusText: '진행중',
+      status: 'good',
+      statusText: '보통',
       selected: false
     },
     {
@@ -121,8 +121,8 @@
       title: '업무명 TEST 업무명 TEST 업무명 TEST 업무...',
       author: '내 업무',
       date: '2026년 8월 29일',
-      status: 'progress',
-      statusText: '진행중',
+      status: 'poor',
+      statusText: '미흡',
       selected: false
     },
     {
@@ -130,8 +130,8 @@
       title: '업무명 TEST 업무명 TEST 업무명 TEST 업무...',
       author: '내 업무',
       date: '2026년 8월 29일',
-      status: 'progress',
-      statusText: '진행중',
+      status: 'excellent',
+      statusText: '우수',
       selected: false
     },
     {
@@ -139,8 +139,8 @@
       title: '업무명 TEST 업무명 TEST 업무명 TEST 업무...',
       author: '내 업무',
       date: '2026년 8월 29일',
-      status: 'progress',
-      statusText: '진행중',
+      status: 'good',
+      statusText: '보통',
       selected: false
     },
     {
@@ -148,8 +148,8 @@
       title: '업무명 TEST 업무명 TEST 업무명 TEST 업무...',
       author: '내 업무',
       date: '2026년 8월 29일',
-      status: 'progress',
-      statusText: '진행중',
+      status: 'poor',
+      statusText: '미흡',
       selected: false
     }
   ])
@@ -257,17 +257,17 @@
   }
 
   // 시스템 컬러로 변경 - 진행중 3단계
-  .task-item__tag--progress {
-    background-color: #007aff; // 일반 진행중 - 시스템 블루
+  // 업무 평가 상태 스타일
+  .task-item__tag--excellent {
+    background-color: $system-blue; // 우수 - 시스템 블루
   }
-  .task-item__tag--progress-important {
-    background-color: #ffcc00; // 중요 진행중 - 시스템 옐로우
+
+  .task-item__tag--good {
+    background-color: $system-yellow; // 보통 - 시스템 옐로우
   }
-  .task-item__tag--progress-urgent {
-    background-color: #ff3b30; // 긴급 진행중 - 시스템 레드
-  }
-  .task-item__tag--completed {
-    background-color: #34c759; // 완료 - 시스템 그린
+
+  .task-item__tag--poor {
+    background-color: $system-red; // 미흡 - 시스템 레드
   }
 
   .task-item__content {

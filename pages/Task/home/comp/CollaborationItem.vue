@@ -35,14 +35,6 @@
           <div class="user-divider"></div>
           <span class="user-team">AX Group > UXUI팀</span>
         </div>
-        <div class="collaboration-item__actions">
-          <button class="action-btn">
-            <i class="icon-sm icon-edit"></i>
-          </button>
-          <button class="action-btn">
-            <i class="icon-sm icon-delete"></i>
-          </button>
-        </div>
       </div>
     </div>
 
@@ -65,9 +57,13 @@
       </button>
     </div>
   </div>
+
+  <!-- 채팅 -->
+  <CollaborationChat />
 </template>
 
 <script setup>
+  import CollaborationChat from './CollaborationChat.vue'
   // 컴포넌트 props 정의 (추후 확장 가능)
   const props = defineProps({
     item: {
@@ -169,9 +165,9 @@
   // 헤더
   .collaboration-item__header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 4px; // 간격 조정
+    margin-bottom: 8px; // 간격 조정
+    gap: 8px;
   }
 
   .collaboration-item__left {
@@ -313,7 +309,6 @@
     font-size: 14px;
     line-height: 1.5;
     color: #6d7882; //  그레이 컬러
-    width: 137px; //에서 확인된 고정 폭
   }
 
   .comment-btn {
