@@ -122,7 +122,7 @@
       </div>
     </div>
 
-    <!-- Figma 기반 댓글 섹션 -->
+    <!-- 댓글 섹션 -->
     <div class="comment-section">
       <!-- 첫 번째 댓글 -->
       <div class="comment-container">
@@ -421,7 +421,7 @@
     margin-bottom: 32px;
   }
 
-  /* Figma 기반 활동 카드 스타일 */
+  /* 활동 카드 스타일 */
   .activity-card {
     background: #e5f6ff; // 확인된 배경색
     border-radius: 4px;
@@ -576,7 +576,7 @@
     }
   }
 
-  /* Figma 기반 댓글 섹션 */
+  /* 댓글 섹션 */
   .comment-section {
     display: flex;
     flex-direction: column;
@@ -685,7 +685,6 @@
     border-radius: 4px;
     padding: 16px;
     margin-bottom: 8px;
-
     &--highlighted {
       background: #ffffff;
       border: 1px solid #cdd1d5;
@@ -700,6 +699,7 @@
     margin-top: 8px; // 변경: margin-bottom에서 margin-top으로
     padding-top: 8px; // 변경: padding-bottom에서 padding-top으로
     border-top: 1px solid #cdd1d5; // 변경: border-bottom에서 border-top으로
+    flex-direction: row-reverse;
   }
 
   .reference-user {
