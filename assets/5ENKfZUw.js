@@ -1,1 +1,0 @@
-import e from"./DxuEp0rh.js";import{_ as t,C as r,o as c}from"./V7WWCPvu.js";import"./B9j9_hhx.js";const a={};function n(s,_){const o=e;return c(),r(o,{title:"보고서 수정",size:"large"})}const d=t(a,[["render",n]]);export{d as default};

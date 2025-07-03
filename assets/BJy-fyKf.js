@@ -1,1 +1,0 @@
-import r from"./CwXVOMkQ.js";import{C as e,o}from"./V7WWCPvu.js";import"./DcReGKxE.js";import"./BAAy3jaj.js";import"./B9j9_hhx.js";const s={__name:"index",setup(t){return(a,p)=>(o(),e(r))}};export{s as default};
