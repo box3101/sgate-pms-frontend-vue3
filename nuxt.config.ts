@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     prefix: 'N', // Nuxt UI 컴포넌트에 접두사 지정
     global: false // 자동 전역 등록 비활성화
   },
-  // 컴포넌트 자동 가져오기 설정
+  // 컴포넌트 자동 가져오기 설정 - task 컴포넌트 경로 추가
   components: {
     dirs: [
       '~/pages',
@@ -18,6 +18,10 @@ export default defineNuxtConfig({
       },
       {
         path: '~/components/common/UI',
+        global: true
+      },
+      {
+        path: '~/components/task',
         global: true
       }
     ]

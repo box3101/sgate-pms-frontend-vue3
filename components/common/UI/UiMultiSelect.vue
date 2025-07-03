@@ -376,7 +376,7 @@
     &__control {
       display: flex;
       align-items: center;
-      height: $ui-height-md; // 36px
+      // height: $ui-height-md; // 36px
       border: 1px solid $border-color-light;
       border-radius: $border-radius-sm;
       background: var(--color-gray-0, #fff);
