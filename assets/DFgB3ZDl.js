@@ -1,0 +1,1 @@
+import e from"./DAWvXZYD.js";import{_ as t,C as r,o as c}from"./qPDZehkb.js";import"./CPUFAubn.js";const a={};function n(s,_){const o=e;return c(),r(o,{title:"보고서 수정",size:"large"})}const d=t(a,[["render",n]]);export{d as default};
