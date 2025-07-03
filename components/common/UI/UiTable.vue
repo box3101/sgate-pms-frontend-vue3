@@ -11,7 +11,8 @@
       isDragging && 'dragging',
       editable && 'editable',
       alignTop && 'align-top',
-      rowClickCursor && 'row-clickable'
+      rowClickCursor && 'row-clickable',
+      cursorPointer && 'cursor-pointer'
     ]"
     :style="scrollable ? { maxHeight: maxHeight } : {}"
   >
@@ -321,6 +322,10 @@
     rowClickCursor: {
       type: Boolean,
       default: false
+    },
+    cursorPointer: {
+      type: Boolean,
+      default: false
     }
   })
 
@@ -583,7 +588,6 @@
     }
   )
 </script>
-
 <style lang="scss">
   .ui-table-wrapper {
     position: relative;
@@ -592,6 +596,18 @@
     transition: all 0.2s ease;
     display: flex;
     flex-direction: column;
+
+    // ❌ 제거: 전체 래퍼에 cursor 적용하면 안됨
+    // &.cursor-pointer {
+    //   cursor: pointer;
+    // }
+
+    // ✅ 수정: tbody tr에만 cursor 적용
+    &.cursor-pointer {
+      .ui-table tbody tr {
+        cursor: pointer;
+      }
+    }
 
     &.dragging {
       .ui-table {
@@ -604,8 +620,6 @@
             cursor: grab;
             border: 2px solid transparent;
             border-radius: 4px;
-
-            // 드래그 가능한 행에 미묘한 배경색
             background-color: rgba(59, 130, 246, 0.02);
 
             &:hover:not(.dragging-source):not(.drag-over) {
@@ -621,7 +635,7 @@
             }
           }
 
-          // 드래그 중인 행 스타일 더 강화
+          // 드래그 중인 행 스타일
           &.dragging-source {
             opacity: 0.8;
             background: linear-gradient(135deg, #3b82f6, #1e40af) !important;
@@ -638,7 +652,6 @@
               font-weight: 500;
             }
 
-            // 드래그 중인 행에 펄스 효과
             &::after {
               content: '';
               position: absolute;
@@ -653,7 +666,7 @@
             }
           }
 
-          // 드롭 타겟 hover 스타일 더 강화
+          // 드롭 타겟 hover 스타일
           &.drag-over {
             background: linear-gradient(135deg, #dbeafe, #bfdbfe) !important;
             border: 3px solid #3b82f6;
@@ -668,7 +681,6 @@
               font-weight: 500;
             }
 
-            // 상단 드롭 인디케이터 더 강화
             &::before {
               content: '↓ 여기에 놓기 ↓';
               position: absolute;
@@ -686,7 +698,6 @@
               box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
             }
 
-            // 하단 드롭 라인
             &::after {
               content: '';
               position: absolute;
@@ -746,7 +757,6 @@
             transform: translateX(2px);
           }
 
-          // 드래그 핸들 스타일
           .drag-handle {
             opacity: 0.6;
             transition: all 0.2s ease;
@@ -789,6 +799,7 @@
     &.bordered {
       .ui-table {
         border-right: 0.5px solid $gray-20;
+
         th {
           border-left: 0.5px solid $gray-20;
 
@@ -828,6 +839,7 @@
       }
     }
 
+    // 사이즈 관련 스타일
     &.small {
       .ui-table {
         font-size: 0.875rem;
@@ -871,8 +883,6 @@
         th,
         td {
           padding: 1rem 1.25rem;
-        }
-        td {
           word-break: break-word;
         }
       }
@@ -882,6 +892,7 @@
       .ui-table {
         display: table;
         width: 100%;
+
         thead {
           display: none;
         }
@@ -889,6 +900,7 @@
         tbody {
           tr {
             display: table-row;
+
             &:first-child {
               td,
               th {
@@ -899,13 +911,11 @@
             th {
               display: table-cell;
               width: 20%;
-              background-color: #f8fafc;
+              background-color: $gray-5;
               font-weight: 600;
               padding: 10px;
               vertical-align: middle;
               white-space: nowrap;
-              border: 1px solid #e2e8f0;
-              border-bottom: none;
             }
 
             td {
@@ -913,7 +923,6 @@
               width: 80%;
               padding: 10px;
               vertical-align: top;
-              border: 1px solid #e2e8f0;
               border-bottom: none;
             }
 
@@ -928,6 +937,7 @@
       }
     }
 
+    // 선택된 행 스타일
     .selected-row {
       background-color: #e3f2fd !important;
 
@@ -950,12 +960,6 @@
       }
     }
 
-    &.dragging {
-      .ui-table tbody tr {
-        transition: transform 0.2s ease;
-      }
-    }
-
     &.align-top {
       .ui-table {
         td {
@@ -965,6 +969,7 @@
     }
   }
 
+  // 테이블 기본 스타일
   .ui-table {
     tr {
       &.sortable-row {
@@ -987,6 +992,8 @@
       line-height: 1.5;
 
       &.text-center {
+        text-align: center;
+
         .ui-checkbox {
           justify-content: center;
         }
@@ -1003,12 +1010,6 @@
       text-align: center;
     }
 
-    td {
-      &.text-center {
-        text-align: center;
-      }
-    }
-
     &.th-left {
       th {
         text-align: left;
@@ -1021,6 +1022,7 @@
     }
   }
 
+  // 액션 버튼 스타일
   .table-actions {
     display: flex;
     justify-content: flex-end;
@@ -1033,6 +1035,7 @@
     }
   }
 
+  // 기타 유틸리티 스타일
   .textUnderLine {
     text-decoration: underline;
     text-underline-offset: 2px;
@@ -1119,7 +1122,56 @@
     }
   }
 
-  // 키프레임 애니메이션 정의
+  // 체크박스 선택된 행 스타일 (:has 선택자 사용)
+  .ui-table {
+    tr {
+      &:hover {
+        background-color: #f1f5f9 !important;
+      }
+    }
+
+    tr:has(.ui-checkbox__input:checked) {
+      background-color: #e3f2fd !important;
+
+      td {
+        background-color: #e3f2fd !important;
+      }
+
+      td:first-child {
+        border-left: 3px solid #1976d2;
+      }
+    }
+  }
+
+  .ui-table tbody {
+    tr.group-header:has(.ui-checkbox__input:checked) {
+      background-color: #e3f2fd !important;
+
+      td {
+        background-color: #e3f2fd !important;
+      }
+
+      td[rowspan] {
+        background-color: #e3f2fd !important;
+      }
+
+      // 연속된 형제 선택자 체인
+      $selector: '';
+      @for $i from 1 through 5 {
+        $selector: $selector + ' + tr.rowspan-group:not(.group-header)';
+
+        #{$selector} {
+          background-color: #e3f2fd !important;
+
+          td {
+            background-color: #e3f2fd !important;
+          }
+        }
+      }
+    }
+  }
+
+  // 애니메이션 키프레임
   @keyframes dragIndicator {
     0%,
     100% {
@@ -1164,16 +1216,25 @@
     }
   }
 
-  // 드래그 중 글로벌 스타일
+  @keyframes dropZoneIndicator {
+    0% {
+      opacity: 0.6;
+      box-shadow: 0 0 0 rgba(59, 130, 246, 0.4);
+    }
+    100% {
+      opacity: 1;
+      box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+    }
+  }
+
+  // 드래그 관련 유틸리티 스타일
   .dragging-active {
-    // 드래그 중에는 텍스트 선택 방지
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
   }
 
-  // 드롭 존 표시를 위한 추가 스타일
   .drop-zone-indicator {
     position: relative;
 
@@ -1188,65 +1249,6 @@
       border-radius: 2px;
       z-index: 100;
       animation: dropZoneIndicator 0.8s infinite alternate;
-    }
-  }
-
-  @keyframes dropZoneIndicator {
-    0% {
-      opacity: 0.6;
-      box-shadow: 0 0 0 rgba(59, 130, 246, 0.4);
-    }
-    100% {
-      opacity: 1;
-      box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
-    }
-  }
-
-  // 체크박스가 체크된 행 자체 (:has 선택자 사용)
-  .ui-table {
-    tr {
-      &:hover {
-        background-color: #f1f5f9 !important;
-      }
-    }
-
-    // 체크박스가 체크된 행 자체
-    tr:has(.ui-checkbox__input:checked) {
-      background-color: #e3f2fd !important;
-
-      td {
-        background-color: #e3f2fd !important;
-      }
-
-      td:first-child {
-        border-left: 3px solid #1976d2;
-      }
-    }
-  }
-
-  .ui-table tbody {
-    tr.group-header:has(.ui-checkbox__input:checked) {
-      background-color: #e3f2fd !important;
-      td {
-        background-color: #e3f2fd !important;
-      }
-      td[rowspan] {
-        background-color: #e3f2fd !important;
-      }
-
-      // 연속된 형제 선택자 체인
-      $selector: '';
-      @for $i from 1 through 5 {
-        // 최대 5개 하위 행 가정
-        $selector: $selector + ' + tr.rowspan-group:not(.group-header)';
-
-        #{$selector} {
-          background-color: #e3f2fd !important;
-          td {
-            background-color: #e3f2fd !important;
-          }
-        }
-      }
     }
   }
 </style>
