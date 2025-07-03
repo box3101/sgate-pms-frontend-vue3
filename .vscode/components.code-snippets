@@ -65,4 +65,15 @@
 		],
 		"description": "기본 버튼 컴포넌트"
 	},
-}
+	"Radio Component": {
+		"prefix": "radio-component",
+		"body": [
+			"<UiRadio ",
+			"  v-model=\"${1:selectedValue}\" ",
+			"  :options=\"${2:options}\"",
+			"  placeholder=\"${3:선택해주세요}\"",
+			"  size=\"${4|medium,small,large,xlarge|}\"",
+			"/>"
+		],
+		"description": "기본 라디오 컴포넌트"
+	}

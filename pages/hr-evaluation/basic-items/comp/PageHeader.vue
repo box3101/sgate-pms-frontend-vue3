@@ -22,7 +22,7 @@
               type="button"
               variant="secondary-line"
               size="medium"
-              @click="showGroupSelectModal = true"
+              @click="handleOpenImportModal"
             >
               등급척도그룹 가져오기
               <i class="icon-md icon-get"></i>
@@ -40,6 +40,9 @@
 </template>
 
 <script setup>
+  // Emits 정의
+  const emit = defineEmits(['open-import-modal'])
+
   // 기준년도 선택 옵션
   const selectedYear = ref('2025')
   const yearOptions = ref([
@@ -53,4 +56,12 @@
     { value: 'group2', label: '등급배분그룹 2' },
     { value: 'group3', label: '등급배분그룹 3' }
   ])
+
+  /**
+   * 가져오기 모달 열기 처리
+   * 목적: 부모 컴포넌트에 모달 열기 이벤트 전달
+   */
+  const handleOpenImportModal = () => {
+    emit('open-import-modal')
+  }
 </script>

@@ -869,7 +869,7 @@
         }
 
         td {
-          padding: 6px 10px;
+          padding: 13px 10px;
           font-size: 15px;
           word-break: break-word;
         }
