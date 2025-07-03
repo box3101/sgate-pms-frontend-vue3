@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <!-- 등급척도그룹 가져오기 모달 -->
+    <!-- 등급척도그룹  모달 -->
     <RatingGroupImportModal v-model="showImportModal" />
   </div>
 </template>
