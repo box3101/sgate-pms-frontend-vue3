@@ -426,6 +426,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       font-weight: 500;
+      font-size: 13px;
     }
 
     // 태그 제거 버튼
@@ -679,7 +680,7 @@
 
       .ui-multi-select__tag {
         padding: 2px 6px;
-        font-size: 11px;
+        font-size: 13px;
       }
 
       .ui-multi-select__option {
@@ -689,8 +690,9 @@
 
     &--medium {
       .ui-multi-select__control {
-        height: $ui-height-md; // 36px
+        // height: $ui-height-md; // 36px
         box-sizing: border-box;
+        padding: 5px 10px;
       }
 
       .ui-multi-select__input {
