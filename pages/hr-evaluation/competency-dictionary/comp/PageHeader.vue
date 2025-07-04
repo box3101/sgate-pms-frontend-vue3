@@ -38,7 +38,12 @@
       <div class="button-group">
         <UiTooltip title="등급배분표 그룹 가져오기">
           <template #trigger>
-            <UiButton type="button" variant="secondary-line" size="medium">
+            <UiButton
+              type="button"
+              variant="secondary-line"
+              size="medium"
+              @click="$emit('get-grade-distribution-group')"
+            >
               등급배분표 그룹 가져오기
               <i class="icon-md icon-get"></i>
             </UiButton>

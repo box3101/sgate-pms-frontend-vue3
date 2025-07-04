@@ -24,7 +24,12 @@
         <th>평가등급수</th>
       </template>
       <template #body="{ rows }">
-        <tr v-for="row in rows" :key="row.id" class="table-row">
+        <tr
+          v-for="row in rows"
+          :key="row.id"
+          :class="{ 'selected-row': selectedGroupId === row.id }"
+          @click="selectRow(row.id, $event)"
+        >
           <td class="radio-cell">
             <UiRadio v-model="selectedGroupId" :value="row.id" name="rating-group" size="medium" />
           </td>
@@ -35,7 +40,7 @@
     </UiTable>
 
     <template #footerActions>
-      <UiButton size="medium" variant="primary">가져오기</UiButton>
+      <UiButton size="medium" variant="primary" @click="handleSave">가져오기</UiButton>
     </template>
   </UiModal>
 </template>
@@ -72,4 +77,18 @@
       ratingCount: 4
     }
   ])
+
+  const selectRow = (groupId, event) => {
+    event.preventDefault()
+    selectedGroupId.value = groupId
+    console.log('행 클릭됨, 선택된 ID:', groupId)
+  }
+
+  const handleSave = () => {
+    if (selectedGroupId.value) {
+      const selectedGroup = data.value.find(item => item.id === selectedGroupId.value)
+      console.log('선택된 그룹:', selectedGroup)
+      showImportModal.value = false
+    }
+  }
 </script>

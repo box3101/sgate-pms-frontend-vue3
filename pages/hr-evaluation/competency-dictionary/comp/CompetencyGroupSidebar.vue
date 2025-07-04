@@ -1,14 +1,7 @@
 <template>
   <div>
     <div class="is-border">
-      <UiTable
-        v-model="evaluationTemplateData"
-        title="공통"
-        bordered
-        striped
-        hover
-        :canSave="false"
-      >
+      <UiTable v-model="evaluationTemplateData" bordered striped hover :canSave="false">
         <template #header-action-right>
           <UiButton type="button" variant="primary" @click="handleAddModal"> 추가 </UiButton>
         </template>

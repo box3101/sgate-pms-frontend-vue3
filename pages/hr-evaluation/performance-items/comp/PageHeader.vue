@@ -18,7 +18,12 @@
       <div class="button-group">
         <UiTooltip title="평가항목그룹 그룹 가져오기">
           <template #trigger>
-            <UiButton type="button" variant="secondary-line" size="medium">
+            <UiButton
+              type="button"
+              variant="secondary-line"
+              size="medium"
+              @click="$emit('get-evaluation-group')"
+            >
               평가항목그룹 가져오기
               <i class="icon-md icon-get"></i>
             </UiButton>

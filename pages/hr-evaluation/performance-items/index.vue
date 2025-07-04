@@ -1,6 +1,6 @@
 <template>
   <div class="container-large">
-    <PageHeader />
+    <PageHeader @get-evaluation-group="showImportModal = true" />
 
     <div class="flex-container">
       <div class="w-40p">
@@ -14,16 +14,22 @@
       </div>
     </div>
   </div>
+
+  <!-- 평가항목그룹 가져오기 모달 -->
+  <EvaluationGroupImportModal v-model="showImportModal" />
 </template>
 
 <script setup>
-  import { ref } from 'vue'
   import PageHeader from './comp/PageHeader.vue'
   import EvaluationGroup from './comp/EvaluationGroup.vue'
   import EvaluationDetail from './comp/EvaluationDetail.vue'
+  import EvaluationGroupImportModal from './comp/modals/EvaluationGroupImportModal.vue'
 
   // 선택된 행 데이터
   const selectedRow = ref(null)
+
+  // 모달 표시 상태
+  const showImportModal = ref(false)
 
   /**
    * 선택된 행 데이터
