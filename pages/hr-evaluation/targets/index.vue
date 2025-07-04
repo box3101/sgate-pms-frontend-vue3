@@ -85,7 +85,7 @@
         <section class="evaluation-section">
           <!-- 평가자 정보 -->
           <div class="heading-4">평가자</div>
-          <div class="scrollable-minus-13">
+          <div class="scrollable-minus-14">
             <div class="evaluation-block">
               <UiTable v-model="evaluatorData" layout="vertical">
                 <template #colgroup>
@@ -134,37 +134,57 @@
 </template>
 
 <script setup>
+  /**
+   * 평가대상확인(부서장) 페이지
+   * 목적: 부서장이 평가대상자들의 평가 현황을 확인하는 화면
+   */
+
   // 페이지 타이틀 설정
   const logoText = inject('logoText')
   logoText.value = '평가대상확인(부서장)'
 
-  // 현재 활성화된 탭
+  /**
+   * 탭 관련 데이터
+   */
   const activeTab = ref('tab1')
-
-  // 탭 메뉴 항목들
   const tabItems = ref([
     { id: 'tab1', label: '상반기' },
     { id: 'tab2', label: '하반기' },
     { id: 'tab3', label: '중간평가' },
     { id: 'tab4', label: '신규입사자 평가' },
     { id: 'tab5', label: '그냥평가' },
-    { id: 'tab6', label: '또 평가' }
+    { id: 'tab6', label: '또 평가' },
+    { id: 'tab7', label: '또 평가' },
+    { id: 'tab8', label: '특별평가' },
+    { id: 'tab9', label: '프로젝트평가' },
+    { id: 'tab10', label: '인턴평가' },
+    { id: 'tab11', label: '승진평가' },
+    { id: 'tab12', label: '연말평가' },
+    { id: 'tab13', label: '분기평가' },
+    { id: 'tab14', label: '동료평가' },
+    { id: 'tab15', label: '자기평가' },
+    { id: 'tab16', label: '외부평가' },
+    { id: 'tab17', label: '종합평가' }
   ])
 
-  // 선택된 기준년도
+  /**
+   * 년도 선택 관련 데이터
+   */
   const selectedYear = ref('2025')
-
-  // 년도 선택 옵션
   const yearOptions = ref([
     { value: '2025', label: '2025년' },
     { value: '2024', label: '2024년' },
     { value: '2023', label: '2023년' }
   ])
 
-  // 선택된 직원 ID
+  /**
+   * 직원 선택 관련 데이터
+   */
   const selectedEmployeeId = ref('isp144')
 
-  // 직원 목록 데이터
+  /**
+   * 직원 목록 데이터
+   */
   const employees = ref([
     {
       id: 'isp144',
@@ -238,7 +258,10 @@
     }
   ])
 
-  // 평가자 데이터
+  /**
+   * 테이블 데이터
+   */
+  // 평가자 정보
   const evaluatorData = ref([
     { id: 1, name: '1차 상급자 평가', value: '장호영' },
     { id: 2, name: '2차 상급자 평가', value: '마진석' },
@@ -247,10 +270,10 @@
     { id: 5, name: '부하(상향)평가', value: '-' }
   ])
 
-  // 성과평가 데이터
+  // 성과평가 정보
   const performanceData = ref([{ id: 1, name: '결과', value: '비율 : 70%' }])
 
-  // 역량평가 데이터
+  // 역량평가 정보
   const competencyData = ref([
     { id: 1, name: 'DSV-부서지표', value: '0%' },
     { id: 2, name: 'DSV-공통역량', value: '0%' },
@@ -260,6 +283,14 @@
     { id: 6, name: '직무', value: '0%' },
     { id: 7, name: '공통', value: '0%' }
   ])
+
+  /**
+   * 직원 선택 핸들러
+   * @param {Object} employee - 선택된 직원 정보
+   */
+  const handleEmployeeSelect = employee => {
+    selectedEmployeeId.value = employee.id
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -269,17 +300,17 @@
     overflow: hidden;
 
     .content-layout {
-      // 콘텐츠 레이아웃
+      // 콘텐츠 레이아웃 - 좌우 2분할
       width: 100%;
       display: flex;
       height: 100%;
       gap: 12px;
-      padding: 24px 0;
+      padding: 20px 0;
     }
   }
 
   .employee-section {
-    // 직원 목록 섹션
+    // 좌측 직원 목록 섹션
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -287,13 +318,6 @@
     .section-header {
       // 섹션 헤더
       margin-bottom: 16px;
-
-      .section-title {
-        font-size: 18px;
-        font-weight: 700;
-        color: $text-primary;
-        margin: 0;
-      }
     }
 
     .employee-list-container {
@@ -303,7 +327,7 @@
       overflow: hidden;
 
       .employee-list {
-        // 직원 목록
+        // 직원 목록 스크롤 영역
         height: 100%;
         overflow-y: auto;
         padding-right: 8px;
@@ -311,22 +335,11 @@
         flex-direction: column;
         gap: 12px;
       }
-
-      .scrollbar-indicator {
-        // 스크롤바 표시
-        position: absolute;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        width: 6px;
-        background-color: $bg-light;
-        border-radius: 3px;
-      }
     }
   }
 
   .employee-card {
-    // 직원 카드
+    // 직원 카드 스타일
     background-color: $bg-white;
     border: 1px solid $border-color;
     border-radius: 8px;
@@ -345,17 +358,14 @@
     }
 
     .employee-header {
-      // 직원 헤더 정보
+      // 직원 기본 정보 헤더
       margin-bottom: 12px;
 
       .employee-main-info {
-        // 메인 정보 (아바타 + 이름)
+        // 아바타와 이름
         display: flex;
         align-items: center;
         gap: 8px;
-
-        .employee-avatar {
-        }
 
         .employee-name {
           color: var(--color-gray-90, #1e2124);
@@ -366,7 +376,7 @@
       }
 
       .employee-details {
-        // 직원 상세 정보
+        // 직책, 역할, 부서 정보
         display: flex;
 
         span {
@@ -406,12 +416,13 @@
       gap: 8px;
 
       .result-item {
-        // 결과 아이템
+        // 개별 평가 결과 아이템
         display: flex;
         align-items: center;
         gap: 8px;
 
         .result-badge {
+          // 평가 구분 배지
           flex: none;
           font-size: 14px;
           padding: 4px 8px;
@@ -419,17 +430,16 @@
           color: $bg-white;
 
           &.performance-badge {
-            border-radius: 18px;
             background: var(--color-primary-50, #0af);
           }
 
           &.competency-badge {
-            border-radius: 18px;
             background: #1bc32f;
           }
         }
 
         .result-text {
+          // 평가 결과 텍스트
           flex: 1;
           font-size: 16px;
           color: $text-secondary;
@@ -440,7 +450,7 @@
   }
 
   .evaluation-section {
-    // 평가 정보 섹션
+    // 우측 평가 정보 섹션
     flex: 1;
     display: flex;
     flex-direction: column;
