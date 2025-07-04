@@ -602,7 +602,7 @@
     //   cursor: pointer;
     // }
 
-    &.vertical {
+    &.horizontal {
       .ui-table {
         display: table;
         width: 100%;
@@ -622,19 +622,12 @@
               }
             }
 
-            &:last-child {
-              td,
-              th {
-                border-bottom: none !important;
-              }
-            }
-
             th {
               display: table-cell;
-              width: 30%;
+              width: 20%;
               background-color: $gray-5;
               font-weight: 600;
-              padding: 10px;
+              padding: 5px 10px;
               vertical-align: middle;
               white-space: nowrap;
             }
@@ -642,7 +635,7 @@
             td {
               display: table-cell;
               width: 80%;
-              padding: 10px;
+              padding: 5px 10px;
               vertical-align: top;
               border-bottom: none;
               border-top: 0.5px solid #cdd1d5;
@@ -926,7 +919,7 @@
         }
 
         td {
-          padding: 13px 10px;
+          padding: 8px 10px;
           font-size: 15px;
           word-break: break-word;
         }
