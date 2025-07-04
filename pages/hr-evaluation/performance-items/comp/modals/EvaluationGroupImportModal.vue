@@ -1,6 +1,12 @@
 <template>
   <UiModal v-model="showModal" title="평가항목그룹 가져오기" showFooter>
-    <UiSelect v-model="selectedYear" :options="yearOptions" placeholder="기준년도" size="medium" />
+    <UiSelect
+      v-model="selectedYear"
+      :options="yearOptions"
+      placeholder="기준년도"
+      size="medium"
+      class="w-150"
+    />
 
     <UiTable v-model="data">
       <template #colgroup>
