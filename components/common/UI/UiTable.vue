@@ -602,6 +602,63 @@
     //   cursor: pointer;
     // }
 
+    &.vertical {
+      .ui-table {
+        display: table;
+        width: 100%;
+
+        thead {
+          display: none;
+        }
+
+        tbody {
+          tr {
+            display: table-row;
+
+            &:first-child {
+              td,
+              th {
+                border-top: 1px solid #6d7882;
+              }
+            }
+
+            &:last-child {
+              td,
+              th {
+                border-bottom: none !important;
+              }
+            }
+
+            th {
+              display: table-cell;
+              width: 30%;
+              background-color: $gray-5;
+              font-weight: 600;
+              padding: 10px;
+              vertical-align: middle;
+              white-space: nowrap;
+            }
+
+            td {
+              display: table-cell;
+              width: 80%;
+              padding: 10px;
+              vertical-align: top;
+              border-bottom: none;
+              border-top: 0.5px solid #cdd1d5;
+            }
+
+            &:last-child {
+              th,
+              td {
+                border-bottom: none;
+              }
+            }
+          }
+        }
+      }
+    }
+
     // ✅ 수정: tbody tr에만 cursor 적용
     &.cursor-pointer {
       .ui-table tbody tr {
@@ -774,7 +831,7 @@
 
       th {
         background-color: $gray-5;
-        border-top: 1px solid #6d7882;
+        border-top: 0.5px solid #cdd1d5;
       }
     }
 
@@ -884,55 +941,6 @@
         td {
           padding: 1rem 1.25rem;
           word-break: break-word;
-        }
-      }
-    }
-
-    &.horizontal {
-      .ui-table {
-        display: table;
-        width: 100%;
-
-        thead {
-          display: none;
-        }
-
-        tbody {
-          tr {
-            display: table-row;
-
-            &:first-child {
-              td,
-              th {
-                border-top: 1px solid #6d7882;
-              }
-            }
-
-            th {
-              display: table-cell;
-              width: 20%;
-              background-color: $gray-5;
-              font-weight: 600;
-              padding: 10px;
-              vertical-align: middle;
-              white-space: nowrap;
-            }
-
-            td {
-              display: table-cell;
-              width: 80%;
-              padding: 10px;
-              vertical-align: top;
-              border-bottom: none;
-            }
-
-            &:last-child {
-              th,
-              td {
-                border-bottom: none;
-              }
-            }
-          }
         }
       }
     }
