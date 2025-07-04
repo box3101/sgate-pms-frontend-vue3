@@ -236,7 +236,7 @@
     },
     layout: {
       type: String,
-      default: 'vertical',
+      default: '',
       validator: value => ['vertical', 'horizontal'].includes(value)
     },
     isThLeft: {
@@ -624,10 +624,10 @@
 
             th {
               display: table-cell;
-              width: 20%;
+              width: 30%;
               background-color: $gray-5;
               font-weight: 600;
-              padding: 5px 10px;
+              padding: 10px 10px;
               vertical-align: middle;
               white-space: nowrap;
             }
@@ -635,7 +635,7 @@
             td {
               display: table-cell;
               width: 80%;
-              padding: 5px 10px;
+              padding: 10px 10px;
               vertical-align: top;
               border-bottom: none;
               border-top: 0.5px solid #cdd1d5;

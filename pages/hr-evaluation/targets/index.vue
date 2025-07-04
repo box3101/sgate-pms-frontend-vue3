@@ -87,7 +87,7 @@
           <div class="heading-4">평가자</div>
           <div class="scrollable-minus-14">
             <div class="evaluation-block">
-              <UiTable v-model="evaluatorData" layout="vertical">
+              <UiTable v-model="evaluatorData" layout="horizontal">
                 <template #colgroup>
                   <col style="width: 200px" />
                   <col style="width: auto" />
@@ -104,7 +104,7 @@
             <!-- 성과평가 정보 -->
             <div class="evaluation-block mt-20">
               <h3 class="block-title">성과평가</h3>
-              <UiTable v-model="performanceData" layout="vertical">
+              <UiTable v-model="performanceData" layout="horizontal">
                 <template #body="{ rows }">
                   <tr v-for="row in rows" :key="row.id">
                     <th>{{ row.name }}</th>
@@ -117,7 +117,7 @@
             <!-- 역량평가 정보 -->
             <div class="evaluation-block mt-20">
               <h3 class="block-title">역량평가</h3>
-              <UiTable v-model="competencyData" layout="vertical">
+              <UiTable v-model="competencyData" layout="horizontal">
                 <template #body="{ rows }">
                   <tr v-for="row in rows" :key="row.id">
                     <th>{{ row.name }}</th>
