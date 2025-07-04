@@ -7,13 +7,16 @@
       </div>
 
       <div class="w-60p">
-        <GradeDistributionManager />
+        <GradeDistributionManager @download-template="showDownloadModal = true" />
       </div>
     </div>
   </div>
 
   <!-- 등급배분표 가져오기 모달 -->
   <GradeDistributionImportModal v-model="showImportModal" />
+
+  <!-- 등급 배분표 양식 다운로드 모달-->
+  <GradeDistributionDownloadModal v-model="showDownloadModal" />
 </template>
 
 <script setup>
@@ -21,6 +24,8 @@
   import GradeAdmin from './comp/GradeAdmin.vue'
   import GradeDistributionManager from './comp/GradeDistributionManager.vue'
   import GradeDistributionImportModal from './comp/modals/GradeDistributionImportModal.vue'
+  import GradeDistributionDownloadModal from './comp/modals/GradeDistributionDownloadModal.vue'
 
   const showImportModal = ref(false)
+  const showDownloadModal = ref(false)
 </script>

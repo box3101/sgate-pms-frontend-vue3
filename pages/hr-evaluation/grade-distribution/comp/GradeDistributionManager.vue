@@ -3,9 +3,6 @@
   <UiTable
     v-model="gradeDistributionData"
     title="배분표 관리"
-    excelControls
-    excelDownloadLabel="등급배분표 양식다운로드"
-    excelUploadLabel="등급배분표 양식업로드"
     scrollable
     max-height="calc(100vh - 200px)"
   >
@@ -19,6 +16,14 @@
       <th v-for="header in gradeDistributionHeaders" :key="header.key">
         {{ header.title }}
       </th>
+    </template>
+    <template #header-action-right>
+      <UiButton variant="primary" size="medium" @click="$emit('download-template')">
+        등급배분표 양식다운로드
+      </UiButton>
+      <UiButton variant="primary" size="medium" @click="$emit('upload-template')">
+        등급배분표 양식업로드
+      </UiButton>
     </template>
     <template #body="{ rows }">
       <tr v-for="row in rows" :key="row.id">
