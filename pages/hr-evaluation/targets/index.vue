@@ -164,7 +164,10 @@
     { id: 'tab14', label: '동료평가' },
     { id: 'tab15', label: '자기평가' },
     { id: 'tab16', label: '외부평가' },
-    { id: 'tab17', label: '종합평가' }
+    { id: 'tab17', label: '종합평가' },
+    { id: 'tab18', label: '월간평가' },
+    { id: 'tab19', label: '부서평가' },
+    { id: 'tab20', label: '기술평가' }
   ])
 
   /**
