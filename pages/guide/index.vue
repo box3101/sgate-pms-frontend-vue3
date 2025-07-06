@@ -252,13 +252,23 @@
                 </div>
               </NuxtLink>
 
-              <NuxtLink to="/components/Table" class="component-card">
+              <NuxtLink to="/components/TableDefault" class="component-card">
                 <div class="component-icon">
                   <Icon name="mdi:table" size="24" />
                 </div>
                 <div class="component-info">
-                  <h3 class="component-title">테이블</h3>
-                  <p class="component-desc">데이터를 행과 열로 표시하는 테이블 컴포넌트</p>
+                  <h3 class="component-title">기본 테이블</h3>
+                  <p class="component-desc">데이터를 행과 열로 기본 표시하는 테이블 컴포넌트</p>
+                </div>
+              </NuxtLink>
+
+              <NuxtLink to="/components/EditUiTable" class="component-card">
+                <div class="component-icon">
+                  <Icon name="mdi:table" size="24" />
+                </div>
+                <div class="component-info">
+                  <h3 class="component-title">편집 테이블</h3>
+                  <p class="component-desc">데이터를 행과 열로 편집 가능한 테이블 컴포넌트</p>
                 </div>
               </NuxtLink>
 
