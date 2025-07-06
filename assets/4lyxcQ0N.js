@@ -1,1 +1,0 @@
-import e from"./DUJApTNb.js";import{_ as t,D as r,o as c}from"./Cf8srSOI.js";import"./BdtjuByh.js";const a={};function n(s,_){const o=e;return c(),r(o,{title:"보고서 수정",size:"large"})}const d=t(a,[["render",n]]);export{d as default};
