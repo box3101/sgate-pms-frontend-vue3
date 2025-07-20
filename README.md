@@ -1,75 +1,24 @@
-# Nuxt Minimal Starter
+# 🎯 SGATE - Performance Management Solution
+> Modern Vue3-based Performance Management Dashboard
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## ⚡ Overview
+기업 성과관리를 위한 모던 프론트엔드 솔루션
 
-## Setup
+## ✨ Key Features
+- 🧩 **30+ Custom UI Components** - 재사용 가능한 컴포넌트 시스템
+- 📊 **Real-time Dashboard** - 실시간 성과 데이터 시각화  
+- 🎨 **Responsive Design** - 모든 디바이스 지원
+- ⚡ **High Performance** - 최적화된 로딩 속도
 
-Make sure to install dependencies:
+## 🛠 Tech Stack
+- **Framework**: Vue 3 + Composition API
+- **SSR**: Nuxt 3
+- **Language**: TypeScript
+- **State Management**: Pinia
+- **Styling**: SCSS
+- **Build Tool**: Vite
 
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## 🏗 Architecture
+- 컴포넌트 기반 아키텍처
+- 서버사이드 렌더링 최적화
+- 모듈화된 상태관리
