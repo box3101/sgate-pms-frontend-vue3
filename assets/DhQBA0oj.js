@@ -1,0 +1,1 @@
+import c from"./NzVmg_57.js";import a from"./DYpW0EUn.js";import{c as s,b as o,F as t,o as r}from"./D2oEqBf0.js";const f={__name:"index",setup(l){const n=e=>{console.log("이벤트 발생"),console.log(e)};return(e,m)=>(r(),s(t,null,[o(c,{message:"안녕하세요"}),o(a,{onBtnClick:n})],64))}};export{f as default};
