@@ -482,11 +482,6 @@
     }
 
     // 콘솔에 디버깅 정보 출력
-    console.log('Resize complete', {
-      width: customWidth.value,
-      height: customHeight.value,
-      floating: isFloating.value
-    })
   }
   // 드래그 관련 변수
   let isDragging = false

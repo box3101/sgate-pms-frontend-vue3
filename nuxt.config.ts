@@ -1,3 +1,4 @@
+// @ts-ignore
 // nuxt.config.js
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
@@ -7,25 +8,27 @@ export default defineNuxtConfig({
     prefix: 'N', // Nuxt UI 컴포넌트에 접두사 지정
     global: false // 자동 전역 등록 비활성화
   },
-  // 컴포넌트 자동 가져오기 설정 - task 컴포넌트 경로 추가
-  components: {
-    dirs: [
-      '~/pages',
-      '~/components/domain',
-      {
-        path: '~/components/common/Layout',
-        global: true
-      },
-      {
-        path: '~/components/common/UI',
-        global: true
-      },
-      {
-        path: '~/components/task',
-        global: true
-      }
-    ]
-  },
+  // 라우터 경고 제거용 플러그인 추가
+  plugins: ['~/plugins/router-warnings.client.js'],
+  // 컴포넌트 자동 import 설정
+  components: [
+    {
+      path: '~/components/common/Layout',
+      global: true
+    },
+    {
+      path: '~/components/common/UI',
+      global: true
+    },
+    {
+      path: '~/components/domain',
+      global: false // domain 컴포넌트는 명시적 import 필요
+    },
+    {
+      path: '~/components/user',
+      global: false
+    }
+  ],
   // CSS 파일 전역 등록
   css: [
     '~/assets/scss/_reset.scss', // 리셋 CSS
@@ -37,6 +40,15 @@ export default defineNuxtConfig({
   ],
   // 변수, 믹스인 등을 모든 컴포넌트에서 사용할 수 있도록 설정
   vite: {
+    server: {
+      proxy: {
+        '/api': {
+          target: 'http://localhost:8080',
+          changeOrigin: true,
+          rewrite: (path: string) => path.replace(/^\/api/, '')
+        }
+      }
+    },
     css: {
       preprocessorOptions: {
         scss: {
@@ -58,15 +70,20 @@ export default defineNuxtConfig({
         }
       ]
     },
-     // TinyMCE CDN 스크립트 추가
-     script: [
+    // TinyMCE CDN 스크립트 추가
+    script: [
       {
         src: 'https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js',
         referrerpolicy: 'origin'
       }
     ]
   },
+  runtimeConfig: {
+    public: {
+      apiBase: '/api'
+    }
+  },
   nitro: {
     preset: 'github-pages'
   }
-})
+});
