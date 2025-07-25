@@ -8,7 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "deploy": "gh-pages -d dist",
-    "db": "json-server --watch db.json --port 3001"
+    "db": "json-server --watch db.json --port 3002"
   },
   "dependencies": {
     "@fullcalendar/core": "^6.1.17",
@@ -19,9 +19,11 @@
     "@fullcalendar/vue3": "^6.1.17",
     "@nuxt/icon": "^1.11.0",
     "@nuxt/ui": "^3.0.0",
+    "@pinia/nuxt": "^0.11.2",
     "@tinymce/tinymce-vue": "^6.2.0",
     "aos": "^2.3.4",
     "nuxt": "^3.16.1",
+    "pinia": "^3.0.3",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },

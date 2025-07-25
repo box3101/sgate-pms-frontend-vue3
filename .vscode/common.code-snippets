@@ -263,5 +263,309 @@
 			"</div>"
 		],
 		"description": "다중 필터가 있는 검색 박스 컴포넌트"
+	},
+	// ============ UI 컴포넌트 스니펫 ============
+	"UiButton 기본": {
+		"prefix": "uibtn",
+		"body": [
+			"<UiButton variant=\"${1|primary,secondary,primary-line,secondary-line,ghost|}\" size=\"${2|small,medium,large,xlarge|}\" @click=\"${3:handleClick}\">",
+			"  ${4:버튼 텍스트}",
+			"</UiButton>"
+		],
+		"description": "기본 UiButton 컴포넌트"
+	},
+	"UiButton 아이콘": {
+		"prefix": "uibtn-icon",
+		"body": [
+			"<UiButton variant=\"${1|primary,secondary,primary-line,secondary-line|}\" size=\"${2|small,medium,large|}\" @click=\"${3:handleClick}\">",
+			"  ${4:버튼 텍스트}",
+			"  <i class=\"icon-${5|sm,md,lg|} icon-${6:plus} ${7|icon-white,icon-primary,|}\"></i>",
+			"</UiButton>"
+		],
+		"description": "아이콘이 포함된 UiButton"
+	},
+	"UiButton 아이콘만": {
+		"prefix": "uibtn-icononly",
+		"body": [
+			"<UiButton variant=\"${1|primary,secondary,primary-line,secondary-line|}\" icon-only @click=\"${2:handleClick}\">",
+			"  <i class=\"icon-${3|sm,md,lg|} icon-${4:plus} ${5|icon-white,icon-primary,|}\"></i>",
+			"</UiButton>"
+		],
+		"description": "아이콘만 있는 UiButton"
+	},
+	"오른쪽 정렬 버튼": {
+		"prefix": "btn-right",
+		"body": [
+			"<div class=\"flex justify-end gap-${1|2,4,5|}\">",
+			"  <UiButton variant=\"secondary-line\" @click=\"${2:handleCancel}\">",
+			"    취소",
+			"  </UiButton>",
+			"  <UiButton variant=\"primary\" @click=\"${3:handleConfirm}\">",
+			"    ${4:확인}",
+			"  </UiButton>",
+			"</div>"
+		],
+		"description": "오른쪽 정렬된 버튼 그룹"
+	},
+	"UiInput 기본": {
+		"prefix": "uiinput",
+		"body": [
+			"<UiInput",
+			"  v-model=\"${1:inputValue}\"",
+			"  label=\"${2:라벨}\"",
+			"  placeholder=\"${3:입력하세요}\"",
+			"  ${4|,required,disabled,readonly|}",
+			"/>"
+		],
+		"description": "기본 UiInput 컴포넌트"
+	},
+	"UiInput 검증": {
+		"prefix": "uiinput-validation",
+		"body": [
+			"<UiInput",
+			"  v-model=\"${1:inputValue}\"",
+			"  label=\"${2:라벨}\"",
+			"  placeholder=\"${3:입력하세요}\"",
+			"  :error=\"${4:errorMessage}\"",
+			"  required",
+			"/>"
+		],
+		"description": "검증 기능이 있는 UiInput"
+	},
+	"UiSelect 기본": {
+		"prefix": "uiselect",
+		"body": [
+			"<UiSelect",
+			"  v-model=\"${1:selectedValue}\"",
+			"  :options=\"${2:options}\"",
+			"  label=\"${3:라벨}\"",
+			"  placeholder=\"${4:선택하세요}\"",
+			"/>"
+		],
+		"description": "기본 UiSelect 컴포넌트"
+	},
+	"UiMultiSelect": {
+		"prefix": "uimultiselect",
+		"body": [
+			"<UiMultiSelect",
+			"  v-model=\"${1:selectedValues}\"",
+			"  :options=\"${2:options}\"",
+			"  label=\"${3:라벨}\"",
+			"  placeholder=\"${4:선택하세요}\"",
+			"/>"
+		],
+		"description": "다중 선택 UiMultiSelect 컴포넌트"
+	},
+	"UiCheckbox": {
+		"prefix": "uicheckbox",
+		"body": [
+			"<UiCheckbox",
+			"  v-model=\"${1:checked}\"",
+			"  label=\"${2:체크박스 라벨}\"",
+			"/>"
+		],
+		"description": "기본 UiCheckbox 컴포넌트"
+	},
+	"UiRadio": {
+		"prefix": "uiradio",
+		"body": [
+			"<UiRadio",
+			"  v-model=\"${1:selectedValue}\"",
+			"  value=\"${2:option1}\"",
+			"  label=\"${3:라디오 라벨}\"",
+			"/>"
+		],
+		"description": "기본 UiRadio 컴포넌트"
+	},
+	"UiTextarea": {
+		"prefix": "uitextarea",
+		"body": [
+			"<UiTextarea",
+			"  v-model=\"${1:textValue}\"",
+			"  label=\"${2:라벨}\"",
+			"  placeholder=\"${3:입력하세요}\"",
+			"  rows=\"${4:4}\"",
+			"/>"
+		],
+		"description": "기본 UiTextarea 컴포넌트"
+	},
+	"UiDatePicker": {
+		"prefix": "uidatepicker",
+		"body": [
+			"<UiDatePicker",
+			"  v-model=\"${1:dateValue}\"",
+			"  label=\"${2:날짜}\"",
+			"  placeholder=\"${3:날짜를 선택하세요}\"",
+			"/>"
+		],
+		"description": "기본 UiDatePicker 컴포넌트"
+	},
+	"UiModal 기본": {
+		"prefix": "uimodal",
+		"body": [
+			"<UiModal",
+			"  v-model=\"${1:isModalOpen}\"",
+			"  title=\"${2:모달 제목}\"",
+			"  size=\"${3|small,medium,large,xlarge|}\"",
+			"  @confirm=\"${4:handleConfirm}\"",
+			"  @cancel=\"${5:handleCancel}\"",
+			">",
+			"  <template #default>",
+			"    <p>${6:모달 내용}</p>",
+			"  </template>",
+			"</UiModal>"
+		],
+		"description": "기본 UiModal 컴포넌트"
+	},
+	"UiTable 기본": {
+		"prefix": "uitable",
+		"body": [
+			"<UiTable",
+			"  :data=\"${1:tableData}\"",
+			"  :columns=\"${2:columns}\"",
+			"  :loading=\"${3:loading}\"",
+			"  bordered",
+			"  striped",
+			"/>"
+		],
+		"description": "기본 UiTable 컴포넌트"
+	},
+	"UiAlert": {
+		"prefix": "uialert",
+		"body": [
+			"<UiAlert",
+			"  type=\"${1|info,success,warning,error|}\"",
+			"  :show=\"${2:showAlert}\"",
+			"  @close=\"${3:handleClose}\"",
+			">",
+			"  ${4:알림 메시지}",
+			"</UiAlert>"
+		],
+		"description": "기본 UiAlert 컴포넌트"
+	},
+	"UiTooltip": {
+		"prefix": "uitooltip",
+		"body": [
+			"<UiTooltip title=\"${1:툴팁 내용}\">",
+			"  <template #trigger>",
+			"    ${2:<!-- 툴팁을 표시할 요소 -->}",
+			"  </template>",
+			"</UiTooltip>"
+		],
+		"description": "기본 UiTooltip 컴포넌트"
+	},
+	// ============ 레이아웃 스니펫 ============
+	"Flex 가로 정렬": {
+		"prefix": "flex-row",
+		"body": [
+			"<div class=\"flex ${1|items-center,items-start,items-end|} ${2|justify-start,justify-center,justify-end,justify-between|} gap-${3|2,4,5,8|}\">",
+			"  ${4:<!-- 내용 -->}",
+			"</div>"
+		],
+		"description": "가로 정렬 Flex 레이아웃"
+	},
+	"Flex 세로 정렬": {
+		"prefix": "flex-col",
+		"body": [
+			"<div class=\"flex flex-col ${1|items-center,items-start,items-end|} gap-${2|2,4,5,8|}\">",
+			"  ${3:<!-- 내용 -->}",
+			"</div>"
+		],
+		"description": "세로 정렬 Flex 레이아웃"
+	},
+	"Grid 레이아웃": {
+		"prefix": "grid-layout",
+		"body": [
+			"<div class=\"grid grid-cols-${1|1,2,3,4,6,12|} gap-${2|2,4,6,8|}\">",
+			"  ${3:<!-- 그리드 아이템들 -->}",
+			"</div>"
+		],
+		"description": "기본 Grid 레이아웃"
+	},
+	"Form 레이아웃": {
+		"prefix": "form-layout",
+		"body": [
+			"<UiFormLayout>",
+			"  <UiFormItem label=\"${1:라벨}\" required>",
+			"    <UiInput v-model=\"${2:value}\" placeholder=\"${3:입력하세요}\" />",
+			"  </UiFormItem>",
+			"  ",
+			"  <UiFormItem label=\"${4:라벨}\" class=\"mt-4\">",
+			"    <UiSelect v-model=\"${5:selectValue}\" :options=\"${6:options}\" placeholder=\"선택하세요\" />",
+			"  </UiFormItem>",
+			"  ",
+			"  <div class=\"flex justify-end gap-4 mt-6\">",
+			"    <UiButton variant=\"secondary-line\" @click=\"${7:handleCancel}\">취소</UiButton>",
+			"    <UiButton variant=\"primary\" @click=\"${8:handleSubmit}\">저장</UiButton>",
+			"  </div>",
+			"</UiFormLayout>"
+		],
+		"description": "기본 폼 레이아웃"
+	},
+	// ============ 아이콘 스니펫 ============
+	"아이콘": {
+		"prefix": "icon",
+		"body": [
+			"<i class=\"icon-${1|sm,md,lg|} icon-${2:plus} ${3|icon-white,icon-primary,|}\"></i>"
+		],
+		"description": "기본 아이콘"
+	},
+	"자주 사용하는 아이콘들": {
+		"prefix": "icon-common",
+		"body": [
+			"<i class=\"icon-md icon-${1|plus,minus,edit,delete,search,download,upload,excel,refresh,close,check,arrow-left,arrow-right,arrow-up,arrow-down,settings,user,home|}\"></i>"
+		],
+		"description": "자주 사용하는 아이콘들"
+	},
+	// ============ 상태 관리 스니펫 ============
+	"ref 선언": {
+		"prefix": "vref",
+		"body": [
+			"const ${1:variableName} = ref(${2:null})"
+		],
+		"description": "Vue3 ref 선언"
+	},
+	"reactive 선언": {
+		"prefix": "vreactive",
+		"body": [
+			"const ${1:objectName} = reactive({",
+			"  ${2:property}: ${3:value}",
+			"})"
+		],
+		"description": "Vue3 reactive 선언"
+	},
+	"computed 선언": {
+		"prefix": "vcomputed",
+		"body": [
+			"const ${1:computedName} = computed(() => {",
+			"  return ${2:computation}",
+			"})"
+		],
+		"description": "Vue3 computed 선언"
+	},
+	"watch 선언": {
+		"prefix": "vwatch",
+		"body": [
+			"watch(${1:source}, (${2:newValue}, ${3:oldValue}) => {",
+			"  ${4:// 로직}",
+			"})"
+		],
+		"description": "Vue3 watch 선언"
+	},
+	// ============ API 호출 스니펫 ============
+	"API 호출 함수": {
+		"prefix": "api-fetch",
+		"body": [
+			"const ${1:functionName} = async () => {",
+			"  try {",
+			"    const response = await fetch('${2:api-endpoint}')",
+			"    const data = await response.json()",
+			"    ${3:// 데이터 처리}",
+			"  } catch (error) {",
+			"    console.error('API 호출 오류:', error)",
+			"  }",
+			"}"
+		],
+		"description": "기본 API 호출 함수"
 	}
 }

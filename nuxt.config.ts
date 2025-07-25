@@ -3,7 +3,10 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: false },
-  modules: ['@nuxt/ui'],
+  modules: [
+    '@nuxt/ui',
+    '@pinia/nuxt'  // 👈 이 한 줄만 추가!
+  ],
   ui: {
     prefix: 'N', // Nuxt UI 컴포넌트에 접두사 지정
     global: false // 자동 전역 등록 비활성화
