@@ -13,7 +13,6 @@
 <script setup>
   import { useStore } from '@/stores/useStore'
   import { storeToRefs } from 'pinia'
-  import { onMounted } from 'vue'
 
   const store = useStore()
   const { users, userCount } = storeToRefs(store) // 📊 상태는 storeToRefs
