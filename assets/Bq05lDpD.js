@@ -1,1 +1,0 @@
-import{r as o,c as s,k as n,a as l,v as r,t as u,F as p,o as c}from"./_rK3LsHA.js";const v={__name:"Vmodel",setup(m){const e=o("기본 메시지");return console.log("현재 값:",e.value),(i,a)=>(c(),s(p,null,[n(l("input",{"onUpdate:modelValue":a[0]||(a[0]=t=>e.value=t),placeholder:"메세지를 입력하세요"},null,512),[[r,e.value]]),l("p",null,"입력한 값 : "+u(e.value),1)],64))}};export{v as default};
