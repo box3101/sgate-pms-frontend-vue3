@@ -1,0 +1,1 @@
+import{_ as o,c as a,a as n,o as r}from"./BCYWSh4i.js";const t={};function s(c,e){return r(),a("div",null,e[0]||(e[0]=[n("h1",null,"Hello World",-1)]))}const _=o(t,[["render",s],["__scopeId","data-v-93fe9077"]]);export{_ as default};
