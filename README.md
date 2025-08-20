@@ -1,4 +1,4 @@
-# SGATE - Performance Management Solution
+# SGATE - Performance Management Solution  (~ing)
 
 ## 🚀 DEMO URL
 
