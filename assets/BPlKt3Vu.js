@@ -1,0 +1,1 @@
+import{c as n,o}from"./B2WNSl5p.js";const m={__name:"Emit",emits:["btnClick"],setup(a,{emit:t}){const c=t,e=()=>{c("btnClick","abc")};return(i,s)=>(o(),n("button",{onClick:e},"클릭"))}};export{m as default};
