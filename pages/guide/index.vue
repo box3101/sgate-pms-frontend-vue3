@@ -209,7 +209,7 @@
                 </div>
                 <div class="component-info">
                   <h3 class="component-title">체크박스</h3>
-                  <p class="component-desc">모달 및 팝업 컴포넌트</p>
+                  <p class="component-desc">선택/해제 입력 컴포넌트</p>
                 </div>
               </NuxtLink>
 
@@ -219,16 +219,17 @@
                 </div>
                 <div class="component-info">
                   <h3 class="component-title">라디오</h3>
-                  <p class="component-desc">라디오 컴포넌트</p>
+                  <p class="component-desc">단일 선택 라디오 컴포넌트</p>
                 </div>
               </NuxtLink>
+
               <NuxtLink to="/components/Accordion" class="component-card">
                 <div class="component-icon">
-                  <Icon name="mdi:radio-button-checked" size="24" />
+                  <Icon name="mdi:chevron-down" size="24" />
                 </div>
                 <div class="component-info">
-                  <h3 class="component-title">아코디언언</h3>
-                  <p class="component-desc">아코디언언 컴포넌트</p>
+                  <h3 class="component-title">아코디언</h3>
+                  <p class="component-desc">접었다 펼치는 아코디언 컴포넌트</p>
                 </div>
               </NuxtLink>
 
@@ -244,11 +245,11 @@
 
               <NuxtLink to="/components/Tag" class="component-card">
                 <div class="component-icon">
-                  <Icon name="mdi:view-grid-plus" size="24" />
+                  <Icon name="mdi:tag" size="24" />
                 </div>
                 <div class="component-info">
                   <h3 class="component-title">태그</h3>
-                  <p class="component-desc">태그 컴포넌트</p>
+                  <p class="component-desc">라벨 및 태그 컴포넌트</p>
                 </div>
               </NuxtLink>
 
@@ -264,7 +265,7 @@
 
               <NuxtLink to="/components/EditUiTable" class="component-card">
                 <div class="component-icon">
-                  <Icon name="mdi:table" size="24" />
+                  <Icon name="mdi:table-edit" size="24" />
                 </div>
                 <div class="component-info">
                   <h3 class="component-title">편집 테이블</h3>
@@ -278,17 +279,17 @@
                 </div>
                 <div class="component-info">
                   <h3 class="component-title">알림</h3>
-                  <p class="component-desc">알림 컴포넌트</p>
+                  <p class="component-desc">사용자 알림 메시지 컴포넌트</p>
                 </div>
               </NuxtLink>
 
               <NuxtLink to="/components/Confirm" class="component-card">
                 <div class="component-icon">
-                  <Icon name="mdi:confirm" size="24" />
+                  <Icon name="mdi:help-circle" size="24" />
                 </div>
                 <div class="component-info">
                   <h3 class="component-title">확인</h3>
-                  <p class="component-desc">확인 컴포넌트</p>
+                  <p class="component-desc">사용자 확인 다이얼로그 컴포넌트</p>
                 </div>
               </NuxtLink>
 
@@ -299,6 +300,16 @@
                 <div class="component-info">
                   <h3 class="component-title">멀티셀렉터</h3>
                   <p class="component-desc">여러 항목을 선택할 수 있는 멀티셀렉터 컴포넌트</p>
+                </div>
+              </NuxtLink>
+
+              <NuxtLink to="/components/Switch" class="component-card">
+                <div class="component-icon">
+                  <Icon name="mdi:toggle-switch" size="24" />
+                </div>
+                <div class="component-info">
+                  <h3 class="component-title">스위치</h3>
+                  <p class="component-desc">ON/OFF 토글 스위치 컴포넌트</p>
                 </div>
               </NuxtLink>
             </div>
@@ -476,6 +487,28 @@
       expanded: true,
       tasks: [{ title: '업무 인수인계 페이지 완료', completed: true }],
       subgroups: []
+    },
+    {
+      title: 'HR 인사평가',
+      expanded: true,
+      tasks: [
+        { title: '평가대상확인 페이지 완료', completed: true },
+        { title: '평가기본항목관리 페이지 완료', completed: true },
+        { title: '평가항목관리 페이지 완료', completed: true },
+        { title: '진행현황 페이지 완료', completed: true }
+      ],
+      subgroups: [
+        {
+          title: '기타 HR 페이지',
+          expanded: true,
+          tasks: [
+            { title: '역량항목관리 페이지', completed: false },
+            { title: '성과기술서작성 페이지', completed: false },
+            { title: '평가조정 페이지', completed: false },
+            { title: '기타항목관리 페이지', completed: false }
+          ]
+        }
+      ]
     }
   ])
 
@@ -489,7 +522,7 @@
       {
         id: 'common',
         title: '공통',
-        status: 'completed', // 'waiting', 'in-progress', 'completed'
+        status: 'completed',
         subcategories: [
           {
             id: 'login',
@@ -501,7 +534,7 @@
                 title: '로그인 화면',
                 description: '사용자 로그인 화면',
                 icon: 'mdi:login',
-                url: '/ispark-sgate/login',
+                url: '/login',
                 status: 'completed'
               }
             ]
@@ -516,15 +549,15 @@
                 title: '비밀번호 찾기 모달',
                 description: '비밀번호 찾기 모달',
                 icon: 'mdi:lock-reset',
-                url: '/ispark-sgate/login',
+                url: '/login2/forgot-password',
                 status: 'completed'
               },
               {
-                id: 'notice-modal',
-                title: '공지사항 모달',
-                description: '공지사항 모달',
-                icon: 'mdi:bell-ring',
-                url: '/ispark-sgate/login',
+                id: 'signup',
+                title: '회원가입',
+                description: '회원가입 페이지',
+                icon: 'mdi:account-plus',
+                url: '/login2/signup',
                 status: 'completed'
               },
               {
@@ -532,7 +565,7 @@
                 title: '사용자 필터 모달',
                 description: '사용자 필터 모달',
                 icon: 'mdi:filter',
-                url: '/ispark-sgate/',
+                url: '/',
                 status: 'completed'
               },
               {
@@ -540,7 +573,7 @@
                 title: '사용자 알림 모달',
                 description: '사용자 알림 모달',
                 icon: 'mdi:bell-alert',
-                url: '/ispark-sgate/',
+                url: '/',
                 status: 'completed'
               },
               {
@@ -548,7 +581,7 @@
                 title: '사용자 전체메뉴 모달',
                 description: '사용자 전체메뉴 모달',
                 icon: 'mdi:menu',
-                url: '/ispark-sgate/',
+                url: '/',
                 status: 'completed'
               }
             ]
@@ -563,52 +596,44 @@
           {
             id: 'home',
             title: '업무: 홈',
-            status: 'in-progress',
+            status: 'completed',
             items: [
               {
                 id: 'task-home',
                 title: '업무 홈',
-                description: 'UX 변경 필요',
+                description: '업무 메인 대시보드 페이지',
                 icon: 'mdi:home',
-                url: '/ispark-sgate/task/home',
-                status: 'in-progress'
+                url: '/Task/home',
+                status: 'completed'
               }
             ]
           },
           {
             id: 'board',
-            title: '업무: 보드',
-            status: 'in-progress',
+            title: '업무: 보드/협업',
+            status: 'completed',
             items: [
               {
-                id: 'task-board',
-                title: '업무 보드',
-                description: '4가지 UX, UI 변경 필요',
+                id: 'task-collaboration',
+                title: '협업 보드',
+                description: '업무 협업 및 보드 관리',
                 icon: 'mdi:view-dashboard',
-                url: '/ispark-sgate/task/board',
-                status: 'in-progress'
+                url: '/Task/collaboration',
+                status: 'completed'
               }
             ]
           },
           {
             id: 'task-modal',
             title: '업무 모달',
-            status: 'in-progress',
+            status: 'completed',
             items: [
-              {
-                id: 'card-add-modal',
-                title: '카드 추가 모달',
-                description: '대댓글 기능 추가 및 ui 변경 필요',
-                icon: 'mdi:card-plus',
-                url: '/ispark-sgate/task/board',
-                status: 'in-progress'
-              },
               {
                 id: 'board-add',
                 title: '보드 추가',
                 description: '보드 추가 기능',
                 icon: 'mdi:plus-box',
-                url: '/ispark-sgate/task/board',
+                url: '/Task/collaboration',
                 status: 'completed'
               },
               {
@@ -616,7 +641,7 @@
                 title: '검색필터',
                 description: '검색 및 필터 기능',
                 icon: 'mdi:filter',
-                url: '/ispark-sgate/task/board',
+                url: '/Task/collaboration',
                 status: 'completed'
               },
               {
@@ -624,7 +649,7 @@
                 title: '협업',
                 description: '협업 기능',
                 icon: 'mdi:account-group',
-                url: '/ispark-sgate/task/board',
+                url: '/Task/collaboration',
                 status: 'completed'
               },
               {
@@ -632,7 +657,7 @@
                 title: '파일 첨부',
                 description: '활동에 파일 첨부 기능',
                 icon: 'mdi:file-upload',
-                url: '/ispark-sgate/task/board',
+                url: '/Task/collaboration',
                 status: 'completed'
               }
             ]
@@ -650,34 +675,34 @@
             status: 'completed',
             items: [
               {
-                id: 'report-page',
+                id: 'report-create',
                 title: '보고서 작성 페이지',
                 description: '보고서 작성 페이지',
                 icon: 'mdi:file-document-edit',
-                url: '/ispark-sgate/task/reports/create',
+                url: '/Task/reports/create',
+                status: 'completed'
+              },
+              {
+                id: 'report-view',
+                title: '보고서 조회 페이지',
+                description: '보고서 조회 및 상세보기',
+                icon: 'mdi:file-document',
+                url: '/Task/reports/view',
                 status: 'completed'
               }
             ]
           },
           {
             id: 'report-modal',
-            title: '공통 모달',
+            title: '보고서 모달',
             status: 'completed',
             items: [
-              {
-                id: 'report-write-modal',
-                title: '보고서 작성',
-                description: '보고서 작성 기능',
-                icon: 'mdi:pencil',
-                url: '/ispark-sgate/task/reports/create',
-                status: 'completed'
-              },
               {
                 id: 'activity-add',
                 title: '활동 추가',
                 description: '활동 추가 기능',
                 icon: 'mdi:plus-circle',
-                url: '/ispark-sgate/task/reports/create',
+                url: '/Task/reports/create',
                 status: 'completed'
               },
               {
@@ -685,23 +710,23 @@
                 title: 'AI 요약 전후 비교',
                 description: 'AI 요약 비교 기능',
                 icon: 'mdi:compare',
-                url: '/ispark-sgate/task/reports/create',
+                url: '/Task/reports/create',
                 status: 'completed'
               },
               {
                 id: 'ai-report',
-                title: 'AI 취합 보고서 생성 모달',
-                description: 'AI를 활용한 보고서 취합 모달',
+                title: 'AI 취합 보고서 생성',
+                description: 'AI를 활용한 보고서 취합',
                 icon: 'mdi:robot',
-                url: '/ispark-sgate/task/reports/create',
+                url: '/Task/reports/create',
                 status: 'completed'
               },
               {
-                id: 'report-selection',
-                title: '취합대상 보고서 선택 모달',
-                description: '보고서 취합 대상 선택 모달',
-                icon: 'mdi:file-multiple',
-                url: '/ispark-sgate/task/reports/create',
+                id: 'report-config',
+                title: '보고서 설정',
+                description: '보고서 설정 및 구성',
+                icon: 'mdi:cog',
+                url: '/Task/reports/create',
                 status: 'completed'
               }
             ]
@@ -721,9 +746,9 @@
               {
                 id: 'handover-main',
                 title: '업무 인수인계 페이지',
-                description: '업무 인수인계 페이지',
+                description: '업무 인수인계 메인 페이지',
                 icon: 'mdi:transfer',
-                url: '/ispark-sgate/task/handover',
+                url: '/Task/handover',
                 status: 'completed'
               }
             ]
@@ -738,7 +763,277 @@
                 title: '담당자 선택 모달',
                 description: '담당자 선택 모달',
                 icon: 'mdi:account-multiple',
-                url: '/ispark-sgate/task/handover',
+                url: '/Task/handover',
+                status: 'completed'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'hr-evaluation',
+        title: 'HR 인사평가',
+        status: 'in-progress',
+        subcategories: [
+          {
+            id: 'hr-main',
+            title: '평가 메인',
+            status: 'completed',
+            items: [
+              {
+                id: 'evaluation-targets',
+                title: '평가대상확인',
+                description: '평가대상자 확인 및 관리',
+                icon: 'mdi:account-check',
+                url: '/hr-evaluation/targets',
+                status: 'completed'
+              },
+              {
+                id: 'evaluation-progress',
+                title: '진행현황',
+                description: '평가 진행현황 관리',
+                icon: 'mdi:chart-line',
+                url: '/hr-evaluation/progress',
+                status: 'completed'
+              }
+            ]
+          },
+          {
+            id: 'hr-basic',
+            title: '기본 항목 관리',
+            status: 'completed',
+            items: [
+              {
+                id: 'basic-items',
+                title: '평가기본항목관리',
+                description: '등급척도 및 기본항목 관리',
+                icon: 'mdi:format-list-bulleted',
+                url: '/hr-evaluation/basic-items',
+                status: 'completed'
+              },
+              {
+                id: 'performance-items',
+                title: '평가항목관리',
+                description: '성과평가 항목 관리',
+                icon: 'mdi:clipboard-list',
+                url: '/hr-evaluation/performance-items',
+                status: 'completed'
+              }
+            ]
+          },
+          {
+            id: 'hr-advanced',
+            title: '고급 관리 기능',
+            status: 'in-progress',
+            items: [
+              {
+                id: 'competency-items',
+                title: '역량항목관리',
+                description: '역량평가 항목 관리',
+                icon: 'mdi:star-outline',
+                url: '/hr-evaluation/competency-items',
+                status: 'in-progress'
+              },
+              {
+                id: 'competency-dictionary',
+                title: '역량사전관리',
+                description: '역량사전 및 정의 관리',
+                icon: 'mdi:book-open-variant',
+                url: '/hr-evaluation/competency-dictionary',
+                status: 'in-progress'
+              },
+              {
+                id: 'performance-template',
+                title: '성과평가서식관리',
+                description: '성과평가 서식 템플릿 관리',
+                icon: 'mdi:file-document-edit',
+                url: '/hr-evaluation/performance-template',
+                status: 'in-progress'
+              },
+              {
+                id: 'job-template',
+                title: '직무평가서식관리',
+                description: '직무평가 서식 템플릿 관리',
+                icon: 'mdi:briefcase',
+                url: '/hr-evaluation/job-template',
+                status: 'waiting'
+              }
+            ]
+          },
+          {
+            id: 'hr-evaluation-process',
+            title: '평가 프로세스',
+            status: 'waiting',
+            items: [
+              {
+                id: 'performance-description',
+                title: '성과기술서작성',
+                description: '성과기술서 작성 및 관리',
+                icon: 'mdi:file-edit',
+                url: '/hr-evaluation/performance-description',
+                status: 'waiting'
+              },
+              {
+                id: 'performance-description-status',
+                title: '성과기술서작성현황',
+                description: '성과기술서 작성현황 관리',
+                icon: 'mdi:file-chart',
+                url: '/hr-evaluation/performance-description-status',
+                status: 'waiting'
+              },
+              {
+                id: 'job-description',
+                title: '직무기술서관리',
+                description: '직무기술서 관리',
+                icon: 'mdi:file-outline',
+                url: '/hr-evaluation/job-description',
+                status: 'waiting'
+              }
+            ]
+          },
+          {
+            id: 'hr-calculation',
+            title: '평가 계산 및 결과',
+            status: 'waiting',
+            items: [
+              {
+                id: 'calculation',
+                title: '개인별산출',
+                description: '개인별 평가 결과 산출',
+                icon: 'mdi:calculator',
+                url: '/hr-evaluation/calculation',
+                status: 'waiting'
+              },
+              {
+                id: 'org-calculation',
+                title: '조직별산출',
+                description: '조직별 평가 결과 산출',
+                icon: 'mdi:domain',
+                url: '/hr-evaluation/org-calculation',
+                status: 'waiting'
+              },
+              {
+                id: 'total-calculation',
+                title: '종합산출',
+                description: '종합 평가 결과 산출',
+                icon: 'mdi:chart-box',
+                url: '/hr-evaluation/total-calculation',
+                status: 'waiting'
+              },
+              {
+                id: 'adjustment',
+                title: '평가조정',
+                description: '평가 결과 조정',
+                icon: 'mdi:tune',
+                url: '/hr-evaluation/adjustment',
+                status: 'waiting'
+              }
+            ]
+          },
+          {
+            id: 'hr-results',
+            title: '최종 결과',
+            status: 'waiting',
+            items: [
+              {
+                id: 'final-results',
+                title: '최종결과',
+                description: '최종 평가 결과',
+                icon: 'mdi:trophy',
+                url: '/hr-evaluation/final-results',
+                status: 'waiting'
+              },
+              {
+                id: 'total-results',
+                title: '종합결과',
+                description: '종합 평가 결과',
+                icon: 'mdi:chart-pie',
+                url: '/hr-evaluation/total-results',
+                status: 'waiting'
+              },
+              {
+                id: 'grade-distribution',
+                title: '등급분포관리',
+                description: '등급분포 관리 및 분석',
+                icon: 'mdi:chart-histogram',
+                url: '/hr-evaluation/grade-distribution',
+                status: 'waiting'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'components',
+        title: 'UI 컴포넌트',
+        status: 'completed',
+        subcategories: [
+          {
+            id: 'basic-components',
+            title: '기본 컴포넌트',
+            status: 'completed',
+            items: [
+              {
+                id: 'button-component',
+                title: '버튼 컴포넌트',
+                description: '다양한 스타일의 버튼',
+                icon: 'mdi:button-cursor',
+                url: '/components/Button',
+                status: 'completed'
+              },
+              {
+                id: 'input-component',
+                title: '인풋 컴포넌트',
+                description: '텍스트 입력 컴포넌트',
+                icon: 'mdi:form-textbox',
+                url: '/components/Input',
+                status: 'completed'
+              },
+              {
+                id: 'select-component',
+                title: '셀렉트 컴포넌트',
+                description: '드롭다운 선택 컴포넌트',
+                icon: 'mdi:form-dropdown',
+                url: '/components/Select',
+                status: 'completed'
+              },
+              {
+                id: 'textarea-component',
+                title: '텍스트영역 컴포넌트',
+                description: '여러 줄 텍스트 입력',
+                icon: 'mdi:form-textarea',
+                url: '/components/Textarea',
+                status: 'completed'
+              }
+            ]
+          },
+          {
+            id: 'advanced-components',
+            title: '고급 컴포넌트',
+            status: 'completed',
+            items: [
+              {
+                id: 'table-component',
+                title: '테이블 컴포넌트',
+                description: '데이터 테이블 컴포넌트',
+                icon: 'mdi:table',
+                url: '/components/TableDefault',
+                status: 'completed'
+              },
+              {
+                id: 'modal-component',
+                title: '모달 컴포넌트',
+                description: '팝업 및 모달 컴포넌트',
+                icon: 'mdi:window-maximize',
+                url: '/components/Popup',
+                status: 'completed'
+              },
+              {
+                id: 'layout-component',
+                title: '레이아웃 컴포넌트',
+                description: '레이아웃 및 그리드 시스템',
+                icon: 'mdi:view-grid-plus',
+                url: '/components/Layout',
                 status: 'completed'
               }
             ]
