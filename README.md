@@ -2,7 +2,7 @@
 
 ## URL
 
-[SGATE_Front](https://box3101.github.io/ispark-sgate/)
+[SGATE_Front](https://box3101.github.io/ispark-sgate/guide)
 
 
 ## 🎯 Overview
