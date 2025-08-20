@@ -2,7 +2,7 @@
 
 ## 🚀 DEMO URL
 
-[SGATE_Front](https://box3101.github.io/ispark-sgate/guide)
+[SGATE_Front_가이드 페이지](https://box3101.github.io/ispark-sgate/guide)
 
 
 ## 🎯 Overview
