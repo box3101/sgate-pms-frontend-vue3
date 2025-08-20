@@ -1,0 +1,1 @@
+import{c as s,t as o,o as t}from"./34oXQHXO.js";const c={__name:"Props",props:{message:{type:String,default:"기본 메세지"}},setup(e){return console.log("받은 props:",e.message),(p,r)=>(t(),s("p",null,o(e.message),1))}};export{c as default};
