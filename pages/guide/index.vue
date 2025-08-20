@@ -570,7 +570,7 @@
                 title: '업무 홈',
                 description: 'UX 변경 필요',
                 icon: 'mdi:home',
-                url: '/ispark-sgate/task/collaboration/home',
+                url: '/ispark-sgate/task/home',
                 status: 'in-progress'
               }
             ]
@@ -585,7 +585,7 @@
                 title: '업무 보드',
                 description: '4가지 UX, UI 변경 필요',
                 icon: 'mdi:view-dashboard',
-                url: '/ispark-sgate/task/collaboration/board',
+                url: '/ispark-sgate/task/board',
                 status: 'in-progress'
               }
             ]
@@ -600,7 +600,7 @@
                 title: '카드 추가 모달',
                 description: '대댓글 기능 추가 및 ui 변경 필요',
                 icon: 'mdi:card-plus',
-                url: '/ispark-sgate/task/collaboration/board',
+                url: '/ispark-sgate/task/board',
                 status: 'in-progress'
               },
               {
@@ -608,7 +608,7 @@
                 title: '보드 추가',
                 description: '보드 추가 기능',
                 icon: 'mdi:plus-box',
-                url: '/ispark-sgate/task/collaboration/board',
+                url: '/ispark-sgate/task/board',
                 status: 'completed'
               },
               {
@@ -616,7 +616,7 @@
                 title: '검색필터',
                 description: '검색 및 필터 기능',
                 icon: 'mdi:filter',
-                url: '/ispark-sgate/task/collaboration/board',
+                url: '/ispark-sgate/task/board',
                 status: 'completed'
               },
               {
@@ -624,7 +624,7 @@
                 title: '협업',
                 description: '협업 기능',
                 icon: 'mdi:account-group',
-                url: '/ispark-sgate/task/collaboration/board',
+                url: '/ispark-sgate/task/board',
                 status: 'completed'
               },
               {
@@ -632,7 +632,7 @@
                 title: '파일 첨부',
                 description: '활동에 파일 첨부 기능',
                 icon: 'mdi:file-upload',
-                url: '/ispark-sgate/task/collaboration/board',
+                url: '/ispark-sgate/task/board',
                 status: 'completed'
               }
             ]
