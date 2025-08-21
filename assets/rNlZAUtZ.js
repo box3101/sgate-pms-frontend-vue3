@@ -1,0 +1,1 @@
+import{c as a,o as u}from"./IzJ6ZCg6.js";const m=["value"],r={__name:"ChildComponent",props:["modelValue"],emits:["update:modelValue"],setup(t,{emit:n}){return(l,e)=>(u(),a("input",{value:t.modelValue,onInput:e[0]||(e[0]=o=>l.$emit("update:modelValue",o.target.value))},null,40,m))}};export{r as default};
