@@ -534,7 +534,7 @@
                 title: '로그인 화면',
                 description: '사용자 로그인 화면',
                 icon: 'mdi:login',
-                url: './login',
+                url: './ispark-sgate/login',
                 status: 'completed'
               }
             ]
@@ -549,7 +549,7 @@
                 title: '비밀번호 찾기 모달',
                 description: '비밀번호 찾기 모달',
                 icon: 'mdi:lock-reset',
-                url: './login2/forgot-password',
+                url: './ispark-sgate/login2/forgot-password',
                 status: 'completed'
               },
               {
@@ -557,7 +557,7 @@
                 title: '사용자 필터 모달',
                 description: '사용자 필터 모달',
                 icon: 'mdi:filter',
-                url: './',
+                url: './ispark-sgate/',
                 status: 'completed'
               },
               {
@@ -565,7 +565,7 @@
                 title: '사용자 알림 모달',
                 description: '사용자 알림 모달',
                 icon: 'mdi:bell-alert',
-                url: './',
+                url: './ispark-sgate/',
                 status: 'completed'
               },
               {
@@ -573,7 +573,7 @@
                 title: '사용자 전체메뉴 모달',
                 description: '사용자 전체메뉴 모달',
                 icon: 'mdi:menu',
-                url: './',
+                url: './ispark-sgate/',
                 status: 'completed'
               }
             ]
@@ -595,7 +595,7 @@
                 title: '업무 홈',
                 description: '업무 메인 대시보드 페이지',
                 icon: 'mdi:home',
-                url: './Task/home',
+                url: './ispark-sgate/Task/home',
                 status: 'completed'
               }
             ]
@@ -610,7 +610,7 @@
                 title: '협업 보드',
                 description: '업무 협업 및 보드 관리',
                 icon: 'mdi:view-dashboard',
-                url: './Task/collaboration',
+                url: './ispark-sgate/Task/collaboration',
                 status: 'completed'
               }
             ]
@@ -625,7 +625,7 @@
                 title: '보드 추가',
                 description: '보드 추가 기능',
                 icon: 'mdi:plus-box',
-                url: './Task/collaboration',
+                url: './ispark-sgate/Task/collaboration',
                 status: 'completed'
               },
               {
@@ -633,7 +633,7 @@
                 title: '검색필터',
                 description: '검색 및 필터 기능',
                 icon: 'mdi:filter',
-                url: './Task/collaboration',
+                url: './ispark-sgate/Task/collaboration',
                 status: 'completed'
               },
               {
@@ -641,7 +641,7 @@
                 title: '협업',
                 description: '협업 기능',
                 icon: 'mdi:account-group',
-                url: './Task/collaboration',
+                url: './ispark-sgate/Task/collaboration',
                 status: 'completed'
               },
               {
@@ -649,7 +649,7 @@
                 title: '파일 첨부',
                 description: '활동에 파일 첨부 기능',
                 icon: 'mdi:file-upload',
-                url: './Task/collaboration',
+                url: './ispark-sgate/Task/collaboration',
                 status: 'completed'
               }
             ]
@@ -671,7 +671,7 @@
                 title: '보고서 작성 페이지',
                 description: '보고서 작성 페이지',
                 icon: 'mdi:file-document-edit',
-                url: './Task/reports/create',
+                url: './ispark-sgate/Task/reports/create',
                 status: 'completed'
               },
               {
@@ -679,7 +679,7 @@
                 title: '보고서 조회 페이지',
                 description: '보고서 조회 및 상세보기',
                 icon: 'mdi:file-document',
-                url: './Task/reports/view',
+                url: './ispark-sgate/Task/reports/view',
                 status: 'completed'
               }
             ]
@@ -694,7 +694,7 @@
                 title: '활동 추가',
                 description: '활동 추가 기능',
                 icon: 'mdi:plus-circle',
-                url: './Task/reports/create',
+                url: './ispark-sgate/Task/reports/create',
                 status: 'completed'
               },
               {
@@ -702,7 +702,7 @@
                 title: 'AI 요약 전후 비교',
                 description: 'AI 요약 비교 기능',
                 icon: 'mdi:compare',
-                url: './Task/reports/create',
+                url: './ispark-sgate/Task/reports/create',
                 status: 'completed'
               },
               {
@@ -710,7 +710,7 @@
                 title: 'AI 취합 보고서 생성',
                 description: 'AI를 활용한 보고서 취합',
                 icon: 'mdi:robot',
-                url: './Task/reports/create',
+                url: './ispark-sgate/Task/reports/create',
                 status: 'completed'
               },
               {
@@ -718,7 +718,7 @@
                 title: '보고서 설정',
                 description: '보고서 설정 및 구성',
                 icon: 'mdi:cog',
-                url: './Task/reports/create',
+                url: './ispark-sgate/Task/reports/create',
                 status: 'completed'
               }
             ]
@@ -740,7 +740,7 @@
                 title: '업무 인수인계 페이지',
                 description: '업무 인수인계 메인 페이지',
                 icon: 'mdi:transfer',
-                url: './Task/handover',
+                url: './ispark-sgate/Task/handover',
                 status: 'completed'
               }
             ]
@@ -755,7 +755,7 @@
                 title: '담당자 선택 모달',
                 description: '담당자 선택 모달',
                 icon: 'mdi:account-multiple',
-                url: './Task/handover',
+                url: './ispark-sgate/Task/handover',
                 status: 'completed'
               }
             ]
@@ -777,7 +777,7 @@
                 title: '평가대상확인',
                 description: '평가대상자 확인 및 관리',
                 icon: 'mdi:account-check',
-                url: './hr-evaluation/targets',
+                url: './ispark-sgate/hr-evaluation/targets',
                 status: 'completed'
               },
               {
@@ -785,7 +785,7 @@
                 title: '진행현황',
                 description: '평가 진행현황 관리',
                 icon: 'mdi:chart-line',
-                url: './hr-evaluation/progress',
+                url: './ispark-sgate/hr-evaluation/progress',
                 status: 'completed'
               }
             ]
@@ -800,7 +800,7 @@
                 title: '평가기본항목관리',
                 description: '등급척도 및 기본항목 관리',
                 icon: 'mdi:format-list-bulleted',
-                url: './hr-evaluation/basic-items',
+                url: './ispark-sgate/hr-evaluation/basic-items',
                 status: 'completed'
               },
               {
@@ -808,7 +808,7 @@
                 title: '평가항목관리',
                 description: '성과평가 항목 관리',
                 icon: 'mdi:clipboard-list',
-                url: './hr-evaluation/performance-items',
+                url: './ispark-sgate/hr-evaluation/performance-items',
                 status: 'completed'
               }
             ]
@@ -823,7 +823,7 @@
                 title: '역량항목관리',
                 description: '역량평가 항목 관리',
                 icon: 'mdi:star-outline',
-                url: './hr-evaluation/competency-items',
+                url: './ispark-sgate/hr-evaluation/competency-items',
                 status: 'in-progress'
               },
               {
@@ -831,7 +831,7 @@
                 title: '역량사전관리',
                 description: '역량사전 및 정의 관리',
                 icon: 'mdi:book-open-variant',
-                url: './hr-evaluation/competency-dictionary',
+                url: './ispark-sgate/hr-evaluation/competency-dictionary',
                 status: 'in-progress'
               },
               {
@@ -839,7 +839,7 @@
                 title: '성과평가서식관리',
                 description: '성과평가 서식 템플릿 관리',
                 icon: 'mdi:file-document-edit',
-                url: './hr-evaluation/performance-template',
+                url: './ispark-sgate/hr-evaluation/performance-template',
                 status: 'in-progress'
               },
               {
@@ -847,7 +847,7 @@
                 title: '직무평가서식관리',
                 description: '직무평가 서식 템플릿 관리',
                 icon: 'mdi:briefcase',
-                url: './hr-evaluation/job-template',
+                url: './ispark-sgate/hr-evaluation/job-template',
                 status: 'waiting'
               }
             ]
@@ -862,7 +862,7 @@
                 title: '성과기술서작성',
                 description: '성과기술서 작성 및 관리',
                 icon: 'mdi:file-edit',
-                url: './hr-evaluation/performance-description',
+                url: './ispark-sgate/hr-evaluation/performance-description',
                 status: 'waiting'
               },
               {
@@ -870,7 +870,7 @@
                 title: '성과기술서작성현황',
                 description: '성과기술서 작성현황 관리',
                 icon: 'mdi:file-chart',
-                url: './hr-evaluation/performance-description-status',
+                url: './ispark-sgate/hr-evaluation/performance-description-status',
                 status: 'waiting'
               },
               {
@@ -878,7 +878,7 @@
                 title: '직무기술서관리',
                 description: '직무기술서 관리',
                 icon: 'mdi:file-outline',
-                url: './hr-evaluation/job-description',
+                url: './ispark-sgate/hr-evaluation/job-description',
                 status: 'waiting'
               }
             ]
@@ -893,7 +893,7 @@
                 title: '개인별산출',
                 description: '개인별 평가 결과 산출',
                 icon: 'mdi:calculator',
-                url: './hr-evaluation/calculation',
+                url: './ispark-sgate/hr-evaluation/calculation',
                 status: 'waiting'
               },
               {
@@ -901,7 +901,7 @@
                 title: '조직별산출',
                 description: '조직별 평가 결과 산출',
                 icon: 'mdi:domain',
-                url: './hr-evaluation/org-calculation',
+                url: './ispark-sgate/hr-evaluation/org-calculation',
                 status: 'waiting'
               },
               {
@@ -909,7 +909,7 @@
                 title: '종합산출',
                 description: '종합 평가 결과 산출',
                 icon: 'mdi:chart-box',
-                url: './hr-evaluation/total-calculation',
+                url: './ispark-sgate/hr-evaluation/total-calculation',
                 status: 'waiting'
               },
               {
@@ -917,7 +917,7 @@
                 title: '평가조정',
                 description: '평가 결과 조정',
                 icon: 'mdi:tune',
-                url: './hr-evaluation/adjustment',
+                url: './ispark-sgate/hr-evaluation/adjustment',
                 status: 'waiting'
               }
             ]
@@ -932,7 +932,7 @@
                 title: '최종결과',
                 description: '최종 평가 결과',
                 icon: 'mdi:trophy',
-                url: './hr-evaluation/final-results',
+                url: './ispark-sgate/hr-evaluation/final-results',
                 status: 'waiting'
               },
               {
@@ -940,7 +940,7 @@
                 title: '종합결과',
                 description: '종합 평가 결과',
                 icon: 'mdi:chart-pie',
-                url: './hr-evaluation/total-results',
+                url: './ispark-sgate/hr-evaluation/total-results',
                 status: 'waiting'
               },
               {
@@ -948,7 +948,7 @@
                 title: '등급분포관리',
                 description: '등급분포 관리 및 분석',
                 icon: 'mdi:chart-histogram',
-                url: './hr-evaluation/grade-distribution',
+                url: './ispark-sgate/hr-evaluation/grade-distribution',
                 status: 'waiting'
               }
             ]
@@ -970,7 +970,7 @@
                 title: '버튼 컴포넌트',
                 description: '다양한 스타일의 버튼',
                 icon: 'mdi:button-cursor',
-                url: './components/Button',
+                url: './ispark-sgate/components/Button',
                 status: 'completed'
               },
               {
@@ -978,7 +978,7 @@
                 title: '인풋 컴포넌트',
                 description: '텍스트 입력 컴포넌트',
                 icon: 'mdi:form-textbox',
-                url: './components/Input',
+                url: './ispark-sgate/components/Input',
                 status: 'completed'
               },
               {
@@ -986,7 +986,7 @@
                 title: '셀렉트 컴포넌트',
                 description: '드롭다운 선택 컴포넌트',
                 icon: 'mdi:form-dropdown',
-                url: './components/Select',
+                url: './ispark-sgate/components/Select',
                 status: 'completed'
               },
               {
@@ -994,7 +994,7 @@
                 title: '텍스트영역 컴포넌트',
                 description: '여러 줄 텍스트 입력',
                 icon: 'mdi:form-textarea',
-                url: './components/Textarea',
+                url: './ispark-sgate/components/Textarea',
                 status: 'completed'
               }
             ]
@@ -1009,7 +1009,7 @@
                 title: '테이블 컴포넌트',
                 description: '데이터 테이블 컴포넌트',
                 icon: 'mdi:table',
-                url: './components/TableDefault',
+                url: './ispark-sgate/components/TableDefault',
                 status: 'completed'
               },
               {
@@ -1017,7 +1017,7 @@
                 title: '모달 컴포넌트',
                 description: '팝업 및 모달 컴포넌트',
                 icon: 'mdi:window-maximize',
-                url: './components/Popup',
+                url: './ispark-sgate/components/Popup',
                 status: 'completed'
               },
               {
@@ -1025,7 +1025,7 @@
                 title: '레이아웃 컴포넌트',
                 description: '레이아웃 및 그리드 시스템',
                 icon: 'mdi:view-grid-plus',
-                url: './components/Layout',
+                url: './ispark-sgate/components/Layout',
                 status: 'completed'
               }
             ]
